@@ -1,0 +1,75 @@
+:root {
+  /* Default Light Mode Tokens */
+  --color-background: #f8f9fc;
+  --color-on-background: #111318;
+  --color-surface: #ffffff;
+  --color-surface-dim: #d9d9e1;
+  --color-surface-bright: #f9f9ff;
+  --color-surface-container-lowest: #ffffff;
+  --color-surface-container-low: #f3f3fa;
+  --color-surface-container: #ededf5;
+  --color-surface-container-high: #e8e7ef;
+  --color-surface-container-highest: #e2e2e9;
+  --color-surface-variant: #e2e4eb;
+  --color-on-surface: #111318;
+  --color-on-surface-variant: #64748b;
+  --color-inverse-surface: #2e3036;
+  --color-inverse-on-surface: #f0f0f7;
+  --color-outline: #94a3b8;
+  --color-outline-variant: #e2e4eb;
+  --color-primary: #493ee5;
+  --color-on-primary: #ffffff;
+  --color-primary-container: #635bff;
+  --color-on-primary-container: #fefaff;
+  --color-inverse-primary: #c3c0ff;
+  --color-secondary: #0ea5e9;
+  --color-on-secondary: #ffffff;
+  --color-secondary-container: #e0f2fe;
+  --color-on-secondary-container: #0369a1;
+  --color-tertiary: #d97706;
+  --color-on-tertiary: #ffffff;
+  --color-tertiary-container: #fef3c7;
+  --color-on-tertiary-container: #92400e;
+  --color-error: #ef4444;
+  --color-on-error: #ffffff;
+  --color-error-container: #fee2e2;
+  --color-on-error-container: #991b1b;
+}
+
+.dark {
+  /* Dark Mode Tokens */
+  --color-background: #101116;
+  --color-on-background: #e3e1e9;
+  --color-surface: #121318;
+  --color-surface-dim: #121318;
+  --color-surface-bright: #38393f;
+  --color-surface-container-lowest: #0d0e13;
+  --color-surface-container-low: #181a22;
+  --color-surface-container: #1e1f25;
+  --color-surface-container-high: #292a2f;
+  --color-surface-container-highest: #34343a;
+  --color-surface-variant: #303440;
+  --color-on-surface: #f4f5f7;
+  --color-on-surface-variant: #a1a6b5;
+  --color-inverse-surface: #e3e1e9;
+  --color-inverse-on-surface: #2f3036;
+  --color-outline: #62677b;
+  --color-outline-variant: #303440;
+  --color-primary: #c3c0ff;
+  --color-on-primary: #1d00a5;
+  --color-primary-container: #635bff;
+  --color-on-primary-container: #fefaff;
+  --color-inverse-primary: #4c42e9;
+  --color-secondary: #38bdf8;
+  --color-on-secondary: #0c4a6e;
+  --color-secondary-container: #0369a1;
+  --color-on-secondary-container: #e0f2fe;
+  --color-tertiary: #fbbf24;
+  --color-on-tertiary: #78350f;
+  --color-tertiary-container: #b45309;
+  --color-on-tertiary-container: #fef3c7;
+  --color-error: #f87171;
+  --color-on-error: #7f1d1d;
+  --color-error-container: #991b1b;
+  --color-on-error-container: #fee2e2;
+}

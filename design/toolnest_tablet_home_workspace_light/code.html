@@ -1,0 +1,1149 @@
+<!doctype html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <meta content="web_dashboard" name="shell-type" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+      rel="stylesheet"
+    />
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      @layer base {
+        html,
+        body {
+          margin: 0;
+          padding: 0;
+        }
+        body {
+          overscroll-behavior: none;
+        }
+        main > :first-child {
+          margin-top: 0 !important;
+        }
+        main > :last-child {
+          margin-bottom: 0 !important;
+        }
+      }
+      ::-webkit-scrollbar {
+        display: none;
+      }
+    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            colors: {
+              error: '#ba1a1a',
+              'on-background': '#1a1b21',
+              'on-surface-variant': '#464555',
+              'surface-container-high': '#e8e7ef',
+              'secondary-container': '#6cf8bb',
+              'primary-fixed-dim': '#c3c0ff',
+              'on-secondary-fixed': '#002113',
+              'surface-variant': '#e2e2e9',
+              'tertiary-container': '#a36700',
+              secondary: '#006c49',
+              'secondary-fixed-dim': '#4edea3',
+              'on-secondary-container': '#00714d',
+              'on-tertiary-fixed': '#2a1700',
+              'primary-fixed': '#e2dfff',
+              'outline-variant': '#c7c4d8',
+              'surface-container-highest': '#e2e2e9',
+              'on-tertiary-container': '#fffaf9',
+              'tertiary-fixed': '#ffddb8',
+              'on-error-container': '#93000a',
+              'on-primary-container': '#fefaff',
+              'on-tertiary-fixed-variant': '#653e00',
+              'on-primary-fixed-variant': '#321ed2',
+              'primary-container': '#635bff',
+              'surface-tint': '#4c42e9',
+              'on-secondary-fixed-variant': '#005236',
+              'on-primary': '#ffffff',
+              'secondary-fixed': '#6ffbbe',
+              surface: '#f9f9ff',
+              background: '#f9f9ff',
+              'inverse-surface': '#2e3036',
+              'on-surface': '#1a1b21',
+              'error-container': '#ffdad6',
+              'on-error': '#ffffff',
+              tertiary: '#815100',
+              'surface-dim': '#d9d9e1',
+              'inverse-on-surface': '#f0f0f7',
+              'tertiary-fixed-dim': '#ffb95f',
+              'inverse-primary': '#c3c0ff',
+              'surface-container-low': '#f3f3fa',
+              'on-tertiary': '#ffffff',
+              outline: '#777587',
+              'surface-container-lowest': '#ffffff',
+              'surface-container': '#ededf5',
+              'surface-bright': '#f9f9ff',
+              'on-primary-fixed': '#0f0069',
+              'on-secondary': '#ffffff',
+              primary: '#493ee5',
+            },
+            borderRadius: { DEFAULT: '0.25rem', lg: '0.5rem', xl: '0.75rem', full: '9999px' },
+            spacing: {
+              'space-2xl': '2rem',
+              'space-sm': '0.5rem',
+              'margin-desktop': '1.5rem',
+              'gutter-desktop': '1.25rem',
+              'space-md': '0.75rem',
+              'space-xs': '0.25rem',
+              gutter: '1rem',
+              margin: '1rem',
+              'space-xl': '1.5rem',
+              'space-lg': '1rem',
+            },
+            fontFamily: {
+              'display-lg': ['Inter'],
+              'body-lg': ['Inter'],
+              'code-sm': ['JetBrains Mono'],
+              'code-lg': ['JetBrains Mono'],
+              'body-md': ['Inter'],
+              'headline-md': ['Inter'],
+              'code-md': ['JetBrains Mono'],
+              'label-md': ['Inter'],
+              'label-sm': ['Inter'],
+              'body-sm': ['Inter'],
+              'headline-sm': ['Inter'],
+              'display-lg-mobile': ['Inter'],
+            },
+            fontSize: {
+              'display-lg': [
+                '32px',
+                { lineHeight: '40px', letterSpacing: '-0.025em', fontWeight: '600' },
+              ],
+              'body-lg': [
+                '15px',
+                { lineHeight: '22px', letterSpacing: '-0.005em', fontWeight: '400' },
+              ],
+              'code-sm': [
+                '11px',
+                { lineHeight: '16px', letterSpacing: '0.02em', fontWeight: '500' },
+              ],
+              'code-lg': [
+                '14px',
+                { lineHeight: '22px', letterSpacing: '-0.01em', fontWeight: '400' },
+              ],
+              'body-md': ['13px', { lineHeight: '18px', letterSpacing: '0em', fontWeight: '400' }],
+              'headline-md': [
+                '20px',
+                { lineHeight: '28px', letterSpacing: '-0.015em', fontWeight: '600' },
+              ],
+              'code-md': ['12px', { lineHeight: '18px', letterSpacing: '0em', fontWeight: '400' }],
+              'label-md': [
+                '12px',
+                { lineHeight: '16px', letterSpacing: '0.01em', fontWeight: '500' },
+              ],
+              'label-sm': [
+                '11px',
+                { lineHeight: '14px', letterSpacing: '0.02em', fontWeight: '600' },
+              ],
+              'body-sm': ['12px', { lineHeight: '16px', letterSpacing: '0em', fontWeight: '400' }],
+              'headline-sm': [
+                '16px',
+                { lineHeight: '24px', letterSpacing: '-0.01em', fontWeight: '600' },
+              ],
+              'display-lg-mobile': [
+                '26px',
+                { lineHeight: '34px', letterSpacing: '-0.02em', fontWeight: '600' },
+              ],
+            },
+          },
+        },
+      };
+    </script>
+  </head>
+  <body class="bg-background font-body-md text-on-surface antialiased">
+    <aside
+      class="fixed left-0 top-0 bottom-0 w-16 bg-surface-container-lowest shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-50 flex flex-col items-center py-space-md justify-between"
+    >
+      <div class="flex flex-col items-center w-full gap-space-lg">
+        <div
+          class="w-10 h-10 rounded-lg bg-surface-container-low flex items-center justify-center p-space-xs"
+        >
+          <div class="grid grid-cols-2 gap-0.5 w-6 h-6">
+            <div class="bg-primary-container rounded-[2px]"></div>
+            <div class="bg-primary-container rounded-[2px]"></div>
+            <div class="bg-primary-container rounded-[2px]"></div>
+            <div class="bg-primary-container rounded-[2px]"></div>
+          </div>
+        </div>
+        <nav
+          class="flex flex-col items-center gap-space-xs w-full px-space-xs"
+          data-active-classes="bg-primary-fixed text-primary font-bold"
+        >
+          <a
+            aria-current="page"
+            class="w-11 h-11 flex items-center justify-center rounded-lg transition-colors bg-primary-fixed text-primary font-bold"
+            data-path="workspace"
+            href="#"
+            title="Home Workspace"
+            ><span class="material-symbols-outlined text-[20px]">home</span></a
+          ><a
+            class="w-11 h-11 flex items-center justify-center rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors"
+            data-path="all-tools"
+            href="#"
+            title="All Tools"
+            ><span class="material-symbols-outlined text-[20px]">grid_view</span></a
+          ><a
+            class="relative w-11 h-11 flex items-center justify-center rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors"
+            data-path="favorites"
+            href="#"
+            title="Favorites"
+            ><span class="material-symbols-outlined text-[20px]">star</span
+            ><span
+              class="absolute top-2.5 right-2.5 w-1.5 h-1.5 bg-primary-container rounded-full"
+            ></span></a
+          ><a
+            class="w-11 h-11 flex items-center justify-center rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors"
+            data-path="recent-history"
+            href="#"
+            title="Recent History"
+            ><span class="material-symbols-outlined text-[20px]">schedule</span></a
+          >
+        </nav>
+        <div class="w-8 h-px bg-surface-variant"></div>
+        <nav
+          class="flex flex-col items-center gap-space-xs w-full px-space-xs"
+          data-active-classes="bg-primary-fixed text-primary font-bold"
+        >
+          <a
+            class="w-11 h-11 flex items-center justify-center rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors"
+            data-path="developer-tools"
+            href="#"
+            title="Developer Tools"
+            ><span class="material-symbols-outlined text-[20px]">code</span></a
+          ><a
+            class="w-11 h-11 flex items-center justify-center rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors"
+            data-path="encoders"
+            href="#"
+            title="Encoders &amp; Decoders"
+            ><span class="material-symbols-outlined text-[20px]">sync_alt</span></a
+          ><a
+            class="w-11 h-11 flex items-center justify-center rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors"
+            data-path="security-tools"
+            href="#"
+            title="Security &amp; Keys"
+            ><span class="material-symbols-outlined text-[20px]">shield</span></a
+          ><a
+            class="w-11 h-11 flex items-center justify-center rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors"
+            data-path="design-colors"
+            href="#"
+            title="Design &amp; Color Palettes"
+            ><span class="material-symbols-outlined text-[20px]">palette</span></a
+          >
+        </nav>
+      </div>
+      <div class="flex flex-col items-center gap-space-xs w-full px-space-xs">
+        <button
+          class="w-11 h-11 flex items-center justify-center rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors"
+          title="Keyboard Shortcuts"
+          type="button"
+        >
+          <span class="material-symbols-outlined text-[20px]">keyboard</span></button
+        ><button
+          class="w-11 h-11 flex items-center justify-center rounded-lg text-tertiary hover:bg-surface-container-high transition-colors"
+          title="Light Theme Active"
+          type="button"
+        >
+          <span class="material-symbols-outlined text-[20px]">light_mode</span></button
+        ><a
+          class="w-11 h-11 flex items-center justify-center rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors"
+          data-path="settings"
+          href="#"
+          title="Workspace Settings"
+          ><span class="material-symbols-outlined text-[20px]">settings</span></a
+        >
+      </div>
+    </aside>
+    <div class="pl-16 min-h-screen flex flex-col">
+      <header
+        class="fixed top-0 left-16 right-0 h-14 bg-surface-container-lowest/90 backdrop-blur-md shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-40 flex items-center justify-between px-space-margin-desktop"
+      >
+        <div class="flex items-center gap-space-md">
+          <div class="flex items-center gap-space-xs text-on-surface-variant font-label-md">
+            <span class="font-medium text-on-surface">Toolnest</span><span>/</span
+            ><span>Tablet Workspace</span>
+          </div>
+          <div
+            class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-secondary-container/30 text-on-secondary-container font-code-sm font-medium"
+          >
+            <span class="w-1.5 h-1.5 rounded-full bg-secondary"></span
+            ><span>100% Client-side sandbox</span>
+          </div>
+        </div>
+        <div class="flex items-center gap-space-md">
+          <div class="relative flex items-center">
+            <span
+              class="material-symbols-outlined absolute left-2.5 text-on-surface-variant text-[18px]"
+              >search</span
+            ><input
+              class="w-48 md:w-64 h-9 pl-8 pr-12 rounded-lg bg-surface-container-low text-on-surface placeholder:text-on-surface-variant font-body-sm focus:outline-none focus:bg-surface-container-lowest shadow-[0_1px_3px_rgba(17,19,24,0.04)] transition-all"
+              placeholder="Search tools..."
+              type="text"
+            /><span
+              class="absolute right-2 px-1.5 py-0.5 bg-surface-container-high text-on-surface-variant font-code-sm rounded text-[10px]"
+              >⌘K</span
+            >
+          </div>
+          <button
+            class="w-9 h-9 flex items-center justify-center rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors"
+            title="Favorite Workspace"
+            type="button"
+          >
+            <span class="material-symbols-outlined text-[20px]">bookmark_border</span>
+          </button>
+          <div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center">
+            <span class="material-symbols-outlined text-on-primary text-[18px]">person</span>
+          </div>
+        </div>
+      </header>
+      <main class="flex-1 pt-14 w-full px-space-margin-desktop py-space-xl bg-background">
+        <div class="flex flex-col w-full gap-space-2xl">
+          <!-- Top Hero & Command Center -->
+          <section class="flex flex-col gap-space-lg">
+            <!-- Meta telemetry pill indicators -->
+            <div class="flex flex-wrap items-center justify-between gap-space-sm">
+              <div class="flex items-center gap-space-xs">
+                <span
+                  class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container-high text-on-surface-variant font-code-sm font-medium"
+                >
+                  <span class="w-1.5 h-1.5 rounded-full bg-primary-container"></span>
+                  <span>v1.4 • 84 utilities ready</span>
+                </span>
+                <span
+                  class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-secondary-container/40 text-on-secondary-container font-code-sm font-medium"
+                >
+                  <span class="material-symbols-outlined text-[14px]">format_image_left</span>
+                  <span>100% offline sandbox</span>
+                </span>
+              </div>
+              <div
+                class="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-surface-container-low text-on-surface-variant font-code-sm font-medium"
+              >
+                <span class="relative flex h-2 w-2">
+                  <span
+                    class="animate-ping absolute inline-flex h-full w-full rounded-full bg-secondary opacity-75"
+                  ></span>
+                  <span class="relative inline-flex rounded-full h-2 w-2 bg-secondary"></span>
+                </span>
+                <span class="tracking-tight">zero-network active</span>
+              </div>
+            </div>
+            <!-- Expressive Main Heading & Baseline -->
+            <div class="flex flex-col gap-1">
+              <h1 class="font-display-lg text-display-lg text-on-surface tracking-tight">
+                Useful tools. One workspace.
+              </h1>
+              <p class="font-body-lg text-body-lg text-on-surface-variant">
+                Client-side processing engine. Zero server roundtrips.
+              </p>
+            </div>
+            <!-- Quick Launcher Search Bar -->
+            <div
+              class="relative w-full rounded-xl bg-surface-container-lowest shadow-sm p-1.5 flex items-center gap-space-sm"
+            >
+              <div class="flex items-center pl-space-sm text-on-surface-variant">
+                <span class="material-symbols-outlined text-[22px]">terminal</span>
+              </div>
+              <input
+                class="w-full h-10 bg-transparent text-on-surface placeholder:text-on-surface-variant/70 font-body-lg focus:outline-none px-space-xs"
+                id="quickToolSearch"
+                placeholder="Type tool name, format, or hash type..."
+                type="text"
+              />
+              <div class="flex items-center gap-space-xs pr-1">
+                <kbd
+                  class="px-2 py-1 rounded bg-surface-container-high text-on-surface-variant font-code-sm text-[11px] font-semibold"
+                  >⌘K</kbd
+                >
+                <button
+                  class="inline-flex items-center gap-1 px-4 h-9 rounded-lg bg-primary-container text-on-primary-container font-label-md font-semibold hover:opacity-95 shadow-sm transition-all active:scale-95"
+                  type="button"
+                >
+                  <span>Launch</span>
+                  <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+                </button>
+              </div>
+            </div>
+            <!-- Category Filter Chips Row -->
+            <div class="flex items-center gap-space-xs overflow-x-auto pb-1" id="filterContainer">
+              <button
+                class="px-3.5 py-1.5 rounded-full font-label-md transition-all bg-primary-container text-on-primary-container font-semibold shadow-sm"
+                data-filter="all"
+              >
+                All
+              </button>
+              <button
+                class="px-3.5 py-1.5 rounded-full font-label-md transition-all bg-surface-container-high text-on-surface-variant hover:bg-surface-variant hover:text-on-surface"
+                data-filter="dev"
+              >
+                Dev Tools
+              </button>
+              <button
+                class="px-3.5 py-1.5 rounded-full font-label-md transition-all bg-surface-container-high text-on-surface-variant hover:bg-surface-variant hover:text-on-surface"
+                data-filter="encoders"
+              >
+                Encoders
+              </button>
+              <button
+                class="px-3.5 py-1.5 rounded-full font-label-md transition-all bg-surface-container-high text-on-surface-variant hover:bg-surface-variant hover:text-on-surface"
+                data-filter="security"
+              >
+                Security
+              </button>
+              <button
+                class="px-3.5 py-1.5 rounded-full font-label-md transition-all bg-surface-container-high text-on-surface-variant hover:bg-surface-variant hover:text-on-surface"
+                data-filter="json"
+              >
+                JSON
+              </button>
+              <button
+                class="px-3.5 py-1.5 rounded-full font-label-md transition-all bg-surface-container-high text-on-surface-variant hover:bg-surface-variant hover:text-on-surface"
+                data-filter="regex"
+              >
+                Regex
+              </button>
+              <button
+                class="px-3.5 py-1.5 rounded-full font-label-md transition-all bg-surface-container-high text-on-surface-variant hover:bg-surface-variant hover:text-on-surface"
+                data-filter="generators"
+              >
+                Generators
+              </button>
+            </div>
+          </section>
+          <!-- Section: Recently Used Workspaces -->
+          <section class="flex flex-col gap-space-md">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-space-sm">
+                <h2
+                  class="font-headline-md text-headline-md text-on-surface font-semibold tracking-tight"
+                >
+                  Recently Used
+                </h2>
+                <span
+                  class="px-2 py-0.5 rounded-full bg-primary-fixed text-primary font-code-sm font-semibold"
+                  >4 active states</span
+                >
+              </div>
+              <button
+                class="font-label-md text-on-surface-variant hover:text-error transition-colors flex items-center gap-1"
+                type="button"
+              >
+                <span class="material-symbols-outlined text-[16px]">delete_sweep</span>
+                <span>Clear history</span>
+              </button>
+            </div>
+            <!-- 2-Column Responsive Tablet Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-space-md">
+              <!-- Card 1: JSON Formatter -->
+              <div
+                class="p-space-lg rounded-xl bg-surface-container-lowest shadow-sm flex flex-col justify-between gap-space-md hover:shadow-md transition-shadow"
+              >
+                <div class="flex items-start justify-between">
+                  <div class="flex items-center gap-space-sm">
+                    <div
+                      class="w-10 h-10 rounded-lg bg-primary-fixed flex items-center justify-center text-primary"
+                    >
+                      <span class="material-symbols-outlined text-[22px]">data_object</span>
+                    </div>
+                    <div class="flex flex-col">
+                      <div class="flex items-center gap-2">
+                        <span
+                          class="font-headline-sm text-headline-sm text-on-surface font-semibold"
+                          >JSON Formatter</span
+                        >
+                        <span
+                          class="px-2 py-0.5 rounded-full bg-secondary-container/40 text-on-secondary-container font-code-sm font-medium"
+                          >Valid</span
+                        >
+                      </div>
+                      <span class="font-body-sm text-body-sm text-on-surface-variant"
+                        >Parsed 1,248 nodes • 48KB</span
+                      >
+                    </div>
+                  </div>
+                  <span class="font-code-sm text-on-surface-variant/70">Saved 2m ago</span>
+                </div>
+                <div
+                  class="p-2.5 rounded-lg bg-surface-container-low font-code-sm text-on-surface flex items-center justify-between"
+                >
+                  <span class="truncate max-w-[240px] text-on-surface-variant"
+                    >{ "status": 200, "region": "ap-southeast-1", "records": [...] }</span
+                  >
+                  <button
+                    class="inline-flex items-center gap-1 font-label-md text-primary font-semibold hover:underline"
+                  >
+                    <span>Resume</span>
+                    <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+                  </button>
+                </div>
+              </div>
+              <!-- Card 2: JWT Inspector -->
+              <div
+                class="p-space-lg rounded-xl bg-surface-container-lowest shadow-sm flex flex-col justify-between gap-space-md hover:shadow-md transition-shadow"
+              >
+                <div class="flex items-start justify-between">
+                  <div class="flex items-center gap-space-sm">
+                    <div
+                      class="w-10 h-10 rounded-lg bg-surface-container-high flex items-center justify-center text-on-surface"
+                    >
+                      <span class="material-symbols-outlined text-[22px]">key</span>
+                    </div>
+                    <div class="flex flex-col">
+                      <div class="flex items-center gap-2">
+                        <span
+                          class="font-headline-sm text-headline-sm text-on-surface font-semibold"
+                          >JWT Inspector</span
+                        >
+                        <span
+                          class="px-2 py-0.5 rounded-full bg-secondary-container/40 text-on-secondary-container font-code-sm font-medium"
+                          >Signature Valid</span
+                        >
+                      </div>
+                      <span class="font-body-sm text-body-sm text-on-surface-variant"
+                        >HS256 verified • exp in 4h</span
+                      >
+                    </div>
+                  </div>
+                  <span class="font-code-sm text-on-surface-variant/70">Local key loaded</span>
+                </div>
+                <div
+                  class="p-2.5 rounded-lg bg-surface-container-low font-code-sm text-on-surface flex items-center justify-between"
+                >
+                  <span class="truncate max-w-[240px] text-tertiary"
+                    >eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...</span
+                  >
+                  <button
+                    class="inline-flex items-center gap-1 font-label-md text-primary font-semibold hover:underline"
+                  >
+                    <span>Inspect</span>
+                    <span class="material-symbols-outlined text-[14px]">open_in_new</span>
+                  </button>
+                </div>
+              </div>
+              <!-- Card 3: UUID v4 / v7 Generator -->
+              <div
+                class="p-space-lg rounded-xl bg-surface-container-lowest shadow-sm flex flex-col justify-between gap-space-md hover:shadow-md transition-shadow"
+              >
+                <div class="flex items-start justify-between">
+                  <div class="flex items-center gap-space-sm">
+                    <div
+                      class="w-10 h-10 rounded-lg bg-surface-container-high flex items-center justify-center text-on-surface"
+                    >
+                      <span class="material-symbols-outlined text-[22px]">tag</span>
+                    </div>
+                    <div class="flex flex-col">
+                      <div class="flex items-center gap-2">
+                        <span
+                          class="font-headline-sm text-headline-sm text-on-surface font-semibold"
+                          >UUID Generator</span
+                        >
+                        <span
+                          class="px-2 py-0.5 rounded-full bg-surface-container-high text-on-surface-variant font-code-sm font-medium"
+                          >Batch</span
+                        >
+                      </div>
+                      <span class="font-body-sm text-body-sm text-on-surface-variant"
+                        >50 unique IDs generated</span
+                      >
+                    </div>
+                  </div>
+                  <span class="font-code-sm text-on-surface-variant/70">v7 (Time-ordered)</span>
+                </div>
+                <div
+                  class="p-2.5 rounded-lg bg-surface-container-low font-code-sm text-on-surface flex items-center justify-between"
+                >
+                  <span class="truncate max-w-[240px] text-on-surface"
+                    >018e62f0-7b24-7833-8a3d-4c3fae890dc7</span
+                  >
+                  <button
+                    class="inline-flex items-center gap-1 font-label-md text-primary font-semibold hover:underline"
+                  >
+                    <span class="material-symbols-outlined text-[14px]">content_copy</span>
+                    <span>Copy Batch</span>
+                  </button>
+                </div>
+              </div>
+              <!-- Card 4: Base64 Codec -->
+              <div
+                class="p-space-lg rounded-xl bg-surface-container-lowest shadow-sm flex flex-col justify-between gap-space-md hover:shadow-md transition-shadow"
+              >
+                <div class="flex items-start justify-between">
+                  <div class="flex items-center gap-space-sm">
+                    <div
+                      class="w-10 h-10 rounded-lg bg-surface-container-high flex items-center justify-center text-on-surface"
+                    >
+                      <span class="material-symbols-outlined text-[22px]">transform</span>
+                    </div>
+                    <div class="flex flex-col">
+                      <div class="flex items-center gap-2">
+                        <span
+                          class="font-headline-sm text-headline-sm text-on-surface font-semibold"
+                          >Base64 Codec</span
+                        >
+                        <span
+                          class="px-2 py-0.5 rounded-full bg-surface-container-high text-on-surface-variant font-code-sm font-medium"
+                          >Decode</span
+                        >
+                      </div>
+                      <span class="font-body-sm text-body-sm text-on-surface-variant"
+                        >UTF-8 safe • MIME detected</span
+                      >
+                    </div>
+                  </div>
+                  <span class="font-code-sm text-on-surface-variant/70">image/svg+xml</span>
+                </div>
+                <div
+                  class="p-2.5 rounded-lg bg-surface-container-low font-code-sm text-on-surface flex items-center justify-between"
+                >
+                  <span class="truncate max-w-[240px] text-on-surface-variant"
+                    >data:image/svg+xml;base64,PHN2ZyB4bWxucz...</span
+                  >
+                  <button
+                    class="inline-flex items-center gap-1 font-label-md text-primary font-semibold hover:underline"
+                  >
+                    <span>Open Buffer</span>
+                    <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </section>
+          <!-- Section: Popular Utilities -->
+          <section class="flex flex-col gap-space-md">
+            <div class="flex flex-wrap items-end justify-between gap-space-sm">
+              <div class="flex flex-col">
+                <h2
+                  class="font-headline-md text-headline-md text-on-surface font-semibold tracking-tight"
+                >
+                  Popular Utilities
+                </h2>
+                <p class="font-body-md text-body-md text-on-surface-variant">
+                  Core everyday toolset with instant zero-latency processing
+                </p>
+              </div>
+              <div class="flex items-center gap-2">
+                <span class="font-label-sm text-label-sm text-on-surface-variant">Sort by:</span>
+                <div class="relative inline-flex items-center">
+                  <select
+                    class="h-8 pl-2.5 pr-7 bg-surface-container-lowest text-on-surface font-label-md rounded-lg shadow-sm appearance-none focus:outline-none cursor-pointer"
+                  >
+                    <option>Frequency</option>
+                    <option>Recently Added</option>
+                    <option>Alphabetical</option>
+                  </select>
+                  <span
+                    class="material-symbols-outlined text-[16px] text-on-surface-variant absolute right-1.5 pointer-events-none"
+                    >unfold_more</span
+                  >
+                </div>
+              </div>
+            </div>
+            <!-- 2-Column Grid for Popular Tools -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-space-md">
+              <!-- Tool 1: JSON Formatter & Validator -->
+              <div
+                class="p-space-lg rounded-xl bg-surface-container-lowest shadow-sm flex flex-col justify-between gap-space-md hover:shadow-md transition-shadow group"
+              >
+                <div class="flex flex-col gap-space-xs">
+                  <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-2">
+                      <span
+                        class="px-2 py-0.5 rounded-full bg-surface-container-high text-on-surface font-code-sm font-semibold"
+                        >Developer</span
+                      >
+                      <span class="text-tertiary flex items-center"
+                        ><span
+                          class="material-symbols-outlined text-[16px]"
+                          style="font-variation-settings: 'FILL' 1"
+                          >star</span
+                        ></span
+                      >
+                    </div>
+                    <span
+                      class="material-symbols-outlined text-on-surface-variant/40 group-hover:text-primary transition-colors text-[20px]"
+                      >code</span
+                    >
+                  </div>
+                  <h3 class="font-headline-sm text-headline-sm text-on-surface font-semibold mt-1">
+                    JSON Formatter &amp; Validator
+                  </h3>
+                  <p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-2">
+                    Beautify, validate, fix syntax slips, and navigate complex tree hierarchies with
+                    instant path extraction.
+                  </p>
+                </div>
+                <div class="flex items-center justify-between pt-space-xs">
+                  <div class="flex items-center gap-space-xs">
+                    <span
+                      class="px-2 py-0.5 rounded bg-surface-container-low text-on-surface-variant font-code-sm text-[11px]"
+                      >Auto-Repair</span
+                    >
+                    <span
+                      class="px-2 py-0.5 rounded bg-surface-container-low text-on-surface-variant font-code-sm text-[11px]"
+                      >Schema 7</span
+                    >
+                  </div>
+                  <a
+                    class="inline-flex items-center gap-1 font-label-md font-semibold text-primary group-hover:translate-x-0.5 transition-transform"
+                    href="#"
+                  >
+                    <span>Launch</span>
+                    <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+                  </a>
+                </div>
+              </div>
+              <!-- Tool 2: Base64 Encoder / Decoder -->
+              <div
+                class="p-space-lg rounded-xl bg-surface-container-lowest shadow-sm flex flex-col justify-between gap-space-md hover:shadow-md transition-shadow group"
+              >
+                <div class="flex flex-col gap-space-xs">
+                  <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-2">
+                      <span
+                        class="px-2 py-0.5 rounded-full bg-surface-container-high text-on-surface font-code-sm font-semibold"
+                        >Encoders</span
+                      >
+                      <span class="text-tertiary flex items-center"
+                        ><span
+                          class="material-symbols-outlined text-[16px]"
+                          style="font-variation-settings: 'FILL' 1"
+                          >star</span
+                        ></span
+                      >
+                    </div>
+                    <span
+                      class="material-symbols-outlined text-on-surface-variant/40 group-hover:text-primary transition-colors text-[20px]"
+                      >swap_horiz</span
+                    >
+                  </div>
+                  <h3 class="font-headline-sm text-headline-sm text-on-surface font-semibold mt-1">
+                    Base64 Encoder / Decoder
+                  </h3>
+                  <p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-2">
+                    Direct string, image, or binary blob encoding and decoding without memory limits
+                    or remote leaks.
+                  </p>
+                </div>
+                <div class="flex items-center justify-between pt-space-xs">
+                  <div class="flex items-center gap-space-xs">
+                    <span
+                      class="px-2 py-0.5 rounded bg-surface-container-low text-on-surface-variant font-code-sm text-[11px]"
+                      >URL-Safe</span
+                    >
+                    <span
+                      class="px-2 py-0.5 rounded bg-surface-container-low text-on-surface-variant font-code-sm text-[11px]"
+                      >File Blob</span
+                    >
+                  </div>
+                  <a
+                    class="inline-flex items-center gap-1 font-label-md font-semibold text-primary group-hover:translate-x-0.5 transition-transform"
+                    href="#"
+                  >
+                    <span>Launch</span>
+                    <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+                  </a>
+                </div>
+              </div>
+              <!-- Tool 3: Regex Tester & Explainer -->
+              <div
+                class="p-space-lg rounded-xl bg-surface-container-lowest shadow-sm flex flex-col justify-between gap-space-md hover:shadow-md transition-shadow group"
+              >
+                <div class="flex flex-col gap-space-xs">
+                  <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-2">
+                      <span
+                        class="px-2 py-0.5 rounded-full bg-surface-container-high text-on-surface font-code-sm font-semibold"
+                        >Dev Tools</span
+                      >
+                      <span class="text-tertiary flex items-center"
+                        ><span
+                          class="material-symbols-outlined text-[16px]"
+                          style="font-variation-settings: 'FILL' 1"
+                          >star</span
+                        ></span
+                      >
+                    </div>
+                    <span
+                      class="material-symbols-outlined text-on-surface-variant/40 group-hover:text-primary transition-colors text-[20px]"
+                      >regular_expression</span
+                    >
+                  </div>
+                  <h3 class="font-headline-sm text-headline-sm text-on-surface font-semibold mt-1">
+                    Regex Tester &amp; Explainer
+                  </h3>
+                  <p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-2">
+                    Real-time match highlighting, regex tree breakdown, capture group analysis, and
+                    instant cheat-sheet tips.
+                  </p>
+                </div>
+                <div class="flex items-center justify-between pt-space-xs">
+                  <div class="flex items-center gap-space-xs">
+                    <span
+                      class="px-2 py-0.5 rounded bg-surface-container-low text-on-surface-variant font-code-sm text-[11px]"
+                      >PCRE / JS</span
+                    >
+                    <span
+                      class="px-2 py-0.5 rounded bg-surface-container-low text-on-surface-variant font-code-sm text-[11px]"
+                      >Explain Graph</span
+                    >
+                  </div>
+                  <a
+                    class="inline-flex items-center gap-1 font-label-md font-semibold text-primary group-hover:translate-x-0.5 transition-transform"
+                    href="#"
+                  >
+                    <span>Launch</span>
+                    <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+                  </a>
+                </div>
+              </div>
+              <!-- Tool 4: UUID / GUID Generator -->
+              <div
+                class="p-space-lg rounded-xl bg-surface-container-lowest shadow-sm flex flex-col justify-between gap-space-md hover:shadow-md transition-shadow group"
+              >
+                <div class="flex flex-col gap-space-xs">
+                  <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-2">
+                      <span
+                        class="px-2 py-0.5 rounded-full bg-surface-container-high text-on-surface font-code-sm font-semibold"
+                        >Generators</span
+                      >
+                      <span class="text-tertiary flex items-center"
+                        ><span
+                          class="material-symbols-outlined text-[16px]"
+                          style="font-variation-settings: 'FILL' 1"
+                          >star</span
+                        ></span
+                      >
+                    </div>
+                    <span
+                      class="material-symbols-outlined text-on-surface-variant/40 group-hover:text-primary transition-colors text-[20px]"
+                      >fingerprint</span
+                    >
+                  </div>
+                  <h3 class="font-headline-sm text-headline-sm text-on-surface font-semibold mt-1">
+                    UUID / GUID Generator
+                  </h3>
+                  <p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-2">
+                    Generate bulk v1, v4 (cryptographic random), and contemporary v7 sequential
+                    unique identifiers in standard formats.
+                  </p>
+                </div>
+                <div class="flex items-center justify-between pt-space-xs">
+                  <div class="flex items-center gap-space-xs">
+                    <span
+                      class="px-2 py-0.5 rounded bg-surface-container-low text-on-surface-variant font-code-sm text-[11px]"
+                      >v1 / v4 / v7</span
+                    >
+                    <span
+                      class="px-2 py-0.5 rounded bg-surface-container-low text-on-surface-variant font-code-sm text-[11px]"
+                      >CSPRNG</span
+                    >
+                  </div>
+                  <a
+                    class="inline-flex items-center gap-1 font-label-md font-semibold text-primary group-hover:translate-x-0.5 transition-transform"
+                    href="#"
+                  >
+                    <span>Launch</span>
+                    <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+                  </a>
+                </div>
+              </div>
+              <!-- Tool 5: SHA-256 & Multi-Hasher -->
+              <div
+                class="p-space-lg rounded-xl bg-surface-container-lowest shadow-sm flex flex-col justify-between gap-space-md hover:shadow-md transition-shadow group"
+              >
+                <div class="flex flex-col gap-space-xs">
+                  <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-2">
+                      <span
+                        class="px-2 py-0.5 rounded-full bg-surface-container-high text-on-surface font-code-sm font-semibold"
+                        >Cryptography</span
+                      >
+                      <span class="text-tertiary flex items-center"
+                        ><span
+                          class="material-symbols-outlined text-[16px]"
+                          style="font-variation-settings: 'FILL' 1"
+                          >star</span
+                        ></span
+                      >
+                    </div>
+                    <span
+                      class="material-symbols-outlined text-on-surface-variant/40 group-hover:text-primary transition-colors text-[20px]"
+                      >lock_reset</span
+                    >
+                  </div>
+                  <h3 class="font-headline-sm text-headline-sm text-on-surface font-semibold mt-1">
+                    SHA-256 &amp; Multi-Hasher
+                  </h3>
+                  <p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-2">
+                    Instant MD5, SHA-1, SHA-256, SHA-512 calculation using native browser WebCrypto
+                    for high throughput.
+                  </p>
+                </div>
+                <div class="flex items-center justify-between pt-space-xs">
+                  <div class="flex items-center gap-space-xs">
+                    <span
+                      class="px-2 py-0.5 rounded bg-surface-container-low text-on-surface-variant font-code-sm text-[11px]"
+                      >WebCrypto API</span
+                    >
+                    <span
+                      class="px-2 py-0.5 rounded bg-surface-container-low text-on-surface-variant font-code-sm text-[11px]"
+                      >HMAC Support</span
+                    >
+                  </div>
+                  <a
+                    class="inline-flex items-center gap-1 font-label-md font-semibold text-primary group-hover:translate-x-0.5 transition-transform"
+                    href="#"
+                  >
+                    <span>Launch</span>
+                    <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+                  </a>
+                </div>
+              </div>
+              <!-- Tool 6: Unix Epoch Converter -->
+              <div
+                class="p-space-lg rounded-xl bg-surface-container-lowest shadow-sm flex flex-col justify-between gap-space-md hover:shadow-md transition-shadow group"
+              >
+                <div class="flex flex-col gap-space-xs">
+                  <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-2">
+                      <span
+                        class="px-2 py-0.5 rounded-full bg-surface-container-high text-on-surface font-code-sm font-semibold"
+                        >Date &amp; Time</span
+                      >
+                      <span class="text-tertiary flex items-center"
+                        ><span
+                          class="material-symbols-outlined text-[16px]"
+                          style="font-variation-settings: 'FILL' 1"
+                          >star</span
+                        ></span
+                      >
+                    </div>
+                    <span
+                      class="material-symbols-outlined text-on-surface-variant/40 group-hover:text-primary transition-colors text-[20px]"
+                      >schedule</span
+                    >
+                  </div>
+                  <h3 class="font-headline-sm text-headline-sm text-on-surface font-semibold mt-1">
+                    Unix Epoch Converter
+                  </h3>
+                  <p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-2">
+                    Millisecond/second timestamps translation to ISO-8601, RFC-2822, and
+                    human-readable local time offsets.
+                  </p>
+                </div>
+                <div class="flex items-center justify-between pt-space-xs">
+                  <div class="flex items-center gap-space-xs">
+                    <span
+                      class="px-2 py-0.5 rounded bg-surface-container-low text-on-surface-variant font-code-sm text-[11px]"
+                      >Bidirectional</span
+                    >
+                    <span
+                      class="px-2 py-0.5 rounded bg-surface-container-low text-on-surface-variant font-code-sm text-[11px]"
+                      >ISO-8601</span
+                    >
+                  </div>
+                  <a
+                    class="inline-flex items-center gap-1 font-label-md font-semibold text-primary group-hover:translate-x-0.5 transition-transform"
+                    href="#"
+                  >
+                    <span>Launch</span>
+                    <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </section>
+          <!-- Section: Browse by Category (4 Compact Tablet Cards) -->
+          <section class="flex flex-col gap-space-md">
+            <div class="flex items-center justify-between">
+              <h2
+                class="font-headline-md text-headline-md text-on-surface font-semibold tracking-tight"
+              >
+                Browse by Category
+              </h2>
+              <a
+                class="font-label-md text-primary font-semibold hover:underline flex items-center gap-1"
+                href="#"
+              >
+                <span>View all 84 tools</span>
+                <span class="material-symbols-outlined text-[16px]">chevron_right</span>
+              </a>
+            </div>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-space-md">
+              <!-- Category 1 -->
+              <a
+                class="p-space-md rounded-xl bg-surface-container-lowest shadow-sm hover:shadow-md transition-all flex flex-col gap-space-sm group"
+                href="#"
+              >
+                <div
+                  class="w-9 h-9 rounded-lg bg-surface-container-high flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-on-primary transition-colors"
+                >
+                  <span class="material-symbols-outlined text-[20px]">terminal</span>
+                </div>
+                <div>
+                  <span
+                    class="font-headline-sm text-headline-sm text-on-surface font-semibold block leading-tight"
+                    >Developer Tools</span
+                  >
+                  <span class="font-body-sm text-body-sm text-on-surface-variant"
+                    >24 tools ready</span
+                  >
+                </div>
+              </a>
+              <!-- Category 2 -->
+              <a
+                class="p-space-md rounded-xl bg-surface-container-lowest shadow-sm hover:shadow-md transition-all flex flex-col gap-space-sm group"
+                href="#"
+              >
+                <div
+                  class="w-9 h-9 rounded-lg bg-surface-container-high flex items-center justify-center text-secondary group-hover:bg-secondary group-hover:text-on-secondary transition-colors"
+                >
+                  <span class="material-symbols-outlined text-[20px]">sync_alt</span>
+                </div>
+                <div>
+                  <span
+                    class="font-headline-sm text-headline-sm text-on-surface font-semibold block leading-tight"
+                    >Encoders &amp; Decoders</span
+                  >
+                  <span class="font-body-sm text-body-sm text-on-surface-variant"
+                    >18 tools ready</span
+                  >
+                </div>
+              </a>
+              <!-- Category 3 -->
+              <a
+                class="p-space-md rounded-xl bg-surface-container-lowest shadow-sm hover:shadow-md transition-all flex flex-col gap-space-sm group"
+                href="#"
+              >
+                <div
+                  class="w-9 h-9 rounded-lg bg-surface-container-high flex items-center justify-center text-tertiary group-hover:bg-tertiary group-hover:text-on-tertiary transition-colors"
+                >
+                  <span class="material-symbols-outlined text-[20px]">shield_lock</span>
+                </div>
+                <div>
+                  <span
+                    class="font-headline-sm text-headline-sm text-on-surface font-semibold block leading-tight"
+                    >Security &amp; Hash</span
+                  >
+                  <span class="font-body-sm text-body-sm text-on-surface-variant"
+                    >16 tools ready</span
+                  >
+                </div>
+              </a>
+              <!-- Category 4 -->
+              <a
+                class="p-space-md rounded-xl bg-surface-container-lowest shadow-sm hover:shadow-md transition-all flex flex-col gap-space-sm group"
+                href="#"
+              >
+                <div
+                  class="w-9 h-9 rounded-lg bg-surface-container-high flex items-center justify-center text-primary-container group-hover:bg-primary-container group-hover:text-on-primary-container transition-colors"
+                >
+                  <span class="material-symbols-outlined text-[20px]">palette</span>
+                </div>
+                <div>
+                  <span
+                    class="font-headline-sm text-headline-sm text-on-surface font-semibold block leading-tight"
+                    >Color &amp; Graphic</span
+                  >
+                  <span class="font-body-sm text-body-sm text-on-surface-variant"
+                    >12 tools ready</span
+                  >
+                </div>
+              </a>
+            </div>
+          </section>
+          <!-- Local Trust Sandbox Banner -->
+          <section
+            class="p-space-lg rounded-xl bg-surface-container-lowest shadow-sm flex flex-col md:flex-row items-start md:items-center justify-between gap-space-lg"
+          >
+            <div class="flex items-start gap-space-md max-w-2xl">
+              <div
+                class="w-12 h-12 rounded-xl bg-secondary-container/30 text-on-secondary-container flex items-center justify-center shrink-0"
+              >
+                <span class="material-symbols-outlined text-[26px]">verified_user</span>
+              </div>
+              <div class="flex flex-col gap-0.5">
+                <div class="flex items-center gap-2">
+                  <h3 class="font-headline-sm text-headline-sm text-on-surface font-semibold">
+                    Zero telemetry. Client-side sandbox. Protected.
+                  </h3>
+                  <span class="w-2 h-2 rounded-full bg-secondary"></span>
+                </div>
+                <p class="font-body-sm text-body-sm text-on-surface-variant">
+                  Your payloads, keys, and tokens never touch a remote server. State persisted via
+                  encrypted AES-GCM local storage.
+                </p>
+              </div>
+            </div>
+            <div
+              class="flex items-center gap-space-md w-full md:w-auto justify-between md:justify-end shrink-0"
+            >
+              <div class="flex flex-col items-start md:items-end font-code-sm">
+                <span class="text-on-surface-variant/70 text-[11px]">SANDBOX ALLOCATION</span>
+                <span class="text-on-surface font-medium">Storage: 1.2 MB / 50 MB</span>
+              </div>
+              <button
+                class="inline-flex items-center gap-1.5 px-3.5 h-9 rounded-lg bg-surface-container-high text-on-surface font-label-md font-semibold hover:bg-surface-variant transition-colors active:scale-95"
+                type="button"
+              >
+                <span class="material-symbols-outlined text-[16px]">file_download</span>
+                <span>Export Vault</span>
+              </button>
+            </div>
+          </section>
+        </div>
+        <script>
+          // Simple interactive filter toggle for demonstration
+          const filterButtons = document.querySelectorAll('#filterContainer button');
+          filterButtons.forEach((button) => {
+            button.addEventListener('click', () => {
+              filterButtons.forEach((btn) => {
+                btn.classList.remove(
+                  'bg-primary-container',
+                  'text-on-primary-container',
+                  'font-semibold',
+                  'shadow-sm'
+                );
+                btn.classList.add('bg-surface-container-high', 'text-on-surface-variant');
+              });
+              button.classList.remove('bg-surface-container-high', 'text-on-surface-variant');
+              button.classList.add(
+                'bg-primary-container',
+                'text-on-primary-container',
+                'font-semibold',
+                'shadow-sm'
+              );
+            });
+          });
+
+          // Hotkey trigger simulation
+          document.addEventListener('keydown', (e) => {
+            if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+              e.preventDefault();
+              const input = document.getElementById('quickToolSearch');
+              if (input) input.focus();
+            }
+          });
+        </script>
+      </main>
+    </div>
+  </body>
+</html>

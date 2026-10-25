@@ -1,0 +1,1041 @@
+<!doctype html>
+
+<html class="dark" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
+      name="viewport"
+    />
+    <meta content="mobile_tab" name="shell-type" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+      rel="stylesheet"
+    />
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            colors: {
+              'primary-fixed': '#e2dfff',
+              'tertiary-container': '#be5400',
+              'primary-fixed-dim': '#c3c0ff',
+              'surface-bright': '#38393f',
+              'on-tertiary': '#542100',
+              'secondary-fixed': '#e2dfff',
+              secondary: '#c3c1ff',
+              'on-tertiary-fixed': '#331100',
+              'on-primary-fixed-variant': '#321ed2',
+              'secondary-fixed-dim': '#c3c1ff',
+              'inverse-on-surface': '#2f3036',
+              'on-secondary-fixed-variant': '#3223cc',
+              'surface-container-highest': '#34343a',
+              'on-secondary-fixed': '#0e006a',
+              'on-error-container': '#ffdad6',
+              'primary-container': '#635bff',
+              'surface-container-high': '#292a2f',
+              'error-container': '#93000a',
+              tertiary: '#ffb68f',
+              background: '#121318',
+              'on-secondary-container': '#b2b1ff',
+              'surface-container-lowest': '#0d0e13',
+              'outline-variant': '#464555',
+              'on-surface': '#e3e1e9',
+              'on-primary-container': '#fefaff',
+              'surface-container-low': '#1a1b20',
+              'on-error': '#690005',
+              'on-background': '#e3e1e9',
+              'on-primary-fixed': '#0f0069',
+              surface: '#121318',
+              'surface-variant': '#34343a',
+              error: '#ffb4ab',
+              'tertiary-fixed-dim': '#ffb68f',
+              'inverse-surface': '#e3e1e9',
+              'on-surface-variant': '#c7c4d8',
+              'inverse-primary': '#4c42e9',
+              'on-primary': '#1d00a5',
+              'surface-tint': '#c3c0ff',
+              'surface-container': '#1e1f25',
+              'on-tertiary-fixed-variant': '#773200',
+              'on-secondary': '#1c00a6',
+              primary: '#c3c0ff',
+              'surface-dim': '#121318',
+              'tertiary-fixed': '#ffdbca',
+              'secondary-container': '#3527ce',
+              outline: '#918fa1',
+              'on-tertiary-container': '#fffaf9',
+            },
+            borderRadius: { DEFAULT: '0.25rem', lg: '0.5rem', xl: '0.75rem', full: '9999px' },
+            spacing: {
+              'margin-desktop': '2rem',
+              'space-xs': '0.25rem',
+              'space-md': '0.75rem',
+              'space-sm': '0.5rem',
+              'gutter-desktop': '1.5rem',
+              'space-lg': '1.25rem',
+              margin: '1rem',
+              gutter: '1rem',
+              'space-xl': '2rem',
+            },
+            fontFamily: {
+              'body-sm': ['Inter'],
+              'headline-sm': ['Inter'],
+              'headline-lg': ['Inter'],
+              'label-md': ['Inter'],
+              'headline-lg-mobile': ['Inter'],
+              'body-lg': ['Inter'],
+              'label-sm': ['Inter'],
+              'headline-md': ['Inter'],
+              kbd: ['JetBrains Mono'],
+              'code-md': ['JetBrains Mono'],
+              'body-md': ['Inter'],
+              'code-sm': ['JetBrains Mono'],
+            },
+            fontSize: {
+              'body-sm': ['13px', { lineHeight: '18px', fontWeight: '400' }],
+              'headline-sm': [
+                '18px',
+                { lineHeight: '26px', letterSpacing: '-0.01em', fontWeight: '600' },
+              ],
+              'headline-lg': [
+                '32px',
+                { lineHeight: '40px', letterSpacing: '-0.02em', fontWeight: '600' },
+              ],
+              'label-md': [
+                '12px',
+                { lineHeight: '16px', letterSpacing: '0.01em', fontWeight: '500' },
+              ],
+              'headline-lg-mobile': [
+                '26px',
+                { lineHeight: '34px', letterSpacing: '-0.015em', fontWeight: '600' },
+              ],
+              'body-lg': [
+                '15px',
+                { lineHeight: '24px', letterSpacing: '-0.005em', fontWeight: '400' },
+              ],
+              'label-sm': [
+                '11px',
+                { lineHeight: '14px', letterSpacing: '0.02em', fontWeight: '600' },
+              ],
+              'headline-md': [
+                '24px',
+                { lineHeight: '32px', letterSpacing: '-0.015em', fontWeight: '600' },
+              ],
+              kbd: ['11px', { lineHeight: '14px', fontWeight: '500' }],
+              'code-md': ['13px', { lineHeight: '20px', fontWeight: '400' }],
+              'body-md': ['14px', { lineHeight: '20px', fontWeight: '400' }],
+              'code-sm': ['11px', { lineHeight: '16px', fontWeight: '500' }],
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      @layer base {
+        html,
+        body {
+          width: 100%;
+          margin: 0;
+          padding: 0;
+        }
+        body {
+          overscroll-behavior: none;
+        }
+        .pb-safe {
+          padding-bottom: env(safe-area-inset-bottom, 0px);
+        }
+        .pt-safe {
+          padding-top: env(safe-area-inset-top, 0px);
+        }
+        main > :first-child {
+          margin-top: 0 !important;
+        }
+        main > :last-child {
+          margin-bottom: 0 !important;
+        }
+      }
+      ::-webkit-scrollbar {
+        display: none;
+      }
+    </style>
+  </head>
+  <body class="bg-surface font-body-md text-on-surface flex flex-col min-h-screen">
+    <header class="fixed top-0 w-full z-50 bg-surface/85 backdrop-blur-xl pt-safe">
+      <div class="h-16 px-margin flex items-center justify-between">
+        <div class="flex items-center gap-space-sm">
+          <div class="w-8 h-8 rounded-lg bg-primary-container flex items-center justify-center">
+            <span class="material-symbols-outlined text-on-primary-container text-[18px]"
+              >terminal</span
+            >
+          </div>
+          <div class="flex flex-col">
+            <div class="flex items-center gap-space-xs">
+              <span
+                class="font-headline-sm text-headline-sm text-on-surface font-semibold tracking-tight"
+                >Toolnest</span
+              >
+              <div
+                class="flex items-center gap-1 px-1.5 py-0.5 rounded-full bg-surface-container-high"
+              >
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span
+                ><span class="font-label-sm text-label-sm text-on-surface-variant font-medium"
+                  >Local</span
+                >
+              </div>
+            </div>
+            <span class="font-label-sm text-label-sm text-on-surface-variant">Home</span>
+          </div>
+        </div>
+        <div class="flex items-center gap-space-xs">
+          <button
+            aria-label="Command Palette"
+            class="w-11 h-11 flex items-center justify-center rounded-lg text-on-surface-variant hover:text-on-surface transition-colors"
+            type="button"
+          >
+            <span class="material-symbols-outlined text-[20px]">search</span></button
+          ><button
+            aria-label="Toggle Theme"
+            class="w-11 h-11 flex items-center justify-center rounded-lg text-on-surface-variant hover:text-on-surface transition-colors"
+            type="button"
+          >
+            <span class="material-symbols-outlined text-[20px]">dark_mode</span>
+          </button>
+          <div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center">
+            <span class="material-symbols-outlined text-on-primary text-[18px]">person</span>
+          </div>
+        </div>
+      </div>
+    </header>
+    <main class="flex-1 flex flex-col relative w-full pt-16 pb-28 bg-surface px-margin">
+      <div class="flex flex-col w-full pb-10 space-y-space-lg">
+        <!-- Command Search Bar Trigger -->
+        <div class="relative w-full">
+          <button
+            class="w-full bg-surface-container-high hover:bg-surface-container-highest transition-colors rounded-xl px-space-md py-3 flex items-center justify-between shadow-sm active:scale-[0.99] text-left"
+            id="search-trigger"
+            type="button"
+          >
+            <div class="flex items-center gap-space-sm min-w-0">
+              <span class="material-symbols-outlined text-primary text-[20px]">search</span>
+              <span class="font-body-md text-body-md text-on-surface-variant truncate"
+                >Search 80+ tools or jump to...</span
+              >
+            </div>
+            <div class="flex items-center gap-1.5 shrink-0 pl-2">
+              <span
+                class="bg-surface-container font-kbd text-kbd text-on-surface px-1.5 py-0.5 rounded shadow-sm"
+                >⌘K</span
+              >
+              <span class="w-2 h-2 rounded-full bg-primary-container animate-pulse"></span>
+            </div>
+          </button>
+        </div>
+        <!-- Horizontal Filter Chips -->
+        <div
+          class="w-full -mx-margin px-margin overflow-x-auto no-scrollbar flex items-center gap-space-xs py-0.5"
+        >
+          <button
+            class="filter-pill bg-primary-container text-on-primary-container font-label-md text-label-md px-3.5 py-1.5 rounded-full shrink-0 shadow-sm flex items-center gap-1"
+            type="button"
+          >
+            <span class="material-symbols-outlined text-[14px]">apps</span>
+            <span>All</span>
+          </button>
+          <button
+            class="filter-pill bg-surface-container-high text-on-surface-variant hover:text-on-surface font-label-md text-label-md px-3 py-1.5 rounded-full shrink-0 transition-colors"
+            type="button"
+          >
+            JSON
+          </button>
+          <button
+            class="filter-pill bg-surface-container-high text-on-surface-variant hover:text-on-surface font-label-md text-label-md px-3 py-1.5 rounded-full shrink-0 transition-colors"
+            type="button"
+          >
+            Base64
+          </button>
+          <button
+            class="filter-pill bg-surface-container-high text-on-surface-variant hover:text-on-surface font-label-md text-label-md px-3 py-1.5 rounded-full shrink-0 transition-colors"
+            type="button"
+          >
+            Regex
+          </button>
+          <button
+            class="filter-pill bg-surface-container-high text-on-surface-variant hover:text-on-surface font-label-md text-label-md px-3 py-1.5 rounded-full shrink-0 transition-colors"
+            type="button"
+          >
+            UUID
+          </button>
+          <button
+            class="filter-pill bg-surface-container-high text-on-surface-variant hover:text-on-surface font-label-md text-label-md px-3 py-1.5 rounded-full shrink-0 transition-colors"
+            type="button"
+          >
+            JWT
+          </button>
+          <button
+            class="filter-pill bg-surface-container-high text-on-surface-variant hover:text-on-surface font-label-md text-label-md px-3 py-1.5 rounded-full shrink-0 transition-colors"
+            type="button"
+          >
+            Hash
+          </button>
+          <button
+            class="filter-pill bg-surface-container-high text-on-surface-variant hover:text-on-surface font-label-md text-label-md px-3 py-1.5 rounded-full shrink-0 transition-colors"
+            type="button"
+          >
+            Colors
+          </button>
+        </div>
+        <!-- Privacy & Local Execution Hero Banner -->
+        <div
+          class="w-full bg-gradient-to-br from-surface-container-high to-surface-container rounded-xl p-space-md shadow-sm relative overflow-hidden"
+        >
+          <div
+            class="absolute -right-6 -bottom-6 w-24 h-24 bg-primary-container/10 rounded-full blur-2xl pointer-events-none"
+          ></div>
+          <div class="flex items-start justify-between gap-space-sm relative z-10">
+            <div class="space-y-1">
+              <div class="flex items-center gap-1.5">
+                <span class="inline-flex w-2 h-2 rounded-full bg-emerald-400"></span>
+                <span
+                  class="font-label-sm text-label-sm text-primary font-semibold uppercase tracking-wider"
+                  >Zero Telemetry · Client-Only</span
+                >
+              </div>
+              <p class="font-body-sm text-body-sm text-on-surface leading-tight">
+                Every payload remains strictly inside your browser memory sandbox.
+              </p>
+            </div>
+            <a
+              class="shrink-0 flex items-center gap-1 bg-surface-container-highest text-on-surface hover:text-primary px-2.5 py-1.5 rounded-lg text-label-sm font-label-sm transition-colors shadow-sm"
+              href="https://github.com"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              <span
+                class="material-symbols-outlined text-[15px]"
+                style="font-variation-settings: 'FILL' 1"
+                >star</span
+              >
+              <span>Star</span>
+            </a>
+          </div>
+        </div>
+        <!-- Recently Used Section -->
+        <div class="w-full space-y-space-sm">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-1.5">
+              <span class="material-symbols-outlined text-[18px] text-primary">schedule</span>
+              <h2 class="font-headline-sm text-headline-sm text-on-surface">Recently Used</h2>
+            </div>
+            <button
+              class="font-label-sm text-label-sm text-on-surface-variant hover:text-error transition-colors px-1 py-0.5"
+              id="clear-recents"
+              type="button"
+            >
+              Clear
+            </button>
+          </div>
+          <!-- Horizontal Swipe Carousel -->
+          <div
+            class="w-full -mx-margin px-margin overflow-x-auto no-scrollbar flex items-stretch gap-space-sm py-1"
+          >
+            <!-- Card 1 -->
+            <div
+              class="w-64 shrink-0 bg-surface-container rounded-xl p-space-md flex flex-col justify-between shadow-sm hover:bg-surface-container-high transition-all active:scale-[0.98]"
+            >
+              <div class="flex items-start justify-between">
+                <div
+                  class="w-9 h-9 rounded-lg bg-primary-container/20 flex items-center justify-center text-primary"
+                >
+                  <span class="material-symbols-outlined text-[20px]">data_object</span>
+                </div>
+                <span class="font-label-sm text-label-sm text-on-surface-variant">2m ago</span>
+              </div>
+              <div class="my-2.5">
+                <h3
+                  class="font-headline-sm text-headline-sm text-on-surface text-[15px] leading-snug"
+                >
+                  JSON Prettifier
+                </h3>
+                <p class="font-code-sm text-code-sm text-on-surface-variant truncate">
+                  4.2 KB payload parsed
+                </p>
+              </div>
+              <div class="flex items-center justify-between pt-1">
+                <span
+                  class="font-kbd text-kbd bg-surface-container-lowest text-primary px-1.5 py-0.5 rounded"
+                  >Prettified</span
+                >
+                <button
+                  class="inline-flex items-center gap-1 text-primary hover:text-primary-fixed-dim font-label-sm text-label-sm"
+                  type="button"
+                >
+                  Resume
+                  <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+                </button>
+              </div>
+            </div>
+            <!-- Card 2 -->
+            <div
+              class="w-64 shrink-0 bg-surface-container rounded-xl p-space-md flex flex-col justify-between shadow-sm hover:bg-surface-container-high transition-all active:scale-[0.98]"
+            >
+              <div class="flex items-start justify-between">
+                <div
+                  class="w-9 h-9 rounded-lg bg-secondary-container/30 flex items-center justify-center text-secondary"
+                >
+                  <span class="material-symbols-outlined text-[20px]">token</span>
+                </div>
+                <span class="font-label-sm text-label-sm text-on-surface-variant">18m ago</span>
+              </div>
+              <div class="my-2.5">
+                <h3
+                  class="font-headline-sm text-headline-sm text-on-surface text-[15px] leading-snug"
+                >
+                  JWT Inspector
+                </h3>
+                <p class="font-code-sm text-code-sm text-on-surface-variant truncate">
+                  HS256 · Exp in 2h
+                </p>
+              </div>
+              <div class="flex items-center justify-between pt-1">
+                <span
+                  class="font-kbd text-kbd bg-surface-container-lowest text-emerald-400 px-1.5 py-0.5 rounded"
+                  >Valid Sig</span
+                >
+                <button
+                  class="inline-flex items-center gap-1 text-primary hover:text-primary-fixed-dim font-label-sm text-label-sm"
+                  type="button"
+                >
+                  Inspect
+                  <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+                </button>
+              </div>
+            </div>
+            <!-- Card 3 -->
+            <div
+              class="w-64 shrink-0 bg-surface-container rounded-xl p-space-md flex flex-col justify-between shadow-sm hover:bg-surface-container-high transition-all active:scale-[0.98]"
+            >
+              <div class="flex items-start justify-between">
+                <div
+                  class="w-9 h-9 rounded-lg bg-surface-bright flex items-center justify-center text-primary"
+                >
+                  <span class="material-symbols-outlined text-[20px]">fingerprint</span>
+                </div>
+                <span class="font-label-sm text-label-sm text-on-surface-variant">1h ago</span>
+              </div>
+              <div class="my-2.5">
+                <h3
+                  class="font-headline-sm text-headline-sm text-on-surface text-[15px] leading-snug"
+                >
+                  UUID v4 Batch
+                </h3>
+                <p class="font-code-sm text-code-sm text-on-surface-variant truncate">
+                  50 items generated
+                </p>
+              </div>
+              <div class="flex items-center justify-between pt-1">
+                <span
+                  class="font-kbd text-kbd bg-surface-container-lowest text-on-surface-variant px-1.5 py-0.5 rounded"
+                  >v4 RFC9562</span
+                >
+                <button
+                  class="inline-flex items-center gap-1 text-primary hover:text-primary-fixed-dim font-label-sm text-label-sm"
+                  type="button"
+                >
+                  Copy
+                  <span class="material-symbols-outlined text-[14px]">content_copy</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Popular Utilities Section (2-Column Dense Bento Grid) -->
+        <div class="w-full space-y-space-sm">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-1.5">
+              <span class="material-symbols-outlined text-[18px] text-tertiary">bolt</span>
+              <h2 class="font-headline-sm text-headline-sm text-on-surface">Popular Utilities</h2>
+            </div>
+            <span class="font-label-sm text-label-sm text-on-surface-variant">6 pinned</span>
+          </div>
+          <div class="grid grid-cols-2 gap-space-sm w-full">
+            <!-- Tool 1: JSON Formatter -->
+            <div
+              class="tool-card group bg-surface-container hover:bg-surface-container-high rounded-xl p-space-md flex flex-col justify-between shadow-sm active:scale-[0.98] transition-all cursor-pointer"
+              role="button"
+              tabindex="0"
+            >
+              <div>
+                <div class="flex items-center justify-between mb-2">
+                  <div
+                    class="w-8 h-8 rounded-lg bg-primary-container/20 group-hover:bg-primary-container/30 text-primary flex items-center justify-center transition-colors"
+                  >
+                    <span class="material-symbols-outlined text-[18px]">data_object</span>
+                  </div>
+                  <span
+                    class="font-label-sm text-label-sm bg-surface-container-lowest text-primary px-1.5 py-0.5 rounded"
+                    >Tree View</span
+                  >
+                </div>
+                <h3
+                  class="font-headline-sm text-headline-sm text-on-surface text-[14px] leading-snug group-hover:text-primary transition-colors"
+                >
+                  JSON Formatter
+                </h3>
+                <p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-2 mt-1">
+                  Prettify, minify, validate and fix messy JSON structures instantly.
+                </p>
+              </div>
+              <div class="mt-3 flex items-center justify-between pt-2 border-0">
+                <span class="font-code-sm text-code-sm text-on-surface-variant">RFC-8259</span>
+                <span
+                  class="material-symbols-outlined text-[16px] text-on-surface-variant group-hover:text-primary transition-transform group-hover:translate-x-0.5"
+                  >arrow_forward</span
+                >
+              </div>
+            </div>
+            <!-- Tool 2: Base64 Encoder / Decoder -->
+            <div
+              class="tool-card group bg-surface-container hover:bg-surface-container-high rounded-xl p-space-md flex flex-col justify-between shadow-sm active:scale-[0.98] transition-all cursor-pointer"
+              role="button"
+              tabindex="0"
+            >
+              <div>
+                <div class="flex items-center justify-between mb-2">
+                  <div
+                    class="w-8 h-8 rounded-lg bg-secondary-container/30 group-hover:bg-secondary-container/40 text-secondary flex items-center justify-center transition-colors"
+                  >
+                    <span class="material-symbols-outlined text-[18px]">code</span>
+                  </div>
+                  <span
+                    class="font-label-sm text-label-sm bg-surface-container-lowest text-on-surface-variant px-1.5 py-0.5 rounded"
+                    >ASCII</span
+                  >
+                </div>
+                <h3
+                  class="font-headline-sm text-headline-sm text-on-surface text-[14px] leading-snug group-hover:text-primary transition-colors"
+                >
+                  Base64 Encoder
+                </h3>
+                <p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-2 mt-1">
+                  Encode or decode plaintext, images and raw binaries seamlessly.
+                </p>
+              </div>
+              <div class="mt-3 flex items-center justify-between pt-2">
+                <span class="font-code-sm text-code-sm text-on-surface-variant">UTF-8 / URL</span>
+                <span
+                  class="material-symbols-outlined text-[16px] text-on-surface-variant group-hover:text-primary transition-transform group-hover:translate-x-0.5"
+                  >arrow_forward</span
+                >
+              </div>
+            </div>
+            <!-- Tool 3: Regex Tester -->
+            <div
+              class="tool-card group bg-surface-container hover:bg-surface-container-high rounded-xl p-space-md flex flex-col justify-between shadow-sm active:scale-[0.98] transition-all cursor-pointer"
+              role="button"
+              tabindex="0"
+            >
+              <div>
+                <div class="flex items-center justify-between mb-2">
+                  <div
+                    class="w-8 h-8 rounded-lg bg-tertiary/15 group-hover:bg-tertiary/25 text-tertiary flex items-center justify-center transition-colors"
+                  >
+                    <span class="material-symbols-outlined text-[18px]">regular_expression</span>
+                  </div>
+                  <span
+                    class="font-label-sm text-label-sm bg-surface-container-lowest text-tertiary px-1.5 py-0.5 rounded"
+                    >PCRE</span
+                  >
+                </div>
+                <h3
+                  class="font-headline-sm text-headline-sm text-on-surface text-[14px] leading-snug group-hover:text-primary transition-colors"
+                >
+                  Regex Explainer
+                </h3>
+                <p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-2 mt-1">
+                  Real-time match highlighting, group capturing &amp; syntax breakdowns.
+                </p>
+              </div>
+              <div class="mt-3 flex items-center justify-between pt-2">
+                <span class="font-code-sm text-code-sm text-on-surface-variant"
+                  >Regex101 compat</span
+                >
+                <span
+                  class="material-symbols-outlined text-[16px] text-on-surface-variant group-hover:text-primary transition-transform group-hover:translate-x-0.5"
+                  >arrow_forward</span
+                >
+              </div>
+            </div>
+            <!-- Tool 4: UUID Generator -->
+            <div
+              class="tool-card group bg-surface-container hover:bg-surface-container-high rounded-xl p-space-md flex flex-col justify-between shadow-sm active:scale-[0.98] transition-all cursor-pointer"
+              role="button"
+              tabindex="0"
+            >
+              <div>
+                <div class="flex items-center justify-between mb-2">
+                  <div
+                    class="w-8 h-8 rounded-lg bg-primary-container/20 group-hover:bg-primary-container/30 text-primary flex items-center justify-center transition-colors"
+                  >
+                    <span class="material-symbols-outlined text-[18px]">key</span>
+                  </div>
+                  <span
+                    class="font-label-sm text-label-sm bg-surface-container-lowest text-primary px-1.5 py-0.5 rounded"
+                    >Batch</span
+                  >
+                </div>
+                <h3
+                  class="font-headline-sm text-headline-sm text-on-surface text-[14px] leading-snug group-hover:text-primary transition-colors"
+                >
+                  UUID v4 / v7
+                </h3>
+                <p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-2 mt-1">
+                  Cryptographically secure, time-sortable GUID generation.
+                </p>
+              </div>
+              <div class="mt-3 flex items-center justify-between pt-2">
+                <span class="font-code-sm text-code-sm text-on-surface-variant">Bulk export</span>
+                <span
+                  class="material-symbols-outlined text-[16px] text-on-surface-variant group-hover:text-primary transition-transform group-hover:translate-x-0.5"
+                  >arrow_forward</span
+                >
+              </div>
+            </div>
+            <!-- Tool 5: Multi-Hasher -->
+            <div
+              class="tool-card group bg-surface-container hover:bg-surface-container-high rounded-xl p-space-md flex flex-col justify-between shadow-sm active:scale-[0.98] transition-all cursor-pointer"
+              role="button"
+              tabindex="0"
+            >
+              <div>
+                <div class="flex items-center justify-between mb-2">
+                  <div
+                    class="w-8 h-8 rounded-lg bg-surface-bright group-hover:bg-surface-container-highest text-on-surface flex items-center justify-center transition-colors"
+                  >
+                    <span class="material-symbols-outlined text-[18px]">lock</span>
+                  </div>
+                  <span
+                    class="font-label-sm text-label-sm bg-surface-container-lowest text-emerald-400 px-1.5 py-0.5 rounded"
+                    >WebCrypto</span
+                  >
+                </div>
+                <h3
+                  class="font-headline-sm text-headline-sm text-on-surface text-[14px] leading-snug group-hover:text-primary transition-colors"
+                >
+                  SHA / Multi-Hash
+                </h3>
+                <p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-2 mt-1">
+                  SHA-256, SHA-512, MD5, and HMAC with instant digest copies.
+                </p>
+              </div>
+              <div class="mt-3 flex items-center justify-between pt-2">
+                <span class="font-code-sm text-code-sm text-on-surface-variant">Zero lag</span>
+                <span
+                  class="material-symbols-outlined text-[16px] text-on-surface-variant group-hover:text-primary transition-transform group-hover:translate-x-0.5"
+                  >arrow_forward</span
+                >
+              </div>
+            </div>
+            <!-- Tool 6: Unix Timestamp -->
+            <div
+              class="tool-card group bg-surface-container hover:bg-surface-container-high rounded-xl p-space-md flex flex-col justify-between shadow-sm active:scale-[0.98] transition-all cursor-pointer"
+              role="button"
+              tabindex="0"
+            >
+              <div>
+                <div class="flex items-center justify-between mb-2">
+                  <div
+                    class="w-8 h-8 rounded-lg bg-surface-bright group-hover:bg-surface-container-highest text-secondary flex items-center justify-center transition-colors"
+                  >
+                    <span class="material-symbols-outlined text-[18px]">pace</span>
+                  </div>
+                  <span
+                    class="font-label-sm text-label-sm bg-surface-container-lowest text-on-surface-variant px-1.5 py-0.5 rounded"
+                    >Epoch</span
+                  >
+                </div>
+                <h3
+                  class="font-headline-sm text-headline-sm text-on-surface text-[14px] leading-snug group-hover:text-primary transition-colors"
+                >
+                  Unix Timestamp
+                </h3>
+                <p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-2 mt-1">
+                  Bidirectional conversion between epoch seconds, ms, and ISO 8601.
+                </p>
+              </div>
+              <div class="mt-3 flex items-center justify-between pt-2">
+                <span class="font-code-sm text-code-sm text-on-surface-variant">Timezone sync</span>
+                <span
+                  class="material-symbols-outlined text-[16px] text-on-surface-variant group-hover:text-primary transition-transform group-hover:translate-x-0.5"
+                  >arrow_forward</span
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Browse Categories Section -->
+        <div class="w-full space-y-space-sm">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-1.5">
+              <span class="material-symbols-outlined text-[18px] text-primary">category</span>
+              <h2 class="font-headline-sm text-headline-sm text-on-surface">Categories</h2>
+            </div>
+            <a
+              class="font-label-sm text-label-sm text-primary hover:text-primary-fixed-dim transition-colors"
+              href="#"
+              >View all 80+</a
+            >
+          </div>
+          <div class="grid grid-cols-2 gap-space-sm w-full">
+            <!-- Category 1 -->
+            <div
+              class="bg-surface-container hover:bg-surface-container-high p-space-md rounded-xl shadow-sm flex items-center justify-between transition-all active:scale-[0.98] cursor-pointer"
+              role="button"
+              tabindex="0"
+            >
+              <div class="flex items-center gap-space-sm min-w-0">
+                <div
+                  class="w-9 h-9 rounded-lg bg-primary-container/20 text-primary flex items-center justify-center shrink-0"
+                >
+                  <span class="material-symbols-outlined text-[20px]">developer_mode</span>
+                </div>
+                <div class="min-w-0">
+                  <h4
+                    class="font-headline-sm text-headline-sm text-on-surface text-[14px] truncate"
+                  >
+                    Developer
+                  </h4>
+                  <span class="font-label-sm text-label-sm text-on-surface-variant"
+                    >9 utilities</span
+                  >
+                </div>
+              </div>
+            </div>
+            <!-- Category 2 -->
+            <div
+              class="bg-surface-container hover:bg-surface-container-high p-space-md rounded-xl shadow-sm flex items-center justify-between transition-all active:scale-[0.98] cursor-pointer"
+              role="button"
+              tabindex="0"
+            >
+              <div class="flex items-center gap-space-sm min-w-0">
+                <div
+                  class="w-9 h-9 rounded-lg bg-secondary-container/25 text-secondary flex items-center justify-center shrink-0"
+                >
+                  <span class="material-symbols-outlined text-[20px]">swap_horiz</span>
+                </div>
+                <div class="min-w-0">
+                  <h4
+                    class="font-headline-sm text-headline-sm text-on-surface text-[14px] truncate"
+                  >
+                    Encoders
+                  </h4>
+                  <span class="font-label-sm text-label-sm text-on-surface-variant"
+                    >7 utilities</span
+                  >
+                </div>
+              </div>
+            </div>
+            <!-- Category 3 -->
+            <div
+              class="bg-surface-container hover:bg-surface-container-high p-space-md rounded-xl shadow-sm flex items-center justify-between transition-all active:scale-[0.98] cursor-pointer"
+              role="button"
+              tabindex="0"
+            >
+              <div class="flex items-center gap-space-sm min-w-0">
+                <div
+                  class="w-9 h-9 rounded-lg bg-tertiary-container/30 text-tertiary flex items-center justify-center shrink-0"
+                >
+                  <span class="material-symbols-outlined text-[20px]">shield</span>
+                </div>
+                <div class="min-w-0">
+                  <h4
+                    class="font-headline-sm text-headline-sm text-on-surface text-[14px] truncate"
+                  >
+                    Security
+                  </h4>
+                  <span class="font-label-sm text-label-sm text-on-surface-variant"
+                    >6 utilities</span
+                  >
+                </div>
+              </div>
+            </div>
+            <!-- Category 4 -->
+            <div
+              class="bg-surface-container hover:bg-surface-container-high p-space-md rounded-xl shadow-sm flex items-center justify-between transition-all active:scale-[0.98] cursor-pointer"
+              role="button"
+              tabindex="0"
+            >
+              <div class="flex items-center gap-space-sm min-w-0">
+                <div
+                  class="w-9 h-9 rounded-lg bg-surface-bright text-primary flex items-center justify-center shrink-0"
+                >
+                  <span class="material-symbols-outlined text-[20px]">palette</span>
+                </div>
+                <div class="min-w-0">
+                  <h4
+                    class="font-headline-sm text-headline-sm text-on-surface text-[14px] truncate"
+                  >
+                    Design &amp; Colors
+                  </h4>
+                  <span class="font-label-sm text-label-sm text-on-surface-variant"
+                    >6 utilities</span
+                  >
+                </div>
+              </div>
+            </div>
+            <!-- Category 5 -->
+            <div
+              class="bg-surface-container hover:bg-surface-container-high p-space-md rounded-xl shadow-sm flex items-center justify-between transition-all active:scale-[0.98] cursor-pointer"
+              role="button"
+              tabindex="0"
+            >
+              <div class="flex items-center gap-space-sm min-w-0">
+                <div
+                  class="w-9 h-9 rounded-lg bg-primary-container/20 text-primary flex items-center justify-center shrink-0"
+                >
+                  <span class="material-symbols-outlined text-[20px]">text_fields</span>
+                </div>
+                <div class="min-w-0">
+                  <h4
+                    class="font-headline-sm text-headline-sm text-on-surface text-[14px] truncate"
+                  >
+                    Text &amp; Markdown
+                  </h4>
+                  <span class="font-label-sm text-label-sm text-on-surface-variant"
+                    >8 utilities</span
+                  >
+                </div>
+              </div>
+            </div>
+            <!-- Category 6 -->
+            <div
+              class="bg-surface-container hover:bg-surface-container-high p-space-md rounded-xl shadow-sm flex items-center justify-between transition-all active:scale-[0.98] cursor-pointer"
+              role="button"
+              tabindex="0"
+            >
+              <div class="flex items-center gap-space-sm min-w-0">
+                <div
+                  class="w-9 h-9 rounded-lg bg-secondary-container/25 text-secondary flex items-center justify-center shrink-0"
+                >
+                  <span class="material-symbols-outlined text-[20px]">calendar_today</span>
+                </div>
+                <div class="min-w-0">
+                  <h4
+                    class="font-headline-sm text-headline-sm text-on-surface text-[14px] truncate"
+                  >
+                    Date &amp; Time
+                  </h4>
+                  <span class="font-label-sm text-label-sm text-on-surface-variant"
+                    >6 utilities</span
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Interactive Quick Command Palette Modal Backdrop (Hidden by default, triggered on tap) -->
+        <div
+          class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden items-start justify-center pt-20 px-margin transition-opacity"
+          id="palette-modal"
+        >
+          <div
+            class="w-full max-w-md bg-surface-container-high rounded-2xl shadow-xl overflow-hidden p-space-md space-y-space-md"
+          >
+            <div
+              class="relative flex items-center gap-2 bg-surface-container-lowest rounded-xl px-3 py-2.5"
+            >
+              <span class="material-symbols-outlined text-primary text-[20px]">search</span>
+              <input
+                class="w-full bg-transparent font-body-md text-body-md text-on-surface placeholder-on-surface-variant focus:outline-none"
+                id="palette-input"
+                placeholder="Type a tool name, format, or query..."
+                type="text"
+              />
+              <button
+                class="text-on-surface-variant hover:text-on-surface p-1"
+                id="palette-close"
+                type="button"
+              >
+                <span class="material-symbols-outlined text-[18px]">close</span>
+              </button>
+            </div>
+            <div class="space-y-1">
+              <span
+                class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider px-1"
+                >Quick Suggestions</span
+              >
+              <div class="space-y-0.5">
+                <div
+                  class="palette-item p-2.5 rounded-lg hover:bg-surface-container cursor-pointer flex items-center justify-between transition-colors"
+                >
+                  <div class="flex items-center gap-space-sm">
+                    <span class="material-symbols-outlined text-primary text-[18px]"
+                      >data_object</span
+                    >
+                    <span class="font-body-md text-body-md text-on-surface"
+                      >Format JSON payload</span
+                    >
+                  </div>
+                  <span
+                    class="font-kbd text-kbd text-on-surface-variant bg-surface-container px-1.5 py-0.5 rounded"
+                    >Enter</span
+                  >
+                </div>
+                <div
+                  class="palette-item p-2.5 rounded-lg hover:bg-surface-container cursor-pointer flex items-center justify-between transition-colors"
+                >
+                  <div class="flex items-center gap-space-sm">
+                    <span class="material-symbols-outlined text-secondary text-[18px]">key</span>
+                    <span class="font-body-md text-body-md text-on-surface"
+                      >Generate UUID v7 string</span
+                    >
+                  </div>
+                  <span
+                    class="font-kbd text-kbd text-on-surface-variant bg-surface-container px-1.5 py-0.5 rounded"
+                    >Enter</span
+                  >
+                </div>
+                <div
+                  class="palette-item p-2.5 rounded-lg hover:bg-surface-container cursor-pointer flex items-center justify-between transition-colors"
+                >
+                  <div class="flex items-center gap-space-sm">
+                    <span class="material-symbols-outlined text-tertiary text-[18px]">lock</span>
+                    <span class="font-body-md text-body-md text-on-surface"
+                      >Compute SHA-256 hash</span
+                    >
+                  </div>
+                  <span
+                    class="font-kbd text-kbd text-on-surface-variant bg-surface-container px-1.5 py-0.5 rounded"
+                    >Enter</span
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <script>
+        (function initWorkspaceInteractions() {
+          // Quick filter chips click state
+          const filterPills = document.querySelectorAll('.filter-pill');
+          filterPills.forEach((pill) => {
+            pill.addEventListener('click', () => {
+              filterPills.forEach((p) => {
+                p.classList.remove('bg-primary-container', 'text-on-primary-container');
+                p.classList.add('bg-surface-container-high', 'text-on-surface-variant');
+              });
+              pill.classList.remove('bg-surface-container-high', 'text-on-surface-variant');
+              pill.classList.add('bg-primary-container', 'text-on-primary-container');
+            });
+          });
+
+          // Command palette modal trigger
+          const searchTrigger = document.getElementById('search-trigger');
+          const paletteModal = document.getElementById('palette-modal');
+          const paletteClose = document.getElementById('palette-close');
+          const paletteInput = document.getElementById('palette-input');
+
+          if (searchTrigger && paletteModal) {
+            searchTrigger.addEventListener('click', () => {
+              paletteModal.classList.remove('hidden');
+              paletteModal.classList.add('flex');
+              setTimeout(() => paletteInput?.focus(), 50);
+            });
+
+            paletteClose?.addEventListener('click', () => {
+              paletteModal.classList.add('hidden');
+              paletteModal.classList.remove('flex');
+            });
+
+            paletteModal.addEventListener('click', (e) => {
+              if (e.target === paletteModal) {
+                paletteModal.classList.add('hidden');
+                paletteModal.classList.remove('flex');
+              }
+            });
+          }
+
+          // Keyboard shortcut CMD+K trigger
+          document.addEventListener('keydown', (e) => {
+            if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+              e.preventDefault();
+              if (paletteModal?.classList.contains('hidden')) {
+                paletteModal.classList.remove('hidden');
+                paletteModal.classList.add('flex');
+                paletteInput?.focus();
+              } else {
+                paletteModal?.classList.add('hidden');
+                paletteModal?.classList.remove('flex');
+              }
+            }
+            if (e.key === 'Escape' && paletteModal && !paletteModal.classList.contains('hidden')) {
+              paletteModal.classList.add('hidden');
+              paletteModal.classList.remove('flex');
+            }
+          });
+
+          // Clear Recents interaction with brief visual feedback
+          const clearBtn = document.getElementById('clear-recents');
+          if (clearBtn) {
+            clearBtn.addEventListener('click', () => {
+              clearBtn.textContent = 'Cleared';
+              clearBtn.classList.add('text-primary');
+              setTimeout(() => {
+                clearBtn.textContent = 'Clear';
+                clearBtn.classList.remove('text-primary');
+              }, 1500);
+            });
+          }
+        })();
+      </script>
+    </main>
+    <nav
+      class="fixed bottom-0 w-full z-50 pb-safe pointer-events-none"
+      data-active-classes="text-primary-container font-semibold"
+    >
+      <div class="px-margin pb-space-sm pt-space-xs flex justify-center">
+        <div
+          class="w-full max-w-md h-16 bg-surface-container/90 backdrop-blur-xl rounded-full shadow-[0_1px_8px_rgba(0,0,0,0.4)] px-space-md flex items-center justify-around pointer-events-auto"
+        >
+          <a
+            aria-current="page"
+            class="flex flex-col items-center justify-center min-w-[56px] min-h-[44px] transition-colors text-primary-container font-semibold"
+            data-path="home"
+            href="#"
+            ><span class="material-symbols-outlined text-[22px]">home</span
+            ><span class="font-label-sm text-label-sm mt-0.5">Home</span></a
+          ><a
+            class="flex flex-col items-center justify-center min-w-[56px] min-h-[44px] text-on-surface-variant transition-colors"
+            data-path="tools"
+            href="#"
+            ><span class="material-symbols-outlined text-[22px]">grid_view</span
+            ><span class="font-label-sm text-label-sm mt-0.5">Tools</span></a
+          ><a
+            class="flex flex-col items-center justify-center min-w-[56px] min-h-[44px] text-on-surface-variant transition-colors"
+            data-path="favorites"
+            href="#"
+            ><span class="material-symbols-outlined text-[22px]">star</span
+            ><span class="font-label-sm text-label-sm mt-0.5">Favorites</span></a
+          ><a
+            class="flex flex-col items-center justify-center min-w-[56px] min-h-[44px] text-on-surface-variant transition-colors"
+            data-path="recent"
+            href="#"
+            ><span class="material-symbols-outlined text-[22px]">history</span
+            ><span class="font-label-sm text-label-sm mt-0.5">Recent</span></a
+          >
+        </div>
+      </div>
+    </nav>
+  </body>
+</html>

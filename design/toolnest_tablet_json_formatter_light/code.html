@@ -1,0 +1,988 @@
+<!doctype html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <meta content="web_dashboard" name="shell-type" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+      rel="stylesheet"
+    />
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      @layer base {
+        html,
+        body {
+          margin: 0;
+          padding: 0;
+        }
+        body {
+          overscroll-behavior: none;
+        }
+        main > :first-child {
+          margin-top: 0 !important;
+        }
+        main > :last-child {
+          margin-bottom: 0 !important;
+        }
+      }
+      ::-webkit-scrollbar {
+        display: none;
+      }
+    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            colors: {
+              error: '#ba1a1a',
+              'on-background': '#1a1b21',
+              'on-surface-variant': '#464555',
+              'surface-container-high': '#e8e7ef',
+              'secondary-container': '#6cf8bb',
+              'primary-fixed-dim': '#c3c0ff',
+              'on-secondary-fixed': '#002113',
+              'surface-variant': '#e2e2e9',
+              'tertiary-container': '#a36700',
+              secondary: '#006c49',
+              'secondary-fixed-dim': '#4edea3',
+              'on-secondary-container': '#00714d',
+              'on-tertiary-fixed': '#2a1700',
+              'primary-fixed': '#e2dfff',
+              'outline-variant': '#c7c4d8',
+              'surface-container-highest': '#e2e2e9',
+              'on-tertiary-container': '#fffaf9',
+              'tertiary-fixed': '#ffddb8',
+              'on-error-container': '#93000a',
+              'on-primary-container': '#fefaff',
+              'on-tertiary-fixed-variant': '#653e00',
+              'on-primary-fixed-variant': '#321ed2',
+              'primary-container': '#635bff',
+              'surface-tint': '#4c42e9',
+              'on-secondary-fixed-variant': '#005236',
+              'on-primary': '#ffffff',
+              'secondary-fixed': '#6ffbbe',
+              surface: '#f9f9ff',
+              background: '#f9f9ff',
+              'inverse-surface': '#2e3036',
+              'on-surface': '#1a1b21',
+              'error-container': '#ffdad6',
+              'on-error': '#ffffff',
+              tertiary: '#815100',
+              'surface-dim': '#d9d9e1',
+              'inverse-on-surface': '#f0f0f7',
+              'tertiary-fixed-dim': '#ffb95f',
+              'inverse-primary': '#c3c0ff',
+              'surface-container-low': '#f3f3fa',
+              'on-tertiary': '#ffffff',
+              outline: '#777587',
+              'surface-container-lowest': '#ffffff',
+              'surface-container': '#ededf5',
+              'surface-bright': '#f9f9ff',
+              'on-primary-fixed': '#0f0069',
+              'on-secondary': '#ffffff',
+              primary: '#493ee5',
+            },
+            borderRadius: { DEFAULT: '0.25rem', lg: '0.5rem', xl: '0.75rem', full: '9999px' },
+            spacing: {
+              'space-2xl': '2rem',
+              'space-sm': '0.5rem',
+              'margin-desktop': '1.5rem',
+              'gutter-desktop': '1.25rem',
+              'space-md': '0.75rem',
+              'space-xs': '0.25rem',
+              gutter: '1rem',
+              margin: '1rem',
+              'space-xl': '1.5rem',
+              'space-lg': '1rem',
+            },
+            fontFamily: {
+              'display-lg': ['Inter'],
+              'body-lg': ['Inter'],
+              'code-sm': ['JetBrains Mono'],
+              'code-lg': ['JetBrains Mono'],
+              'body-md': ['Inter'],
+              'headline-md': ['Inter'],
+              'code-md': ['JetBrains Mono'],
+              'label-md': ['Inter'],
+              'label-sm': ['Inter'],
+              'body-sm': ['Inter'],
+              'headline-sm': ['Inter'],
+              'display-lg-mobile': ['Inter'],
+            },
+            fontSize: {
+              'display-lg': [
+                '32px',
+                { lineHeight: '40px', letterSpacing: '-0.025em', fontWeight: '600' },
+              ],
+              'body-lg': [
+                '15px',
+                { lineHeight: '22px', letterSpacing: '-0.005em', fontWeight: '400' },
+              ],
+              'code-sm': [
+                '11px',
+                { lineHeight: '16px', letterSpacing: '0.02em', fontWeight: '500' },
+              ],
+              'code-lg': [
+                '14px',
+                { lineHeight: '22px', letterSpacing: '-0.01em', fontWeight: '400' },
+              ],
+              'body-md': ['13px', { lineHeight: '18px', letterSpacing: '0em', fontWeight: '400' }],
+              'headline-md': [
+                '20px',
+                { lineHeight: '28px', letterSpacing: '-0.015em', fontWeight: '600' },
+              ],
+              'code-md': ['12px', { lineHeight: '18px', letterSpacing: '0em', fontWeight: '400' }],
+              'label-md': [
+                '12px',
+                { lineHeight: '16px', letterSpacing: '0.01em', fontWeight: '500' },
+              ],
+              'label-sm': [
+                '11px',
+                { lineHeight: '14px', letterSpacing: '0.02em', fontWeight: '600' },
+              ],
+              'body-sm': ['12px', { lineHeight: '16px', letterSpacing: '0em', fontWeight: '400' }],
+              'headline-sm': [
+                '16px',
+                { lineHeight: '24px', letterSpacing: '-0.01em', fontWeight: '600' },
+              ],
+              'display-lg-mobile': [
+                '26px',
+                { lineHeight: '34px', letterSpacing: '-0.02em', fontWeight: '600' },
+              ],
+            },
+          },
+        },
+      };
+    </script>
+  </head>
+  <body class="bg-background font-body-md text-on-surface antialiased">
+    <aside
+      class="fixed left-0 top-0 bottom-0 w-16 bg-surface-container-lowest shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-50 flex flex-col items-center py-space-md justify-between"
+    >
+      <div class="flex flex-col items-center w-full gap-space-lg">
+        <div
+          class="w-10 h-10 rounded-lg bg-surface-container-low flex items-center justify-center p-space-xs"
+        >
+          <div class="grid grid-cols-2 gap-0.5 w-6 h-6">
+            <div class="bg-primary-container rounded-[2px]"></div>
+            <div class="bg-primary-container rounded-[2px]"></div>
+            <div class="bg-primary-container rounded-[2px]"></div>
+            <div class="bg-primary-container rounded-[2px]"></div>
+          </div>
+        </div>
+        <nav
+          class="flex flex-col items-center gap-space-xs w-full px-space-xs"
+          data-active-classes="bg-primary-fixed text-primary font-bold"
+        >
+          <a
+            class="w-11 h-11 flex items-center justify-center rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors"
+            data-path="workspace"
+            href="#"
+            title="Home Workspace"
+            ><span class="material-symbols-outlined text-[20px]">home</span></a
+          ><a
+            class="w-11 h-11 flex items-center justify-center rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors"
+            data-path="all-tools"
+            href="#"
+            title="All Tools"
+            ><span class="material-symbols-outlined text-[20px]">grid_view</span></a
+          ><a
+            class="relative w-11 h-11 flex items-center justify-center rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors"
+            data-path="favorites"
+            href="#"
+            title="Favorites"
+            ><span class="material-symbols-outlined text-[20px]">star</span
+            ><span
+              class="absolute top-2.5 right-2.5 w-1.5 h-1.5 bg-primary-container rounded-full"
+            ></span></a
+          ><a
+            class="w-11 h-11 flex items-center justify-center rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors"
+            data-path="recent-history"
+            href="#"
+            title="Recent History"
+            ><span class="material-symbols-outlined text-[20px]">schedule</span></a
+          >
+        </nav>
+        <div class="w-8 h-px bg-surface-variant"></div>
+        <nav
+          class="flex flex-col items-center gap-space-xs w-full px-space-xs"
+          data-active-classes="bg-primary-fixed text-primary font-bold"
+        >
+          <a
+            aria-current="page"
+            class="w-11 h-11 flex items-center justify-center rounded-lg transition-colors bg-primary-fixed text-primary font-bold"
+            data-path="developer-tools"
+            href="#"
+            title="Developer Tools"
+            ><span class="material-symbols-outlined text-[20px]">code</span></a
+          ><a
+            class="w-11 h-11 flex items-center justify-center rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors"
+            data-path="encoders"
+            href="#"
+            title="Encoders &amp; Decoders"
+            ><span class="material-symbols-outlined text-[20px]">sync_alt</span></a
+          ><a
+            class="w-11 h-11 flex items-center justify-center rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors"
+            data-path="security-tools"
+            href="#"
+            title="Security &amp; Keys"
+            ><span class="material-symbols-outlined text-[20px]">shield</span></a
+          ><a
+            class="w-11 h-11 flex items-center justify-center rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors"
+            data-path="design-colors"
+            href="#"
+            title="Design &amp; Color Palettes"
+            ><span class="material-symbols-outlined text-[20px]">palette</span></a
+          >
+        </nav>
+      </div>
+      <div class="flex flex-col items-center gap-space-xs w-full px-space-xs">
+        <button
+          class="w-11 h-11 flex items-center justify-center rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors"
+          title="Keyboard Shortcuts"
+          type="button"
+        >
+          <span class="material-symbols-outlined text-[20px]">keyboard</span></button
+        ><button
+          class="w-11 h-11 flex items-center justify-center rounded-lg text-tertiary hover:bg-surface-container-high transition-colors"
+          title="Light Theme Active"
+          type="button"
+        >
+          <span class="material-symbols-outlined text-[20px]">light_mode</span></button
+        ><a
+          class="w-11 h-11 flex items-center justify-center rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors"
+          data-path="settings"
+          href="#"
+          title="Workspace Settings"
+          ><span class="material-symbols-outlined text-[20px]">settings</span></a
+        >
+      </div>
+    </aside>
+    <div class="pl-16 min-h-screen flex flex-col">
+      <header
+        class="fixed top-0 left-16 right-0 h-14 bg-surface-container-lowest/90 backdrop-blur-md shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-40 flex items-center justify-between px-space-margin-desktop"
+      >
+        <div class="flex items-center gap-space-md">
+          <div class="flex items-center gap-space-xs text-on-surface-variant font-label-md">
+            <span class="font-medium text-on-surface">Toolnest</span><span>/</span
+            ><span>Tablet Workspace</span>
+          </div>
+          <div
+            class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-secondary-container/30 text-on-secondary-container font-code-sm font-medium"
+          >
+            <span class="w-1.5 h-1.5 rounded-full bg-secondary"></span
+            ><span>100% Client-side sandbox</span>
+          </div>
+        </div>
+        <div class="flex items-center gap-space-md">
+          <div class="relative flex items-center">
+            <span
+              class="material-symbols-outlined absolute left-2.5 text-on-surface-variant text-[18px]"
+              >search</span
+            ><input
+              class="w-48 md:w-64 h-9 pl-8 pr-12 rounded-lg bg-surface-container-low text-on-surface placeholder:text-on-surface-variant font-body-sm focus:outline-none focus:bg-surface-container-lowest shadow-[0_1px_3px_rgba(17,19,24,0.04)] transition-all"
+              placeholder="Search tools..."
+              type="text"
+            /><span
+              class="absolute right-2 px-1.5 py-0.5 bg-surface-container-high text-on-surface-variant font-code-sm rounded text-[10px]"
+              >⌘K</span
+            >
+          </div>
+          <button
+            class="w-9 h-9 flex items-center justify-center rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors"
+            title="Favorite Workspace"
+            type="button"
+          >
+            <span class="material-symbols-outlined text-[20px]">bookmark_border</span>
+          </button>
+          <div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center">
+            <span class="material-symbols-outlined text-on-primary text-[18px]">person</span>
+          </div>
+        </div>
+      </header>
+      <main class="flex-1 pt-14 w-full px-space-margin-desktop py-space-xl bg-background">
+        <div class="flex flex-col w-full">
+          <!-- Top Command & Breadcrumb Strip -->
+          <div
+            class="flex flex-col md:flex-row md:items-center justify-between gap-space-md mb-space-lg"
+          >
+            <div class="flex items-center gap-space-sm flex-wrap">
+              <div class="flex items-center gap-1.5 text-on-surface-variant font-body-sm">
+                <span class="hover:text-on-surface cursor-pointer transition-colors"
+                  >Developer Tools</span
+                >
+                <span class="text-outline-variant font-mono text-[10px]">/</span>
+                <span class="font-headline-sm text-on-surface">JSON Formatter &amp; Validator</span>
+              </div>
+              <span
+                class="inline-flex items-center px-2 py-0.5 rounded-full bg-surface-container-high text-on-surface-variant font-code-sm font-semibold tracking-wide"
+              >
+                RFC 8259
+              </span>
+              <span
+                class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-secondary-container/40 text-on-secondary-container font-code-sm font-medium"
+              >
+                <span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+                Zero Latency Worker
+              </span>
+            </div>
+            <!-- Top Right Utility Actions -->
+            <div class="flex items-center gap-1.5 self-start md:self-auto">
+              <button
+                class="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-surface-container-low text-tertiary font-label-md hover:bg-surface-container transition-colors shadow-sm"
+                type="button"
+              >
+                <span
+                  class="material-symbols-outlined text-[16px]"
+                  style="font-variation-settings: 'FILL' 1"
+                  >star</span
+                >
+                <span>Favorited</span>
+              </button>
+              <button
+                class="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-surface-container-lowest text-on-surface font-label-md hover:bg-surface-container-low transition-colors shadow-sm"
+                id="btn-load-sample"
+                type="button"
+              >
+                <span class="material-symbols-outlined text-[16px] text-on-surface-variant"
+                  >dataset</span
+                >
+                <span>Sample</span>
+              </button>
+              <button
+                class="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-surface-container-lowest text-on-surface font-label-md hover:bg-surface-container-low transition-colors shadow-sm"
+                id="btn-paste-clipboard"
+                type="button"
+              >
+                <span class="material-symbols-outlined text-[16px] text-on-surface-variant"
+                  >content_paste</span
+                >
+                <span>Paste</span>
+              </button>
+              <button
+                class="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-surface-container-lowest text-error font-label-md hover:bg-error-container/40 transition-colors shadow-sm"
+                id="btn-clear-editor"
+                type="button"
+              >
+                <span class="material-symbols-outlined text-[16px]">delete_sweep</span>
+                <span>Clear</span>
+              </button>
+            </div>
+          </div>
+          <!-- Primary Operations Bar -->
+          <div
+            class="flex flex-col lg:flex-row lg:items-center justify-between gap-space-md p-space-sm bg-surface-container-lowest rounded-xl shadow-sm mb-space-lg"
+          >
+            <!-- Left Engine Controls -->
+            <div class="flex items-center gap-1.5 flex-wrap">
+              <div class="inline-flex items-center p-0.5 rounded-lg bg-surface-container-low">
+                <button
+                  class="px-3 py-1.5 rounded-md bg-primary-container text-on-primary-container font-label-md shadow-sm transition-all flex items-center gap-1"
+                  id="btn-prettify-2"
+                  type="button"
+                >
+                  <span class="material-symbols-outlined text-[15px]">code_blocks</span>
+                  <span>Prettify (2 Sp)</span>
+                </button>
+                <button
+                  class="px-3 py-1.5 rounded-md text-on-surface-variant hover:text-on-surface font-label-md transition-colors"
+                  id="btn-prettify-4"
+                  type="button"
+                >
+                  4 Sp
+                </button>
+                <button
+                  class="px-3 py-1.5 rounded-md text-on-surface-variant hover:text-on-surface font-label-md transition-colors flex items-center gap-1"
+                  id="btn-minify"
+                  type="button"
+                >
+                  <span class="material-symbols-outlined text-[15px]">compress</span>
+                  <span>Minify</span>
+                </button>
+              </div>
+              <button
+                class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-secondary-container/40 text-on-secondary-container hover:bg-secondary-container font-label-md transition-colors"
+                id="btn-run-validate"
+                type="button"
+              >
+                <span class="material-symbols-outlined text-[16px] text-secondary">verified</span>
+                <span>Validate</span>
+              </button>
+              <div
+                class="hidden sm:inline-flex items-center px-2.5 py-1 rounded-md bg-surface-container-high/60 text-on-surface-variant font-code-sm"
+              >
+                <span>Encoding: UTF-8</span>
+              </div>
+            </div>
+            <!-- Right Presentation & Export Controls -->
+            <div class="flex items-center gap-2 self-end lg:self-auto flex-wrap">
+              <!-- Tree / Raw Segmented View Switcher -->
+              <div class="inline-flex items-center p-0.5 rounded-lg bg-surface-container-low">
+                <button
+                  class="inline-flex items-center gap-1 px-3 py-1.5 rounded-md bg-surface-container-lowest text-on-surface font-label-md shadow-sm transition-all"
+                  id="view-tree-btn"
+                  type="button"
+                >
+                  <span class="material-symbols-outlined text-[15px] text-primary"
+                    >account_tree</span
+                  >
+                  <span>Tree</span>
+                </button>
+                <button
+                  class="inline-flex items-center gap-1 px-3 py-1.5 rounded-md text-on-surface-variant hover:text-on-surface font-label-md transition-colors"
+                  id="view-raw-btn"
+                  type="button"
+                >
+                  <span class="material-symbols-outlined text-[15px]">data_object</span>
+                  <span>Raw</span>
+                </button>
+              </div>
+              <button
+                class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-surface-container-lowest text-on-surface hover:bg-surface-container-low font-label-md transition-colors shadow-sm"
+                id="btn-copy-output"
+                type="button"
+              >
+                <span class="material-symbols-outlined text-[16px] text-on-surface-variant"
+                  >content_copy</span
+                >
+                <span>Copy</span>
+              </button>
+              <button
+                class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-primary text-on-primary font-label-md hover:bg-primary/90 transition-colors shadow-sm"
+                id="btn-download-json"
+                type="button"
+              >
+                <span class="material-symbols-outlined text-[16px]">download</span>
+                <span>.json</span>
+              </button>
+            </div>
+          </div>
+          <!-- Two-Panel Split Editor Workspace -->
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-space-lg items-stretch">
+            <!-- LEFT PANEL: Raw Code Editor -->
+            <div
+              class="flex flex-col rounded-xl bg-surface-container-lowest shadow-sm overflow-hidden min-h-[580px]"
+            >
+              <!-- Left Panel Header -->
+              <div
+                class="flex items-center justify-between px-space-lg py-2.5 bg-surface-container-low"
+              >
+                <div class="flex items-center gap-space-sm">
+                  <span class="material-symbols-outlined text-[18px] text-primary">terminal</span>
+                  <span class="font-headline-sm text-on-surface">Input JSON</span>
+                  <span
+                    class="px-2 py-0.2 rounded bg-surface-container-high text-on-surface-variant font-code-sm"
+                  >
+                    UTF-8
+                  </span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <span class="font-code-sm text-on-surface-variant" id="input-stats-badge"
+                    >701 B • 38 lines</span
+                  >
+                  <button
+                    class="w-7 h-7 flex items-center justify-center rounded text-on-surface-variant hover:bg-surface-container-high transition-colors"
+                    title="Wrap lines"
+                    type="button"
+                  >
+                    <span class="material-symbols-outlined text-[16px]">wrap_text</span>
+                  </button>
+                </div>
+              </div>
+              <!-- Editor Canvas: Line Numbers + Monospace Code -->
+              <div
+                class="flex-1 flex overflow-x-auto bg-surface-container-lowest font-code-md text-on-surface select-text relative"
+              >
+                <!-- Line Numbers Rail -->
+                <div
+                  class="py-space-md px-2.5 bg-surface-container-low/50 select-none text-right font-code-sm text-outline flex flex-col space-y-0.5 min-w-[42px]"
+                  id="line-gutter"
+                >
+                  <span>01</span><span>02</span><span>03</span><span>04</span><span>05</span>
+                  <span>06</span><span>07</span><span>08</span><span>09</span><span>10</span>
+                  <span>11</span><span>12</span><span>13</span><span>14</span><span>15</span>
+                  <span>16</span><span>17</span><span>18</span><span>19</span><span>20</span>
+                  <span>21</span><span>22</span><span>23</span>
+                </div>
+                <!-- Syntax Highlighting Overlay & Content Area -->
+                <div
+                  class="py-space-md px-space-md flex-1 overflow-x-auto leading-6 whitespace-pre font-code-md"
+                >
+                  <span class="text-outline">{</span>
+                  <span class="text-primary font-semibold">"cluster_id"</span>:
+                  <span class="text-secondary font-medium">"us-east-toolnest-01"</span>,
+                  <span class="text-primary font-semibold">"version"</span>:
+                  <span class="text-secondary font-medium">"4.19.2-prod"</span>,
+                  <span class="text-primary font-semibold">"auth_gateway"</span>:
+                  <span class="text-outline">{</span>
+                  <span class="text-primary font-semibold">"enabled"</span>:
+                  <span class="text-tertiary font-semibold">true</span>,
+                  <span class="text-primary font-semibold">"strategy"</span>:
+                  <span class="text-secondary font-medium">"oauth2_pkce"</span>,
+                  <span class="text-primary font-semibold">"timeout_ms"</span>:
+                  <span class="text-tertiary-fixed-variant font-mono">1250</span>,
+                  <span class="text-primary font-semibold">"allowed_domains"</span>:
+                  <span class="text-outline">[</span>
+                  <span class="text-secondary font-medium">"toolnest.internal"</span>,
+                  <span class="text-secondary font-medium">"sandbox.dev"</span>
+                  <span class="text-outline">]</span>
+                  <span class="text-outline">}</span>,
+                  <span class="text-primary font-semibold">"replicas"</span>:
+                  <span class="text-tertiary-fixed-variant font-mono">3</span>,
+                  <span class="text-primary font-semibold">"telemetry"</span>:
+                  <span class="text-outline">{</span>
+                  <span class="text-primary font-semibold">"sample_rate"</span>:
+                  <span class="text-tertiary-fixed-variant font-mono">0.05</span>,
+                  <span class="text-primary font-semibold">"log_level"</span>:
+                  <span class="text-secondary font-medium">"info"</span>,
+                  <span class="text-primary font-semibold">"trace_headers"</span>:
+                  <span class="text-tertiary font-semibold">true</span>
+                  <span class="text-outline">}</span>,
+                  <span class="text-primary font-semibold">"services"</span>:
+                  <span class="text-outline">[</span> <span class="text-outline">{</span>
+                  <span class="text-primary font-semibold">"id"</span>:
+                  <span class="text-secondary font-medium">"srv-proxy"</span>,
+                  <span class="text-primary font-semibold">"port"</span>:
+                  <span class="text-tertiary-fixed-variant font-mono">8080</span>,
+                  <span class="text-primary font-semibold">"healthy"</span>:
+                  <span class="text-tertiary font-semibold">true</span>
+                  <span class="text-outline">}</span>, <span class="text-outline">{</span>
+                  <span class="text-primary font-semibold">"id"</span>:
+                  <span class="text-secondary font-medium">"srv-cache"</span>,
+                  <span class="text-primary font-semibold">"port"</span>:
+                  <span class="text-tertiary-fixed-variant font-mono">6379</span>,
+                  <span class="text-primary font-semibold">"healthy"</span>:
+                  <span class="text-tertiary font-semibold">true</span>
+                  <span class="text-outline">}</span> <span class="text-outline">]</span>,
+                  <span class="text-primary font-semibold">"metadata"</span>:
+                  <span class="text-outline">{</span>
+                  <span class="text-primary font-semibold">"client_isolation"</span>:
+                  <span class="text-secondary font-medium">"full"</span>,
+                  <span class="text-primary font-semibold">"cached_keys"</span>:
+                  <span class="text-tertiary-fixed-variant font-mono">42</span>
+                  <span class="text-outline">}</span>
+                  <span class="text-outline">}</span>
+                </div>
+              </div>
+              <!-- Left Bottom Status Line -->
+              <div
+                class="flex items-center justify-between px-space-lg py-2 bg-surface-container-low text-on-surface-variant font-code-sm"
+              >
+                <div class="flex items-center gap-1.5 text-secondary font-medium">
+                  <span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span>
+                  <span>Live parsing enabled</span>
+                </div>
+                <div class="flex items-center gap-3">
+                  <span>JSON Mode</span>
+                  <span>Col 1, Ln 1</span>
+                </div>
+              </div>
+            </div>
+            <!-- RIGHT PANEL: Parsed Visual Tree Inspector -->
+            <div
+              class="flex flex-col rounded-xl bg-surface-container-lowest shadow-sm overflow-hidden min-h-[580px]"
+            >
+              <!-- Right Panel Header with Validation Badge -->
+              <div
+                class="flex items-center justify-between px-space-lg py-2.5 bg-surface-container-low"
+              >
+                <div class="flex items-center gap-2">
+                  <div
+                    class="w-5 h-5 rounded-full bg-secondary-container/40 flex items-center justify-center text-secondary"
+                  >
+                    <span class="material-symbols-outlined text-[15px]">check_circle</span>
+                  </div>
+                  <span class="font-headline-sm text-on-surface">Valid RFC 8259 Payload</span>
+                </div>
+                <div class="inline-flex items-center gap-2">
+                  <span
+                    class="px-2 py-0.5 rounded bg-surface-container-high text-on-surface-variant font-code-sm"
+                  >
+                    6 root keys • 0.68 KB
+                  </span>
+                  <button
+                    class="w-7 h-7 flex items-center justify-center rounded text-on-surface-variant hover:bg-surface-container-high transition-colors"
+                    title="Validation Info"
+                    type="button"
+                  >
+                    <span class="material-symbols-outlined text-[17px]">info</span>
+                  </button>
+                </div>
+              </div>
+              <!-- Search & Filter Controls -->
+              <div
+                class="flex items-center justify-between gap-space-sm px-space-lg py-2.5 bg-surface-container-lowest"
+              >
+                <div class="relative flex-1 flex items-center">
+                  <span class="material-symbols-outlined absolute left-2.5 text-outline text-[16px]"
+                    >filter_list</span
+                  >
+                  <input
+                    class="w-full h-8 pl-8 pr-12 rounded-lg bg-surface-container-low text-on-surface placeholder:text-outline font-body-sm focus:outline-none focus:bg-surface-container-lowest shadow-sm transition-all"
+                    placeholder="Filter keys or JSONPath (e.g. $.services[0])..."
+                    type="text"
+                  />
+                  <span
+                    class="absolute right-2 px-1.5 py-0.5 bg-surface-container text-outline font-code-sm rounded text-[10px]"
+                  >
+                    JSONPath
+                  </span>
+                </div>
+                <div class="flex items-center gap-1">
+                  <button
+                    class="px-2.5 py-1 rounded bg-surface-container-low hover:bg-surface-container text-on-surface-variant font-label-sm transition-colors flex items-center gap-1"
+                    id="tree-expand-all"
+                    type="button"
+                  >
+                    <span class="material-symbols-outlined text-[14px]">unfold_more</span>
+                    <span>Expand</span>
+                  </button>
+                  <button
+                    class="px-2.5 py-1 rounded bg-surface-container-low hover:bg-surface-container text-on-surface-variant font-label-sm transition-colors flex items-center gap-1"
+                    id="tree-collapse-all"
+                    type="button"
+                  >
+                    <span class="material-symbols-outlined text-[14px]">unfold_less</span>
+                    <span>Collapse</span>
+                  </button>
+                </div>
+              </div>
+              <!-- Interactive Parsed Tree Container -->
+              <div
+                class="flex-1 p-space-lg overflow-y-auto font-code-md text-on-surface bg-surface-container-lowest/50 select-text"
+              >
+                <div class="flex flex-col space-y-1.5">
+                  <!-- Root Row -->
+                  <div
+                    class="flex items-center gap-1.5 py-0.5 group cursor-pointer hover:bg-surface-container-low rounded px-1 -mx-1"
+                  >
+                    <span
+                      class="material-symbols-outlined text-[16px] text-outline group-hover:text-primary transition-colors"
+                      >arrow_drop_down</span
+                    >
+                    <span class="text-outline font-semibold">root</span>
+                    <span
+                      class="text-on-surface-variant text-[11px] font-mono px-1.5 py-0.5 rounded bg-surface-container-low"
+                      >Object {6}</span
+                    >
+                  </div>
+                  <!-- Indented Tree Children -->
+                  <div class="pl-5 flex flex-col space-y-1">
+                    <!-- Item 1: cluster_id -->
+                    <div
+                      class="flex items-center gap-1.5 py-0.5 group hover:bg-surface-container-low rounded px-1 -mx-1"
+                    >
+                      <span class="w-4 text-center text-outline-variant text-[10px]">•</span>
+                      <span class="text-primary font-semibold">"cluster_id"</span>
+                      <span class="text-outline">:</span>
+                      <span class="text-secondary">"us-east-toolnest-01"</span>
+                    </div>
+                    <!-- Item 2: version -->
+                    <div
+                      class="flex items-center gap-1.5 py-0.5 group hover:bg-surface-container-low rounded px-1 -mx-1"
+                    >
+                      <span class="w-4 text-center text-outline-variant text-[10px]">•</span>
+                      <span class="text-primary font-semibold">"version"</span>
+                      <span class="text-outline">:</span>
+                      <span class="text-secondary">"4.19.2-prod"</span>
+                    </div>
+                    <!-- Item 3: auth_gateway (Collapsible Object) -->
+                    <div class="flex flex-col space-y-1">
+                      <div
+                        class="flex items-center gap-1.5 py-0.5 group cursor-pointer hover:bg-surface-container-low rounded px-1 -mx-1"
+                      >
+                        <span
+                          class="material-symbols-outlined text-[16px] text-outline group-hover:text-primary transition-colors"
+                          >arrow_drop_down</span
+                        >
+                        <span class="text-primary font-semibold">"auth_gateway"</span>
+                        <span class="text-outline">:</span>
+                        <span
+                          class="text-on-surface-variant text-[11px] font-mono px-1.5 py-0.5 rounded bg-surface-container-low"
+                          >Object {4}</span
+                        >
+                      </div>
+                      <div
+                        class="pl-5 flex flex-col space-y-1 border-l-2 border-surface-container-high ml-2 py-0.5"
+                      >
+                        <div
+                          class="flex items-center gap-1.5 py-0.5 pl-2 hover:bg-surface-container-low rounded"
+                        >
+                          <span class="text-primary font-semibold">"enabled"</span>
+                          <span class="text-outline">:</span>
+                          <span class="text-tertiary font-semibold">true</span>
+                        </div>
+                        <div
+                          class="flex items-center gap-1.5 py-0.5 pl-2 hover:bg-surface-container-low rounded"
+                        >
+                          <span class="text-primary font-semibold">"strategy"</span>
+                          <span class="text-outline">:</span>
+                          <span class="text-secondary">"oauth2_pkce"</span>
+                        </div>
+                        <div
+                          class="flex items-center gap-1.5 py-0.5 pl-2 hover:bg-surface-container-low rounded"
+                        >
+                          <span class="text-primary font-semibold">"timeout_ms"</span>
+                          <span class="text-outline">:</span>
+                          <span class="text-tertiary-fixed-variant font-mono">1250</span>
+                        </div>
+                        <!-- Array child -->
+                        <div class="flex flex-col space-y-1 pl-2">
+                          <div
+                            class="flex items-center gap-1.5 py-0.5 group cursor-pointer hover:bg-surface-container-low rounded"
+                          >
+                            <span class="material-symbols-outlined text-[14px] text-outline"
+                              >arrow_drop_down</span
+                            >
+                            <span class="text-primary font-semibold">"allowed_domains"</span>
+                            <span class="text-outline">:</span>
+                            <span
+                              class="text-on-surface-variant text-[11px] font-mono px-1.5 rounded bg-surface-container-low"
+                              >Array [2]</span
+                            >
+                          </div>
+                          <div class="pl-4 flex flex-col space-y-0.5">
+                            <div class="flex items-center gap-2 py-0.2 text-[11px]">
+                              <span class="text-outline font-mono">0:</span>
+                              <span class="text-secondary">"toolnest.internal"</span>
+                            </div>
+                            <div class="flex items-center gap-2 py-0.2 text-[11px]">
+                              <span class="text-outline font-mono">1:</span>
+                              <span class="text-secondary">"sandbox.dev"</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- Item 4: replicas -->
+                    <div
+                      class="flex items-center gap-1.5 py-0.5 group hover:bg-surface-container-low rounded px-1 -mx-1"
+                    >
+                      <span class="w-4 text-center text-outline-variant text-[10px]">•</span>
+                      <span class="text-primary font-semibold">"replicas"</span>
+                      <span class="text-outline">:</span>
+                      <span class="text-tertiary-fixed-variant font-mono">3</span>
+                    </div>
+                    <!-- Item 5: telemetry (Expanded Object) -->
+                    <div class="flex flex-col space-y-1">
+                      <div
+                        class="flex items-center gap-1.5 py-0.5 group cursor-pointer hover:bg-surface-container-low rounded px-1 -mx-1"
+                      >
+                        <span
+                          class="material-symbols-outlined text-[16px] text-outline group-hover:text-primary transition-colors"
+                          >arrow_drop_down</span
+                        >
+                        <span class="text-primary font-semibold">"telemetry"</span>
+                        <span class="text-outline">:</span>
+                        <span
+                          class="text-on-surface-variant text-[11px] font-mono px-1.5 py-0.5 rounded bg-surface-container-low"
+                          >Object {3}</span
+                        >
+                      </div>
+                      <div
+                        class="pl-5 flex flex-col space-y-1 border-l-2 border-surface-container-high ml-2 py-0.5"
+                      >
+                        <div
+                          class="flex items-center gap-1.5 py-0.5 pl-2 hover:bg-surface-container-low rounded"
+                        >
+                          <span class="text-primary font-semibold">"sample_rate"</span>
+                          <span class="text-outline">:</span>
+                          <span class="text-tertiary-fixed-variant font-mono">0.05</span>
+                        </div>
+                        <div
+                          class="flex items-center gap-1.5 py-0.5 pl-2 hover:bg-surface-container-low rounded"
+                        >
+                          <span class="text-primary font-semibold">"log_level"</span>
+                          <span class="text-outline">:</span>
+                          <span class="text-secondary">"info"</span>
+                        </div>
+                        <div
+                          class="flex items-center gap-1.5 py-0.5 pl-2 hover:bg-surface-container-low rounded"
+                        >
+                          <span class="text-primary font-semibold">"trace_headers"</span>
+                          <span class="text-outline">:</span>
+                          <span class="text-tertiary font-semibold">true</span>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- Item 6: services (Collapsed Array) -->
+                    <div
+                      class="flex items-center gap-1.5 py-0.5 group cursor-pointer hover:bg-surface-container-low rounded px-1 -mx-1"
+                    >
+                      <span
+                        class="material-symbols-outlined text-[16px] text-outline group-hover:text-primary transition-colors"
+                        >arrow_right</span
+                      >
+                      <span class="text-primary font-semibold">"services"</span>
+                      <span class="text-outline">:</span>
+                      <span
+                        class="text-on-surface-variant text-[11px] font-mono px-1.5 py-0.5 rounded bg-surface-container-low"
+                        >Array [2 items]</span
+                      >
+                    </div>
+                    <!-- Item 7: metadata (Collapsed Object) -->
+                    <div
+                      class="flex items-center gap-1.5 py-0.5 group cursor-pointer hover:bg-surface-container-low rounded px-1 -mx-1"
+                    >
+                      <span
+                        class="material-symbols-outlined text-[16px] text-outline group-hover:text-primary transition-colors"
+                        >arrow_right</span
+                      >
+                      <span class="text-primary font-semibold">"metadata"</span>
+                      <span class="text-outline">:</span>
+                      <span
+                        class="text-on-surface-variant text-[11px] font-mono px-1.5 py-0.5 rounded bg-surface-container-low"
+                        >Object {2 keys}</span
+                      >
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Right Bottom Legend & Schema Status -->
+              <div
+                class="flex items-center justify-between px-space-lg py-2 bg-surface-container-low text-on-surface-variant font-code-sm"
+              >
+                <!-- Colored token dots legend -->
+                <div class="flex items-center gap-3">
+                  <div class="flex items-center gap-1">
+                    <span class="w-2 h-2 rounded-full bg-primary"></span>
+                    <span>key</span>
+                  </div>
+                  <div class="flex items-center gap-1">
+                    <span class="w-2 h-2 rounded-full bg-secondary"></span>
+                    <span>str</span>
+                  </div>
+                  <div class="flex items-center gap-1">
+                    <span class="w-2 h-2 rounded-full bg-tertiary-fixed-variant"></span>
+                    <span>num</span>
+                  </div>
+                  <div class="flex items-center gap-1">
+                    <span class="w-2 h-2 rounded-full bg-tertiary"></span>
+                    <span>bool</span>
+                  </div>
+                </div>
+                <button
+                  class="inline-flex items-center gap-1 text-on-surface-variant hover:text-on-surface font-label-sm transition-colors"
+                  type="button"
+                >
+                  <span>JSON Schema rules</span>
+                  <span class="material-symbols-outlined text-[14px]">settings</span>
+                </button>
+              </div>
+            </div>
+          </div>
+          <!-- Bottom Workspace Status & Hotkeys Strip -->
+          <div
+            class="mt-space-lg flex flex-col md:flex-row md:items-center justify-between gap-space-sm p-space-md bg-surface-container-lowest rounded-xl shadow-sm text-on-surface-variant font-body-sm"
+          >
+            <!-- Left Shortcuts Strip -->
+            <div class="flex items-center gap-space-md flex-wrap font-code-sm">
+              <div class="flex items-center gap-1.5">
+                <kbd
+                  class="px-1.5 py-0.5 rounded bg-surface-container-high text-on-surface text-[11px] font-semibold"
+                  >⌘ + Enter</kbd
+                >
+                <span>Prettify</span>
+              </div>
+              <div class="flex items-center gap-1.5">
+                <kbd
+                  class="px-1.5 py-0.5 rounded bg-surface-container-high text-on-surface text-[11px] font-semibold"
+                  >⌘ + ⇧ + C</kbd
+                >
+                <span>Copy</span>
+              </div>
+              <div class="flex items-center gap-1.5">
+                <kbd
+                  class="px-1.5 py-0.5 rounded bg-surface-container-high text-on-surface text-[11px] font-semibold"
+                  >⌘ + M</kbd
+                >
+                <span>Minify</span>
+              </div>
+            </div>
+            <!-- Right Privacy & Execution Guarantee -->
+            <div
+              class="flex items-center gap-2 text-on-secondary-container font-code-sm font-medium"
+            >
+              <span class="w-2 h-2 rounded-full bg-secondary"></span>
+              <span>Processed 100% client-side in browser Web Worker thread</span>
+            </div>
+          </div>
+        </div>
+        <script>
+          // Simple interactive bindings for the JSON Formatter workbench
+          document.addEventListener('DOMContentLoaded', () => {
+            const copyBtn = document.getElementById('btn-copy-output');
+            const pasteBtn = document.getElementById('btn-paste-clipboard');
+            const clearBtn = document.getElementById('btn-clear-editor');
+            const viewTree = document.getElementById('view-tree-btn');
+            const viewRaw = document.getElementById('view-raw-btn');
+            const prettify2 = document.getElementById('btn-prettify-2');
+            const prettify4 = document.getElementById('btn-prettify-4');
+            const minifyBtn = document.getElementById('btn-minify');
+
+            if (copyBtn) {
+              copyBtn.addEventListener('click', () => {
+                const originalText = copyBtn.innerHTML;
+                copyBtn.innerHTML =
+                  '<span class="material-symbols-outlined text-[16px] text-secondary">check</span><span>Copied!</span>';
+                setTimeout(() => {
+                  copyBtn.innerHTML = originalText;
+                }, 1800);
+              });
+            }
+
+            if (viewTree && viewRaw) {
+              viewTree.addEventListener('click', () => {
+                viewTree.className =
+                  'inline-flex items-center gap-1 px-3 py-1.5 rounded-md bg-surface-container-lowest text-on-surface font-label-md shadow-sm transition-all';
+                viewRaw.className =
+                  'inline-flex items-center gap-1 px-3 py-1.5 rounded-md text-on-surface-variant hover:text-on-surface font-label-md transition-colors';
+              });
+              viewRaw.addEventListener('click', () => {
+                viewRaw.className =
+                  'inline-flex items-center gap-1 px-3 py-1.5 rounded-md bg-surface-container-lowest text-on-surface font-label-md shadow-sm transition-all';
+                viewTree.className =
+                  'inline-flex items-center gap-1 px-3 py-1.5 rounded-md text-on-surface-variant hover:text-on-surface font-label-md transition-colors';
+              });
+            }
+
+            const setSpacingActive = (activeBtn, inactiveBtn1, inactiveBtn2) => {
+              [activeBtn, inactiveBtn1, inactiveBtn2].forEach((b) => {
+                if (!b) return;
+                b.className =
+                  'px-3 py-1.5 rounded-md text-on-surface-variant hover:text-on-surface font-label-md transition-colors';
+              });
+              activeBtn.className =
+                'px-3 py-1.5 rounded-md bg-primary-container text-on-primary-container font-label-md shadow-sm transition-all flex items-center gap-1';
+            };
+
+            if (prettify2 && prettify4 && minifyBtn) {
+              prettify2.addEventListener('click', () =>
+                setSpacingActive(prettify2, prettify4, minifyBtn)
+              );
+              prettify4.addEventListener('click', () =>
+                setSpacingActive(prettify4, prettify2, minifyBtn)
+              );
+              minifyBtn.addEventListener('click', () =>
+                setSpacingActive(minifyBtn, prettify2, prettify4)
+              );
+            }
+          });
+        </script>
+      </main>
+    </div>
+  </body>
+</html>

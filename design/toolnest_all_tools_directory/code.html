@@ -1,0 +1,1782 @@
+<!doctype html>
+
+<html class="dark" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <meta content="web_dashboard" name="shell-type" />
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      @layer base {
+        html,
+        body {
+          margin: 0;
+          padding: 0;
+        }
+        body {
+          overscroll-behavior: none;
+        }
+        main > :first-child {
+          margin-top: 0 !important;
+        }
+        main > :last-child {
+          margin-bottom: 0 !important;
+        }
+      }
+      ::-webkit-scrollbar {
+        display: none;
+      }
+    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            colors: {
+              'outline-variant': '#464555',
+              'surface-container': '#1e1f25',
+              'inverse-surface': '#e3e1e9',
+              'surface-variant': '#34343a',
+              background: '#121318',
+              'on-tertiary-fixed-variant': '#773200',
+              'surface-bright': '#38393f',
+              'on-error': '#690005',
+              'surface-container-highest': '#34343a',
+              'on-surface-variant': '#c7c4d8',
+              'surface-tint': '#c3c0ff',
+              'inverse-primary': '#4c42e9',
+              'on-primary-fixed': '#0f0069',
+              'tertiary-container': '#be5400',
+              'on-secondary-container': '#b2b1ff',
+              'surface-dim': '#121318',
+              'primary-container': '#635bff',
+              'on-tertiary': '#542100',
+              'inverse-on-surface': '#2f3036',
+              'surface-container-low': '#1a1b20',
+              'on-primary': '#1d00a5',
+              outline: '#918fa1',
+              'on-error-container': '#ffdad6',
+              'primary-fixed': '#e2dfff',
+              'surface-container-lowest': '#0d0e13',
+              'on-secondary-fixed-variant': '#3223cc',
+              'on-surface': '#e3e1e9',
+              'secondary-fixed-dim': '#c3c1ff',
+              'tertiary-fixed': '#ffdbca',
+              tertiary: '#ffb68f',
+              'on-background': '#e3e1e9',
+              'on-primary-fixed-variant': '#321ed2',
+              'error-container': '#93000a',
+              'tertiary-fixed-dim': '#ffb68f',
+              'primary-fixed-dim': '#c3c0ff',
+              'on-tertiary-fixed': '#331100',
+              'on-primary-container': '#fefaff',
+              'surface-container-high': '#292a2f',
+              'on-tertiary-container': '#fffaf9',
+              primary: '#c3c0ff',
+              'on-secondary-fixed': '#0e006a',
+              error: '#ffb4ab',
+              'on-secondary': '#1c00a6',
+              surface: '#121318',
+              'secondary-fixed': '#e2dfff',
+              secondary: '#c3c1ff',
+              'secondary-container': '#3527ce',
+            },
+            borderRadius: {
+              DEFAULT: '0.25rem',
+              lg: '0.5rem',
+              xl: '0.75rem',
+              full: '9999px',
+            },
+            spacing: {
+              gutter: '1rem',
+              margin: '1rem',
+              'space-lg': '1.25rem',
+              'space-sm': '0.5rem',
+              'space-xl': '2rem',
+              'space-md': '0.75rem',
+              'gutter-desktop': '1.5rem',
+              'space-xs': '0.25rem',
+              'margin-desktop': '2rem',
+            },
+            fontFamily: {
+              'label-md': ['Inter'],
+              'body-sm': ['Inter'],
+              'body-lg': ['Inter'],
+              'headline-lg': ['Inter'],
+              'code-sm': ['JetBrains Mono'],
+              'headline-sm': ['Inter'],
+              'label-sm': ['Inter'],
+              'code-md': ['JetBrains Mono'],
+              'headline-lg-mobile': ['Inter'],
+              'body-md': ['Inter'],
+              kbd: ['JetBrains Mono'],
+              'headline-md': ['Inter'],
+            },
+            fontSize: {
+              'label-md': [
+                '12px',
+                {
+                  lineHeight: '16px',
+                  letterSpacing: '0.01em',
+                  fontWeight: '500',
+                },
+              ],
+              'body-sm': [
+                '13px',
+                {
+                  lineHeight: '18px',
+                  fontWeight: '400',
+                },
+              ],
+              'body-lg': [
+                '15px',
+                {
+                  lineHeight: '24px',
+                  letterSpacing: '-0.005em',
+                  fontWeight: '400',
+                },
+              ],
+              'headline-lg': [
+                '32px',
+                {
+                  lineHeight: '40px',
+                  letterSpacing: '-0.02em',
+                  fontWeight: '600',
+                },
+              ],
+              'code-sm': [
+                '11px',
+                {
+                  lineHeight: '16px',
+                  fontWeight: '500',
+                },
+              ],
+              'headline-sm': [
+                '18px',
+                {
+                  lineHeight: '26px',
+                  letterSpacing: '-0.01em',
+                  fontWeight: '600',
+                },
+              ],
+              'label-sm': [
+                '11px',
+                {
+                  lineHeight: '14px',
+                  letterSpacing: '0.02em',
+                  fontWeight: '600',
+                },
+              ],
+              'code-md': [
+                '13px',
+                {
+                  lineHeight: '20px',
+                  fontWeight: '400',
+                },
+              ],
+              'headline-lg-mobile': [
+                '26px',
+                {
+                  lineHeight: '34px',
+                  letterSpacing: '-0.015em',
+                  fontWeight: '600',
+                },
+              ],
+              'body-md': [
+                '14px',
+                {
+                  lineHeight: '20px',
+                  fontWeight: '400',
+                },
+              ],
+              kbd: [
+                '11px',
+                {
+                  lineHeight: '14px',
+                  fontWeight: '500',
+                },
+              ],
+              'headline-md': [
+                '24px',
+                {
+                  lineHeight: '32px',
+                  letterSpacing: '-0.015em',
+                  fontWeight: '600',
+                },
+              ],
+            },
+          },
+        },
+      };
+    </script>
+  </head>
+  <body class="bg-surface font-body-md text-body-md text-on-surface antialiased">
+    <header
+      class="fixed top-0 left-0 right-0 h-14 bg-surface-container-lowest/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.25)] z-40"
+    >
+      <div class="w-full h-14 px-gutter-desktop flex items-center justify-between">
+        <div class="flex items-center gap-space-md min-w-[216px]">
+          <img
+            alt="Toolnest Brand Logo"
+            class="h-8 w-auto object-contain"
+            src="https://lh3.googleusercontent.com/aida/AEtjO1WGb9ukhc1J23IS5isSnmv-Pdnv-NzEsY_rdq7GpDPBZCfoy5yYqjAp0SVgflSwHhEzoK5hkDfMcbcs1Nr3uDGSxWDZfx738uR0CjOoR3Ndd9ltyzklpFnZNDltCbV-et7R7kA32tCDCmI_p6mR6jK0qn0zokVfnd5DD-ug4Alukj8o8_2kv7IEXWaPywbZmmroYHZjYeb44MFhC9RJpHPsl1lo0lQrN074mjR_9YZ8WIMF4dGsmYMnkQ"
+          /><span
+            class="font-headline-sm text-headline-sm text-on-surface tracking-tight font-semibold"
+            >Toolnest</span
+          ><span
+            class="px-space-xs py-0.5 rounded bg-surface-container-high text-on-surface-variant font-code-sm text-code-sm"
+            >v1.4 • client-only</span
+          >
+        </div>
+        <div class="flex-1 max-w-xl mx-space-lg">
+          <button
+            class="w-full h-9 px-space-md rounded-lg bg-surface-container-low text-on-surface-variant hover:bg-surface-container hover:text-on-surface flex items-center justify-between transition-colors shadow-[0_1px_4px_rgba(0,0,0,0.2)]"
+            type="button"
+          >
+            <span class="flex items-center gap-space-sm font-body-sm text-body-sm"
+              ><span class="material-symbols-outlined text-[18px]">search</span
+              ><span>Search tools, commands, or press ⌘K</span></span
+            >
+            <div class="flex items-center gap-space-xs font-kbd text-kbd">
+              <kbd
+                class="px-1.5 py-0.5 rounded bg-surface-container-high text-on-surface font-code-sm text-code-sm shadow-inner"
+                >⌘K</kbd
+              >
+            </div>
+          </button>
+        </div>
+        <div class="flex items-center gap-space-md">
+          <div
+            class="hidden lg:flex items-center gap-space-xs px-space-sm py-1 rounded-full bg-surface-container text-on-surface-variant font-label-sm text-label-sm"
+          >
+            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span
+            ><span>Your data stays in your browser</span>
+          </div>
+          <div class="h-4 w-px bg-surface-variant hidden lg:block"></div>
+          <div class="flex items-center gap-space-xs">
+            <button
+              class="w-8 h-8 rounded-lg flex items-center justify-center text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors"
+              title="Theme Toggle"
+              type="button"
+            >
+              <span class="material-symbols-outlined text-[20px]">contrast</span></button
+            ><a
+              class="w-8 h-8 rounded-lg flex items-center justify-center text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors"
+              href="#"
+              title="GitHub Repository"
+              ><span class="material-symbols-outlined text-[20px]">code</span></a
+            >
+          </div>
+          <div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center">
+            <span class="material-symbols-outlined text-on-primary text-[18px]">person</span>
+          </div>
+        </div>
+      </div>
+    </header>
+    <aside
+      class="fixed left-0 top-14 bottom-0 w-60 bg-surface-container-lowest z-30 flex flex-col justify-between shadow-[1px_0_12px_rgba(0,0,0,0.2)]"
+    >
+      <div class="flex-1 overflow-y-auto px-space-sm py-space-md space-y-space-lg">
+        <section>
+          <div
+            class="px-space-sm mb-space-xs font-label-sm text-label-sm uppercase tracking-wider text-outline"
+          >
+            Workspace
+          </div>
+          <nav
+            class="space-y-0.5"
+            data-active-classes="bg-primary-container text-on-primary-container font-semibold"
+          >
+            <a
+              class="flex items-center gap-space-sm px-space-sm py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors"
+              data-path="home"
+              href="#"
+              ><span class="material-symbols-outlined text-[18px]">grid_view</span
+              ><span class="font-body-sm text-body-sm flex-1">Home</span></a
+            ><a
+              aria-current="page"
+              class="flex items-center gap-space-sm px-space-sm py-1.5 rounded-lg transition-colors bg-primary-container text-on-primary-container font-semibold"
+              data-path="all-tools"
+              href="#"
+              ><span class="material-symbols-outlined text-[18px]">apps</span
+              ><span class="font-body-sm text-body-sm flex-1">All Tools</span></a
+            ><a
+              class="flex items-center gap-space-sm px-space-sm py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors"
+              data-path="favorites"
+              href="#"
+              ><span class="material-symbols-outlined text-[18px]">star</span
+              ><span class="font-body-sm text-body-sm flex-1">Favorites</span></a
+            ><a
+              class="flex items-center gap-space-sm px-space-sm py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors"
+              data-path="recent-history"
+              href="#"
+              ><span class="material-symbols-outlined text-[18px]">history</span
+              ><span class="font-body-sm text-body-sm flex-1">Recent History</span></a
+            >
+          </nav>
+        </section>
+        <section>
+          <div
+            class="px-space-sm mb-space-xs font-label-sm text-label-sm uppercase tracking-wider text-outline"
+          >
+            Categories
+          </div>
+          <nav
+            class="space-y-0.5"
+            data-active-classes="bg-primary-container text-on-primary-container font-semibold"
+          >
+            <a
+              class="flex items-center justify-between px-space-sm py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors"
+              data-path="developer-tools"
+              href="#"
+              ><div class="flex items-center gap-space-sm">
+                <span class="material-symbols-outlined text-[18px]">terminal</span
+                ><span class="font-body-sm text-body-sm">Developer Tools</span>
+              </div>
+              <span
+                class="font-code-sm text-code-sm px-1.5 py-0.2 rounded bg-surface-container text-outline"
+                >9</span
+              ></a
+            ><a
+              class="flex items-center justify-between px-space-sm py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors"
+              data-path="encoders-decoders"
+              href="#"
+              ><div class="flex items-center gap-space-sm">
+                <span class="material-symbols-outlined text-[18px]">transform</span
+                ><span class="font-body-sm text-body-sm">Encoders &amp; Decoders</span>
+              </div>
+              <span
+                class="font-code-sm text-code-sm px-1.5 py-0.2 rounded bg-surface-container text-outline"
+                >7</span
+              ></a
+            ><a
+              class="flex items-center justify-between px-space-sm py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors"
+              data-path="security-crypto"
+              href="#"
+              ><div class="flex items-center gap-space-sm">
+                <span class="material-symbols-outlined text-[18px]">lock</span
+                ><span class="font-body-sm text-body-sm">Security &amp; Crypto</span>
+              </div>
+              <span
+                class="font-code-sm text-code-sm px-1.5 py-0.2 rounded bg-surface-container text-outline"
+                >6</span
+              ></a
+            ><a
+              class="flex items-center justify-between px-space-sm py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors"
+              data-path="design-colors"
+              href="#"
+              ><div class="flex items-center gap-space-sm">
+                <span class="material-symbols-outlined text-[18px]">palette</span
+                ><span class="font-body-sm text-body-sm">Design &amp; Colors</span>
+              </div>
+              <span
+                class="font-code-sm text-code-sm px-1.5 py-0.2 rounded bg-surface-container text-outline"
+                >6</span
+              ></a
+            ><a
+              class="flex items-center justify-between px-space-sm py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors"
+              data-path="text-writing"
+              href="#"
+              ><div class="flex items-center gap-space-sm">
+                <span class="material-symbols-outlined text-[18px]">edit_note</span
+                ><span class="font-body-sm text-body-sm">Text &amp; Writing</span>
+              </div>
+              <span
+                class="font-code-sm text-code-sm px-1.5 py-0.2 rounded bg-surface-container text-outline"
+                >8</span
+              ></a
+            ><a
+              class="flex items-center justify-between px-space-sm py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors"
+              data-path="date-time"
+              href="#"
+              ><div class="flex items-center gap-space-sm">
+                <span class="material-symbols-outlined text-[18px]">schedule</span
+                ><span class="font-body-sm text-body-sm">Date &amp; Time</span>
+              </div>
+              <span
+                class="font-code-sm text-code-sm px-1.5 py-0.2 rounded bg-surface-container text-outline"
+                >6</span
+              ></a
+            ><a
+              class="flex items-center justify-between px-space-sm py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors"
+              data-path="data-files"
+              href="#"
+              ><div class="flex items-center gap-space-sm">
+                <span class="material-symbols-outlined text-[18px]">dataset</span
+                ><span class="font-body-sm text-body-sm">Data &amp; Files</span>
+              </div>
+              <span
+                class="font-code-sm text-code-sm px-1.5 py-0.2 rounded bg-surface-container text-outline"
+                >7</span
+              ></a
+            ><a
+              class="flex items-center justify-between px-space-sm py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors"
+              data-path="web-network"
+              href="#"
+              ><div class="flex items-center gap-space-sm">
+                <span class="material-symbols-outlined text-[18px]">hub</span
+                ><span class="font-body-sm text-body-sm">Web &amp; Network</span>
+              </div>
+              <span
+                class="font-code-sm text-code-sm px-1.5 py-0.2 rounded bg-surface-container text-outline"
+                >7</span
+              ></a
+            >
+          </nav>
+        </section>
+      </div>
+      <footer
+        class="px-space-sm py-space-sm bg-surface-container-lowest space-y-space-xs shadow-[0_-1px_6px_rgba(0,0,0,0.15)]"
+      >
+        <nav
+          class="space-y-0.5"
+          data-active-classes="bg-primary-container text-on-primary-container font-semibold"
+        >
+          <a
+            class="flex items-center gap-space-sm px-space-sm py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors"
+            data-path="settings"
+            href="#"
+            ><span class="material-symbols-outlined text-[18px]">settings</span
+            ><span class="font-body-sm text-body-sm flex-1">Settings</span></a
+          ><a
+            class="flex items-center gap-space-sm px-space-sm py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors"
+            data-path="keyboard-shortcuts"
+            href="#"
+            ><span class="material-symbols-outlined text-[18px]">keyboard</span
+            ><span class="font-body-sm text-body-sm flex-1">Keyboard Shortcuts</span
+            ><kbd
+              class="px-1.5 py-0.2 rounded bg-surface-container text-on-surface font-code-sm text-code-sm"
+              >?</kbd
+            ></a
+          >
+        </nav>
+        <div
+          class="pt-space-xs px-space-sm flex items-center justify-between text-on-surface-variant font-label-sm text-label-sm"
+        >
+          <span class="flex items-center gap-1.5"
+            ><span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>Deploys on Netlify</span
+          ><span class="font-code-sm text-code-sm text-outline">Edge</span>
+        </div>
+      </footer>
+    </aside>
+    <div class="pl-60">
+      <main class="w-full min-h-screen pt-14 px-gutter-desktop pb-margin-desktop bg-surface">
+        <div class="flex flex-col w-full">
+          <!-- Subtle ambient decorative glow strictly contained -->
+          <div class="relative w-full overflow-hidden">
+            <div
+              class="absolute -top-32 right-1/4 w-96 h-96 bg-primary-container/10 rounded-full blur-3xl pointer-events-none"
+            ></div>
+            <div
+              class="absolute top-1/2 -left-20 w-80 h-80 bg-secondary-container/15 rounded-full blur-3xl pointer-events-none"
+            ></div>
+            <!-- Header & Controls Bar -->
+            <div class="relative flex flex-col gap-space-lg mb-space-xl">
+              <div class="flex flex-col md:flex-row md:items-end justify-between gap-space-md">
+                <div class="space-y-space-xs">
+                  <div class="flex items-center gap-space-sm">
+                    <span
+                      class="px-space-xs py-0.5 rounded bg-primary-container/20 text-primary font-code-sm text-code-sm"
+                      >INDEX_REGISTRY</span
+                    >
+                    <span class="text-outline font-label-sm text-label-sm">•</span>
+                    <span
+                      class="text-on-surface-variant font-label-sm text-label-sm uppercase tracking-wider"
+                      >Zero Server Roundtrips</span
+                    >
+                  </div>
+                  <h1 class="font-headline-lg text-headline-lg text-on-surface tracking-tight">
+                    All Tools
+                  </h1>
+                  <p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl">
+                    Explore 78 client-side tools across 12 categories. Run benchmarks, inspect
+                    payloads, and compute cryptographic signatures with sandboxed in-memory
+                    execution.
+                  </p>
+                </div>
+                <!-- Metric pill cluster -->
+                <div
+                  class="flex items-center gap-space-sm self-start md:self-auto bg-surface-container-low px-space-md py-space-sm rounded-xl shadow-sm"
+                >
+                  <div class="flex flex-col">
+                    <span class="font-code-sm text-code-sm text-outline">LATENCY</span>
+                    <span class="font-headline-sm text-headline-sm text-on-surface leading-none"
+                      >0.2<span class="font-body-sm text-body-sm text-primary">ms</span></span
+                    >
+                  </div>
+                  <div class="w-px h-7 bg-surface-variant mx-space-xs"></div>
+                  <div class="flex flex-col">
+                    <span class="font-code-sm text-code-sm text-outline">STORAGE</span>
+                    <span class="font-headline-sm text-headline-sm text-on-surface leading-none"
+                      >100<span class="font-body-sm text-body-sm text-emerald-400">%</span></span
+                    >
+                  </div>
+                  <div class="w-px h-7 bg-surface-variant mx-space-xs"></div>
+                  <div
+                    class="flex items-center gap-space-xs text-emerald-400 font-label-sm text-label-sm pl-space-xs"
+                  >
+                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+                    Offline
+                  </div>
+                </div>
+              </div>
+              <!-- Action Search & Modifiers Row -->
+              <div
+                class="grid grid-cols-1 lg:grid-cols-12 gap-space-md items-center bg-surface-container-low p-space-sm rounded-xl shadow-md"
+              >
+                <!-- Search bar input -->
+                <div class="relative lg:col-span-6">
+                  <span
+                    class="material-symbols-outlined absolute left-space-md top-1/2 -translate-y-1/2 text-[20px] text-outline"
+                    >search</span
+                  >
+                  <input
+                    class="w-full h-11 pl-11 pr-space-xl bg-surface-container text-on-surface placeholder:text-outline font-body-md text-body-md rounded-lg focus:outline-none focus:bg-surface-container-high transition-colors"
+                    id="tool-search-input"
+                    placeholder="Search by keywords, tags (e.g. 'json', 'crypto', 'base64')..."
+                    type="text"
+                  />
+                  <button
+                    class="hidden absolute right-space-md top-1/2 -translate-y-1/2 text-outline hover:text-on-surface"
+                    id="clear-search-btn"
+                  >
+                    <span class="material-symbols-outlined text-[18px]">close</span>
+                  </button>
+                </div>
+                <!-- Sort Select & Density Actions -->
+                <div
+                  class="lg:col-span-6 flex flex-wrap items-center justify-between lg:justify-end gap-space-sm"
+                >
+                  <!-- Sort Dropdown -->
+                  <div
+                    class="flex items-center gap-space-xs bg-surface-container px-space-sm py-1.5 rounded-lg"
+                  >
+                    <span class="material-symbols-outlined text-[18px] text-outline"
+                      >swap_vert</span
+                    >
+                    <label class="font-label-sm text-label-sm text-outline" for="sort-select"
+                      >Sort:</label
+                    >
+                    <select
+                      class="bg-transparent text-on-surface font-label-md text-label-md focus:outline-none cursor-pointer pr-space-xs"
+                      id="sort-select"
+                    >
+                      <option class="bg-surface-container text-on-surface" value="popular">
+                        Most Popular
+                      </option>
+                      <option class="bg-surface-container text-on-surface" value="alpha">
+                        Alphabetical (A-Z)
+                      </option>
+                      <option class="bg-surface-container text-on-surface" value="recent">
+                        Recently Added
+                      </option>
+                    </select>
+                  </div>
+                  <!-- View Toggle Segmented Control -->
+                  <div class="flex items-center bg-surface-container p-0.5 rounded-lg shadow-inner">
+                    <button
+                      class="flex items-center gap-1 px-space-sm py-1.5 rounded-md bg-surface-container-highest text-on-surface font-label-sm text-label-sm transition-all shadow-sm"
+                      id="view-grid-btn"
+                      title="Grid View"
+                    >
+                      <span class="material-symbols-outlined text-[18px]">grid_view</span>
+                      <span class="hidden sm:inline">Grid</span>
+                    </button>
+                    <button
+                      class="flex items-center gap-1 px-space-sm py-1.5 rounded-md text-outline hover:text-on-surface font-label-sm text-label-sm transition-all"
+                      id="view-dense-btn"
+                      title="Dense List View"
+                    >
+                      <span class="material-symbols-outlined text-[18px]">view_list</span>
+                      <span class="hidden sm:inline">Dense</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <!-- Horizontal Scrollable Category Pills -->
+              <div class="relative -mt-space-xs">
+                <div
+                  class="flex items-center gap-space-xs overflow-x-auto pb-space-xs scrollbar-none"
+                  id="category-pills"
+                >
+                  <button
+                    class="cat-pill active flex items-center gap-1.5 px-space-md py-1.5 rounded-full bg-primary-container text-on-primary-container font-label-md text-label-md shrink-0 shadow-sm transition-colors"
+                    data-cat="all"
+                  >
+                    <span>All</span>
+                    <span class="px-1.5 py-0.2 rounded-full bg-black/20 font-code-sm text-code-sm"
+                      >78</span
+                    >
+                  </button>
+                  <button
+                    class="cat-pill flex items-center gap-1.5 px-space-md py-1.5 rounded-full bg-surface-container text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface font-label-md text-label-md shrink-0 transition-colors"
+                    data-cat="developer"
+                  >
+                    <span>Developer</span>
+                    <span
+                      class="px-1.5 py-0.2 rounded-full bg-surface-variant font-code-sm text-code-sm text-outline"
+                      >14</span
+                    >
+                  </button>
+                  <button
+                    class="cat-pill flex items-center gap-1.5 px-space-md py-1.5 rounded-full bg-surface-container text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface font-label-md text-label-md shrink-0 transition-colors"
+                    data-cat="encoders"
+                  >
+                    <span>Encoders</span>
+                    <span
+                      class="px-1.5 py-0.2 rounded-full bg-surface-variant font-code-sm text-code-sm text-outline"
+                      >9</span
+                    >
+                  </button>
+                  <button
+                    class="cat-pill flex items-center gap-1.5 px-space-md py-1.5 rounded-full bg-surface-container text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface font-label-md text-label-md shrink-0 transition-colors"
+                    data-cat="security"
+                  >
+                    <span>Security</span>
+                    <span
+                      class="px-1.5 py-0.2 rounded-full bg-surface-variant font-code-sm text-code-sm text-outline"
+                      >8</span
+                    >
+                  </button>
+                  <button
+                    class="cat-pill flex items-center gap-1.5 px-space-md py-1.5 rounded-full bg-surface-container text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface font-label-md text-label-md shrink-0 transition-colors"
+                    data-cat="design"
+                  >
+                    <span>Design</span>
+                    <span
+                      class="px-1.5 py-0.2 rounded-full bg-surface-variant font-code-sm text-code-sm text-outline"
+                      >8</span
+                    >
+                  </button>
+                  <button
+                    class="cat-pill flex items-center gap-1.5 px-space-md py-1.5 rounded-full bg-surface-container text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface font-label-md text-label-md shrink-0 transition-colors"
+                    data-cat="text"
+                  >
+                    <span>Text</span>
+                    <span
+                      class="px-1.5 py-0.2 rounded-full bg-surface-variant font-code-sm text-code-sm text-outline"
+                      >10</span
+                    >
+                  </button>
+                  <button
+                    class="cat-pill flex items-center gap-1.5 px-space-md py-1.5 rounded-full bg-surface-container text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface font-label-md text-label-md shrink-0 transition-colors"
+                    data-cat="datetime"
+                  >
+                    <span>Date &amp; Time</span>
+                    <span
+                      class="px-1.5 py-0.2 rounded-full bg-surface-variant font-code-sm text-code-sm text-outline"
+                      >7</span
+                    >
+                  </button>
+                  <button
+                    class="cat-pill flex items-center gap-1.5 px-space-md py-1.5 rounded-full bg-surface-container text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface font-label-md text-label-md shrink-0 transition-colors"
+                    data-cat="datafiles"
+                  >
+                    <span>Data &amp; Files</span>
+                    <span
+                      class="px-1.5 py-0.2 rounded-full bg-surface-variant font-code-sm text-code-sm text-outline"
+                      >8</span
+                    >
+                  </button>
+                  <button
+                    class="cat-pill flex items-center gap-1.5 px-space-md py-1.5 rounded-full bg-surface-container text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface font-label-md text-label-md shrink-0 transition-colors"
+                    data-cat="web"
+                  >
+                    <span>Web</span>
+                    <span
+                      class="px-1.5 py-0.2 rounded-full bg-surface-variant font-code-sm text-code-sm text-outline"
+                      >7</span
+                    >
+                  </button>
+                  <button
+                    class="cat-pill flex items-center gap-1.5 px-space-md py-1.5 rounded-full bg-surface-container text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface font-label-md text-label-md shrink-0 transition-colors"
+                    data-cat="productivity"
+                  >
+                    <span>Productivity</span>
+                    <span
+                      class="px-1.5 py-0.2 rounded-full bg-surface-variant font-code-sm text-code-sm text-outline"
+                      >7</span
+                    >
+                  </button>
+                </div>
+              </div>
+              <!-- Live Results Counter & Reset Filter State Affordance -->
+              <div
+                class="flex items-center justify-between text-label-sm font-label-sm pt-space-xs text-on-surface-variant"
+              >
+                <div class="flex items-center gap-space-sm">
+                  <span
+                    >Showing
+                    <strong class="text-on-surface font-code-sm text-code-sm" id="active-count"
+                      >12</strong
+                    >
+                    tools</span
+                  >
+                  <span class="text-outline">•</span>
+                  <span class="text-outline">Engine: WebAssembly + Pure JS</span>
+                </div>
+                <button
+                  class="hidden text-primary hover:underline flex items-center gap-1 font-label-md text-label-md"
+                  id="reset-filters-btn"
+                >
+                  <span class="material-symbols-outlined text-[16px]">restart_alt</span>
+                  Reset filters
+                </button>
+              </div>
+            </div>
+            <!-- Active Tool Gallery Grid / Dense Container -->
+            <div
+              class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-space-lg mb-space-xl"
+              id="tools-container"
+            >
+              <!-- Card: JSON Formatter -->
+              <article
+                class="tool-card group relative flex flex-col justify-between bg-surface-container-low hover:bg-surface-container p-space-lg rounded-xl shadow-md transition-all duration-200"
+                data-added="20240101"
+                data-cat="developer"
+                data-popularity="98"
+                data-title="JSON Formatter"
+              >
+                <div class="space-y-space-md">
+                  <div class="flex items-start justify-between gap-space-sm">
+                    <div
+                      class="w-10 h-10 rounded-lg bg-primary-container/20 text-primary flex items-center justify-center shrink-0"
+                    >
+                      <span class="material-symbols-outlined text-[22px]">data_object</span>
+                    </div>
+                    <div class="flex items-center gap-space-xs">
+                      <span
+                        class="px-space-xs py-0.5 rounded bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm"
+                        >Developer</span
+                      >
+                      <button
+                        class="favorite-btn w-8 h-8 rounded-lg flex items-center justify-center text-outline hover:text-tertiary transition-colors"
+                        title="Favorite"
+                        type="button"
+                      >
+                        <span class="material-symbols-outlined text-[18px]">star</span>
+                      </button>
+                    </div>
+                  </div>
+                  <div>
+                    <div class="flex items-center gap-2">
+                      <h2
+                        class="font-headline-sm text-headline-sm text-on-surface group-hover:text-primary transition-colors"
+                      >
+                        JSON Formatter
+                      </h2>
+                    </div>
+                    <p class="mt-1 font-body-sm text-body-sm text-on-surface-variant line-clamp-2">
+                      Format, validate and minify JSON data with instant schema validation and tree
+                      inspection.
+                    </p>
+                  </div>
+                </div>
+                <div
+                  class="mt-space-lg pt-space-sm flex items-center justify-between text-label-sm font-label-sm"
+                >
+                  <span class="flex items-center gap-1.5 text-emerald-400">
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                    Offline ready
+                  </span>
+                  <span
+                    class="font-code-sm text-code-sm text-outline group-hover:text-on-surface flex items-center gap-0.5"
+                  >
+                    Launch
+                    <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+                  </span>
+                </div>
+              </article>
+              <!-- Card: Base64 Encoder / Decoder -->
+              <article
+                class="tool-card group relative flex flex-col justify-between bg-surface-container-low hover:bg-surface-container p-space-lg rounded-xl shadow-md transition-all duration-200"
+                data-added="20240105"
+                data-cat="encoders"
+                data-popularity="95"
+                data-title="Base64 Encoder / Decoder"
+              >
+                <div class="space-y-space-md">
+                  <div class="flex items-start justify-between gap-space-sm">
+                    <div
+                      class="w-10 h-10 rounded-lg bg-secondary-container/20 text-secondary flex items-center justify-center shrink-0"
+                    >
+                      <span class="material-symbols-outlined text-[22px]">transform</span>
+                    </div>
+                    <div class="flex items-center gap-space-xs">
+                      <span
+                        class="px-space-xs py-0.5 rounded bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm"
+                        >Encoders</span
+                      >
+                      <button
+                        class="favorite-btn w-8 h-8 rounded-lg flex items-center justify-center text-outline hover:text-tertiary transition-colors"
+                        title="Favorite"
+                        type="button"
+                      >
+                        <span class="material-symbols-outlined text-[18px]">star</span>
+                      </button>
+                    </div>
+                  </div>
+                  <div>
+                    <h2
+                      class="font-headline-sm text-headline-sm text-on-surface group-hover:text-primary transition-colors"
+                    >
+                      Base64 Encoder / Decoder
+                    </h2>
+                    <p class="mt-1 font-body-sm text-body-sm text-on-surface-variant line-clamp-2">
+                      Encode and decode text or binary files to Base64 format with live byte padding
+                      visualizer.
+                    </p>
+                  </div>
+                </div>
+                <div
+                  class="mt-space-lg pt-space-sm flex items-center justify-between text-label-sm font-label-sm"
+                >
+                  <span class="flex items-center gap-1.5 text-emerald-400">
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                    Offline ready
+                  </span>
+                  <span
+                    class="font-code-sm text-code-sm text-outline group-hover:text-on-surface flex items-center gap-0.5"
+                  >
+                    Launch
+                    <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+                  </span>
+                </div>
+              </article>
+              <!-- Card: Regex Tester -->
+              <article
+                class="tool-card group relative flex flex-col justify-between bg-surface-container-low hover:bg-surface-container p-space-lg rounded-xl shadow-md transition-all duration-200"
+                data-added="20240112"
+                data-cat="developer"
+                data-popularity="92"
+                data-title="Regex Tester"
+              >
+                <div class="space-y-space-md">
+                  <div class="flex items-start justify-between gap-space-sm">
+                    <div
+                      class="w-10 h-10 rounded-lg bg-primary-container/20 text-primary flex items-center justify-center shrink-0"
+                    >
+                      <span class="material-symbols-outlined text-[22px]">regular_expression</span>
+                    </div>
+                    <div class="flex items-center gap-space-xs">
+                      <span
+                        class="px-space-xs py-0.5 rounded bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm"
+                        >Developer</span
+                      >
+                      <button
+                        class="favorite-btn w-8 h-8 rounded-lg flex items-center justify-center text-outline hover:text-tertiary transition-colors"
+                        title="Favorite"
+                        type="button"
+                      >
+                        <span class="material-symbols-outlined text-[18px]">star</span>
+                      </button>
+                    </div>
+                  </div>
+                  <div>
+                    <h2
+                      class="font-headline-sm text-headline-sm text-on-surface group-hover:text-primary transition-colors"
+                    >
+                      Regex Tester
+                    </h2>
+                    <p class="mt-1 font-body-sm text-body-sm text-on-surface-variant line-clamp-2">
+                      Test regular expressions with real-time matching, group breakdown, and syntax
+                      highlighter.
+                    </p>
+                  </div>
+                </div>
+                <div
+                  class="mt-space-lg pt-space-sm flex items-center justify-between text-label-sm font-label-sm"
+                >
+                  <span class="flex items-center gap-1.5 text-emerald-400">
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                    Offline ready
+                  </span>
+                  <span
+                    class="font-code-sm text-code-sm text-outline group-hover:text-on-surface flex items-center gap-0.5"
+                  >
+                    Launch
+                    <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+                  </span>
+                </div>
+              </article>
+              <!-- Card: UUID Generator -->
+              <article
+                class="tool-card group relative flex flex-col justify-between bg-surface-container-low hover:bg-surface-container p-space-lg rounded-xl shadow-md transition-all duration-200"
+                data-added="20240201"
+                data-cat="developer"
+                data-popularity="88"
+                data-title="UUID Generator"
+              >
+                <div class="space-y-space-md">
+                  <div class="flex items-start justify-between gap-space-sm">
+                    <div
+                      class="w-10 h-10 rounded-lg bg-primary-container/20 text-primary flex items-center justify-center shrink-0"
+                    >
+                      <span class="material-symbols-outlined text-[22px]">fingerprint</span>
+                    </div>
+                    <div class="flex items-center gap-space-xs">
+                      <span
+                        class="px-space-xs py-0.5 rounded bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm"
+                        >Developer</span
+                      >
+                      <button
+                        class="favorite-btn w-8 h-8 rounded-lg flex items-center justify-center text-outline hover:text-tertiary transition-colors"
+                        title="Favorite"
+                        type="button"
+                      >
+                        <span class="material-symbols-outlined text-[18px]">star</span>
+                      </button>
+                    </div>
+                  </div>
+                  <div>
+                    <h2
+                      class="font-headline-sm text-headline-sm text-on-surface group-hover:text-primary transition-colors"
+                    >
+                      UUID Generator
+                    </h2>
+                    <p class="mt-1 font-body-sm text-body-sm text-on-surface-variant line-clamp-2">
+                      Generate cryptographically random UUID v4/v7 batches with timestamp sequencing
+                      options.
+                    </p>
+                  </div>
+                </div>
+                <div
+                  class="mt-space-lg pt-space-sm flex items-center justify-between text-label-sm font-label-sm"
+                >
+                  <span class="flex items-center gap-1.5 text-emerald-400">
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                    Offline ready
+                  </span>
+                  <span
+                    class="font-code-sm text-code-sm text-outline group-hover:text-on-surface flex items-center gap-0.5"
+                  >
+                    Launch
+                    <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+                  </span>
+                </div>
+              </article>
+              <!-- Card: JWT Decoder -->
+              <article
+                class="tool-card group relative flex flex-col justify-between bg-surface-container-low hover:bg-surface-container p-space-lg rounded-xl shadow-md transition-all duration-200"
+                data-added="20240118"
+                data-cat="developer"
+                data-popularity="94"
+                data-title="JWT Decoder"
+              >
+                <div class="space-y-space-md">
+                  <div class="flex items-start justify-between gap-space-sm">
+                    <div
+                      class="w-10 h-10 rounded-lg bg-primary-container/20 text-primary flex items-center justify-center shrink-0"
+                    >
+                      <span class="material-symbols-outlined text-[22px]">key</span>
+                    </div>
+                    <div class="flex items-center gap-space-xs">
+                      <span
+                        class="px-space-xs py-0.5 rounded bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm"
+                        >Developer</span
+                      >
+                      <button
+                        class="favorite-btn w-8 h-8 rounded-lg flex items-center justify-center text-outline hover:text-tertiary transition-colors"
+                        title="Favorite"
+                        type="button"
+                      >
+                        <span class="material-symbols-outlined text-[18px]">star</span>
+                      </button>
+                    </div>
+                  </div>
+                  <div>
+                    <h2
+                      class="font-headline-sm text-headline-sm text-on-surface group-hover:text-primary transition-colors"
+                    >
+                      JWT Decoder
+                    </h2>
+                    <p class="mt-1 font-body-sm text-body-sm text-on-surface-variant line-clamp-2">
+                      Decode JSON Web Tokens and inspect header &amp; payload claims with timestamp
+                      validation.
+                    </p>
+                  </div>
+                </div>
+                <div
+                  class="mt-space-lg pt-space-sm flex items-center justify-between text-label-sm font-label-sm"
+                >
+                  <span class="flex items-center gap-1.5 text-emerald-400">
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                    Offline ready
+                  </span>
+                  <span
+                    class="font-code-sm text-code-sm text-outline group-hover:text-on-surface flex items-center gap-0.5"
+                  >
+                    Launch
+                    <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+                  </span>
+                </div>
+              </article>
+              <!-- Card: SHA-256 Hash Generator -->
+              <article
+                class="tool-card group relative flex flex-col justify-between bg-surface-container-low hover:bg-surface-container p-space-lg rounded-xl shadow-md transition-all duration-200"
+                data-added="20240208"
+                data-cat="security"
+                data-popularity="89"
+                data-title="SHA-256 Hash Generator"
+              >
+                <div class="space-y-space-md">
+                  <div class="flex items-start justify-between gap-space-sm">
+                    <div
+                      class="w-10 h-10 rounded-lg bg-error-container/20 text-error flex items-center justify-center shrink-0"
+                    >
+                      <span class="material-symbols-outlined text-[22px]">shield_lock</span>
+                    </div>
+                    <div class="flex items-center gap-space-xs">
+                      <span
+                        class="px-space-xs py-0.5 rounded bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm"
+                        >Security</span
+                      >
+                      <button
+                        class="favorite-btn w-8 h-8 rounded-lg flex items-center justify-center text-outline hover:text-tertiary transition-colors"
+                        title="Favorite"
+                        type="button"
+                      >
+                        <span class="material-symbols-outlined text-[18px]">star</span>
+                      </button>
+                    </div>
+                  </div>
+                  <div>
+                    <h2
+                      class="font-headline-sm text-headline-sm text-on-surface group-hover:text-primary transition-colors"
+                    >
+                      SHA-256 Hash Generator
+                    </h2>
+                    <p class="mt-1 font-body-sm text-body-sm text-on-surface-variant line-clamp-2">
+                      Compute SHA-256 digests client-side utilizing the native browser WebCrypto
+                      Subclass.
+                    </p>
+                  </div>
+                </div>
+                <div
+                  class="mt-space-lg pt-space-sm flex items-center justify-between text-label-sm font-label-sm"
+                >
+                  <span class="flex items-center gap-1.5 text-emerald-400">
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                    Offline ready
+                  </span>
+                  <span
+                    class="font-code-sm text-code-sm text-outline group-hover:text-on-surface flex items-center gap-0.5"
+                  >
+                    Launch
+                    <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+                  </span>
+                </div>
+              </article>
+              <!-- Card: Color Converter & Palette -->
+              <article
+                class="tool-card group relative flex flex-col justify-between bg-surface-container-low hover:bg-surface-container p-space-lg rounded-xl shadow-md transition-all duration-200"
+                data-added="20240215"
+                data-cat="design"
+                data-popularity="85"
+                data-title="Color Converter &amp; Palette"
+              >
+                <div class="space-y-space-md">
+                  <div class="flex items-start justify-between gap-space-sm">
+                    <div
+                      class="w-10 h-10 rounded-lg bg-tertiary-container/30 text-tertiary flex items-center justify-center shrink-0"
+                    >
+                      <span class="material-symbols-outlined text-[22px]">palette</span>
+                    </div>
+                    <div class="flex items-center gap-space-xs">
+                      <span
+                        class="px-space-xs py-0.5 rounded bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm"
+                        >Design</span
+                      >
+                      <button
+                        class="favorite-btn w-8 h-8 rounded-lg flex items-center justify-center text-outline hover:text-tertiary transition-colors"
+                        title="Favorite"
+                        type="button"
+                      >
+                        <span class="material-symbols-outlined text-[18px]">star</span>
+                      </button>
+                    </div>
+                  </div>
+                  <div>
+                    <h2
+                      class="font-headline-sm text-headline-sm text-on-surface group-hover:text-primary transition-colors"
+                    >
+                      Color Converter &amp; Palette
+                    </h2>
+                    <p class="mt-1 font-body-sm text-body-sm text-on-surface-variant line-clamp-2">
+                      Convert between HEX, RGB, HSL, and OKLCH spaces with WCAG contrast ratio
+                      calculations.
+                    </p>
+                  </div>
+                </div>
+                <div
+                  class="mt-space-lg pt-space-sm flex items-center justify-between text-label-sm font-label-sm"
+                >
+                  <span class="flex items-center gap-1.5 text-emerald-400">
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                    Offline ready
+                  </span>
+                  <span
+                    class="font-code-sm text-code-sm text-outline group-hover:text-on-surface flex items-center gap-0.5"
+                  >
+                    Launch
+                    <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+                  </span>
+                </div>
+              </article>
+              <!-- Card: Unix Timestamp Converter -->
+              <article
+                class="tool-card group relative flex flex-col justify-between bg-surface-container-low hover:bg-surface-container p-space-lg rounded-xl shadow-md transition-all duration-200"
+                data-added="20240120"
+                data-cat="datetime"
+                data-popularity="91"
+                data-title="Unix Timestamp Converter"
+              >
+                <div class="space-y-space-md">
+                  <div class="flex items-start justify-between gap-space-sm">
+                    <div
+                      class="w-10 h-10 rounded-lg bg-secondary-container/20 text-secondary flex items-center justify-center shrink-0"
+                    >
+                      <span class="material-symbols-outlined text-[22px]">schedule</span>
+                    </div>
+                    <div class="flex items-center gap-space-xs">
+                      <span
+                        class="px-space-xs py-0.5 rounded bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm"
+                        >Date &amp; Time</span
+                      >
+                      <button
+                        class="favorite-btn w-8 h-8 rounded-lg flex items-center justify-center text-outline hover:text-tertiary transition-colors"
+                        title="Favorite"
+                        type="button"
+                      >
+                        <span class="material-symbols-outlined text-[18px]">star</span>
+                      </button>
+                    </div>
+                  </div>
+                  <div>
+                    <h2
+                      class="font-headline-sm text-headline-sm text-on-surface group-hover:text-primary transition-colors"
+                    >
+                      Unix Timestamp Converter
+                    </h2>
+                    <p class="mt-1 font-body-sm text-body-sm text-on-surface-variant line-clamp-2">
+                      Convert human dates to epoch and vice-versa across millisecond, microsecond
+                      &amp; ISO strings.
+                    </p>
+                  </div>
+                </div>
+                <div
+                  class="mt-space-lg pt-space-sm flex items-center justify-between text-label-sm font-label-sm"
+                >
+                  <span class="flex items-center gap-1.5 text-emerald-400">
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                    Offline ready
+                  </span>
+                  <span
+                    class="font-code-sm text-code-sm text-outline group-hover:text-on-surface flex items-center gap-0.5"
+                  >
+                    Launch
+                    <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+                  </span>
+                </div>
+              </article>
+              <!-- Card: CSV to JSON Converter -->
+              <article
+                class="tool-card group relative flex flex-col justify-between bg-surface-container-low hover:bg-surface-container p-space-lg rounded-xl shadow-md transition-all duration-200"
+                data-added="20240218"
+                data-cat="datafiles"
+                data-popularity="87"
+                data-title="CSV to JSON Converter"
+              >
+                <div class="space-y-space-md">
+                  <div class="flex items-start justify-between gap-space-sm">
+                    <div
+                      class="w-10 h-10 rounded-lg bg-primary-container/20 text-primary flex items-center justify-center shrink-0"
+                    >
+                      <span class="material-symbols-outlined text-[22px]">table_chart</span>
+                    </div>
+                    <div class="flex items-center gap-space-xs">
+                      <span
+                        class="px-space-xs py-0.5 rounded bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm"
+                        >Data &amp; Files</span
+                      >
+                      <button
+                        class="favorite-btn w-8 h-8 rounded-lg flex items-center justify-center text-outline hover:text-tertiary transition-colors"
+                        title="Favorite"
+                        type="button"
+                      >
+                        <span class="material-symbols-outlined text-[18px]">star</span>
+                      </button>
+                    </div>
+                  </div>
+                  <div>
+                    <h2
+                      class="font-headline-sm text-headline-sm text-on-surface group-hover:text-primary transition-colors"
+                    >
+                      CSV to JSON Converter
+                    </h2>
+                    <p class="mt-1 font-body-sm text-body-sm text-on-surface-variant line-clamp-2">
+                      Transform tabular CSV data to structured JSON with automatic delimiter and
+                      type inference.
+                    </p>
+                  </div>
+                </div>
+                <div
+                  class="mt-space-lg pt-space-sm flex items-center justify-between text-label-sm font-label-sm"
+                >
+                  <span class="flex items-center gap-1.5 text-emerald-400">
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                    Offline ready
+                  </span>
+                  <span
+                    class="font-code-sm text-code-sm text-outline group-hover:text-on-surface flex items-center gap-0.5"
+                  >
+                    Launch
+                    <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+                  </span>
+                </div>
+              </article>
+              <!-- Card: Markdown Live Preview -->
+              <article
+                class="tool-card group relative flex flex-col justify-between bg-surface-container-low hover:bg-surface-container p-space-lg rounded-xl shadow-md transition-all duration-200"
+                data-added="20240125"
+                data-cat="text"
+                data-popularity="93"
+                data-title="Markdown Live Preview"
+              >
+                <div class="space-y-space-md">
+                  <div class="flex items-start justify-between gap-space-sm">
+                    <div
+                      class="w-10 h-10 rounded-lg bg-surface-variant text-on-surface flex items-center justify-center shrink-0"
+                    >
+                      <span class="material-symbols-outlined text-[22px]">markdown</span>
+                    </div>
+                    <div class="flex items-center gap-space-xs">
+                      <span
+                        class="px-space-xs py-0.5 rounded bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm"
+                        >Text</span
+                      >
+                      <button
+                        class="favorite-btn w-8 h-8 rounded-lg flex items-center justify-center text-outline hover:text-tertiary transition-colors"
+                        title="Favorite"
+                        type="button"
+                      >
+                        <span class="material-symbols-outlined text-[18px]">star</span>
+                      </button>
+                    </div>
+                  </div>
+                  <div>
+                    <h2
+                      class="font-headline-sm text-headline-sm text-on-surface group-hover:text-primary transition-colors"
+                    >
+                      Markdown Live Preview
+                    </h2>
+                    <p class="mt-1 font-body-sm text-body-sm text-on-surface-variant line-clamp-2">
+                      Real-time markdown rendering with GitHub styling, math TeX equations, and
+                      syntax highlighting.
+                    </p>
+                  </div>
+                </div>
+                <div
+                  class="mt-space-lg pt-space-sm flex items-center justify-between text-label-sm font-label-sm"
+                >
+                  <span class="flex items-center gap-1.5 text-emerald-400">
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                    Offline ready
+                  </span>
+                  <span
+                    class="font-code-sm text-code-sm text-outline group-hover:text-on-surface flex items-center gap-0.5"
+                  >
+                    Launch
+                    <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+                  </span>
+                </div>
+              </article>
+              <!-- Card: URL Encoder / Decoder -->
+              <article
+                class="tool-card group relative flex flex-col justify-between bg-surface-container-low hover:bg-surface-container p-space-lg rounded-xl shadow-md transition-all duration-200"
+                data-added="20240108"
+                data-cat="encoders"
+                data-popularity="90"
+                data-title="URL Encoder / Decoder"
+              >
+                <div class="space-y-space-md">
+                  <div class="flex items-start justify-between gap-space-sm">
+                    <div
+                      class="w-10 h-10 rounded-lg bg-secondary-container/20 text-secondary flex items-center justify-center shrink-0"
+                    >
+                      <span class="material-symbols-outlined text-[22px]">link</span>
+                    </div>
+                    <div class="flex items-center gap-space-xs">
+                      <span
+                        class="px-space-xs py-0.5 rounded bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm"
+                        >Encoders</span
+                      >
+                      <button
+                        class="favorite-btn w-8 h-8 rounded-lg flex items-center justify-center text-outline hover:text-tertiary transition-colors"
+                        title="Favorite"
+                        type="button"
+                      >
+                        <span class="material-symbols-outlined text-[18px]">star</span>
+                      </button>
+                    </div>
+                  </div>
+                  <div>
+                    <h2
+                      class="font-headline-sm text-headline-sm text-on-surface group-hover:text-primary transition-colors"
+                    >
+                      URL Encoder / Decoder
+                    </h2>
+                    <p class="mt-1 font-body-sm text-body-sm text-on-surface-variant line-clamp-2">
+                      Encode and decode URI components safely according to RFC 3986 with parameter
+                      query parsing.
+                    </p>
+                  </div>
+                </div>
+                <div
+                  class="mt-space-lg pt-space-sm flex items-center justify-between text-label-sm font-label-sm"
+                >
+                  <span class="flex items-center gap-1.5 text-emerald-400">
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                    Offline ready
+                  </span>
+                  <span
+                    class="font-code-sm text-code-sm text-outline group-hover:text-on-surface flex items-center gap-0.5"
+                  >
+                    Launch
+                    <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+                  </span>
+                </div>
+              </article>
+              <!-- Card: Cron Expression Helper -->
+              <article
+                class="tool-card group relative flex flex-col justify-between bg-surface-container-low hover:bg-surface-container p-space-lg rounded-xl shadow-md transition-all duration-200"
+                data-added="20240212"
+                data-cat="developer"
+                data-popularity="86"
+                data-title="Cron Expression Helper"
+              >
+                <div class="space-y-space-md">
+                  <div class="flex items-start justify-between gap-space-sm">
+                    <div
+                      class="w-10 h-10 rounded-lg bg-primary-container/20 text-primary flex items-center justify-center shrink-0"
+                    >
+                      <span class="material-symbols-outlined text-[22px]">update</span>
+                    </div>
+                    <div class="flex items-center gap-space-xs">
+                      <span
+                        class="px-space-xs py-0.5 rounded bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm"
+                        >Developer</span
+                      >
+                      <button
+                        class="favorite-btn w-8 h-8 rounded-lg flex items-center justify-center text-outline hover:text-tertiary transition-colors"
+                        title="Favorite"
+                        type="button"
+                      >
+                        <span class="material-symbols-outlined text-[18px]">star</span>
+                      </button>
+                    </div>
+                  </div>
+                  <div>
+                    <h2
+                      class="font-headline-sm text-headline-sm text-on-surface group-hover:text-primary transition-colors"
+                    >
+                      Cron Expression Helper
+                    </h2>
+                    <p class="mt-1 font-body-sm text-body-sm text-on-surface-variant line-clamp-2">
+                      Explain and schedule cron timetable expressions with next scheduled execution
+                      calculations.
+                    </p>
+                  </div>
+                </div>
+                <div
+                  class="mt-space-lg pt-space-sm flex items-center justify-between text-label-sm font-label-sm"
+                >
+                  <span class="flex items-center gap-1.5 text-emerald-400">
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                    Offline ready
+                  </span>
+                  <span
+                    class="font-code-sm text-code-sm text-outline group-hover:text-on-surface flex items-center gap-0.5"
+                  >
+                    Launch
+                    <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+                  </span>
+                </div>
+              </article>
+            </div>
+            <!-- Empty State (Shown when search/category returns no match) -->
+            <div
+              class="hidden flex-col items-center justify-center py-space-xl px-space-md text-center bg-surface-container-low rounded-xl mb-space-xl"
+              id="no-results-state"
+            >
+              <div
+                class="w-12 h-12 rounded-full bg-surface-variant flex items-center justify-center text-outline mb-space-sm"
+              >
+                <span class="material-symbols-outlined text-[28px]">search_off</span>
+              </div>
+              <h3 class="font-headline-sm text-headline-sm text-on-surface">
+                No client tools found
+              </h3>
+              <p
+                class="font-body-md text-body-md text-on-surface-variant max-w-md mt-1 mb-space-md"
+              >
+                We couldn't find any utilities matching your criteria. Every tool runs locally in
+                your browser sandbox without network dependencies.
+              </p>
+              <button
+                class="px-space-md py-2 rounded-lg bg-primary text-on-primary font-label-md text-label-md shadow-md hover:opacity-90 transition-opacity"
+                id="clear-search-link"
+              >
+                Clear search &amp; show all
+              </button>
+            </div>
+            <!-- Editorial Feature Spotlight: Engine Architecture (Rich SVG & Spec Sheet) -->
+            <section
+              class="mt-space-xl bg-surface-container-low rounded-xl p-space-lg lg:p-space-xl shadow-lg relative overflow-hidden"
+            >
+              <div class="grid grid-cols-1 lg:grid-cols-12 gap-space-xl items-center">
+                <div class="lg:col-span-7 space-y-space-md">
+                  <div
+                    class="inline-flex items-center gap-space-xs px-space-sm py-1 rounded-full bg-primary-container/20 text-primary font-label-sm text-label-sm"
+                  >
+                    <span class="material-symbols-outlined text-[16px]">memory</span>
+                    <span>WebAssembly Runtime &amp; V8 JIT</span>
+                  </div>
+                  <h2 class="font-headline-md text-headline-md text-on-surface tracking-tight">
+                    Zero Network Overhead by Design
+                  </h2>
+                  <p class="font-body-lg text-body-lg text-on-surface-variant">
+                    Traditional web converters send your sensitive API keys, SQL dumps, and
+                    credentials over HTTPS to remote servers. Toolnest executes entirely inside your
+                    browser's V8 isolated heap.
+                  </p>
+                  <div class="grid grid-cols-3 gap-space-md pt-space-xs">
+                    <div class="bg-surface-container p-space-sm rounded-lg">
+                      <span class="font-code-sm text-code-sm text-outline block">ENCRYPTION</span>
+                      <span class="font-headline-sm text-headline-sm text-on-surface">AES-GCM</span>
+                      <span class="font-label-sm text-label-sm text-on-surface-variant block mt-0.5"
+                        >Hardware accelerated</span
+                      >
+                    </div>
+                    <div class="bg-surface-container p-space-sm rounded-lg">
+                      <span class="font-code-sm text-code-sm text-outline block">MAX FILE</span>
+                      <span class="font-headline-sm text-headline-sm text-on-surface">2.0 GB</span>
+                      <span class="font-label-sm text-label-sm text-on-surface-variant block mt-0.5"
+                        >Stream-chunked</span
+                      >
+                    </div>
+                    <div class="bg-surface-container p-space-sm rounded-lg">
+                      <span class="font-code-sm text-code-sm text-outline block">TELEMETRY</span>
+                      <span class="font-headline-sm text-headline-sm text-emerald-400"
+                        >0 Bytes</span
+                      >
+                      <span class="font-label-sm text-label-sm text-on-surface-variant block mt-0.5"
+                        >Completely blocked</span
+                      >
+                    </div>
+                  </div>
+                </div>
+                <!-- Inline SVG Architectural Sparkline / Pipeline Diagram -->
+                <div
+                  class="lg:col-span-5 bg-surface-container-lowest p-space-md rounded-xl flex flex-col justify-between"
+                >
+                  <div class="flex items-center justify-between pb-space-sm">
+                    <div
+                      class="flex items-center gap-space-xs text-on-surface font-label-sm text-label-sm"
+                    >
+                      <span class="w-2 h-2 rounded-full bg-primary"></span>
+                      Execution Timeline (Local Heap)
+                    </div>
+                    <span class="font-code-sm text-code-sm text-outline">v1.4 core</span>
+                  </div>
+                  <svg
+                    class="w-full h-32 overflow-visible text-primary"
+                    fill="none"
+                    viewbox="0 0 360 100"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <defs>
+                      <lineargradient id="chartGrad" x1="0" x2="0" y1="0" y2="1">
+                        <stop offset="0%" stop-color="currentColor" stop-opacity="0.3"></stop>
+                        <stop offset="100%" stop-color="currentColor" stop-opacity="0.0"></stop>
+                      </lineargradient>
+                    </defs>
+                    <!-- Background Grid Lines -->
+                    <line
+                      stroke="currentColor"
+                      stroke-dasharray="2 4"
+                      stroke-opacity="0.08"
+                      x1="0"
+                      x2="360"
+                      y1="20"
+                      y2="20"
+                    ></line>
+                    <line
+                      stroke="currentColor"
+                      stroke-dasharray="2 4"
+                      stroke-opacity="0.08"
+                      x1="0"
+                      x2="360"
+                      y1="50"
+                      y2="50"
+                    ></line>
+                    <line
+                      stroke="currentColor"
+                      stroke-dasharray="2 4"
+                      stroke-opacity="0.08"
+                      x1="0"
+                      x2="360"
+                      y1="80"
+                      y2="80"
+                    ></line>
+                    <!-- Area & Curve -->
+                    <path
+                      d="M0 90 L20 85 L50 82 L90 55 L130 65 L170 30 L210 38 L250 15 L290 28 L330 10 L360 8 L360 100 L0 100 Z"
+                      fill="url(#chartGrad)"
+                    ></path>
+                    <path
+                      d="M0 90 L20 85 L50 82 L90 55 L130 65 L170 30 L210 38 L250 15 L290 28 L330 10 L360 8"
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2.5"
+                    ></path>
+                    <!-- Key Highlight Markers -->
+                    <circle cx="170" cy="30" fill="currentColor" r="4"></circle>
+                    <circle cx="250" cy="15" fill="currentColor" r="4"></circle>
+                    <circle cx="360" cy="8" fill="currentColor" r="4"></circle>
+                  </svg>
+                  <div
+                    class="flex items-center justify-between pt-space-sm text-outline font-code-sm text-code-sm"
+                  >
+                    <span>Parse (0.04ms)</span>
+                    <span>JIT Compiler</span>
+                    <span>Flush (0.16ms)</span>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </div>
+        </div>
+        <script>
+          (function initToolnestCatalog() {
+            const searchInput = document.getElementById('tool-search-input');
+            const clearSearchBtn = document.getElementById('clear-search-btn');
+            const sortSelect = document.getElementById('sort-select');
+            const viewGridBtn = document.getElementById('view-grid-btn');
+            const viewDenseBtn = document.getElementById('view-dense-btn');
+            const categoryPills = document.querySelectorAll('.cat-pill');
+            const toolsContainer = document.getElementById('tools-container');
+            const activeCountEl = document.getElementById('active-count');
+            const resetFiltersBtn = document.getElementById('reset-filters-btn');
+            const noResultsState = document.getElementById('no-results-state');
+            const clearSearchLink = document.getElementById('clear-search-link');
+
+            let activeCategory = 'all';
+            let searchQuery = '';
+            let sortOrder = 'popular';
+            let isDenseView = false;
+
+            function getCards() {
+              return Array.from(toolsContainer.querySelectorAll('.tool-card'));
+            }
+
+            function updateView() {
+              const cards = getCards();
+              let visibleCount = 0;
+
+              cards.forEach((card) => {
+                const title = (card.getAttribute('data-title') || '').toLowerCase();
+                const cat = (card.getAttribute('data-cat') || '').toLowerCase();
+                const matchesCategory = activeCategory === 'all' || cat === activeCategory;
+                const matchesSearch = title.includes(searchQuery.toLowerCase());
+
+                if (matchesCategory && matchesSearch) {
+                  card.classList.remove('hidden');
+                  visibleCount++;
+                } else {
+                  card.classList.add('hidden');
+                }
+              });
+
+              // Update counters & reset button state
+              activeCountEl.textContent = visibleCount;
+              if (searchQuery.length > 0 || activeCategory !== 'all') {
+                resetFiltersBtn.classList.remove('hidden');
+              } else {
+                resetFiltersBtn.classList.add('hidden');
+              }
+
+              // No results state
+              if (visibleCount === 0) {
+                noResultsState.classList.remove('hidden');
+                noResultsState.classList.add('flex');
+                toolsContainer.classList.add('hidden');
+              } else {
+                noResultsState.classList.add('hidden');
+                noResultsState.classList.remove('flex');
+                toolsContainer.classList.remove('hidden');
+              }
+
+              // Clear search button visibility
+              if (searchQuery.length > 0) {
+                clearSearchBtn.classList.remove('hidden');
+              } else {
+                clearSearchBtn.classList.add('hidden');
+              }
+            }
+
+            function sortCards() {
+              const cards = getCards();
+              cards.sort((a, b) => {
+                if (sortOrder === 'popular') {
+                  return (
+                    Number(b.getAttribute('data-popularity')) -
+                    Number(a.getAttribute('data-popularity'))
+                  );
+                } else if (sortOrder === 'alpha') {
+                  return a.getAttribute('data-title').localeCompare(b.getAttribute('data-title'));
+                } else if (sortOrder === 'recent') {
+                  return (
+                    Number(b.getAttribute('data-added')) - Number(a.getAttribute('data-added'))
+                  );
+                }
+                return 0;
+              });
+              cards.forEach((card) => toolsContainer.appendChild(card));
+            }
+
+            // Category click handler
+            categoryPills.forEach((pill) => {
+              pill.addEventListener('click', () => {
+                categoryPills.forEach((p) => {
+                  p.classList.remove('active', 'bg-primary-container', 'text-on-primary-container');
+                  p.classList.add('bg-surface-container', 'text-on-surface-variant');
+                });
+                pill.classList.add('active', 'bg-primary-container', 'text-on-primary-container');
+                pill.classList.remove('bg-surface-container', 'text-on-surface-variant');
+
+                activeCategory = pill.getAttribute('data-cat');
+                updateView();
+              });
+            });
+
+            // Search input handler
+            searchInput.addEventListener('input', (e) => {
+              searchQuery = e.target.value.trim();
+              updateView();
+            });
+
+            clearSearchBtn.addEventListener('click', () => {
+              searchInput.value = '';
+              searchQuery = '';
+              updateView();
+              searchInput.focus();
+            });
+
+            clearSearchLink.addEventListener('click', () => {
+              resetAllFilters();
+            });
+
+            // Sort Handler
+            sortSelect.addEventListener('change', (e) => {
+              sortOrder = e.target.value;
+              sortCards();
+            });
+
+            // Reset filters
+            function resetAllFilters() {
+              searchInput.value = '';
+              searchQuery = '';
+              activeCategory = 'all';
+
+              categoryPills.forEach((p) => {
+                if (p.getAttribute('data-cat') === 'all') {
+                  p.classList.add('active', 'bg-primary-container', 'text-on-primary-container');
+                  p.classList.remove('bg-surface-container', 'text-on-surface-variant');
+                } else {
+                  p.classList.remove('active', 'bg-primary-container', 'text-on-primary-container');
+                  p.classList.add('bg-surface-container', 'text-on-surface-variant');
+                }
+              });
+
+              updateView();
+            }
+
+            resetFiltersBtn.addEventListener('click', resetAllFilters);
+
+            // View toggle handlers
+            viewGridBtn.addEventListener('click', () => {
+              if (!isDenseView) return;
+              isDenseView = false;
+              viewGridBtn.classList.add('bg-surface-container-highest', 'text-on-surface');
+              viewGridBtn.classList.remove('text-outline');
+              viewDenseBtn.classList.remove('bg-surface-container-highest', 'text-on-surface');
+              viewDenseBtn.classList.add('text-outline');
+
+              toolsContainer.className =
+                'grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-space-lg mb-space-xl';
+              getCards().forEach((card) => {
+                card.classList.remove('p-space-sm', 'flex-row', 'items-center');
+                card.classList.add('p-space-lg', 'flex-col');
+              });
+            });
+
+            viewDenseBtn.addEventListener('click', () => {
+              if (isDenseView) return;
+              isDenseView = true;
+              viewDenseBtn.classList.add('bg-surface-container-highest', 'text-on-surface');
+              viewDenseBtn.classList.remove('text-outline');
+              viewGridBtn.classList.remove('bg-surface-container-highest', 'text-on-surface');
+              viewGridBtn.classList.add('text-outline');
+
+              toolsContainer.className = 'grid grid-cols-1 md:grid-cols-2 gap-space-sm mb-space-xl';
+              getCards().forEach((card) => {
+                card.classList.remove('p-space-lg');
+                card.classList.add('p-space-sm');
+              });
+            });
+
+            // Favorite button micro-interaction
+            toolsContainer.addEventListener('click', (e) => {
+              const favBtn = e.target.closest('.favorite-btn');
+              if (!favBtn) return;
+              e.stopPropagation();
+              e.preventDefault();
+
+              const starIcon = favBtn.querySelector('.material-symbols-outlined');
+              const isFilled = starIcon.getAttribute('style')?.includes("'FILL' 1");
+
+              if (isFilled) {
+                starIcon.removeAttribute('style');
+                favBtn.classList.remove('text-tertiary');
+                favBtn.classList.add('text-outline');
+              } else {
+                starIcon.setAttribute('style', "font-variation-settings: 'FILL' 1;");
+                favBtn.classList.add('text-tertiary');
+                favBtn.classList.remove('text-outline');
+              }
+            });
+
+            // Run initial sorting
+            sortCards();
+          })();
+        </script>
+      </main>
+    </div>
+  </body>
+</html>
