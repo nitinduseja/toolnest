@@ -30,23 +30,19 @@ export const Header: React.FC<HeaderProps> = ({ onOpenCommandPalette }) => {
           </div>
         </Link>
 
-        {/* Command Palette Trigger */}
-        <div className="flex-1 max-w-xl mx-1.5 sm:mx-4">
+        {/* Command Palette Trigger (Desktop & Tablet) */}
+        <div className="hidden sm:flex flex-1 max-w-xl mx-4">
           <button
             type="button"
             onClick={onOpenCommandPalette}
             aria-label="Search tools and commands"
-            className="w-full h-9 px-2.5 sm:px-3 rounded-lg bg-surface-container-low text-on-surface-variant hover:bg-surface-container hover:text-on-surface flex items-center justify-between transition-all border border-outline-variant/60 shadow-xs active:scale-[0.99]"
+            className="w-full h-9 px-3 rounded-lg bg-surface-container-low text-on-surface-variant hover:bg-surface-container hover:text-on-surface flex items-center justify-between transition-all border border-outline-variant/60 shadow-xs active:scale-[0.99]"
           >
             <span className="flex items-center gap-2 text-xs sm:text-sm min-w-0">
-              <Search className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-outline shrink-0" />
-              <span className="truncate sm:hidden">Search tools...</span>
-              <span className="hidden sm:inline truncate">Search tools, commands, or press ⌘K</span>
+              <Search className="w-4 h-4 text-outline shrink-0" />
+              <span className="truncate">Search tools, commands, or press ⌘K</span>
             </span>
-            <span className="sm:hidden px-1.5 py-0.5 rounded bg-surface-container text-outline font-mono text-[10px] shrink-0">
-              ⌘K
-            </span>
-            <kbd className="hidden sm:inline-block px-1.5 py-0.5 rounded bg-surface-container-high text-on-surface font-mono text-[11px] shrink-0">
+            <kbd className="px-1.5 py-0.5 rounded bg-surface-container-high text-on-surface font-mono text-[11px] shrink-0">
               ⌘K
             </kbd>
           </button>

@@ -31,7 +31,7 @@ export const AppShell: React.FC = () => {
         </Suspense>
       </main>
 
-      <BottomNav />
+      <BottomNav onOpenCommandPalette={() => setCommandPaletteOpen(true)} />
 
       <CommandPalette open={commandPaletteOpen} onOpenChange={setCommandPaletteOpen} />
     </div>
