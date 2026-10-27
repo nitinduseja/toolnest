@@ -85,6 +85,21 @@ export const ALL_TOOLS: ToolDefinition[] = [
     badge: 'Web Crypto',
   },
   {
+    id: 'jwt-decoder',
+    slug: 'jwt-decoder',
+    name: 'JWT Decoder & Inspector',
+    description:
+      'Decode, inspect, and debug JSON Web Tokens (JWT) headers, payloads, and expiration claims securely client-side.',
+    category: 'security-cryptography',
+    iconName: 'KeyRound',
+    keywords: ['jwt', 'token', 'decode', 'json web token', 'claims', 'auth', 'bearer', 'rfc 7519'],
+    component: React.lazy(() => import('@/tools/jwt-decoder')),
+    tags: ['Security', 'JWT', 'Authentication'],
+    isOfflineReady: true,
+    privacyNote: 'Decoded locally in browser memory. Never transmitted over the wire.',
+    badge: 'RFC 7519',
+  },
+  {
     id: 'regex-tester',
     slug: 'regex-tester',
     name: 'Regex Tester',

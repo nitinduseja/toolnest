@@ -48,10 +48,12 @@ import {
   ChevronRight,
   ChevronDown,
   Menu,
+  KeyRound,
   LucideProps,
 } from 'lucide-react';
 
 const ICON_REGISTRY: Record<string, React.ComponentType<LucideProps>> = {
+  KeyRound,
   Terminal,
   Binary,
   ShieldCheck,

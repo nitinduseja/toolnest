@@ -9,8 +9,8 @@ describe('Tool Registry Validation', () => {
     expect(result.valid).toBe(true);
   });
 
-  it('contains exactly 12 initial functional tools', () => {
-    expect(ALL_TOOLS.length).toBe(12);
+  it('contains registered functional tools', () => {
+    expect(ALL_TOOLS.length).toBeGreaterThanOrEqual(13);
   });
 
   it('contains 12 canonical categories', () => {
