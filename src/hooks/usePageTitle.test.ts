@@ -15,6 +15,9 @@ describe('usePageTitle & getPageTitle', () => {
     expect(getPageTitle('/tools/uuid-generator')).toBe('UUID Generator | Toolnest');
     expect(getPageTitle('/tools/base64')).toBe('Base64 Encoder / Decoder | Toolnest');
     expect(getPageTitle('/tools/jwt-decoder')).toBe('JWT Decoder & Inspector | Toolnest');
+    expect(getPageTitle('/tools/markdown-previewer')).toBe(
+      'Markdown Previewer & Editor | Toolnest'
+    );
   });
 
   it('returns Tool Not Found for unknown tool route', () => {

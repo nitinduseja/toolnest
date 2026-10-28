@@ -130,6 +130,21 @@ export const ALL_TOOLS: ToolDefinition[] = [
     badge: 'Myers Diff',
   },
   {
+    id: 'markdown-previewer',
+    slug: 'markdown-previewer',
+    name: 'Markdown Previewer & Editor',
+    description:
+      'Write and preview GitHub Flavored Markdown (GFM) in real-time with live text metrics and HTML export.',
+    category: 'text-writing',
+    iconName: 'FileEdit',
+    keywords: ['markdown', 'editor', 'preview', 'gfm', 'html', 'export', 'notes', 'writer'],
+    component: React.lazy(() => import('@/tools/markdown-previewer')),
+    tags: ['Text', 'Markdown', 'Editor'],
+    isOfflineReady: true,
+    privacyNote: 'Rendered locally in browser memory. Zero external server calls.',
+    badge: 'GFM Live',
+  },
+  {
     id: 'timestamp-converter',
     slug: 'timestamp-converter',
     name: 'Unix Timestamp Converter',

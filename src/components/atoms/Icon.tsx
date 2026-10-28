@@ -49,11 +49,13 @@ import {
   ChevronDown,
   Menu,
   KeyRound,
+  FileEdit,
   LucideProps,
 } from 'lucide-react';
 
 const ICON_REGISTRY: Record<string, React.ComponentType<LucideProps>> = {
   KeyRound,
+  FileEdit,
   Terminal,
   Binary,
   ShieldCheck,
