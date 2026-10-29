@@ -160,6 +160,21 @@ export const ALL_TOOLS: ToolDefinition[] = [
     badge: 'Epoch / ISO',
   },
   {
+    id: 'cron-parser',
+    slug: 'cron-parser',
+    name: 'Cron Expression Parser & Humanizer',
+    description:
+      'Translate standard 5-part cron schedules into plain English, view upcoming runs, and explore common presets.',
+    category: 'date-time',
+    iconName: 'CalendarClock',
+    keywords: ['cron', 'crontab', 'schedule', 'parser', 'humanize', 'timer', 'interval', 'job'],
+    component: React.lazy(() => import('@/tools/cron-parser')),
+    tags: ['Date', 'Time', 'Automation', 'Cron'],
+    isOfflineReady: true,
+    privacyNote: 'Evaluated locally via deterministic cron parsing. Zero server requests.',
+    badge: 'POSIX 5-Part',
+  },
+  {
     id: 'color-converter',
     slug: 'color-converter',
     name: 'Color Converter & Contrast Checker',

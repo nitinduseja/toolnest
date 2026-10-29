@@ -50,12 +50,14 @@ import {
   Menu,
   KeyRound,
   FileEdit,
+  CalendarClock,
   LucideProps,
 } from 'lucide-react';
 
 const ICON_REGISTRY: Record<string, React.ComponentType<LucideProps>> = {
   KeyRound,
   FileEdit,
+  CalendarClock,
   Terminal,
   Binary,
   ShieldCheck,

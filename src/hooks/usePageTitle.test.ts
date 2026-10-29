@@ -18,6 +18,9 @@ describe('usePageTitle & getPageTitle', () => {
     expect(getPageTitle('/tools/markdown-previewer')).toBe(
       'Markdown Previewer & Editor | Toolnest'
     );
+    expect(getPageTitle('/tools/cron-parser')).toBe(
+      'Cron Expression Parser & Humanizer | Toolnest'
+    );
   });
 
   it('returns Tool Not Found for unknown tool route', () => {
