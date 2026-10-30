@@ -21,6 +21,9 @@ describe('usePageTitle & getPageTitle', () => {
     expect(getPageTitle('/tools/cron-parser')).toBe(
       'Cron Expression Parser & Humanizer | Toolnest'
     );
+    expect(getPageTitle('/tools/glassmorphism-generator')).toBe(
+      'CSS Glassmorphism & Box-Shadow Generator | Toolnest'
+    );
   });
 
   it('returns Tool Not Found for unknown tool route', () => {
