@@ -24,6 +24,7 @@ describe('usePageTitle & getPageTitle', () => {
     expect(getPageTitle('/tools/glassmorphism-generator')).toBe(
       'CSS Glassmorphism & Box-Shadow Generator | Toolnest'
     );
+    expect(getPageTitle('/tools/sql-formatter')).toBe('SQL Formatter & Beautifier | Toolnest');
   });
 
   it('returns Tool Not Found for unknown tool route', () => {
