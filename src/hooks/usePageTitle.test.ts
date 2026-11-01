@@ -32,6 +32,9 @@ describe('usePageTitle & getPageTitle', () => {
     expect(getPageTitle('/tools/url-parser')).toBe(
       'URL Parser & Query Parameter Builder | Toolnest'
     );
+    expect(getPageTitle('/tools/http-status-lookup')).toBe(
+      'HTTP Status Code & Header Lookup | Toolnest'
+    );
   });
 
   it('returns Tool Not Found for unknown tool route', () => {

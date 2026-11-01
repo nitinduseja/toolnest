@@ -176,4 +176,33 @@ export const EXPANDED_TOOLS: ToolDefinition[] = [
       'Parsed and reconstructed in-browser using standard WHATWG URL APIs. Zero tracking.',
     badge: 'WHATWG URL',
   },
+  {
+    id: 'http-status-lookup',
+    slug: 'http-status-lookup',
+    name: 'HTTP Status Code & Header Lookup',
+    description:
+      'Search and inspect RFC-compliant HTTP status codes (1xx-5xx) and essential security, CORS, and caching headers.',
+    category: 'web-network',
+    iconName: 'Globe',
+    keywords: [
+      'http',
+      'status',
+      'code',
+      'header',
+      'lookup',
+      'cors',
+      'csp',
+      'cache',
+      'rest',
+      'rfc',
+      'api',
+      'network',
+    ],
+    component: React.lazy(() => import('@/tools/http-status-lookup')),
+    tags: ['Web', 'Network', 'HTTP', 'API', 'Reference'],
+    isOfflineReady: true,
+    privacyNote:
+      'Offline reference guide evaluated 100% in browser memory. Never calls external servers.',
+    badge: 'RFC 9110',
+  },
 ];
