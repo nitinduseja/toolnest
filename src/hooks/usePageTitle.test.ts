@@ -26,6 +26,9 @@ describe('usePageTitle & getPageTitle', () => {
     );
     expect(getPageTitle('/tools/sql-formatter')).toBe('SQL Formatter & Beautifier | Toolnest');
     expect(getPageTitle('/tools/mock-data-generator')).toBe('Mock Data Generator | Toolnest');
+    expect(getPageTitle('/tools/password-generator')).toBe(
+      'Secure Password & Passphrase Generator | Toolnest'
+    );
   });
 
   it('returns Tool Not Found for unknown tool route', () => {
