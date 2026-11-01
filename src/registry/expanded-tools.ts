@@ -149,4 +149,31 @@ export const EXPANDED_TOOLS: ToolDefinition[] = [
     privacyNote: 'Generated locally using Web Crypto API. Never leaves browser memory.',
     badge: 'Web Crypto',
   },
+  {
+    id: 'url-parser',
+    slug: 'url-parser',
+    name: 'URL Parser & Query Parameter Builder',
+    description:
+      'Parse URLs into protocol, host, and path, and interactively build or modify query parameters in real time.',
+    category: 'web-network',
+    iconName: 'Globe',
+    keywords: [
+      'url',
+      'uri',
+      'parser',
+      'query',
+      'params',
+      'parameter',
+      'builder',
+      'inspect',
+      'http',
+      'search',
+    ],
+    component: React.lazy(() => import('@/tools/url-parser')),
+    tags: ['Web', 'Network', 'URL', 'Query'],
+    isOfflineReady: true,
+    privacyNote:
+      'Parsed and reconstructed in-browser using standard WHATWG URL APIs. Zero tracking.',
+    badge: 'WHATWG URL',
+  },
 ];

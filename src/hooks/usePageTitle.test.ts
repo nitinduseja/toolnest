@@ -29,6 +29,9 @@ describe('usePageTitle & getPageTitle', () => {
     expect(getPageTitle('/tools/password-generator')).toBe(
       'Secure Password & Passphrase Generator | Toolnest'
     );
+    expect(getPageTitle('/tools/url-parser')).toBe(
+      'URL Parser & Query Parameter Builder | Toolnest'
+    );
   });
 
   it('returns Tool Not Found for unknown tool route', () => {
