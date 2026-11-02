@@ -230,4 +230,31 @@ export const EXPANDED_TOOLS: ToolDefinition[] = [
     privacyNote: 'Engine runs 100% client-side in browser memory via pdf-lib. Zero files uploaded.',
     badge: 'pdf-lib Client',
   },
+  {
+    id: 'document-scanner',
+    slug: 'document-scanner',
+    name: 'Document Scanner & OCR Studio',
+    description:
+      'Camera-based document scanning, 4-point perspective warp, multi-page PDF generation, OCR text extraction, and digital signatures.',
+    category: 'everyday-productivity',
+    iconName: 'Camera',
+    keywords: [
+      'scanner',
+      'document',
+      'camera',
+      'crop',
+      'perspective',
+      'ocr',
+      'pdf',
+      'signature',
+      'filter',
+      'multipage',
+    ],
+    component: React.lazy(() => import('@/tools/document-scanner')),
+    tags: ['Productivity', 'Scanner', 'Camera', 'OCR', 'PDF'],
+    isOfflineReady: true,
+    privacyNote:
+      '100% in-browser processing via Canvas & pdf-lib. Camera streams and documents never leave device memory.',
+    badge: 'Scanner Engine',
+  },
 ];

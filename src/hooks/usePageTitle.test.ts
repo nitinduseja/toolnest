@@ -38,6 +38,9 @@ describe('usePageTitle & getPageTitle', () => {
     expect(getPageTitle('/tools/pdf-merger-splitter')).toBe(
       'PDF Page Merger & Splitter | Toolnest'
     );
+    expect(getPageTitle('/tools/document-scanner')).toBe(
+      'Document Scanner & OCR Studio | Toolnest'
+    );
   });
 
   it('returns Tool Not Found for unknown tool route', () => {
