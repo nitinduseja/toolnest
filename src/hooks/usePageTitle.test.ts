@@ -35,6 +35,9 @@ describe('usePageTitle & getPageTitle', () => {
     expect(getPageTitle('/tools/http-status-lookup')).toBe(
       'HTTP Status Code & Header Lookup | Toolnest'
     );
+    expect(getPageTitle('/tools/pdf-merger-splitter')).toBe(
+      'PDF Page Merger & Splitter | Toolnest'
+    );
   });
 
   it('returns Tool Not Found for unknown tool route', () => {
