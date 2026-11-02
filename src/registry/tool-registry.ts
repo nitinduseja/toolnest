@@ -1,9 +1,10 @@
 import { ToolDefinition } from './types';
 import { CORE_TOOLS } from './core-tools';
 import { EXPANDED_TOOLS } from './expanded-tools';
+import { ADVANCED_TOOLS } from './advanced-tools';
 import { validateRegistry as validateTools } from './validation';
 
-export const ALL_TOOLS: ToolDefinition[] = [...CORE_TOOLS, ...EXPANDED_TOOLS];
+export const ALL_TOOLS: ToolDefinition[] = [...CORE_TOOLS, ...EXPANDED_TOOLS, ...ADVANCED_TOOLS];
 
 export const TOOL_MAP = new Map(ALL_TOOLS.map((tool) => [tool.id, tool]));
 export const TOOL_SLUG_MAP = new Map(ALL_TOOLS.map((tool) => [tool.slug, tool]));

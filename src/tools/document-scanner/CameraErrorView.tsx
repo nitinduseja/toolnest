@@ -81,14 +81,14 @@ export const CameraErrorView: React.FC<CameraErrorViewProps> = ({
           className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-primary hover:bg-primary/90 text-on-primary text-xs font-semibold transition-colors cursor-pointer shadow-xs"
         >
           <Upload className="w-3.5 h-3.5" />
-          <span>Take Photo / Upload</span>
+          <span>Upload Image / Photo</span>
         </button>
 
         <input
           ref={fileInputRef}
           type="file"
-          accept="image/*"
-          capture="environment"
+          accept="image/*,.jpg,.jpeg,.png,.webp,.bmp"
+          onClick={(e) => e.stopPropagation()}
           onChange={onFileFallback}
           className="hidden"
         />

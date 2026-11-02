@@ -42,6 +42,7 @@ describe('usePageTitle & getPageTitle', () => {
       'Document Scanner & OCR Studio | Toolnest'
     );
     expect(getPageTitle('/tools/rest-api-client')).toBe('REST API & Webhook Playground | Toolnest');
+    expect(getPageTitle('/tools/image-compressor')).toBe('Image Compressor & Converter | Toolnest');
   });
 
   it('returns Tool Not Found for unknown tool route', () => {

@@ -16,6 +16,10 @@ import { useFavorites } from '@/features/favorites/useFavorites';
 import { useRecentTools } from '@/features/recent-tools/useRecentTools';
 import { GithubIcon } from '@/components/atoms/GithubIcon';
 import { downloadFile } from '@/lib/downloads';
+import {
+  createUniversalBackupPayload,
+  restoreUniversalBackup,
+} from '@/lib/backup/workspaceBackupLogic';
 
 export const SettingsPage: React.FC = () => {
   const { preference, setPreference } = useTheme();
@@ -35,58 +39,64 @@ export const SettingsPage: React.FC = () => {
     }
   };
 
-  const handleExportBackup = () => {
-    const backup = {
-      app: 'Toolnest',
-      version: '1.0.0',
-      exportedAt: new Date().toISOString(),
-      theme: preference,
-      favorites,
-      recentToolIds,
-    };
-    downloadFile(JSON.stringify(backup, null, 2), {
-      filename: `toolnest-backup-${new Date().toISOString().slice(0, 10)}.json`,
-      mimeType: 'application/json',
-    });
-    setImportStatus('Backup exported successfully.');
-    setTimeout(() => setImportStatus(null), 3000);
+  const handleExportBackup = async () => {
+    try {
+      const backup = await createUniversalBackupPayload({
+        theme: preference,
+        favorites,
+        recentToolIds,
+      });
+      downloadFile(JSON.stringify(backup, null, 2), {
+        filename: `toolnest-universal-backup-${new Date().toISOString().slice(0, 10)}.json`,
+        mimeType: 'application/json',
+      });
+      setImportStatus('Universal workspace backup exported successfully.');
+      setTimeout(() => setImportStatus(null), 3500);
+    } catch {
+      setImportError('Failed to generate backup.');
+      setTimeout(() => setImportError(null), 3500);
+    }
   };
 
-  const handleImportBackup = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImportBackup = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    file
-      .text()
-      .then((raw) => {
-        const data = JSON.parse(raw);
-        if (!data || typeof data !== 'object') {
-          throw new Error('Invalid JSON format.');
-        }
+    try {
+      const raw = await file.text();
+      const data = JSON.parse(raw);
+      if (!data || typeof data !== 'object') {
+        throw new Error('Invalid JSON format.');
+      }
 
-        if (Array.isArray(data.favorites)) {
-          // Sync favorites
-          favorites.forEach((id) => {
-            if (!data.favorites.includes(id)) toggleFavorite(id);
-          });
-          data.favorites.forEach((id: string) => {
-            if (!favorites.includes(id)) toggleFavorite(id);
-          });
-        }
+      const favs = data.settings?.favorites || data.favorites;
+      if (Array.isArray(favs)) {
+        favorites.forEach((id) => {
+          if (!favs.includes(id)) toggleFavorite(id);
+        });
+        favs.forEach((id: string) => {
+          if (!favorites.includes(id)) toggleFavorite(id);
+        });
+      }
 
-        if (data.theme === 'light' || data.theme === 'dark' || data.theme === 'system') {
-          setPreference(data.theme);
-        }
+      const th = data.settings?.theme || data.theme;
+      if (th === 'light' || th === 'dark' || th === 'system') {
+        setPreference(th);
+      }
 
-        setImportError(null);
-        setImportStatus('Backup preferences imported successfully.');
-        setTimeout(() => setImportStatus(null), 3500);
-      })
-      .catch((err: unknown) => {
-        setImportStatus(null);
-        setImportError(err instanceof Error ? err.message : 'Failed to import backup file.');
-        setTimeout(() => setImportError(null), 4000);
-      });
+      const summary = await restoreUniversalBackup(data);
+      setImportError(null);
+      setImportStatus(
+        `Restored: ${summary.restoredDocuments} scans, ${summary.restoredCollections} collections, ${summary.restoredEnvironments} envs.`
+      );
+      setTimeout(() => setImportStatus(null), 4500);
+    } catch (err: unknown) {
+      setImportStatus(null);
+      setImportError(err instanceof Error ? err.message : 'Failed to import backup file.');
+      setTimeout(() => setImportError(null), 4000);
+    } finally {
+      e.target.value = '';
+    }
   };
 
   const themeOptions: { id: ThemePreference; label: string; icon: React.ReactNode }[] = [

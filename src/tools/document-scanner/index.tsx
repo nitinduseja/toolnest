@@ -157,9 +157,13 @@ export const DocumentScannerTool: React.FC = () => {
       <input
         ref={fileInputRef}
         type="file"
-        accept="image/*"
+        accept="image/*,.jpg,.jpeg,.png,.webp,.bmp"
         multiple
-        onChange={(e) => handleAddPhotos(e.target.files)}
+        onClick={(e) => e.stopPropagation()}
+        onChange={(e) => {
+          handleAddPhotos(e.target.files);
+          e.target.value = '';
+        }}
         className="hidden"
       />
 
