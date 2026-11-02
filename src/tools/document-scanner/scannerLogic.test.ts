@@ -4,6 +4,7 @@ import { computeDestDimensions, computeHomography } from './perspectiveLogic';
 import { applyScanFilters } from './filterLogic';
 import { exportScannedPagesToPdf } from './pdfExportLogic';
 import { ScannedPageItem } from './scannerDb';
+import { classifyCameraError } from './cameraErrorLogic';
 
 function makeMockImageData(width: number, height: number): ImageData {
   return {
@@ -184,6 +185,37 @@ describe('scannerLogic', () => {
       });
       expect(bytes.length).toBeGreaterThan(100);
       expect(bytes[0]).toBe(0x25);
+    });
+  });
+
+  describe('classifyCameraError', () => {
+    it('identifies NotAllowedError and permission denied as denied', () => {
+      const err = new Error('Permission denied');
+      err.name = 'NotAllowedError';
+      const classified = classifyCameraError(err);
+      expect(classified.type).toBe('denied');
+      expect(classified.message).toContain('Camera permission was denied');
+    });
+
+    it('identifies NotFoundError as notfound', () => {
+      const err = new Error('Requested device not found');
+      err.name = 'NotFoundError';
+      const classified = classifyCameraError(err);
+      expect(classified.type).toBe('notfound');
+      expect(classified.message).toContain('No camera hardware found');
+    });
+
+    it('identifies NotReadableError as inuse', () => {
+      const err = new Error('Camera is in use');
+      err.name = 'NotReadableError';
+      const classified = classifyCameraError(err);
+      expect(classified.type).toBe('inuse');
+      expect(classified.message).toContain('in use by another app');
+    });
+
+    it('handles unexpected error types safely', () => {
+      const classified = classifyCameraError('random string');
+      expect(classified.type).toBe('other');
     });
   });
 });
