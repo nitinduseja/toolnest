@@ -82,14 +82,14 @@ export const HeadersEditor: React.FC<HeadersEditorProps> = ({ headers, onChange 
                 value={item.key}
                 onChange={(e) => handleUpdate(item.id, { key: e.target.value })}
                 placeholder="Header Name"
-                className="flex-1 px-2.5 py-1.5 rounded-lg bg-surface-container border border-outline-variant text-xs font-mono text-on-surface focus:outline-hidden"
+                className="flex-1 min-w-0 px-2.5 py-1.5 rounded-lg bg-surface-container border border-outline-variant text-xs font-mono text-on-surface focus:outline-hidden"
               />
               <input
                 type="text"
                 value={item.value}
                 onChange={(e) => handleUpdate(item.id, { value: e.target.value })}
                 placeholder="Value"
-                className="flex-1 px-2.5 py-1.5 rounded-lg bg-surface-container border border-outline-variant text-xs font-mono text-on-surface focus:outline-hidden"
+                className="flex-1 min-w-0 px-2.5 py-1.5 rounded-lg bg-surface-container border border-outline-variant text-xs font-mono text-on-surface focus:outline-hidden"
               />
               <button
                 type="button"

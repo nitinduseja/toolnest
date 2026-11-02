@@ -153,11 +153,11 @@ export const ResponseViewer: React.FC<ResponseViewerProps> = ({ response, isLoad
       )}
 
       {/* Response Navigation */}
-      <div className="flex items-center gap-2 text-xs border-b border-outline-variant/60 pb-2">
+      <div className="flex items-center gap-2 text-xs border-b border-outline-variant/60 pb-2 overflow-x-auto flex-nowrap sm:flex-wrap">
         <button
           type="button"
           onClick={() => setTab('pretty')}
-          className={`font-semibold pb-1 border-b-2 transition-colors ${
+          className={`font-semibold pb-1 border-b-2 transition-colors shrink-0 cursor-pointer ${
             tab === 'pretty'
               ? 'border-primary text-primary'
               : 'border-transparent text-outline hover:text-on-surface'
@@ -168,7 +168,7 @@ export const ResponseViewer: React.FC<ResponseViewerProps> = ({ response, isLoad
         <button
           type="button"
           onClick={() => setTab('raw')}
-          className={`font-semibold pb-1 border-b-2 transition-colors ${
+          className={`font-semibold pb-1 border-b-2 transition-colors shrink-0 cursor-pointer ${
             tab === 'raw'
               ? 'border-primary text-primary'
               : 'border-transparent text-outline hover:text-on-surface'
@@ -179,7 +179,7 @@ export const ResponseViewer: React.FC<ResponseViewerProps> = ({ response, isLoad
         <button
           type="button"
           onClick={() => setTab('headers')}
-          className={`font-semibold pb-1 border-b-2 transition-colors ${
+          className={`font-semibold pb-1 border-b-2 transition-colors shrink-0 cursor-pointer ${
             tab === 'headers'
               ? 'border-primary text-primary'
               : 'border-transparent text-outline hover:text-on-surface'
@@ -191,7 +191,7 @@ export const ResponseViewer: React.FC<ResponseViewerProps> = ({ response, isLoad
           <button
             type="button"
             onClick={() => setTab('tests')}
-            className={`font-semibold pb-1 border-b-2 transition-colors ${
+            className={`font-semibold pb-1 border-b-2 transition-colors shrink-0 cursor-pointer ${
               tab === 'tests'
                 ? 'border-primary text-primary'
                 : 'border-transparent text-outline hover:text-on-surface'
@@ -224,8 +224,13 @@ export const ResponseViewer: React.FC<ResponseViewerProps> = ({ response, isLoad
           ) : (
             <div className="space-y-1">
               {Object.entries(response.headers).map(([k, v]) => (
-                <div key={k} className="flex items-start gap-2 text-xs font-mono">
-                  <span className="font-semibold text-primary w-44 shrink-0">{k}:</span>
+                <div
+                  key={k}
+                  className="flex flex-col sm:flex-row sm:items-start gap-0.5 sm:gap-2 text-xs font-mono py-1 border-b border-outline-variant/30 last:border-0"
+                >
+                  <span className="font-semibold text-primary sm:w-44 shrink-0 break-all">
+                    {k}:
+                  </span>
                   <span className="text-on-surface-variant break-all">{v}</span>
                 </div>
               ))}

@@ -56,7 +56,7 @@ export const BodyEditor: React.FC<BodyEditorProps> = ({
     <div className="space-y-3">
       {/* Type Switcher */}
       <div className="flex items-center justify-between flex-wrap gap-2">
-        <div className="flex items-center gap-1.5">
+        <div className="flex items-center gap-1.5 flex-wrap">
           {BODY_TYPES.map((t) => (
             <button
               key={t.id}
@@ -134,14 +134,14 @@ export const BodyEditor: React.FC<BodyEditorProps> = ({
                 value={item.key}
                 onChange={(e) => handleUpdateForm(item.id, { key: e.target.value })}
                 placeholder="Field Name"
-                className="flex-1 px-2.5 py-1.5 rounded-lg bg-surface-container border border-outline-variant text-xs font-mono text-on-surface focus:outline-hidden"
+                className="flex-1 min-w-0 px-2.5 py-1.5 rounded-lg bg-surface-container border border-outline-variant text-xs font-mono text-on-surface focus:outline-hidden"
               />
               <input
                 type="text"
                 value={item.value}
                 onChange={(e) => handleUpdateForm(item.id, { value: e.target.value })}
                 placeholder="Field Value"
-                className="flex-1 px-2.5 py-1.5 rounded-lg bg-surface-container border border-outline-variant text-xs font-mono text-on-surface focus:outline-hidden"
+                className="flex-1 min-w-0 px-2.5 py-1.5 rounded-lg bg-surface-container border border-outline-variant text-xs font-mono text-on-surface focus:outline-hidden"
               />
               <button
                 type="button"

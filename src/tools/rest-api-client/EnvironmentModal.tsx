@@ -71,9 +71,9 @@ export const EnvironmentModal: React.FC<EnvironmentModalProps> = ({
         </div>
 
         {/* Content */}
-        <div className="flex-1 flex overflow-hidden min-h-[300px]">
+        <div className="flex-1 flex flex-col sm:flex-row overflow-hidden min-h-[300px]">
           {/* Environments Sidebar */}
-          <div className="w-48 border-r border-outline-variant p-3 space-y-2 bg-surface-container-lowest overflow-y-auto">
+          <div className="w-full sm:w-48 border-b sm:border-b-0 sm:border-r border-outline-variant p-3 space-y-2 bg-surface-container-lowest shrink-0 max-h-36 sm:max-h-none overflow-y-auto">
             <div className="flex items-center justify-between text-xs font-semibold text-outline">
               <span>ENVIRONMENTS</span>
               <button type="button" onClick={handleAddEnv} className="p-1 hover:text-primary">
@@ -169,7 +169,7 @@ export const EnvironmentModal: React.FC<EnvironmentModalProps> = ({
                           handleUpdateActiveEnv({ variables: updated });
                         }}
                         placeholder="Variable Name"
-                        className="flex-1 px-2 py-1 rounded-lg bg-surface-container border border-outline-variant text-xs font-mono text-on-surface"
+                        className="flex-1 min-w-0 px-2 py-1 rounded-lg bg-surface-container border border-outline-variant text-xs font-mono text-on-surface"
                       />
                       <input
                         type="text"
@@ -181,7 +181,7 @@ export const EnvironmentModal: React.FC<EnvironmentModalProps> = ({
                           handleUpdateActiveEnv({ variables: updated });
                         }}
                         placeholder="Value"
-                        className="flex-1 px-2 py-1 rounded-lg bg-surface-container border border-outline-variant text-xs font-mono text-on-surface"
+                        className="flex-1 min-w-0 px-2 py-1 rounded-lg bg-surface-container border border-outline-variant text-xs font-mono text-on-surface"
                       />
                       <button
                         type="button"

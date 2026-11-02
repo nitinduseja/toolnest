@@ -78,13 +78,13 @@ export const CollectionRunnerModal: React.FC<CollectionRunnerModalProps> = ({
 
         {/* Progress & Metrics */}
         <div className="p-4 border-b border-outline-variant/60 bg-surface-container-lowest/50 space-y-3">
-          <div className="flex items-center justify-between text-xs">
+          <div className="flex items-center justify-between text-xs flex-wrap gap-2">
             <span className="font-medium text-on-surface">
               {isRunning
                 ? `Running (${completedResults.length} / ${requests.length})`
                 : 'Execution Finished'}
             </span>
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-3 flex-wrap">
               <span className="flex items-center gap-1 text-emerald-600 font-semibold">
                 <CheckCircle2 className="w-3.5 h-3.5" />
                 <span>{passedCount} Passed</span>
@@ -117,7 +117,7 @@ export const CollectionRunnerModal: React.FC<CollectionRunnerModalProps> = ({
           {completedResults.map((item, idx) => (
             <div
               key={`${item.requestId}_${idx}`}
-              className="p-3 rounded-xl bg-surface-container border border-outline-variant flex items-center justify-between gap-3 text-xs"
+              className="p-3 rounded-xl bg-surface-container border border-outline-variant flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-3 text-xs"
             >
               <div className="flex items-center gap-2.5 min-w-0 flex-1">
                 {item.passed ? (

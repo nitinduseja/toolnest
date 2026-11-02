@@ -69,7 +69,7 @@ export const ImportModal: React.FC<ImportModalProps> = ({
 
         {/* Content */}
         <div className="p-4 space-y-3">
-          <div className="flex items-center gap-3 text-[11px] text-outline">
+          <div className="flex items-center gap-3 text-[11px] text-outline flex-wrap">
             <span className="flex items-center gap-1">
               <Terminal className="w-3.5 h-3.5 text-primary" />
               <span>cURL Command</span>

@@ -72,45 +72,51 @@ export const RequestUrlBar: React.FC<RequestUrlBarProps> = ({
           <button
             type="button"
             onClick={onOpenHistory}
-            className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface border border-outline-variant font-medium transition-colors"
+            className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface border border-outline-variant font-medium transition-colors cursor-pointer"
           >
-            <History className="w-3.5 h-3.5 text-primary" />
-            <span>History & Collections</span>
+            <History className="w-3.5 h-3.5 text-primary shrink-0" />
+            <span>
+              History<span className="hidden sm:inline"> & Collections</span>
+            </span>
           </button>
           <button
             type="button"
             onClick={onOpenImport}
-            className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface border border-outline-variant font-medium transition-colors"
+            className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface border border-outline-variant font-medium transition-colors cursor-pointer"
           >
-            <Upload className="w-3.5 h-3.5 text-primary" />
+            <Upload className="w-3.5 h-3.5 text-primary shrink-0" />
             <span>Import</span>
           </button>
           <button
             type="button"
             onClick={onOpenCodeSnippet}
-            className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface border border-outline-variant font-medium transition-colors"
+            className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface border border-outline-variant font-medium transition-colors cursor-pointer"
           >
-            <Code className="w-3.5 h-3.5 text-primary" />
-            <span>Code Snippet</span>
+            <Code className="w-3.5 h-3.5 text-primary shrink-0" />
+            <span>
+              Code<span className="hidden sm:inline"> Snippet</span>
+            </span>
           </button>
           <button
             type="button"
             onClick={onOpenWebhookSigner}
-            className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface border border-outline-variant font-medium transition-colors"
+            className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface border border-outline-variant font-medium transition-colors cursor-pointer"
           >
-            <ShieldCheck className="w-3.5 h-3.5 text-emerald-500" />
-            <span>Sign Webhook</span>
+            <ShieldCheck className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
+            <span>
+              <span className="hidden sm:inline">Sign </span>Webhook
+            </span>
           </button>
         </div>
 
         {/* Environment & Sample Dropdown */}
-        <div className="flex items-center gap-2 flex-wrap">
+        <div className="flex items-center gap-2 flex-wrap w-full sm:w-auto justify-between sm:justify-start">
           {/* Environment dropdown */}
-          <div className="flex items-center gap-1">
+          <div className="flex items-center gap-1 flex-1 sm:flex-initial">
             <select
               value={activeEnvId}
               onChange={(e) => onSelectEnv(e.target.value)}
-              className="text-xs bg-surface-container border border-outline-variant rounded-lg px-2 py-1 text-on-surface focus:outline-hidden"
+              className="text-xs bg-surface-container border border-outline-variant rounded-lg px-2 py-1.5 text-on-surface focus:outline-hidden w-full sm:w-auto"
             >
               <option value="">No Environment</option>
               {environments.map((e) => (
@@ -123,14 +129,14 @@ export const RequestUrlBar: React.FC<RequestUrlBarProps> = ({
               type="button"
               onClick={onOpenEnvModal}
               title="Manage environments"
-              className="p-1 rounded-lg bg-surface-container hover:bg-surface-container-high border border-outline-variant text-on-surface"
+              className="p-1.5 rounded-lg bg-surface-container hover:bg-surface-container-high border border-outline-variant text-on-surface cursor-pointer shrink-0"
             >
               <Settings className="w-3.5 h-3.5" />
             </button>
           </div>
 
-          <div className="flex items-center gap-1">
-            <Sparkles className="w-3.5 h-3.5 text-primary" />
+          <div className="flex items-center gap-1 flex-1 sm:flex-initial">
+            <Sparkles className="w-3.5 h-3.5 text-primary shrink-0" />
             <select
               defaultValue=""
               onChange={(e) => {
@@ -138,7 +144,7 @@ export const RequestUrlBar: React.FC<RequestUrlBarProps> = ({
                 if (sample) onSelectSample(sample.req);
                 e.target.value = '';
               }}
-              className="text-xs bg-surface-container border border-outline-variant rounded-lg px-2 py-1 text-on-surface focus:outline-hidden"
+              className="text-xs bg-surface-container border border-outline-variant rounded-lg px-2 py-1.5 text-on-surface focus:outline-hidden w-full sm:w-auto"
             >
               <option value="" disabled>
                 Samples...
@@ -154,35 +160,37 @@ export const RequestUrlBar: React.FC<RequestUrlBarProps> = ({
       </div>
 
       {/* Main Bar */}
-      <div className="flex items-center gap-2 p-1.5 rounded-xl bg-surface-container-low border border-outline-variant shadow-xs">
-        <select
-          value={method}
-          onChange={(e) => onMethodChange(e.target.value as HttpMethod)}
-          className={`font-mono font-bold text-xs uppercase px-3 py-2 rounded-lg border focus:outline-hidden cursor-pointer ${METHOD_COLORS[method]}`}
-        >
-          {(['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS'] as HttpMethod[]).map(
-            (m) => (
-              <option key={m} value={m}>
-                {m}
-              </option>
-            )
-          )}
-        </select>
+      <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 p-1.5 rounded-xl bg-surface-container-low border border-outline-variant shadow-xs">
+        <div className="flex items-center gap-2 flex-1 min-w-0">
+          <select
+            value={method}
+            onChange={(e) => onMethodChange(e.target.value as HttpMethod)}
+            className={`font-mono font-bold text-xs uppercase px-2.5 sm:px-3 py-2 rounded-lg border focus:outline-hidden cursor-pointer shrink-0 ${METHOD_COLORS[method]}`}
+          >
+            {(['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS'] as HttpMethod[]).map(
+              (m) => (
+                <option key={m} value={m}>
+                  {m}
+                </option>
+              )
+            )}
+          </select>
 
-        <input
-          type="text"
-          value={url}
-          onChange={(e) => onUrlChange(e.target.value)}
-          onKeyDown={handleKeyDown}
-          placeholder="https://api.example.com/v1/resource or {{baseUrl}}/posts"
-          className="flex-1 bg-transparent px-2 py-2 text-xs font-mono text-on-surface focus:outline-hidden"
-        />
+          <input
+            type="text"
+            value={url}
+            onChange={(e) => onUrlChange(e.target.value)}
+            onKeyDown={handleKeyDown}
+            placeholder="https://api.example.com/v1/resource or {{baseUrl}}/posts"
+            className="flex-1 bg-transparent px-2 py-2 text-xs font-mono text-on-surface focus:outline-hidden min-w-0"
+          />
+        </div>
 
         <button
           type="button"
           onClick={onSend}
           disabled={isLoading || !url.trim()}
-          className="flex items-center gap-2 px-5 py-2 rounded-lg bg-primary text-on-primary hover:bg-primary/90 text-xs font-semibold shadow-xs disabled:opacity-40 transition-all active:scale-95 cursor-pointer"
+          className="flex items-center justify-center gap-2 px-5 py-2 rounded-lg bg-primary text-on-primary hover:bg-primary/90 text-xs font-semibold shadow-xs disabled:opacity-40 transition-all active:scale-95 cursor-pointer shrink-0"
         >
           {isLoading ? (
             <Loader2 className="w-3.5 h-3.5 animate-spin" />

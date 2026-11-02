@@ -182,7 +182,7 @@ export const CollectionsList: React.FC<CollectionsListProps> = ({
                     </span>
                   </button>
 
-                  <div className="flex items-center gap-1">
+                  <div className="flex items-center gap-1 shrink-0">
                     <button
                       type="button"
                       onClick={() => onRunCollection(group.name, group.requests)}

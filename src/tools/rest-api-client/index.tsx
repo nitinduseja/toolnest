@@ -146,7 +146,7 @@ export const RestApiClientTool: React.FC = () => {
 
       {/* Tabs */}
       <div className="rounded-2xl bg-surface-container-low border border-outline-variant p-4 space-y-4">
-        <div className="flex items-center gap-2 border-b border-outline-variant pb-2 text-xs flex-wrap">
+        <div className="flex items-center gap-2 border-b border-outline-variant pb-2 text-xs overflow-x-auto flex-nowrap sm:flex-wrap">
           {(
             [
               {
@@ -169,7 +169,7 @@ export const RestApiClientTool: React.FC = () => {
               key={t.id}
               type="button"
               onClick={() => setActiveTab(t.id)}
-              className={`font-semibold pb-1 border-b-2 transition-colors cursor-pointer ${
+              className={`font-semibold pb-1 border-b-2 transition-colors cursor-pointer shrink-0 ${
                 activeTab === t.id
                   ? 'border-primary text-primary'
                   : 'border-transparent text-outline hover:text-on-surface'

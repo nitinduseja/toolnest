@@ -59,14 +59,14 @@ export const QueryParamsEditor: React.FC<QueryParamsEditorProps> = ({ params, on
                 value={item.key}
                 onChange={(e) => handleUpdate(item.id, { key: e.target.value })}
                 placeholder="Key"
-                className="flex-1 px-2.5 py-1.5 rounded-lg bg-surface-container border border-outline-variant text-xs font-mono text-on-surface focus:outline-hidden"
+                className="flex-1 min-w-0 px-2.5 py-1.5 rounded-lg bg-surface-container border border-outline-variant text-xs font-mono text-on-surface focus:outline-hidden"
               />
               <input
                 type="text"
                 value={item.value}
                 onChange={(e) => handleUpdate(item.id, { value: e.target.value })}
                 placeholder="Value"
-                className="flex-1 px-2.5 py-1.5 rounded-lg bg-surface-container border border-outline-variant text-xs font-mono text-on-surface focus:outline-hidden"
+                className="flex-1 min-w-0 px-2.5 py-1.5 rounded-lg bg-surface-container border border-outline-variant text-xs font-mono text-on-surface focus:outline-hidden"
               />
               <button
                 type="button"
