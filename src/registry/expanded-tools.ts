@@ -257,4 +257,33 @@ export const EXPANDED_TOOLS: ToolDefinition[] = [
       '100% in-browser processing via Canvas & pdf-lib. Camera streams and documents never leave device memory.',
     badge: 'Scanner Engine',
   },
+  {
+    id: 'rest-api-client',
+    slug: 'rest-api-client',
+    name: 'REST API & Webhook Playground',
+    description:
+      'In-browser HTTP client to compose, test, and debug REST APIs and webhooks with cURL import/export, auth headers, and response inspection.',
+    category: 'developer-tools',
+    iconName: 'Send',
+    keywords: [
+      'api',
+      'rest',
+      'http',
+      'webhook',
+      'postman',
+      'curl',
+      'fetch',
+      'request',
+      'response',
+      'headers',
+      'auth',
+      'bearer',
+    ],
+    component: React.lazy(() => import('@/tools/rest-api-client')),
+    tags: ['Developer', 'API', 'HTTP', 'cURL', 'Webhook'],
+    isOfflineReady: true,
+    privacyNote:
+      'All requests are executed directly from your local browser with zero third-party telemetry or cloud logging.',
+    badge: 'HTTP Engine',
+  },
 ];

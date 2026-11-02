@@ -52,6 +52,7 @@ import {
   FileEdit,
   CalendarClock,
   Camera,
+  Send,
   LucideProps,
 } from 'lucide-react';
 
@@ -60,6 +61,7 @@ const ICON_REGISTRY: Record<string, React.ComponentType<LucideProps>> = {
   FileEdit,
   CalendarClock,
   Camera,
+  Send,
   Terminal,
   Binary,
   ShieldCheck,
