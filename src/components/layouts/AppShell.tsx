@@ -4,15 +4,21 @@ import { Header } from './Header';
 import { Sidebar } from './Sidebar';
 import { BottomNav } from './BottomNav';
 import { CommandPalette } from '@/features/command-palette/CommandPalette';
+import { ShortcutsModal } from '@/features/shortcuts/ShortcutsModal';
+import { useGlobalShortcuts } from '@/features/shortcuts/useGlobalShortcuts';
 import { usePageTitle } from '@/hooks/usePageTitle';
 
 export const AppShell: React.FC = () => {
   const [commandPaletteOpen, setCommandPaletteOpen] = useState(false);
+  const { shortcutsOpen, setShortcutsOpen } = useGlobalShortcuts();
   usePageTitle();
 
   return (
     <div className="min-h-screen bg-surface flex flex-col antialiased selection:bg-primary-container/20">
-      <Header onOpenCommandPalette={() => setCommandPaletteOpen(true)} />
+      <Header
+        onOpenCommandPalette={() => setCommandPaletteOpen(true)}
+        onOpenShortcuts={() => setShortcutsOpen(true)}
+      />
 
       <Sidebar />
 
@@ -34,6 +40,7 @@ export const AppShell: React.FC = () => {
       <BottomNav onOpenCommandPalette={() => setCommandPaletteOpen(true)} />
 
       <CommandPalette open={commandPaletteOpen} onOpenChange={setCommandPaletteOpen} />
+      <ShortcutsModal isOpen={shortcutsOpen} onClose={() => setShortcutsOpen(false)} />
     </div>
   );
 };

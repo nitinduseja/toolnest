@@ -43,6 +43,11 @@ describe('usePageTitle & getPageTitle', () => {
     );
     expect(getPageTitle('/tools/rest-api-client')).toBe('REST API & Webhook Playground | Toolnest');
     expect(getPageTitle('/tools/image-compressor')).toBe('Image Compressor & Converter | Toolnest');
+    expect(getPageTitle('/tools/subnet-calculator')).toBe('Subnet & CIDR IP Calculator | Toolnest');
+    expect(getPageTitle('/tools/svg-optimizer')).toBe('SVG Optimizer & Minifier | Toolnest');
+    expect(getPageTitle('/tools/favicon-generator')).toBe(
+      'Favicon & App Icon Generator | Toolnest'
+    );
   });
 
   it('returns Tool Not Found for unknown tool route', () => {

@@ -1,14 +1,15 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Search } from 'lucide-react';
+import { Search, Keyboard } from 'lucide-react';
 import { ThemeToggle } from '@/features/theme/ThemeToggle';
 import { GithubIcon } from '@/components/atoms/GithubIcon';
 
 interface HeaderProps {
   onOpenCommandPalette: () => void;
+  onOpenShortcuts?: () => void;
 }
 
-export const Header: React.FC<HeaderProps> = ({ onOpenCommandPalette }) => {
+export const Header: React.FC<HeaderProps> = ({ onOpenCommandPalette, onOpenShortcuts }) => {
   return (
     <header className="fixed top-0 left-0 right-0 h-14 bg-surface-container-lowest/95 backdrop-blur-md border-b border-outline-variant z-40">
       <div className="w-full h-14 px-4 sm:px-6 flex items-center justify-between gap-3">
@@ -50,6 +51,18 @@ export const Header: React.FC<HeaderProps> = ({ onOpenCommandPalette }) => {
 
         {/* Theme Toggle & Github Link */}
         <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+          {onOpenShortcuts && (
+            <button
+              type="button"
+              onClick={onOpenShortcuts}
+              title="Keyboard Shortcuts (?)"
+              aria-label="Keyboard Shortcuts"
+              className="w-8 h-8 rounded-lg flex items-center justify-center text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors cursor-pointer"
+            >
+              <Keyboard className="w-4 h-4" />
+            </button>
+          )}
+
           <ThemeToggle />
 
           <a

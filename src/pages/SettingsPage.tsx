@@ -20,11 +20,13 @@ import {
   createUniversalBackupPayload,
   restoreUniversalBackup,
 } from '@/lib/backup/workspaceBackupLogic';
+import { usePwaInstall } from '@/lib/pwa/usePwaInstall';
 
 export const SettingsPage: React.FC = () => {
   const { preference, setPreference } = useTheme();
   const { favorites, toggleFavorite } = useFavorites();
   const { recentToolIds, clearRecentTools } = useRecentTools();
+  const { canInstall, installApp } = usePwaInstall();
   const [importStatus, setImportStatus] = useState<string | null>(null);
   const [importError, setImportError] = useState<string | null>(null);
   const importInputRef = useRef<HTMLInputElement>(null);
@@ -230,6 +232,34 @@ export const SettingsPage: React.FC = () => {
             </button>
           </div>
         </div>
+      </section>
+
+      {/* Progressive Web App (PWA) Offline Status */}
+      <section className="p-6 rounded-xl bg-surface-container-low border border-outline-variant space-y-3">
+        <div className="flex items-center justify-between">
+          <h2 className="text-sm font-semibold uppercase tracking-wider text-on-surface">
+            Progressive Web App &amp; Offline
+          </h2>
+          <span className="px-2 py-0.5 rounded text-[11px] font-semibold bg-emerald-500/10 text-emerald-600 border border-emerald-500/20">
+            Offline Ready
+          </span>
+        </div>
+        <p className="text-xs text-on-surface-variant">
+          Toolnest runs 100% locally in your browser with service worker caching. Install it as a
+          standalone desktop or mobile application.
+        </p>
+        {canInstall && (
+          <div className="pt-1">
+            <button
+              type="button"
+              onClick={installApp}
+              className="inline-flex items-center gap-2 px-3.5 py-2 rounded-lg bg-primary hover:bg-primary/90 text-on-primary text-xs font-semibold cursor-pointer shadow-xs transition-colors"
+            >
+              <Download className="w-3.5 h-3.5" />
+              <span>Install Toolnest to Device</span>
+            </button>
+          </div>
+        )}
       </section>
 
       {/* About & Version Information */}

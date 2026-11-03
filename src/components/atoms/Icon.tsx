@@ -53,10 +53,12 @@ import {
   CalendarClock,
   Camera,
   Send,
+  Network,
   LucideProps,
 } from 'lucide-react';
 
 const ICON_REGISTRY: Record<string, React.ComponentType<LucideProps>> = {
+  Network,
   KeyRound,
   FileEdit,
   CalendarClock,
