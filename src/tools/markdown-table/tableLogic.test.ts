@@ -31,4 +31,3 @@ describe('Markdown Table Generator Domain Logic', () => {
     expect(res).toBe('');
   });
 });
-

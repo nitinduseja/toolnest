@@ -36,12 +36,7 @@ export function convertCsvToJson(
     return { jsonString: '[]', rowCount: 0, warnings: [], errors: [] };
   }
 
-  const {
-    hasHeader = true,
-    skipEmptyLines = true,
-    indent = 2,
-    delimiter = '',
-  } = options || {};
+  const { hasHeader = true, skipEmptyLines = true, indent = 2, delimiter = '' } = options || {};
 
   const parseConfig: Papa.ParseConfig = {
     header: false,
@@ -103,10 +98,7 @@ export function convertCsvToJson(
   };
 }
 
-export function convertJsonToCsv(
-  jsonContent: string,
-  options?: JsonToCsvOptions
-): JsonToCsvResult {
+export function convertJsonToCsv(jsonContent: string, options?: JsonToCsvOptions): JsonToCsvResult {
   const trimmed = jsonContent.trim();
   if (!trimmed) {
     return { csvString: '', rowCount: 0, warnings: [], errors: [] };

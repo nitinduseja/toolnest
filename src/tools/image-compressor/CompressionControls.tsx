@@ -101,7 +101,8 @@ export const CompressionControls: React.FC<CompressionControlsProps> = ({
           </div>
           {options.format === 'image/png' && (
             <p className="text-[11px] text-amber-500 pt-0.5">
-              Notice: PNG is lossless. To reduce PNG file weight, adjust dimensions with Resize below.
+              Notice: PNG is lossless. To reduce PNG file weight, adjust dimensions with Resize
+              below.
             </p>
           )}
         </div>

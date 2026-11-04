@@ -12,16 +12,18 @@ export type CodeAction = 'beautify' | 'minify';
 export function minifyHtml(html: string): string {
   if (!html.trim()) return '';
 
-  return html
-    // Remove HTML comments (excluding IE conditional comments if any)
-    .replace(/<!--(?!\[if)[\s\S]*?-->/g, '')
-    // Collapse multi-whitespace
-    .replace(/\s+/g, ' ')
-    // Remove space between closing and opening tags
-    .replace(/>\s+</g, '><')
-    // Remove space around self-closing tags
-    .replace(/\s+\/>/g, '/>')
-    .trim();
+  return (
+    html
+      // Remove HTML comments (excluding IE conditional comments if any)
+      .replace(/<!--(?!\[if)[\s\S]*?-->/g, '')
+      // Collapse multi-whitespace
+      .replace(/\s+/g, ' ')
+      // Remove space between closing and opening tags
+      .replace(/>\s+</g, '><')
+      // Remove space around self-closing tags
+      .replace(/\s+\/>/g, '/>')
+      .trim()
+  );
 }
 
 /**
@@ -92,16 +94,18 @@ export function formatHtml(html: string, indentSize = 2): string {
 export function minifyCss(css: string): string {
   if (!css.trim()) return '';
 
-  return css
-    // Remove comments
-    .replace(/\/\*[\s\S]*?\*\//g, '')
-    // Remove space around delimiters
-    .replace(/\s*([{}:;,>+~])\s*/g, '$1')
-    // Remove trailing semicolons in blocks
-    .replace(/;}/g, '}')
-    // Collapse duplicate whitespace
-    .replace(/\s+/g, ' ')
-    .trim();
+  return (
+    css
+      // Remove comments
+      .replace(/\/\*[\s\S]*?\*\//g, '')
+      // Remove space around delimiters
+      .replace(/\s*([{}:;,>+~])\s*/g, '$1')
+      // Remove trailing semicolons in blocks
+      .replace(/;}/g, '}')
+      // Collapse duplicate whitespace
+      .replace(/\s+/g, ' ')
+      .trim()
+  );
 }
 
 /**
@@ -141,7 +145,8 @@ export function formatCss(css: string, indentSize = 2): string {
       formatted = formatted.trimEnd() + ` {\n${indentStr.repeat(level)}`;
     } else if (char === '}') {
       level = Math.max(0, level - 1);
-      formatted = formatted.trimEnd() + `\n${indentStr.repeat(level)}}\n\n${indentStr.repeat(level)}`;
+      formatted =
+        formatted.trimEnd() + `\n${indentStr.repeat(level)}}\n\n${indentStr.repeat(level)}`;
     } else if (char === ';') {
       formatted += `;\n${indentStr.repeat(level)}`;
     } else {
@@ -157,4 +162,3 @@ export function formatCss(css: string, indentSize = 2): string {
     .replace(/\n{3,}/g, '\n\n')
     .trim();
 }
-

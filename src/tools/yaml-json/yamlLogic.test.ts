@@ -52,4 +52,3 @@ services:
     expect(convertJsonToYaml('').output).toBe('');
   });
 });
-

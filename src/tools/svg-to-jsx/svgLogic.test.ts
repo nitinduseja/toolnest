@@ -23,7 +23,9 @@ describe('SVG to JSX Generator Domain Logic', () => {
       useTypescript: true,
       spreadProps: true,
     });
-    expect(res.code).toContain('export interface ActivityIconProps extends React.SVGProps<SVGSVGElement>');
+    expect(res.code).toContain(
+      'export interface ActivityIconProps extends React.SVGProps<SVGSVGElement>'
+    );
     expect(res.code).toContain('export const ActivityIcon: React.FC<ActivityIconProps>');
     expect(res.code).toContain('{...props}');
   });
@@ -63,4 +65,3 @@ describe('SVG to JSX Generator Domain Logic', () => {
     expect(res.error).toBeUndefined();
   });
 });
-

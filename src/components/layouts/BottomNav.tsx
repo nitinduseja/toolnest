@@ -41,7 +41,9 @@ export const BottomNav: React.FC<BottomNavProps> = ({ onOpenCommandPalette }) =>
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center justify-between pb-2 border-b border-outline-variant/60">
-              <span className="font-bold text-sm text-on-surface">More Options &amp; Navigation</span>
+              <span className="font-bold text-sm text-on-surface">
+                More Options &amp; Navigation
+              </span>
               <button
                 type="button"
                 onClick={() => setShowMore(false)}

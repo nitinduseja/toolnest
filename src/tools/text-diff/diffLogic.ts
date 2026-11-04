@@ -26,13 +26,19 @@ export interface SideBySideLine {
   };
 }
 
+export interface ComputeDiffOptions extends DiffOptions {
+  mode?: DiffMode;
+}
+
 export function computeDiff(
   original: string,
   modified: string,
-  mode: DiffMode = 'lines',
-  options?: DiffOptions
+  modeOrOptions?: DiffMode | ComputeDiffOptions
 ): DiffPart[] {
   if (!original && !modified) return [];
+
+  const mode = typeof modeOrOptions === 'string' ? modeOrOptions : (modeOrOptions?.mode ?? 'lines');
+  const options = typeof modeOrOptions === 'object' ? modeOrOptions : undefined;
 
   const changes: Change[] =
     mode === 'words'

@@ -1,14 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import {
-  Download,
-  AlertTriangle,
-  Wifi,
-  User,
-  Mail,
-  Link as LinkIcon,
-  Copy,
-  Check,
-} from 'lucide-react';
+import React, { useState, useEffect, useMemo } from 'react';
+import { AlertTriangle, Wifi, User, Mail, Link as LinkIcon } from 'lucide-react';
 import {
   generateQrDataUrl,
   generateQrSvg,
@@ -17,6 +8,9 @@ import {
   buildEmailPayload,
   QrErrorCorrectionLevel,
 } from './qrLogic';
+import { QrTemplateForms } from './QrTemplateForms';
+import { QrPreviewCard } from './QrPreviewCard';
+import { QrOptionsPanel } from './QrOptionsPanel';
 import { copyToClipboard } from '@/lib/clipboard';
 import { downloadFile } from '@/lib/downloads';
 
@@ -60,7 +54,7 @@ export const QrGeneratorTool: React.FC = () => {
   const [copiedSvg, setCopiedSvg] = useState(false);
 
   // Active payload calculation
-  const activePayload = React.useMemo(() => {
+  const activePayload = useMemo(() => {
     switch (template) {
       case 'wifi':
         return wifiSsid
@@ -205,7 +199,7 @@ export const QrGeneratorTool: React.FC = () => {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Left 2 Cols: Form Inputs & Styling Controls */}
         <div className="lg:col-span-2 space-y-4">
-          {/* Template Input Forms */}
+          {/* Plaintext Form */}
           {template === 'text' && (
             <div className="space-y-2">
               <div className="flex items-center justify-between text-xs text-outline px-1">
@@ -230,157 +224,40 @@ export const QrGeneratorTool: React.FC = () => {
             </div>
           )}
 
-          {template === 'wifi' && (
-            <div className="p-4 rounded-xl bg-surface-container-low border border-outline-variant space-y-3">
-              <h3 className="text-xs font-semibold uppercase tracking-wider text-outline">
-                Wi-Fi Network Credentials
-              </h3>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
-                <div className="space-y-1">
-                  <label className="text-on-surface font-medium">SSID / Network Name</label>
-                  <input
-                    type="text"
-                    value={wifiSsid}
-                    onChange={(e) => setWifiSsid(e.target.value)}
-                    placeholder="e.g. MyOffice_5G"
-                    className="w-full px-3 py-2 rounded-lg bg-surface border border-outline-variant font-medium text-xs text-on-surface focus:outline-none"
-                  />
-                </div>
-                <div className="space-y-1">
-                  <label className="text-on-surface font-medium">Password</label>
-                  <input
-                    type="text"
-                    value={wifiPassword}
-                    onChange={(e) => setWifiPassword(e.target.value)}
-                    placeholder="Network password"
-                    className="w-full px-3 py-2 rounded-lg bg-surface border border-outline-variant font-medium text-xs text-on-surface focus:outline-none"
-                  />
-                </div>
-                <div className="space-y-1">
-                  <label className="text-on-surface font-medium">Security</label>
-                  <select
-                    value={wifiEncryption}
-                    onChange={(e) => setWifiEncryption(e.target.value as 'WPA' | 'WEP' | 'nopass')}
-                    className="w-full h-9 px-3 rounded-lg bg-surface border border-outline-variant text-xs text-on-surface focus:outline-none"
-                  >
-                    <option value="WPA">WPA / WPA2 / WPA3</option>
-                    <option value="WEP">WEP (Legacy)</option>
-                    <option value="nopass">None (Open Network)</option>
-                  </select>
-                </div>
-                <div className="flex items-center pt-5">
-                  <label className="flex items-center gap-2 cursor-pointer select-none text-on-surface">
-                    <input
-                      type="checkbox"
-                      checked={wifiHidden}
-                      onChange={(e) => setWifiHidden(e.target.checked)}
-                      className="rounded border-outline-variant text-primary focus:ring-primary"
-                    />
-                    <span>Hidden SSID</span>
-                  </label>
-                </div>
-              </div>
-            </div>
-          )}
-
-          {template === 'vcard' && (
-            <div className="p-4 rounded-xl bg-surface-container-low border border-outline-variant space-y-3">
-              <h3 className="text-xs font-semibold uppercase tracking-wider text-outline">
-                Contact Card Details
-              </h3>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
-                <div className="space-y-1">
-                  <label className="text-on-surface font-medium">First Name</label>
-                  <input
-                    type="text"
-                    value={vcardFirst}
-                    onChange={(e) => setVcardFirst(e.target.value)}
-                    placeholder="John"
-                    className="w-full px-3 py-2 rounded-lg bg-surface border border-outline-variant text-xs text-on-surface focus:outline-none"
-                  />
-                </div>
-                <div className="space-y-1">
-                  <label className="text-on-surface font-medium">Last Name</label>
-                  <input
-                    type="text"
-                    value={vcardLast}
-                    onChange={(e) => setVcardLast(e.target.value)}
-                    placeholder="Doe"
-                    className="w-full px-3 py-2 rounded-lg bg-surface border border-outline-variant text-xs text-on-surface focus:outline-none"
-                  />
-                </div>
-                <div className="space-y-1">
-                  <label className="text-on-surface font-medium">Organization</label>
-                  <input
-                    type="text"
-                    value={vcardOrg}
-                    onChange={(e) => setVcardOrg(e.target.value)}
-                    placeholder="Company or Studio"
-                    className="w-full px-3 py-2 rounded-lg bg-surface border border-outline-variant text-xs text-on-surface focus:outline-none"
-                  />
-                </div>
-                <div className="space-y-1">
-                  <label className="text-on-surface font-medium">Phone</label>
-                  <input
-                    type="tel"
-                    value={vcardPhone}
-                    onChange={(e) => setVcardPhone(e.target.value)}
-                    placeholder="+1 555-0199"
-                    className="w-full px-3 py-2 rounded-lg bg-surface border border-outline-variant text-xs text-on-surface focus:outline-none"
-                  />
-                </div>
-                <div className="sm:col-span-2 space-y-1">
-                  <label className="text-on-surface font-medium">Email</label>
-                  <input
-                    type="email"
-                    value={vcardEmail}
-                    onChange={(e) => setVcardEmail(e.target.value)}
-                    placeholder="john.doe@example.com"
-                    className="w-full px-3 py-2 rounded-lg bg-surface border border-outline-variant text-xs text-on-surface focus:outline-none"
-                  />
-                </div>
-              </div>
-            </div>
-          )}
-
-          {template === 'email' && (
-            <div className="p-4 rounded-xl bg-surface-container-low border border-outline-variant space-y-3">
-              <h3 className="text-xs font-semibold uppercase tracking-wider text-outline">
-                Mailto Draft
-              </h3>
-              <div className="space-y-3 text-xs">
-                <div className="space-y-1">
-                  <label className="text-on-surface font-medium">Recipient Email</label>
-                  <input
-                    type="email"
-                    value={emailTo}
-                    onChange={(e) => setEmailTo(e.target.value)}
-                    placeholder="recipient@example.com"
-                    className="w-full px-3 py-2 rounded-lg bg-surface border border-outline-variant text-xs text-on-surface focus:outline-none"
-                  />
-                </div>
-                <div className="space-y-1">
-                  <label className="text-on-surface font-medium">Subject</label>
-                  <input
-                    type="text"
-                    value={emailSubject}
-                    onChange={(e) => setEmailSubject(e.target.value)}
-                    placeholder="Meeting Follow-up"
-                    className="w-full px-3 py-2 rounded-lg bg-surface border border-outline-variant text-xs text-on-surface focus:outline-none"
-                  />
-                </div>
-                <div className="space-y-1">
-                  <label className="text-on-surface font-medium">Body</label>
-                  <textarea
-                    value={emailBody}
-                    onChange={(e) => setEmailBody(e.target.value)}
-                    placeholder="Enter email message body..."
-                    className="w-full h-20 p-2.5 rounded-lg bg-surface border border-outline-variant font-mono text-xs text-on-surface focus:outline-none resize-y"
-                  />
-                </div>
-              </div>
-            </div>
-          )}
+          {/* Wi-Fi, vCard, and Email Template Forms */}
+          <QrTemplateForms
+            template={template}
+            wifi={{
+              ssid: wifiSsid,
+              setSsid: setWifiSsid,
+              password: wifiPassword,
+              setPassword: setWifiPassword,
+              encryption: wifiEncryption,
+              setEncryption: setWifiEncryption,
+              hidden: wifiHidden,
+              setHidden: setWifiHidden,
+            }}
+            vcard={{
+              first: vcardFirst,
+              setFirst: setVcardFirst,
+              last: vcardLast,
+              setLast: setVcardLast,
+              org: vcardOrg,
+              setOrg: setVcardOrg,
+              phone: vcardPhone,
+              setPhone: setVcardPhone,
+              email: vcardEmail,
+              setEmail: setVcardEmail,
+            }}
+            email={{
+              to: emailTo,
+              setTo: setEmailTo,
+              subject: emailSubject,
+              setSubject: setEmailSubject,
+              body: emailBody,
+              setBody: setEmailBody,
+            }}
+          />
 
           {error && (
             <div className="p-3 rounded-xl bg-red-500/10 border border-red-500/30 flex items-center gap-2.5 text-xs text-red-400">
@@ -390,149 +267,30 @@ export const QrGeneratorTool: React.FC = () => {
           )}
 
           {/* Customization Options */}
-          <div className="p-4 rounded-xl bg-surface-container-low border border-outline-variant space-y-3">
-            <h3 className="text-xs font-semibold uppercase tracking-wider text-outline">
-              Options &amp; Dimensions
-            </h3>
-
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
-              <div>
-                <label className="text-on-surface-variant block mb-1">Pixel Size ({size}px)</label>
-                <select
-                  value={size}
-                  onChange={(e) => setSize(Number(e.target.value))}
-                  className="w-full h-9 px-3 rounded-lg bg-surface border border-outline-variant text-xs text-on-surface focus:outline-none"
-                >
-                  <option value={200}>200 x 200 px</option>
-                  <option value={300}>300 x 300 px</option>
-                  <option value={400}>400 x 400 px</option>
-                  <option value={600}>600 x 600 px (HD)</option>
-                </select>
-              </div>
-
-              <div>
-                <label className="text-on-surface-variant block mb-1">
-                  Quiet Zone Margin ({margin})
-                </label>
-                <select
-                  value={margin}
-                  onChange={(e) => setMargin(Number(e.target.value))}
-                  className="w-full h-9 px-3 rounded-lg bg-surface border border-outline-variant text-xs text-on-surface focus:outline-none"
-                >
-                  <option value={1}>Compact (1 module)</option>
-                  <option value={2}>Standard (2 modules)</option>
-                  <option value={4}>Generous (4 modules)</option>
-                </select>
-              </div>
-
-              <div>
-                <label className="text-on-surface-variant block mb-1">
-                  Error Correction ({ecc})
-                </label>
-                <select
-                  value={ecc}
-                  onChange={(e) => setEcc(e.target.value as QrErrorCorrectionLevel)}
-                  className="w-full h-9 px-3 rounded-lg bg-surface border border-outline-variant text-xs text-on-surface focus:outline-none"
-                >
-                  <option value="L">L (~7% damage recovery)</option>
-                  <option value="M">M (~15% recovery, default)</option>
-                  <option value="Q">Q (~25% damage recovery)</option>
-                  <option value="H">H (~30% damage recovery)</option>
-                </select>
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
-              <div className="flex items-center gap-3">
-                <label className="text-on-surface-variant text-xs">QR Foreground:</label>
-                <input
-                  type="color"
-                  value={darkColor}
-                  onChange={(e) => setDarkColor(e.target.value)}
-                  className="w-8 h-8 rounded border border-outline-variant cursor-pointer"
-                />
-                <span className="font-mono text-xs">{darkColor}</span>
-              </div>
-
-              <div className="flex items-center gap-3">
-                <label className="text-on-surface-variant text-xs">Background:</label>
-                <input
-                  type="color"
-                  value={lightColor}
-                  onChange={(e) => setLightColor(e.target.value)}
-                  className="w-8 h-8 rounded border border-outline-variant cursor-pointer"
-                />
-                <span className="font-mono text-xs">{lightColor}</span>
-              </div>
-            </div>
-          </div>
+          <QrOptionsPanel
+            size={size}
+            setSize={setSize}
+            margin={margin}
+            setMargin={setMargin}
+            ecc={ecc}
+            setEcc={setEcc}
+            darkColor={darkColor}
+            setDarkColor={setDarkColor}
+            lightColor={lightColor}
+            setLightColor={setLightColor}
+          />
         </div>
 
-        {/* Right Col: Live Preview & Downloads */}
-        <div className="p-6 rounded-2xl bg-surface-container-low border border-outline-variant flex flex-col items-center justify-between text-center space-y-4">
-          <div className="w-full flex items-center justify-between text-xs text-outline">
-            <span className="font-semibold uppercase">QR Code Preview</span>
-            <span className="font-mono text-[11px]">
-              {size}x{size}
-            </span>
-          </div>
-
-          <div className="p-3 bg-white rounded-xl shadow-md border border-outline-variant/60">
-            {dataUrl ? (
-              <img
-                src={dataUrl}
-                alt="Generated QR Code"
-                className="w-48 h-48 object-contain rounded"
-              />
-            ) : (
-              <div className="w-48 h-48 flex items-center justify-center text-zinc-400 text-xs italic">
-                Enter payload to render
-              </div>
-            )}
-          </div>
-
-          <div className="w-full space-y-2">
-            <button
-              type="button"
-              onClick={handleDownloadPng}
-              disabled={!dataUrl}
-              className="w-full h-10 inline-flex items-center justify-center gap-2 rounded-xl bg-primary-container text-on-primary-container text-xs font-semibold hover:opacity-95 shadow-sm transition-opacity disabled:opacity-40"
-            >
-              <Download className="w-4 h-4" />
-              <span>Download PNG Image</span>
-            </button>
-
-            <div className="grid grid-cols-2 gap-2">
-              <button
-                type="button"
-                onClick={handleDownloadSvg}
-                disabled={!svgString}
-                className="h-9 inline-flex items-center justify-center gap-1.5 rounded-lg bg-surface hover:bg-surface-container text-xs font-medium text-on-surface border border-outline-variant transition-colors disabled:opacity-40"
-              >
-                <Download className="w-3.5 h-3.5" />
-                <span>Vector SVG</span>
-              </button>
-
-              <button
-                type="button"
-                onClick={handleCopySvg}
-                disabled={!svgString}
-                className="h-9 inline-flex items-center justify-center gap-1.5 rounded-lg bg-surface hover:bg-surface-container text-xs font-medium text-on-surface border border-outline-variant transition-colors disabled:opacity-40"
-              >
-                {copiedSvg ? (
-                  <Check className="w-3.5 h-3.5 text-emerald-500" />
-                ) : (
-                  <Copy className="w-3.5 h-3.5" />
-                )}
-                <span>{copiedSvg ? 'Copied' : 'Copy SVG'}</span>
-              </button>
-            </div>
-
-            <p className="text-[11px] text-outline pt-1">
-              Generated locally via Canvas &amp; SVG vector rendering. Zero external servers.
-            </p>
-          </div>
-        </div>
+        {/* Live Preview & Download Card */}
+        <QrPreviewCard
+          size={size}
+          dataUrl={dataUrl}
+          svgString={svgString}
+          copiedSvg={copiedSvg}
+          handleDownloadPng={handleDownloadPng}
+          handleDownloadSvg={handleDownloadSvg}
+          handleCopySvg={handleCopySvg}
+        />
       </div>
     </div>
   );

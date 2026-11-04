@@ -48,4 +48,3 @@ describe('Base64 Image Domain Logic', () => {
     expect(parsed.error).toBeDefined();
   });
 });
-

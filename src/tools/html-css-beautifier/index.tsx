@@ -180,7 +180,11 @@ export const HtmlCssBeautifierTool: React.FC = () => {
             disabled={!output}
             className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-surface hover:bg-surface-container text-xs font-medium text-on-surface border border-outline-variant transition-colors disabled:opacity-40"
           >
-            {copied ? <Check className="w-3.5 h-3.5 text-emerald-500" /> : <Copy className="w-3.5 h-3.5" />}
+            {copied ? (
+              <Check className="w-3.5 h-3.5 text-emerald-500" />
+            ) : (
+              <Copy className="w-3.5 h-3.5" />
+            )}
             <span>{copied ? 'Copied' : 'Copy'}</span>
           </button>
           <button
@@ -233,7 +237,8 @@ export const HtmlCssBeautifierTool: React.FC = () => {
       <div className="flex items-center gap-2 text-[11px] text-outline px-1">
         <Sparkles className="w-3.5 h-3.5 text-primary shrink-0" />
         <span>
-          Processed 100% locally in browser memory. HTML comments, indentation levels, and CSS declarations are cleanly structured without external libraries.
+          Processed 100% locally in browser memory. HTML comments, indentation levels, and CSS
+          declarations are cleanly structured without external libraries.
         </span>
       </div>
     </div>
@@ -241,4 +246,3 @@ export const HtmlCssBeautifierTool: React.FC = () => {
 };
 
 export default HtmlCssBeautifierTool;
-

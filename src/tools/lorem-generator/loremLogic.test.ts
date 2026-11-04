@@ -31,4 +31,3 @@ describe('Lorem Ipsum Generator Domain Logic', () => {
     expect(htmlList.includes('<li>')).toBe(true);
   });
 });
-

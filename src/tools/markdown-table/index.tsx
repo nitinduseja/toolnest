@@ -11,30 +11,18 @@ import {
   Upload,
   Sparkles,
 } from 'lucide-react';
-import {
-  generateMarkdownTable,
-  parseDelimitedToTable,
-  ColumnAlignment,
-} from './tableLogic';
+import { generateMarkdownTable, parseDelimitedToTable, ColumnAlignment } from './tableLogic';
 import { copyToClipboard } from '@/lib/clipboard';
 import { downloadFile } from '@/lib/downloads';
 
 export const MarkdownTableTool: React.FC = () => {
-  const [headers, setHeaders] = useState<string[]>([
-    'Feature',
-    'Toolnest',
-    'Cloud Alternative',
-  ]);
+  const [headers, setHeaders] = useState<string[]>(['Feature', 'Toolnest', 'Cloud Alternative']);
   const [rows, setRows] = useState<string[][]>([
     ['Offline Capable', 'Yes (100% PWA)', 'No'],
     ['Zero Telemetry', 'Guaranteed Local', 'Logs to Cloud'],
     ['Memory Security', 'Client-Side Sandbox', 'Server Stored'],
   ]);
-  const [alignments, setAlignments] = useState<ColumnAlignment[]>([
-    'left',
-    'center',
-    'right',
-  ]);
+  const [alignments, setAlignments] = useState<ColumnAlignment[]>(['left', 'center', 'right']);
   const [copied, setCopied] = useState<boolean>(false);
   const [csvModalOpen, setCsvModalOpen] = useState<boolean>(false);
   const [csvText, setCsvText] = useState<string>('');
@@ -195,7 +183,11 @@ export const MarkdownTableTool: React.FC = () => {
             onClick={handleCopy}
             className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-surface hover:bg-surface-container text-xs font-medium text-on-surface border border-outline-variant transition-colors"
           >
-            {copied ? <Check className="w-3.5 h-3.5 text-emerald-500" /> : <Copy className="w-3.5 h-3.5" />}
+            {copied ? (
+              <Check className="w-3.5 h-3.5 text-emerald-500" />
+            ) : (
+              <Copy className="w-3.5 h-3.5" />
+            )}
             <span>{copied ? 'Copied' : 'Copy Markdown'}</span>
           </button>
           <button
@@ -308,7 +300,8 @@ export const MarkdownTableTool: React.FC = () => {
       <div className="flex items-center gap-2 text-[11px] text-outline px-1">
         <Sparkles className="w-3.5 h-3.5 text-primary shrink-0" />
         <span>
-          Generates standard GitHub Flavored Markdown (GFM) tables with automatic monospace alignment padding.
+          Generates standard GitHub Flavored Markdown (GFM) tables with automatic monospace
+          alignment padding.
         </span>
       </div>
     </div>
@@ -316,4 +309,3 @@ export const MarkdownTableTool: React.FC = () => {
 };
 
 export default MarkdownTableTool;
-

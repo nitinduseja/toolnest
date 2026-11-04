@@ -12,17 +12,93 @@ export interface LoremOptions {
 }
 
 const LOREM_WORDS = [
-  'lorem', 'ipsum', 'dolor', 'sit', 'amet', 'consectetur', 'adipiscing', 'elit',
-  'sed', 'do', 'eiusmod', 'tempor', 'incididunt', 'ut', 'labore', 'et', 'dolore',
-  'magna', 'aliqua', 'enim', 'ad', 'minim', 'veniam', 'quis', 'nostrud',
-  'exercitation', 'ullamco', 'laboris', 'nisi', 'aliquip', 'ex', 'ea', 'commodo',
-  'consequat', 'duis', 'aute', 'irure', 'in', 'reprehenderit', 'voluptate',
-  'velit', 'esse', 'cillum', 'fugiat', 'nulla', 'pariatur', 'excepteur', 'sint',
-  'occaecat', 'cupidatat', 'non', 'proident', 'sunt', 'culpa', 'qui', 'officia',
-  'deserunt', 'mollit', 'anim', 'id', 'est', 'laborum', 'architecto', 'beatae',
-  'vitae', 'dicta', 'explicabo', 'nemo', 'ipsam', 'voluptatem', 'quia', 'voluptas',
-  'aspernatur', 'aut', 'odit', 'fugit', 'consequuntur', 'magni', 'dolores', 'eos',
-  'ratione', 'sequi', 'nesciunt', 'neque', 'porro', 'quisquam', 'dolorem',
+  'lorem',
+  'ipsum',
+  'dolor',
+  'sit',
+  'amet',
+  'consectetur',
+  'adipiscing',
+  'elit',
+  'sed',
+  'do',
+  'eiusmod',
+  'tempor',
+  'incididunt',
+  'ut',
+  'labore',
+  'et',
+  'dolore',
+  'magna',
+  'aliqua',
+  'enim',
+  'ad',
+  'minim',
+  'veniam',
+  'quis',
+  'nostrud',
+  'exercitation',
+  'ullamco',
+  'laboris',
+  'nisi',
+  'aliquip',
+  'ex',
+  'ea',
+  'commodo',
+  'consequat',
+  'duis',
+  'aute',
+  'irure',
+  'in',
+  'reprehenderit',
+  'voluptate',
+  'velit',
+  'esse',
+  'cillum',
+  'fugiat',
+  'nulla',
+  'pariatur',
+  'excepteur',
+  'sint',
+  'occaecat',
+  'cupidatat',
+  'non',
+  'proident',
+  'sunt',
+  'culpa',
+  'qui',
+  'officia',
+  'deserunt',
+  'mollit',
+  'anim',
+  'id',
+  'est',
+  'laborum',
+  'architecto',
+  'beatae',
+  'vitae',
+  'dicta',
+  'explicabo',
+  'nemo',
+  'ipsam',
+  'voluptatem',
+  'quia',
+  'voluptas',
+  'aspernatur',
+  'aut',
+  'odit',
+  'fugit',
+  'consequuntur',
+  'magni',
+  'dolores',
+  'eos',
+  'ratione',
+  'sequi',
+  'nesciunt',
+  'neque',
+  'porro',
+  'quisquam',
+  'dolorem',
 ];
 
 const STANDARD_OPENING = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit';
@@ -52,16 +128,11 @@ function generateParagraph(minSentences = 3, maxSentences = 6): string {
 }
 
 export function generateLorem(options: LoremOptions = {}): string {
-  const {
-    unit = 'paragraphs',
-    count = 3,
-    startWithLorem = true,
-    wrapInHtml = false,
-  } = options;
+  const { unit = 'paragraphs', count = 3, startWithLorem = true, wrapInHtml = false } = options;
 
   const boundedCount = Math.max(1, Math.min(count, 100));
 
-  let results: string[] = [];
+  const results: string[] = [];
 
   switch (unit) {
     case 'words': {
@@ -80,7 +151,9 @@ export function generateLorem(options: LoremOptions = {}): string {
     case 'sentences': {
       for (let i = 0; i < boundedCount; i++) {
         if (i === 0 && startWithLorem) {
-          results.push(`${STANDARD_OPENING}, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.`);
+          results.push(
+            `${STANDARD_OPENING}, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.`
+          );
         } else {
           results.push(generateSentence());
         }
@@ -118,4 +191,3 @@ export function generateLorem(options: LoremOptions = {}): string {
     }
   }
 }
-

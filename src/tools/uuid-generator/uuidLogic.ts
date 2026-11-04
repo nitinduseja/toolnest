@@ -76,10 +76,7 @@ export function generateUuidV7(timestampMs?: number): string {
 /**
  * Generates a NanoID using CSPRNG with unbiased rejection sampling.
  */
-export function generateNanoId(
-  size = 21,
-  alphabet = DEFAULT_NANOID_ALPHABET
-): string {
+export function generateNanoId(size = 21, alphabet = DEFAULT_NANOID_ALPHABET): string {
   if (size <= 0) return '';
   const len = alphabet.length;
   if (len < 2 || len > 256) {

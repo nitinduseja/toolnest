@@ -229,7 +229,9 @@ export const JwtDecoderTool: React.FC = () => {
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <Key className="w-4 h-4 text-primary shrink-0" />
-            <span className="text-xs font-semibold text-on-surface">HMAC-SHA256 Signature Verification</span>
+            <span className="text-xs font-semibold text-on-surface">
+              HMAC-SHA256 Signature Verification
+            </span>
           </div>
           <button
             type="button"
@@ -264,13 +266,17 @@ export const JwtDecoderTool: React.FC = () => {
         {sigStatus === 'valid' && (
           <div className="p-2.5 rounded-lg bg-emerald-500/10 border border-emerald-500/30 flex items-center gap-2 text-xs text-emerald-400">
             <ShieldCheck className="w-4 h-4 shrink-0" />
-            <span className="font-semibold">Signature Verified: Valid secret key for this token.</span>
+            <span className="font-semibold">
+              Signature Verified: Valid secret key for this token.
+            </span>
           </div>
         )}
         {sigStatus === 'invalid' && (
           <div className="p-2.5 rounded-lg bg-red-500/10 border border-red-500/30 flex items-center gap-2 text-xs text-red-400">
             <ShieldAlert className="w-4 h-4 shrink-0" />
-            <span className="font-semibold">{sigError || 'Signature Invalid: Secret key does not match.'}</span>
+            <span className="font-semibold">
+              {sigError || 'Signature Invalid: Secret key does not match.'}
+            </span>
           </div>
         )}
 

@@ -122,7 +122,11 @@ export const CurlConverterTool: React.FC = () => {
             disabled={!result.code}
             className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-surface hover:bg-surface-container text-xs font-medium text-on-surface border border-outline-variant transition-colors disabled:opacity-40"
           >
-            {copied ? <Check className="w-3.5 h-3.5 text-emerald-500" /> : <Copy className="w-3.5 h-3.5" />}
+            {copied ? (
+              <Check className="w-3.5 h-3.5 text-emerald-500" />
+            ) : (
+              <Copy className="w-3.5 h-3.5" />
+            )}
             <span>{copied ? 'Copied' : 'Copy Code'}</span>
           </button>
           <button
@@ -180,7 +184,8 @@ export const CurlConverterTool: React.FC = () => {
       <div className="flex items-center gap-2 text-[11px] text-outline px-1">
         <Sparkles className="w-3.5 h-3.5 text-primary shrink-0" />
         <span>
-          cURL parsing is executed 100% locally in browser memory. API tokens, authorization headers, and cookies never leave your machine.
+          cURL parsing is executed 100% locally in browser memory. API tokens, authorization
+          headers, and cookies never leave your machine.
         </span>
       </div>
     </div>
@@ -188,4 +193,3 @@ export const CurlConverterTool: React.FC = () => {
 };
 
 export default CurlConverterTool;
-

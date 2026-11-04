@@ -3,7 +3,8 @@ import { formatHtml, minifyHtml, formatCss, minifyCss } from './htmlCssLogic';
 
 describe('HTML & CSS Beautifier / Minifier Domain Logic', () => {
   describe('HTML Processing', () => {
-    const RAW_HTML = '<div class="container"><!-- Comment --><h1>Title</h1><p>Hello <span>world</span>!</p></div>';
+    const RAW_HTML =
+      '<div class="container"><!-- Comment --><h1>Title</h1><p>Hello <span>world</span>!</p></div>';
 
     it('formats HTML with hierarchical indentation', () => {
       const formatted = formatHtml(RAW_HTML);
@@ -15,7 +16,9 @@ describe('HTML & CSS Beautifier / Minifier Domain Logic', () => {
     it('minifies HTML by removing comments and unnecessary whitespace', () => {
       const minified = minifyHtml(RAW_HTML);
       expect(minified).not.toContain('<!-- Comment -->');
-      expect(minified).toBe('<div class="container"><h1>Title</h1><p>Hello <span>world</span>!</p></div>');
+      expect(minified).toBe(
+        '<div class="container"><h1>Title</h1><p>Hello <span>world</span>!</p></div>'
+      );
     });
 
     it('handles self-closing and void tags properly', () => {

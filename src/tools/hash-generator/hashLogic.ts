@@ -6,7 +6,10 @@
 
 export type HashAlgorithm = 'SHA-256' | 'SHA-512' | 'SHA-384' | 'SHA-1' | 'MD5' | 'CRC-32';
 
-export async function computeWebCryptoHash(algorithm: 'SHA-1' | 'SHA-256' | 'SHA-384' | 'SHA-512', data: ArrayBuffer | Uint8Array): Promise<string> {
+export async function computeWebCryptoHash(
+  algorithm: 'SHA-1' | 'SHA-256' | 'SHA-384' | 'SHA-512',
+  data: ArrayBuffer | Uint8Array
+): Promise<string> {
   if (typeof crypto === 'undefined' || !crypto.subtle) {
     throw new Error('Web Crypto API is unavailable. Secure context required.');
   }
@@ -64,6 +67,7 @@ export function computeMd5(text: string): string {
     return (msw << 16) | (lsw & 0xffff);
   }
 
+  /* eslint-disable max-params */
   function cmn(q: number, a: number, b: number, x: number, s: number, t: number): number {
     return safeAdd(((a = safeAdd(safeAdd(a, q), safeAdd(x, t))) << s) | (a >>> (32 - s)), b);
   }
@@ -83,6 +87,7 @@ export function computeMd5(text: string): string {
   function ii(a: number, b: number, c: number, d: number, x: number, s: number, t: number): number {
     return cmn(c ^ (b | ~d), a, b, x, s, t);
   }
+  /* eslint-enable max-params */
 
   const bytes = new TextEncoder().encode(text);
   const words: number[] = [];
@@ -182,7 +187,8 @@ export function computeMd5(text: string): string {
   let out = '';
   for (const val of [a, b, c, d]) {
     for (let j = 0; j < 4; j++) {
-      out += hexChars.charAt((val >> (j * 8 + 4)) & 0x0f) + hexChars.charAt((val >> (j * 8)) & 0x0f);
+      out +=
+        hexChars.charAt((val >> (j * 8 + 4)) & 0x0f) + hexChars.charAt((val >> (j * 8)) & 0x0f);
     }
   }
   return out;

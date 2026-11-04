@@ -161,7 +161,11 @@ export const SvgToJsxTool: React.FC = () => {
             disabled={!result.code}
             className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-surface hover:bg-surface-container text-xs font-medium text-on-surface border border-outline-variant transition-colors disabled:opacity-40"
           >
-            {copied ? <Check className="w-3.5 h-3.5 text-emerald-500" /> : <Copy className="w-3.5 h-3.5" />}
+            {copied ? (
+              <Check className="w-3.5 h-3.5 text-emerald-500" />
+            ) : (
+              <Copy className="w-3.5 h-3.5" />
+            )}
             <span>{copied ? 'Copied' : 'Copy JSX'}</span>
           </button>
           <button
@@ -236,4 +240,3 @@ export const SvgToJsxTool: React.FC = () => {
 };
 
 export default SvgToJsxTool;
-

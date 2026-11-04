@@ -1,10 +1,9 @@
 import React, { useState, useMemo, useRef } from 'react';
-import { Copy, Check, Download, Upload, Trash2, AlertTriangle, Info, ArrowLeftRight } from 'lucide-react';
+import { AlertTriangle, Info } from 'lucide-react';
 import { convertCsvToJson, convertJsonToCsv } from './csvLogic';
+import { CsvJsonToolbar, ConversionDirection } from './CsvJsonToolbar';
 import { copyToClipboard } from '@/lib/clipboard';
 import { downloadFile } from '@/lib/downloads';
-
-type ConversionDirection = 'csv-to-json' | 'json-to-csv';
 
 const SAMPLE_CSV = `id,name,role,department
 101,"Linus Torvalds","Fellow","Linux Foundation"
@@ -126,156 +125,29 @@ export const CsvToJsonTool: React.FC = () => {
       />
 
       {/* Direction & Options Toolbar */}
-      <div className="flex flex-wrap items-center justify-between gap-3 p-3 rounded-xl bg-surface-container-low border border-outline-variant">
-        <div className="flex flex-wrap items-center gap-3">
-          <div className="flex items-center gap-1 p-1 rounded-xl bg-surface-container-high border border-outline-variant/60">
-            <button
-              type="button"
-              onClick={() => {
-                if (direction !== 'csv-to-json') {
-                  setDirection('csv-to-json');
-                  setInput(SAMPLE_CSV);
-                }
-              }}
-              className={`px-3 py-1 rounded-lg text-xs font-semibold transition-colors ${
-                direction === 'csv-to-json'
-                  ? 'bg-primary-container text-on-primary-container shadow-xs'
-                  : 'text-on-surface-variant hover:text-on-surface'
-              }`}
-            >
-              CSV to JSON
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                if (direction !== 'json-to-csv') {
-                  setDirection('json-to-csv');
-                  setInput(SAMPLE_JSON);
-                }
-              }}
-              className={`px-3 py-1 rounded-lg text-xs font-semibold transition-colors ${
-                direction === 'json-to-csv'
-                  ? 'bg-primary-container text-on-primary-container shadow-xs'
-                  : 'text-on-surface-variant hover:text-on-surface'
-              }`}
-            >
-              JSON to CSV
-            </button>
-          </div>
-
-          <button
-            type="button"
-            onClick={handleSwap}
-            className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors"
-            title="Swap input and output"
-          >
-            <ArrowLeftRight className="w-3.5 h-3.5" />
-            <span className="hidden sm:inline">Swap</span>
-          </button>
-
-          <div className="h-4 w-px bg-outline-variant" />
-
-          {/* Delimiter */}
-          <div className="flex items-center gap-1.5 text-xs text-outline">
-            <span>Delimiter:</span>
-            <select
-              value={delimiter}
-              onChange={(e) => setDelimiter(e.target.value)}
-              className="h-8 px-2 rounded-lg bg-surface border border-outline-variant text-xs text-on-surface focus:outline-none"
-            >
-              <option value=",">Comma (,)</option>
-              <option value=";">Semicolon (;)</option>
-              <option value="&#9;">Tab (\t)</option>
-              <option value="|">Pipe (|)</option>
-            </select>
-          </div>
-
-          <label className="flex items-center gap-1.5 text-xs text-on-surface cursor-pointer select-none">
-            <input
-              type="checkbox"
-              checked={hasHeader}
-              onChange={(e) => setHasHeader(e.target.checked)}
-              className="rounded border-outline-variant text-primary focus:ring-primary"
-            />
-            <span>Include Headers</span>
-          </label>
-
-          {direction === 'csv-to-json' && (
-            <label className="flex items-center gap-1.5 text-xs text-on-surface cursor-pointer select-none">
-              <input
-                type="checkbox"
-                checked={skipEmptyLines}
-                onChange={(e) => setSkipEmptyLines(e.target.checked)}
-                className="rounded border-outline-variant text-primary focus:ring-primary"
-              />
-              <span>Skip Blank Lines</span>
-            </label>
-          )}
-
-          {direction === 'csv-to-json' && (
-            <div className="flex items-center gap-1.5 text-xs text-outline">
-              <span>Indent:</span>
-              <select
-                value={indent}
-                onChange={(e) => setIndent(Number(e.target.value))}
-                className="h-8 px-2 rounded-lg bg-surface border border-outline-variant text-xs text-on-surface focus:outline-none"
-              >
-                <option value={2}>2 Spaces</option>
-                <option value={4}>4 Spaces</option>
-                <option value={0}>Minified</option>
-              </select>
-            </div>
-          )}
-        </div>
-
-        <div className="flex items-center gap-2">
-          <button
-            type="button"
-            onClick={() => fileInputRef.current?.click()}
-            className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs text-on-surface-variant hover:bg-surface-container transition-colors"
-            title="Upload File"
-          >
-            <Upload className="w-3.5 h-3.5" />
-            <span className="hidden sm:inline">Upload</span>
-          </button>
-          <button
-            type="button"
-            onClick={() => setInput(direction === 'csv-to-json' ? SAMPLE_CSV : SAMPLE_JSON)}
-            className="px-2.5 py-1.5 rounded-lg text-xs text-on-surface-variant hover:bg-surface-container transition-colors"
-          >
-            Sample
-          </button>
-          <button
-            type="button"
-            onClick={() => setInput('')}
-            className="p-1.5 rounded-lg text-outline hover:text-red-500 hover:bg-surface-container transition-colors"
-            title="Clear Input"
-          >
-            <Trash2 className="w-4 h-4" />
-          </button>
-          <div className="h-4 w-px bg-outline-variant" />
-          <button
-            type="button"
-            onClick={handleCopy}
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-surface hover:bg-surface-container text-xs font-medium text-on-surface border border-outline-variant transition-colors"
-          >
-            {copied ? (
-              <Check className="w-3.5 h-3.5 text-emerald-500" />
-            ) : (
-              <Copy className="w-3.5 h-3.5" />
-            )}
-            <span>{copied ? 'Copied' : 'Copy'}</span>
-          </button>
-          <button
-            type="button"
-            onClick={handleDownload}
-            className="p-1.5 rounded-lg text-outline hover:text-on-surface hover:bg-surface-container transition-colors"
-            title="Download result"
-          >
-            <Download className="w-4 h-4" />
-          </button>
-        </div>
-      </div>
+      <CsvJsonToolbar
+        direction={direction}
+        setDirection={(d) => {
+          setDirection(d);
+          setInput(d === 'csv-to-json' ? SAMPLE_CSV : SAMPLE_JSON);
+        }}
+        handleSwap={handleSwap}
+        delimiter={delimiter}
+        setDelimiter={setDelimiter}
+        hasHeader={hasHeader}
+        setHasHeader={setHasHeader}
+        skipEmptyLines={skipEmptyLines}
+        setSkipEmptyLines={setSkipEmptyLines}
+        indent={indent}
+        setIndent={setIndent}
+        onUploadClick={() => fileInputRef.current?.click()}
+        onLoadSample={() => setInput(direction === 'csv-to-json' ? SAMPLE_CSV : SAMPLE_JSON)}
+        onClear={() => setInput('')}
+        handleCopy={handleCopy}
+        copied={copied}
+        handleDownload={handleDownload}
+        hasOutput={Boolean(conversionResult.output)}
+      />
 
       {/* Warnings & Errors */}
       {conversionResult.warnings.map((w, i) => (

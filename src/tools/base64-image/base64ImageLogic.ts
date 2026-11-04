@@ -62,7 +62,8 @@ export function parseBase64Image(input: string): ParsedBase64Image {
     if (rawBase64Clean.startsWith('/9j/')) inferredMime = 'image/jpeg';
     else if (rawBase64Clean.startsWith('R0lGOD')) inferredMime = 'image/gif';
     else if (rawBase64Clean.startsWith('UklGR')) inferredMime = 'image/webp';
-    else if (rawBase64Clean.startsWith('PHN2Zy') || rawBase64Clean.startsWith('PD94bW')) inferredMime = 'image/svg+xml';
+    else if (rawBase64Clean.startsWith('PHN2Zy') || rawBase64Clean.startsWith('PD94bW'))
+      inferredMime = 'image/svg+xml';
 
     return {
       mimeType: inferredMime,
@@ -121,4 +122,3 @@ export function base64ToBlob(base64Data: string, mimeType = 'image/png'): Blob {
   const byteArray = new Uint8Array(byteNumbers);
   return new Blob([byteArray], { type: mimeType });
 }
-

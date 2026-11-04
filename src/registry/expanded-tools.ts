@@ -247,7 +247,8 @@ export const EXPANDED_TOOLS: ToolDefinition[] = [
     component: React.lazy(() => import('@/tools/curl-converter')),
     tags: ['Developer Tools', 'cURL', 'Fetch', 'Python', 'Go', 'API'],
     isOfflineReady: true,
-    privacyNote: 'Parsed 100% locally in browser memory. Authentication tokens never leave your browser.',
+    privacyNote:
+      'Parsed 100% locally in browser memory. Authentication tokens never leave your browser.',
     badge: 'Multi-Language',
   },
   {

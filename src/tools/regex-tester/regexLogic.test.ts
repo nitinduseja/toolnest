@@ -28,7 +28,10 @@ describe('Regex Tester Domain Logic', () => {
   });
 
   it('replaces matches with substitution string', () => {
-    const res = replaceRegex('\\bworld\\b', 'g', 'Hello world, welcome to the world', 'Toolnest');
+    const res = replaceRegex('\\bworld\\b', 'Hello world, welcome to the world', {
+      flags: 'g',
+      replacement: 'Toolnest',
+    });
     expect(res.output).toBe('Hello Toolnest, welcome to the Toolnest');
   });
 

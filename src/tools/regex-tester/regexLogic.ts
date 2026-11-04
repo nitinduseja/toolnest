@@ -36,14 +36,16 @@ export const COMMON_REGEX_PRESETS: RegexPreset[] = [
   },
   {
     name: 'URL (HTTP / HTTPS)',
-    pattern: 'https?:\\/\\/(?:www\\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b(?:[-a-zA-Z0-9()@:%_+.~#?&//=]*)',
+    pattern:
+      'https?:\\/\\/(?:www\\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b(?:[-a-zA-Z0-9()@:%_+.~#?&//=]*)',
     flags: 'gi',
     description: 'Matches standard web URLs including query parameters',
     example: 'Visit https://toolnest.dev or http://localhost:5173/tools today.',
   },
   {
     name: 'IPv4 Address',
-    pattern: '\\b(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\b',
+    pattern:
+      '\\b(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\b',
     flags: 'g',
     description: 'Matches valid dotted-decimal IPv4 addresses (0.0.0.0 to 255.255.255.255)',
     example: 'DNS servers at 192.168.1.1 and 8.8.8.8 configured.',
@@ -64,7 +66,8 @@ export const COMMON_REGEX_PRESETS: RegexPreset[] = [
   },
   {
     name: 'UUID v4',
-    pattern: '\\b[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}\\b',
+    pattern:
+      '\\b[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}\\b',
     flags: 'gi',
     description: 'Matches RFC 4122 compliant version-4 UUID strings',
     example: 'Session ID: a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d confirmed.',
@@ -135,12 +138,17 @@ export function testRegex(pattern: string, flags: string, testText: string): Reg
   };
 }
 
+export interface ReplaceRegexOptions {
+  replacement: string;
+  flags?: string;
+}
+
 export function replaceRegex(
   pattern: string,
-  flags: string,
   testText: string,
-  replacement: string
+  options: ReplaceRegexOptions
 ): { output: string; error?: string } {
+  const { replacement, flags = 'g' } = options;
   if (!pattern) return { output: testText };
   try {
     const regex = new RegExp(pattern, flags);

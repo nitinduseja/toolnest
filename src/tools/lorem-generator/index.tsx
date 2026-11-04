@@ -37,7 +37,10 @@ export const LoremGeneratorTool: React.FC = () => {
   const handleDownload = () => {
     if (!output) return;
     const ext = wrapInHtml ? 'html' : 'txt';
-    downloadFile(output, { filename: `lorem-ipsum.${ext}`, mimeType: wrapInHtml ? 'text/html' : 'text/plain' });
+    downloadFile(output, {
+      filename: `lorem-ipsum.${ext}`,
+      mimeType: wrapInHtml ? 'text/html' : 'text/plain',
+    });
   };
 
   return (
@@ -120,7 +123,11 @@ export const LoremGeneratorTool: React.FC = () => {
             disabled={!output}
             className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-surface hover:bg-surface-container text-xs font-medium text-on-surface border border-outline-variant transition-colors disabled:opacity-40"
           >
-            {copied ? <Check className="w-3.5 h-3.5 text-emerald-500" /> : <Copy className="w-3.5 h-3.5" />}
+            {copied ? (
+              <Check className="w-3.5 h-3.5 text-emerald-500" />
+            ) : (
+              <Copy className="w-3.5 h-3.5" />
+            )}
             <span>{copied ? 'Copied' : 'Copy'}</span>
           </button>
           <button
@@ -140,7 +147,9 @@ export const LoremGeneratorTool: React.FC = () => {
         <div className="flex items-center justify-between text-xs text-outline px-1">
           <span className="font-medium text-on-surface">Generated Placeholder Text</span>
           <div className="flex items-center gap-3 font-mono text-[11px]">
-            <span>{metrics.paras} {unit === 'list' ? 'items' : 'paragraphs'}</span>
+            <span>
+              {metrics.paras} {unit === 'list' ? 'items' : 'paragraphs'}
+            </span>
             <span>•</span>
             <span>{metrics.words} words</span>
             <span>•</span>
@@ -157,7 +166,8 @@ export const LoremGeneratorTool: React.FC = () => {
       <div className="flex items-center gap-2 text-[11px] text-outline px-1">
         <Sparkles className="w-3.5 h-3.5 text-primary shrink-0" />
         <span>
-          Generates standardized pseudo-Latin filler copy for layouts, mockups, design prototypes, and typography tests.
+          Generates standardized pseudo-Latin filler copy for layouts, mockups, design prototypes,
+          and typography tests.
         </span>
       </div>
     </div>
@@ -165,4 +175,3 @@ export const LoremGeneratorTool: React.FC = () => {
 };
 
 export default LoremGeneratorTool;
-

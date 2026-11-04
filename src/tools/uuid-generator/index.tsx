@@ -172,7 +172,11 @@ export const UuidGeneratorTool: React.FC = () => {
             onClick={handleCopyAll}
             className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-surface hover:bg-surface-container text-xs font-medium text-on-surface border border-outline-variant transition-colors"
           >
-            {copiedAll ? <Check className="w-3.5 h-3.5 text-emerald-500" /> : <Copy className="w-3.5 h-3.5" />}
+            {copiedAll ? (
+              <Check className="w-3.5 h-3.5 text-emerald-500" />
+            ) : (
+              <Copy className="w-3.5 h-3.5" />
+            )}
             <span>{copiedAll ? 'Copied All' : 'Copy All'}</span>
           </button>
 
@@ -223,10 +227,14 @@ export const UuidGeneratorTool: React.FC = () => {
       <div className="flex items-center gap-2 text-[11px] text-outline px-1">
         <Sparkles className="w-3.5 h-3.5 text-primary shrink-0" />
         <span>
-          {idType === 'uuid-v7' && 'UUID v7 encodes a 48-bit timestamp at the beginning, making it ideal for primary keys in B-Tree indexed databases.'}
-          {idType === 'uuid-v4' && 'UUID v4 generates 122 cryptographically random bits with negligible collision probability.'}
-          {idType === 'nanoid' && 'NanoID is URL-safe, compact, and provides equal or better collision resistance than UUID with fewer characters.'}
-          {idType === 'ulid' && 'ULID uses Crockford 32-character alphabet, avoiding ambiguous letters like I, L, O, and U.'}
+          {idType === 'uuid-v7' &&
+            'UUID v7 encodes a 48-bit timestamp at the beginning, making it ideal for primary keys in B-Tree indexed databases.'}
+          {idType === 'uuid-v4' &&
+            'UUID v4 generates 122 cryptographically random bits with negligible collision probability.'}
+          {idType === 'nanoid' &&
+            'NanoID is URL-safe, compact, and provides equal or better collision resistance than UUID with fewer characters.'}
+          {idType === 'ulid' &&
+            'ULID uses Crockford 32-character alphabet, avoiding ambiguous letters like I, L, O, and U.'}
         </span>
       </div>
     </div>

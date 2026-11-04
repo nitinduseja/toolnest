@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { Copy, Check, Trash2, GitCompare, Columns2, AlignLeft } from 'lucide-react';
 import { computeDiff, computeSideBySideDiff, DiffMode } from './diffLogic';
+import { SideBySideDiffTable } from './SideBySideDiffTable';
 import { copyToClipboard } from '@/lib/clipboard';
 
 const SAMPLE_ORIGINAL = `function calculateTotal(price, tax) {
@@ -30,7 +31,7 @@ export const TextDiffTool: React.FC = () => {
   );
 
   const diffResult = useMemo(() => {
-    return computeDiff(original, modified, mode, diffOptions);
+    return computeDiff(original, modified, { ...diffOptions, mode });
   }, [original, modified, mode, diffOptions]);
 
   const sideBySideResult = useMemo(() => {
@@ -229,61 +230,15 @@ export const TextDiffTool: React.FC = () => {
             </h3>
           </div>
           <span className="text-[11px] font-mono text-outline">
-            {viewMode === 'split' ? `${sideBySideResult.length} lines` : `${diffResult.length} blocks`}
+            {viewMode === 'split'
+              ? `${sideBySideResult.length} lines`
+              : `${diffResult.length} blocks`}
           </span>
         </div>
 
         {viewMode === 'split' ? (
           /* Side-by-Side Synchronized View */
-          <div className="border border-outline-variant rounded-lg overflow-x-auto bg-surface font-mono text-xs">
-            <table className="w-full border-collapse">
-              <thead>
-                <tr className="bg-surface-container text-outline text-[11px] border-b border-outline-variant">
-                  <th className="w-12 py-1 px-2 text-right border-r border-outline-variant font-normal">#</th>
-                  <th className="py-1 px-3 text-left w-1/2 border-r border-outline-variant">Original</th>
-                  <th className="w-12 py-1 px-2 text-right border-r border-outline-variant font-normal">#</th>
-                  <th className="py-1 px-3 text-left w-1/2">Modified</th>
-                </tr>
-              </thead>
-              <tbody>
-                {sideBySideResult.length > 0 ? (
-                  sideBySideResult.map((row, idx) => {
-                    const isRemoved = row.left?.type === 'removed';
-                    const isAdded = row.right?.type === 'added';
-                    const leftBg = isRemoved ? 'bg-red-500/15 text-red-500 dark:text-red-400' : '';
-                    const rightBg = isAdded ? 'bg-emerald-500/15 text-emerald-600 dark:text-emerald-400' : '';
-
-                    return (
-                      <tr key={idx} className="border-b border-outline-variant/30 hover:bg-surface-container/50">
-                        {/* Left Line Num */}
-                        <td className="py-0.5 px-2 text-right select-none text-outline border-r border-outline-variant/50 text-[11px] bg-surface-container-low/40">
-                          {row.left?.lineNum ?? ''}
-                        </td>
-                        {/* Left Text */}
-                        <td className={`py-0.5 px-3 border-r border-outline-variant/50 whitespace-pre font-mono ${leftBg}`}>
-                          {row.left?.text ?? ''}
-                        </td>
-                        {/* Right Line Num */}
-                        <td className="py-0.5 px-2 text-right select-none text-outline border-r border-outline-variant/50 text-[11px] bg-surface-container-low/40">
-                          {row.right?.lineNum ?? ''}
-                        </td>
-                        {/* Right Text */}
-                        <td className={`py-0.5 px-3 whitespace-pre font-mono ${rightBg}`}>
-                          {row.right?.text ?? ''}
-                        </td>
-                      </tr>
-                    );
-                  })
-                ) : (
-                  <tr>
-                    <td colSpan={4} className="py-8 text-center text-outline italic">
-                      Enter text above to inspect differences...
-                    </td>
-                  </tr>
-                )}
-              </tbody>
-            </table>
-          </div>
+          <SideBySideDiffTable rows={sideBySideResult} />
         ) : (
           /* Unified Inline View */
           <div className="font-mono text-xs p-4 rounded-lg bg-surface border border-outline-variant overflow-x-auto whitespace-pre-wrap leading-relaxed">
@@ -291,9 +246,11 @@ export const TextDiffTool: React.FC = () => {
               diffResult.map((part, index) => {
                 let colorClass = 'text-on-surface';
                 if (part.added) {
-                  colorClass = 'bg-emerald-500/20 text-emerald-500 dark:text-emerald-400 px-0.5 rounded';
+                  colorClass =
+                    'bg-emerald-500/20 text-emerald-500 dark:text-emerald-400 px-0.5 rounded';
                 } else if (part.removed) {
-                  colorClass = 'bg-red-500/20 text-red-500 dark:text-red-400 line-through px-0.5 rounded';
+                  colorClass =
+                    'bg-red-500/20 text-red-500 dark:text-red-400 line-through px-0.5 rounded';
                 }
                 return (
                   <span key={`${index}-${part.value.slice(0, 10)}`} className={colorClass}>
@@ -302,7 +259,9 @@ export const TextDiffTool: React.FC = () => {
                 );
               })
             ) : (
-              <span className="text-outline italic">Enter text above to inspect differences...</span>
+              <span className="text-outline italic">
+                Enter text above to inspect differences...
+              </span>
             )}
           </div>
         )}

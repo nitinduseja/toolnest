@@ -1,13 +1,5 @@
 import React, { useState, useMemo, useRef } from 'react';
-import {
-  Upload,
-  Copy,
-  Check,
-  Download,
-  Trash2,
-  Image as ImageIcon,
-  Sparkles,
-} from 'lucide-react';
+import { Upload, Copy, Check, Download, Trash2, Sparkles } from 'lucide-react';
 import {
   fileToBase64,
   parseBase64Image,
@@ -15,6 +7,7 @@ import {
   base64ToBlob,
   SnippetFormat,
 } from './base64ImageLogic';
+import { Base64DecoderView } from './Base64DecoderView';
 import { copyToClipboard } from '@/lib/clipboard';
 
 type Mode = 'encode' | 'decode';
@@ -127,14 +120,19 @@ export const Base64ImageTool: React.FC = () => {
         {mode === 'encode' && dataUrl && (
           <div className="flex items-center gap-2">
             <span className="text-xs text-outline font-mono">
-              Raw: {(fileSize / 1024).toFixed(1)} KB → Base64: {(outputSnippet.length / 1024).toFixed(1)} KB
+              Raw: {(fileSize / 1024).toFixed(1)} KB → Base64:{' '}
+              {(outputSnippet.length / 1024).toFixed(1)} KB
             </span>
             <button
               type="button"
               onClick={() => handleCopy(outputSnippet)}
               className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-surface hover:bg-surface-container text-xs font-medium text-on-surface border border-outline-variant transition-colors"
             >
-              {copied ? <Check className="w-3.5 h-3.5 text-emerald-500" /> : <Copy className="w-3.5 h-3.5" />}
+              {copied ? (
+                <Check className="w-3.5 h-3.5 text-emerald-500" />
+              ) : (
+                <Copy className="w-3.5 h-3.5" />
+              )}
               <span>{copied ? 'Copied' : 'Copy'}</span>
             </button>
             <button
@@ -213,9 +211,15 @@ export const Base64ImageTool: React.FC = () => {
                   Source Image Preview
                 </span>
                 <div className="w-full h-48 bg-surface-container-lowest rounded-lg border border-outline-variant/60 p-2 flex items-center justify-center overflow-hidden">
-                  <img src={dataUrl} alt={fileName} className="max-h-full max-w-full object-contain" />
+                  <img
+                    src={dataUrl}
+                    alt={fileName}
+                    className="max-h-full max-w-full object-contain"
+                  />
                 </div>
-                <div className="text-xs text-on-surface font-medium truncate max-w-full">{fileName}</div>
+                <div className="text-xs text-on-surface font-medium truncate max-w-full">
+                  {fileName}
+                </div>
                 <button
                   type="button"
                   onClick={() => fileInputRef.current?.click()}
@@ -279,53 +283,19 @@ export const Base64ImageTool: React.FC = () => {
 
       {/* MODE 2: Base64 to Image */}
       {mode === 'decode' && (
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-          <div className="space-y-2">
-            <div className="flex items-center justify-between text-xs text-outline px-1">
-              <span className="font-medium text-on-surface">Base64 String or Data URL Input</span>
-              <span className="font-mono text-[11px]">{base64Input.length} chars</span>
-            </div>
-            <textarea
-              value={base64Input}
-              onChange={(e) => setBase64Input(e.target.value)}
-              placeholder="Paste data:image/...;base64,... or raw base64 string here..."
-              className="w-full h-80 sm:h-96 p-4 rounded-xl bg-surface-container-low border border-outline-variant font-mono text-xs text-on-surface placeholder:text-outline focus:outline-none focus:ring-2 focus:ring-primary-container resize-y"
-            />
-          </div>
-
-          <div className="space-y-2">
-            <div className="flex items-center justify-between text-xs text-outline px-1">
-              <span className="font-medium text-on-surface">Decoded Image Preview</span>
-              {decodedResult.valid && (
-                <span className="font-mono text-[11px] px-2 py-0.5 rounded bg-surface-container-high text-primary font-semibold">
-                  {decodedResult.mimeType}
-                </span>
-              )}
-            </div>
-
-            <div className="w-full h-80 sm:h-96 p-4 rounded-xl bg-surface-container-lowest border border-outline-variant flex flex-col items-center justify-center overflow-hidden">
-              {decodedResult.valid ? (
-                <img
-                  src={decodedResult.dataUrl}
-                  alt="Decoded Preview"
-                  className="max-h-full max-w-full object-contain rounded shadow-xs"
-                />
-              ) : (
-                <div className="text-center space-y-2 text-outline text-xs">
-                  <ImageIcon className="w-8 h-8 mx-auto opacity-40" />
-                  <span>{decodedResult.error || 'Enter a valid Base64 string to render image preview'}</span>
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
+        <Base64DecoderView
+          base64Input={base64Input}
+          setBase64Input={setBase64Input}
+          decodedResult={decodedResult}
+        />
       )}
 
       {/* Privacy note */}
       <div className="flex items-center gap-2 text-[11px] text-outline px-1">
         <Sparkles className="w-3.5 h-3.5 text-primary shrink-0" />
         <span>
-          Images and Data URIs are converted completely in browser memory via native FileReader &amp; Blob APIs.
+          Images and Data URIs are converted completely in browser memory via native FileReader
+          &amp; Blob APIs.
         </span>
       </div>
     </div>
@@ -333,4 +303,3 @@ export const Base64ImageTool: React.FC = () => {
 };
 
 export default Base64ImageTool;
-

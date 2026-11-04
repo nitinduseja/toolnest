@@ -1,10 +1,9 @@
 import React, { useState, useMemo, useRef } from 'react';
-import { Copy, Check, Download, Upload, Trash2, AlertTriangle, ArrowLeftRight, FileCode } from 'lucide-react';
+import { AlertTriangle, FileCode } from 'lucide-react';
 import { convertYamlToJson, convertJsonToYaml } from './yamlLogic';
+import { YamlJsonToolbar, YamlJsonDirection } from './YamlJsonToolbar';
 import { copyToClipboard } from '@/lib/clipboard';
 import { downloadFile } from '@/lib/downloads';
-
-type Direction = 'yaml-to-json' | 'json-to-yaml';
 
 const SAMPLE_YAML = `# Kubernetes Deployment Sample
 apiVersion: apps/v1
@@ -79,7 +78,7 @@ const SAMPLE_JSON = `{
 }`;
 
 export const YamlJsonTool: React.FC = () => {
-  const [direction, setDirection] = useState<Direction>('yaml-to-json');
+  const [direction, setDirection] = useState<YamlJsonDirection>('yaml-to-json');
   const [input, setInput] = useState<string>(SAMPLE_YAML);
   const [indent, setIndent] = useState<number>(2);
   const [copied, setCopied] = useState<boolean>(false);
@@ -148,114 +147,23 @@ export const YamlJsonTool: React.FC = () => {
       />
 
       {/* Direction & Action Toolbar */}
-      <div className="flex flex-wrap items-center justify-between gap-3 p-3 rounded-xl bg-surface-container-low border border-outline-variant">
-        <div className="flex flex-wrap items-center gap-3">
-          <div className="flex items-center gap-1 p-1 rounded-xl bg-surface-container-high border border-outline-variant/60">
-            <button
-              type="button"
-              onClick={() => {
-                if (direction !== 'yaml-to-json') {
-                  setDirection('yaml-to-json');
-                  setInput(SAMPLE_YAML);
-                }
-              }}
-              className={`px-3 py-1 rounded-lg text-xs font-semibold transition-colors ${
-                direction === 'yaml-to-json'
-                  ? 'bg-primary-container text-on-primary-container shadow-xs'
-                  : 'text-on-surface-variant hover:text-on-surface'
-              }`}
-            >
-              YAML to JSON
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                if (direction !== 'json-to-yaml') {
-                  setDirection('json-to-yaml');
-                  setInput(SAMPLE_JSON);
-                }
-              }}
-              className={`px-3 py-1 rounded-lg text-xs font-semibold transition-colors ${
-                direction === 'json-to-yaml'
-                  ? 'bg-primary-container text-on-primary-container shadow-xs'
-                  : 'text-on-surface-variant hover:text-on-surface'
-              }`}
-            >
-              JSON to YAML
-            </button>
-          </div>
-
-          <button
-            type="button"
-            onClick={handleSwap}
-            className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors"
-            title="Swap input and output"
-          >
-            <ArrowLeftRight className="w-3.5 h-3.5" />
-            <span className="hidden sm:inline">Swap</span>
-          </button>
-
-          <div className="h-4 w-px bg-outline-variant" />
-
-          <div className="flex items-center gap-1.5 text-xs text-outline">
-            <span>Indent:</span>
-            <select
-              value={indent}
-              onChange={(e) => setIndent(Number(e.target.value))}
-              className="h-8 px-2 rounded-lg bg-surface border border-outline-variant text-xs text-on-surface focus:outline-none"
-            >
-              <option value={2}>2 Spaces</option>
-              <option value={4}>4 Spaces</option>
-            </select>
-          </div>
-        </div>
-
-        <div className="flex items-center gap-2">
-          <button
-            type="button"
-            onClick={() => fileInputRef.current?.click()}
-            className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs text-on-surface-variant hover:bg-surface-container transition-colors"
-            title="Upload File"
-          >
-            <Upload className="w-3.5 h-3.5" />
-            <span className="hidden sm:inline">Upload</span>
-          </button>
-          <button
-            type="button"
-            onClick={() => setInput(direction === 'yaml-to-json' ? SAMPLE_YAML : SAMPLE_JSON)}
-            className="px-2.5 py-1.5 rounded-lg text-xs text-on-surface-variant hover:bg-surface-container transition-colors"
-          >
-            Sample
-          </button>
-          <button
-            type="button"
-            onClick={() => setInput('')}
-            className="p-1.5 rounded-lg text-outline hover:text-red-500 hover:bg-surface-container transition-colors"
-            title="Clear Input"
-          >
-            <Trash2 className="w-4 h-4" />
-          </button>
-          <div className="h-4 w-px bg-outline-variant" />
-          <button
-            type="button"
-            onClick={handleCopy}
-            disabled={!result.output}
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-surface hover:bg-surface-container text-xs font-medium text-on-surface border border-outline-variant transition-colors disabled:opacity-40"
-          >
-            {copied ? <Check className="w-3.5 h-3.5 text-emerald-500" /> : <Copy className="w-3.5 h-3.5" />}
-            <span>{copied ? 'Copied' : 'Copy'}</span>
-          </button>
-          <button
-            type="button"
-            onClick={handleDownload}
-            disabled={!result.output}
-            className="p-1.5 rounded-lg text-outline hover:text-on-surface hover:bg-surface-container transition-colors disabled:opacity-40"
-            title="Download result"
-          >
-            <Download className="w-4 h-4" />
-          </button>
-        </div>
-      </div>
+      <YamlJsonToolbar
+        direction={direction}
+        setDirection={(d) => {
+          setDirection(d);
+          setInput(d === 'yaml-to-json' ? SAMPLE_YAML : SAMPLE_JSON);
+        }}
+        handleSwap={handleSwap}
+        indent={indent}
+        setIndent={setIndent}
+        onUploadClick={() => fileInputRef.current?.click()}
+        onLoadSample={() => setInput(direction === 'yaml-to-json' ? SAMPLE_YAML : SAMPLE_JSON)}
+        onClear={() => setInput('')}
+        handleCopy={handleCopy}
+        copied={copied}
+        handleDownload={handleDownload}
+        hasOutput={Boolean(result.output)}
+      />
 
       {result.error && (
         <div className="p-3 rounded-xl bg-red-500/10 border border-red-500/30 flex items-center gap-2 text-xs text-red-400">
@@ -319,4 +227,3 @@ export const YamlJsonTool: React.FC = () => {
 };
 
 export default YamlJsonTool;
-

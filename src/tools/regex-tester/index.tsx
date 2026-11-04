@@ -1,17 +1,16 @@
 import React, { useState, useMemo } from 'react';
-import { AlertTriangle, Check, ListChecks, Sparkles, Replace, Eye, Copy } from 'lucide-react';
+import { AlertTriangle, Check, Sparkles, Replace, Eye, Copy } from 'lucide-react';
 import {
   testRegex,
   replaceRegex,
   getHighlightedSegments,
   COMMON_REGEX_PRESETS,
 } from './regexLogic';
+import { RegexMatchDetails } from './RegexMatchDetails';
 import { copyToClipboard } from '@/lib/clipboard';
 
 export const RegexTesterTool: React.FC = () => {
-  const [pattern, setPattern] = useState(
-    '\\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}\\b'
-  );
+  const [pattern, setPattern] = useState('\\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}\\b');
   const [flags, setFlags] = useState<{ g: boolean; i: boolean; m: boolean; s: boolean }>({
     g: true,
     i: true,
@@ -43,7 +42,10 @@ export const RegexTesterTool: React.FC = () => {
   }, [testText, result.matches]);
 
   const replacementResult = useMemo(() => {
-    return replaceRegex(pattern, activeFlags, testText, replacement);
+    return replaceRegex(pattern, testText, {
+      flags: activeFlags,
+      replacement,
+    });
   }, [pattern, activeFlags, testText, replacement]);
 
   const toggleFlag = (flag: keyof typeof flags) => {
@@ -267,7 +269,11 @@ export const RegexTesterTool: React.FC = () => {
                 onClick={handleCopyReplacement}
                 className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md bg-surface border border-outline-variant hover:bg-surface-container text-xs text-on-surface font-medium cursor-pointer"
               >
-                {copied ? <Check className="w-3.5 h-3.5 text-emerald-500" /> : <Copy className="w-3.5 h-3.5" />}
+                {copied ? (
+                  <Check className="w-3.5 h-3.5 text-emerald-500" />
+                ) : (
+                  <Copy className="w-3.5 h-3.5" />
+                )}
                 <span>{copied ? 'Copied' : 'Copy Result'}</span>
               </button>
             </div>
@@ -279,44 +285,7 @@ export const RegexTesterTool: React.FC = () => {
       )}
 
       {/* Match Details Breakdown */}
-      <div className="p-4 rounded-xl bg-surface-container-low border border-outline-variant space-y-3">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <ListChecks className="w-4 h-4 text-primary" />
-            <h3 className="text-xs font-semibold uppercase text-outline">Match Details</h3>
-          </div>
-          <span className="text-xs text-outline font-mono">{result.matches.length} items</span>
-        </div>
-
-        {result.matches.length > 0 ? (
-          <div className="max-h-60 overflow-y-auto space-y-2 pr-1">
-            {result.matches.map((m, idx) => (
-              <div
-                key={`${m.match}-${m.index}-${idx}`}
-                className="p-2.5 rounded-lg bg-surface border border-outline-variant flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs"
-              >
-                <div className="flex items-center gap-2">
-                  <span className="font-mono text-[11px] text-outline">#{idx + 1}</span>
-                  <span className="font-mono font-semibold text-primary px-1.5 py-0.5 rounded bg-primary-container/10">
-                    &quot;{m.match}&quot;
-                  </span>
-                </div>
-                <div className="flex items-center gap-3 text-[11px] font-mono text-outline">
-                  <span>Pos: {m.index}</span>
-                  <span>Len: {m.length}</span>
-                  {m.groups && (
-                    <span className="text-on-surface">Groups: {JSON.stringify(m.groups)}</span>
-                  )}
-                </div>
-              </div>
-            ))}
-          </div>
-        ) : (
-          <div className="py-6 text-center text-xs text-outline italic">
-            No matches found in the current text string.
-          </div>
-        )}
-      </div>
+      <RegexMatchDetails matches={result.matches} />
     </div>
   );
 };

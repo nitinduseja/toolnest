@@ -54,7 +54,10 @@ export const JsonToTypescriptTool: React.FC = () => {
   const handleDownload = () => {
     if (!result.code) return;
     const ext = format === 'zod' ? 'schema.ts' : 'types.ts';
-    downloadFile(result.code, { filename: `${rootName.toLowerCase() || 'types'}.${ext}`, mimeType: 'text/typescript' });
+    downloadFile(result.code, {
+      filename: `${rootName.toLowerCase() || 'types'}.${ext}`,
+      mimeType: 'text/typescript',
+    });
   };
 
   return (
@@ -147,7 +150,11 @@ export const JsonToTypescriptTool: React.FC = () => {
             disabled={!result.code}
             className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-surface hover:bg-surface-container text-xs font-medium text-on-surface border border-outline-variant transition-colors disabled:opacity-40"
           >
-            {copied ? <Check className="w-3.5 h-3.5 text-emerald-500" /> : <Copy className="w-3.5 h-3.5" />}
+            {copied ? (
+              <Check className="w-3.5 h-3.5 text-emerald-500" />
+            ) : (
+              <Copy className="w-3.5 h-3.5" />
+            )}
             <span>{copied ? 'Copied' : 'Copy Code'}</span>
           </button>
           <button
@@ -207,7 +214,8 @@ export const JsonToTypescriptTool: React.FC = () => {
       <div className="flex items-center gap-2 text-[11px] text-outline px-1">
         <Sparkles className="w-3.5 h-3.5 text-primary shrink-0" />
         <span>
-          Schema generator recursively maps object properties, arrays, and primitive datatypes into clean, idiomatic TypeScript definitions.
+          Schema generator recursively maps object properties, arrays, and primitive datatypes into
+          clean, idiomatic TypeScript definitions.
         </span>
       </div>
     </div>
@@ -215,4 +223,3 @@ export const JsonToTypescriptTool: React.FC = () => {
 };
 
 export default JsonToTypescriptTool;
-

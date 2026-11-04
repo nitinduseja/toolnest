@@ -51,9 +51,7 @@ export function generateMarkdownTable(data: MarkdownTableData): string {
   // Header row
   const headerRow =
     '| ' +
-    headers
-      .map((h, i) => padCell(h, colWidths[i], alignments[i] || 'left'))
-      .join(' | ') +
+    headers.map((h, i) => padCell(h, colWidths[i], alignments[i] || 'left')).join(' | ') +
     ' |';
 
   // Delimiter row
@@ -115,4 +113,3 @@ export function parseDelimitedToTable(
 
   return { headers, rows: rows.length > 0 ? rows : [['', '', '']] };
 }
-
