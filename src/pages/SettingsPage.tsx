@@ -103,7 +103,7 @@ export const SettingsPage: React.FC = () => {
   ];
 
   return (
-    <div className="w-full max-w-4xl mx-auto px-4 lg:px-8 py-8 space-y-8">
+    <div className="max-w-4xl mx-auto space-y-8">
       <input
         ref={importInputRef}
         type="file"

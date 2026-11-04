@@ -10,7 +10,7 @@ export const FavoritesPage: React.FC = () => {
   const favoriteTools = ALL_TOOLS.filter((t) => favorites.includes(t.id));
 
   return (
-    <div className="w-full max-w-7xl mx-auto px-4 lg:px-8 py-8 space-y-6">
+    <div className="space-y-6">
       <div className="space-y-1">
         <div className="flex items-center gap-2">
           <Star className="w-5 h-5 text-amber-500 fill-amber-400" />

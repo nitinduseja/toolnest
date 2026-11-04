@@ -42,16 +42,16 @@ export const ToolCard: React.FC<ToolCardProps> = ({
   };
 
   return (
-    <div className="group relative flex flex-col justify-between p-4 rounded-xl bg-surface-container-low border border-outline-variant hover:border-primary-container/80 hover:bg-surface-container transition-all duration-150 shadow-xs hover:shadow-md">
+    <div className="group relative flex flex-col justify-between p-4 sm:p-5 rounded-2xl bg-surface-container-low border border-outline-variant hover:border-primary/50 hover:bg-surface-container hover:-translate-y-1 hover:shadow-xl hover:shadow-primary/5 transition-all duration-200">
       <div>
         <div className="flex items-center justify-between gap-2 mb-3">
-          <div className="w-9 h-9 rounded-lg bg-surface-container-high border border-outline-variant flex items-center justify-center text-primary group-hover:scale-105 transition-transform">
+          <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-primary/10 to-indigo-500/10 border border-primary/20 flex items-center justify-center text-primary group-hover:scale-105 group-hover:border-primary/40 transition-all">
             <Icon name={tool.iconName} className="w-5 h-5" />
           </div>
 
           <div className="flex items-center gap-1.5">
             {tool.badge && (
-              <span className="px-2 py-0.5 rounded text-[10px] font-mono font-medium bg-surface-container-high text-on-surface-variant">
+              <span className="px-2 py-0.5 rounded-full text-[10px] font-mono font-semibold bg-surface-container-high text-primary border border-primary/20">
                 {tool.badge}
               </span>
             )}
@@ -61,7 +61,7 @@ export const ToolCard: React.FC<ToolCardProps> = ({
               aria-label={
                 favorite ? `Remove ${tool.name} from favorites` : `Add ${tool.name} to favorites`
               }
-              className="p-1 rounded-md text-outline hover:text-amber-500 hover:bg-surface-container-high transition-colors"
+              className="p-1.5 rounded-lg text-outline hover:text-amber-500 hover:bg-surface-container-high transition-colors"
             >
               <Star className={`w-4 h-4 ${favorite ? 'fill-amber-400 text-amber-500' : ''}`} />
             </button>
@@ -70,7 +70,7 @@ export const ToolCard: React.FC<ToolCardProps> = ({
                 type="button"
                 onClick={handleRemoveClick}
                 aria-label={removeLabel || `Remove ${tool.name}`}
-                className="p-1 rounded-md text-outline hover:text-red-500 hover:bg-surface-container-high transition-colors"
+                className="p-1.5 rounded-lg text-outline hover:text-red-500 hover:bg-surface-container-high transition-colors"
                 title={removeLabel || 'Remove'}
               >
                 <X className="w-4 h-4" />
@@ -82,9 +82,9 @@ export const ToolCard: React.FC<ToolCardProps> = ({
         <Link
           to={`/tools/${tool.slug}`}
           onClick={handleNavigateClick}
-          className="focus:outline-none"
+          className="focus:outline-none block"
         >
-          <h3 className="font-semibold text-sm text-on-surface group-hover:text-primary transition-colors mb-1">
+          <h3 className="font-bold text-sm text-on-surface group-hover:text-primary transition-colors mb-1.5">
             {tool.name}
           </h3>
           <p className="text-xs text-on-surface-variant line-clamp-2 leading-relaxed">
@@ -94,7 +94,7 @@ export const ToolCard: React.FC<ToolCardProps> = ({
       </div>
 
       <div className="mt-4 pt-3 border-t border-outline-variant/60 flex items-center justify-between text-xs text-outline">
-        <span className="capitalize text-[11px] font-medium">
+        <span className="capitalize text-[11px] font-medium text-outline">
           {tool.category.replace('-', ' ')}
         </span>
         <div className="flex items-center gap-2">
@@ -112,10 +112,10 @@ export const ToolCard: React.FC<ToolCardProps> = ({
           <Link
             to={`/tools/${tool.slug}`}
             onClick={handleNavigateClick}
-            className="inline-flex items-center gap-1 text-[11px] font-medium text-primary hover:underline"
+            className="inline-flex items-center gap-1 text-[11px] font-semibold text-primary group-hover:translate-x-0.5 transition-transform"
           >
-            <span>Open</span>
-            <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
+            <span>Launch</span>
+            <ArrowRight className="w-3 h-3" />
           </Link>
         </div>
       </div>

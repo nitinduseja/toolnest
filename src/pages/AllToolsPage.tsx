@@ -47,7 +47,7 @@ export const AllToolsPage: React.FC = () => {
   }, [query, selectedCategory]);
 
   return (
-    <div className="w-full max-w-7xl mx-auto px-4 lg:px-8 py-8 space-y-6">
+    <div className="space-y-6">
       <div className="space-y-1">
         <h1 className="text-2xl font-bold tracking-tight text-on-surface">All Tools</h1>
         <p className="text-xs sm:text-sm text-on-surface-variant">

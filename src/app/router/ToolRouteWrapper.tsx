@@ -1,7 +1,7 @@
 import React, { Suspense } from 'react';
 import { useParams } from 'react-router-dom';
 import { TOOL_SLUG_MAP } from '@/registry/tool-registry';
-import { ToolLayout } from '@/components/layouts/ToolLayout';
+import { StandaloneToolLayout } from '@/components/layouts/StandaloneToolLayout';
 import { NotFoundPage } from '@/pages/NotFoundPage';
 
 export const ToolRouteWrapper: React.FC = () => {
@@ -15,7 +15,7 @@ export const ToolRouteWrapper: React.FC = () => {
   const Component = tool.component;
 
   return (
-    <ToolLayout tool={tool}>
+    <StandaloneToolLayout tool={tool}>
       <Suspense
         fallback={
           <div className="w-full min-h-[300px] flex items-center justify-center text-outline">
@@ -28,6 +28,6 @@ export const ToolRouteWrapper: React.FC = () => {
       >
         <Component />
       </Suspense>
-    </ToolLayout>
+    </StandaloneToolLayout>
   );
 };

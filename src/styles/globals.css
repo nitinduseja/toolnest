@@ -188,3 +188,40 @@
   border-top: 1px solid var(--color-outline-variant);
   margin: 1.25rem 0;
 }
+
+/* Glassmorphism & Modern Ambient Atmosphere Utilities */
+.glass-dock {
+  background-color: color-mix(in srgb, var(--color-surface) 82%, transparent);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid color-mix(in srgb, var(--color-outline-variant) 70%, transparent);
+}
+
+.glass-card {
+  background-color: color-mix(in srgb, var(--color-surface-container-low) 88%, transparent);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid color-mix(in srgb, var(--color-outline-variant) 60%, transparent);
+}
+
+.ambient-hero-mesh {
+  background:
+    radial-gradient(
+      ellipse 65% 45% at 50% 0%,
+      color-mix(in srgb, var(--color-primary-container) 14%, transparent),
+      transparent 70%
+    ),
+    radial-gradient(
+      ellipse 40% 30% at 85% 20%,
+      color-mix(in srgb, var(--color-secondary) 10%, transparent),
+      transparent 60%
+    );
+}
+
+.ambient-dot-grid {
+  background-image: radial-gradient(
+    color-mix(in srgb, var(--color-outline) 18%, transparent) 1px,
+    transparent 1px
+  );
+  background-size: 24px 24px;
+}

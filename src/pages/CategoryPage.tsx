@@ -47,7 +47,7 @@ export const CategoryPage: React.FC = () => {
   }
 
   return (
-    <div className="w-full max-w-7xl mx-auto px-4 lg:px-8 py-8 space-y-8">
+    <div className="space-y-6">
       {/* Category Header */}
       <div className="p-6 rounded-2xl bg-surface-container-low border border-outline-variant space-y-4 shadow-sm">
         <div className="flex items-center gap-3">
