@@ -137,7 +137,15 @@ export const ToolLayout: React.FC<ToolLayoutProps> = ({ tool, children }) => {
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {relatedTools.map((relTool) => (
-              <ToolCard key={relTool.id} tool={relTool} />
+              <ToolCard
+                key={relTool.id}
+                tool={relTool}
+                onOpenInSplit={() => {
+                  setSecondarySlug(relTool.slug);
+                  saveStoredSecondarySlug(relTool.slug);
+                  setIsSplit(true);
+                }}
+              />
             ))}
           </div>
         </section>

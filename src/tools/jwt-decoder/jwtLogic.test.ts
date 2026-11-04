@@ -5,6 +5,8 @@ import {
   parseJwt,
   formatRelativeTime,
   getSampleJwt,
+  signJwt,
+  verifyJwtSignature,
 } from './jwtLogic';
 
 describe('jwtLogic', () => {
@@ -94,6 +96,28 @@ describe('jwtLogic', () => {
       expect(result.valid).toBe(true);
       expect(result.claimsSummary?.isExpired).toBe(true);
       expect(result.claimsSummary?.timeRemainingText).toContain('Expired');
+    });
+  });
+
+  describe('HS256 Signature Verification', () => {
+    it('verifies a signed JWT with the matching secret key', async () => {
+      const header = { alg: 'HS256', typ: 'JWT' };
+      const payload = { sub: 'agent-47', admin: true };
+      const secret = 'my-super-secret-key-123';
+
+      const signedToken = await signJwt(header, payload, secret);
+      const res = await verifyJwtSignature(signedToken, secret);
+      expect(res.verified).toBe(true);
+    });
+
+    it('rejects a JWT when secret key does not match', async () => {
+      const header = { alg: 'HS256', typ: 'JWT' };
+      const payload = { sub: 'agent-47', admin: true };
+      const secret = 'my-super-secret-key-123';
+
+      const signedToken = await signJwt(header, payload, secret);
+      const res = await verifyJwtSignature(signedToken, 'wrong-secret-key');
+      expect(res.verified).toBe(false);
     });
   });
 

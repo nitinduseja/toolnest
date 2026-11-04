@@ -5,9 +5,9 @@ import {
   compressImageFile,
   calculateTotalStats,
   getOutputFilename,
-  triggerBlobDownload,
   createSampleImageFile,
 } from './compressorLogic';
+import { downloadFile, downloadZip } from '@/lib/downloads';
 import { ImageDropZone } from './ImageDropZone';
 import { CompressionControls } from './CompressionControls';
 import { ImageListTable } from './ImageListTable';
@@ -123,14 +123,26 @@ export const ImageCompressorTool: React.FC = () => {
   const handleDownload = (item: ImageFileItem) => {
     if (!item.compressedBlob) return;
     const name = getOutputFilename(item.name, options.format);
-    triggerBlobDownload(item.compressedBlob, name);
+    downloadFile(item.compressedBlob, { filename: name, mimeType: options.format });
   };
 
-  const handleDownloadAll = () => {
+  const handleDownloadAll = async () => {
     const doneItems = items.filter((i) => i.status === 'done' && i.compressedBlob);
-    doneItems.forEach((item, index) => {
-      setTimeout(() => handleDownload(item), index * 200);
-    });
+    if (doneItems.length === 0) return;
+    if (doneItems.length === 1) {
+      handleDownload(doneItems[0]);
+      return;
+    }
+
+    const filesToZip: Record<string, Uint8Array> = {};
+    for (const item of doneItems) {
+      if (item.compressedBlob) {
+        const buf = await item.compressedBlob.arrayBuffer();
+        const filename = getOutputFilename(item.name, options.format);
+        filesToZip[filename] = new Uint8Array(buf);
+      }
+    }
+    downloadZip(filesToZip, 'compressed-images.zip');
   };
 
   const handleRemove = (id: string) => {

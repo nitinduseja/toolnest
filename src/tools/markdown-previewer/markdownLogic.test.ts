@@ -85,8 +85,11 @@ describe('markdownLogic', () => {
       const html = renderMarkdownToHtml(md);
       expect(html).toContain('<ul>');
       expect(html).toContain('<li>Item 1</li>');
-      expect(html).toContain('<input type="checkbox" checked disabled /> Done task');
-      expect(html).toContain('<input type="checkbox" disabled /> Pending task');
+      expect(html).toContain('type="checkbox"');
+      expect(html).toContain('checked');
+      expect(html).toContain('disabled');
+      expect(html).toContain('Done task');
+      expect(html).toContain('Pending task');
     });
 
     it('renders tables', () => {
@@ -100,7 +103,14 @@ describe('markdownLogic', () => {
       const md = '# Header\n<img src="x" onerror="alert(1)">';
       const html = renderMarkdownToHtml(md);
       expect(html).not.toContain('<img src="x" onerror');
-      expect(html).toContain('&lt;img src=&quot;x&quot;');
+      expect(html).toContain('&lt;img src="x"');
+    });
+
+    it('neutralizes javascript links in markdown', () => {
+      const md = '[Click Here](javascript:alert(1))';
+      const html = renderMarkdownToHtml(md);
+      expect(html).not.toContain('javascript:alert(1)');
+      expect(html).toContain('href="#"');
     });
   });
 

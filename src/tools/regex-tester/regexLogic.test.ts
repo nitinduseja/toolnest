@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { testRegex } from './regexLogic';
+import { testRegex, replaceRegex, getHighlightedSegments } from './regexLogic';
 
 describe('Regex Tester Domain Logic', () => {
   it('finds global matches with match details', () => {
@@ -25,5 +25,20 @@ describe('Regex Tester Domain Logic', () => {
     const res = testRegex('^|a', 'g', 'aaa');
     expect(res.isValid).toBe(true);
     expect(res.matchCount).toBeGreaterThan(0);
+  });
+
+  it('replaces matches with substitution string', () => {
+    const res = replaceRegex('\\bworld\\b', 'g', 'Hello world, welcome to the world', 'Toolnest');
+    expect(res.output).toBe('Hello Toolnest, welcome to the Toolnest');
+  });
+
+  it('generates highlighted segments accurately', () => {
+    const testText = 'abc 123 xyz';
+    const matches = [{ match: '123', index: 4, length: 3 }];
+    const segs = getHighlightedSegments(testText, matches);
+    expect(segs.length).toBe(3);
+    expect(segs[0]).toEqual({ text: 'abc ', isMatch: false });
+    expect(segs[1]).toEqual({ text: '123', isMatch: true, matchIndex: 1 });
+    expect(segs[2]).toEqual({ text: ' xyz', isMatch: false });
   });
 });

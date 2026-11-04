@@ -12,7 +12,7 @@ export const Sidebar: React.FC = () => {
   };
 
   const navItemClass = ({ isActive }: { isActive: boolean }) =>
-    `flex items-center justify-center lg:justify-start gap-3 px-2 lg:px-3 py-2.5 lg:py-2 rounded-lg text-xs sm:text-sm transition-colors ${
+    `flex items-center justify-center lg:justify-start gap-3 px-2 lg:px-3 py-2.5 lg:py-2 rounded-lg text-xs sm:text-sm transition-colors focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none ${
       isActive
         ? 'bg-primary-container text-on-primary-container font-semibold shadow-xs'
         : 'text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface'

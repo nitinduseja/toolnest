@@ -1,5 +1,13 @@
-const CACHE_NAME = 'toolnest-v1';
-const PRECACHE_URLS = ['/', '/index.html', '/favicon.svg', '/site.webmanifest'];
+const CACHE_NAME = 'toolnest-v3';
+const PRECACHE_URLS = [
+  '/',
+  '/index.html',
+  '/favicon.svg',
+  '/pwa-192x192.png',
+  '/pwa-512x512.png',
+  '/apple-touch-icon.png',
+  '/site.webmanifest',
+];
 
 self.addEventListener('install', (event) => {
   event.waitUntil(

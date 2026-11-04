@@ -18,6 +18,16 @@ export function useFavorites() {
     });
   }, []);
 
+  const setFavoritesList = useCallback((newList: string[]) => {
+    setFavorites(newList);
+    setStoredItem(FAVORITES_STORAGE_KEY, newList);
+  }, []);
+
+  const clearFavorites = useCallback(() => {
+    setFavorites([]);
+    setStoredItem(FAVORITES_STORAGE_KEY, []);
+  }, []);
+
   const isFavorite = useCallback((toolId: string) => favorites.includes(toolId), [favorites]);
 
   useEffect(() => {
@@ -34,5 +44,5 @@ export function useFavorites() {
     return () => window.removeEventListener('storage', handleStorage);
   }, []);
 
-  return { favorites, toggleFavorite, isFavorite };
+  return { favorites, toggleFavorite, isFavorite, setFavoritesList, clearFavorites };
 }

@@ -24,7 +24,7 @@ import { usePwaInstall } from '@/lib/pwa/usePwaInstall';
 
 export const SettingsPage: React.FC = () => {
   const { preference, setPreference } = useTheme();
-  const { favorites, toggleFavorite } = useFavorites();
+  const { favorites, clearFavorites, setFavoritesList } = useFavorites();
   const { recentToolIds, clearRecentTools } = useRecentTools();
   const { canInstall, installApp } = usePwaInstall();
   const [importStatus, setImportStatus] = useState<string | null>(null);
@@ -34,7 +34,7 @@ export const SettingsPage: React.FC = () => {
   const handleClearAllStorage = () => {
     if (window.confirm('Reset all Toolnest preferences and local history?')) {
       clearRecentTools();
-      favorites.forEach((id) => toggleFavorite(id));
+      clearFavorites();
       setPreference('system');
       setImportStatus('All local storage reset successfully.');
       setTimeout(() => setImportStatus(null), 3000);
@@ -73,12 +73,7 @@ export const SettingsPage: React.FC = () => {
 
       const favs = data.settings?.favorites || data.favorites;
       if (Array.isArray(favs)) {
-        favorites.forEach((id) => {
-          if (!favs.includes(id)) toggleFavorite(id);
-        });
-        favs.forEach((id: string) => {
-          if (!favorites.includes(id)) toggleFavorite(id);
-        });
+        setFavoritesList(favs);
       }
 
       const th = data.settings?.theme || data.theme;

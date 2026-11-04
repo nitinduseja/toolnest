@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
-import { Sparkles, Upload, Download, Copy, Check, FileCode } from 'lucide-react';
+import { Sparkles, Upload, Copy, Check, FileCode, Archive } from 'lucide-react';
 import { GeneratedIconItem } from './types';
 import {
   generateIcons,
@@ -8,17 +8,8 @@ import {
   createSampleLogoFile,
 } from './faviconLogic';
 import { IconPreviewGrid } from './IconPreviewGrid';
-
-function triggerDownload(blob: Blob, filename: string): void {
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = filename;
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  setTimeout(() => URL.revokeObjectURL(url), 1000);
-}
+import { downloadFile, downloadZip } from '@/lib/downloads';
+import { copyToClipboard } from '@/lib/clipboard';
 
 export const FaviconGeneratorTool: React.FC = () => {
   const [icons, setIcons] = useState<GeneratedIconItem[]>([]);
@@ -57,30 +48,32 @@ export const FaviconGeneratorTool: React.FC = () => {
     handleLoadSample();
   }, [handleLoadSample]);
 
-  const handleDownloadAll = () => {
+  const handleDownloadAll = async () => {
     const all = icoIcon ? [icoIcon, ...icons] : icons;
-    all.forEach((item, idx) => {
-      setTimeout(() => triggerDownload(item.blob, item.filename), idx * 200);
+    if (all.length === 0) return;
+
+    const filesToZip: Record<string, Uint8Array | string> = {};
+    for (const item of all) {
+      const buf = await item.blob.arrayBuffer();
+      filesToZip[item.filename] = new Uint8Array(buf);
+    }
+
+    filesToZip['site.webmanifest'] = generateManifestJson({
+      name: 'Toolnest',
+      shortName: 'Tools',
+      themeColor: '#6366f1',
+      backgroundColor: '#ffffff',
     });
-    // Also download site.webmanifest
-    const manifestBlob = new Blob(
-      [
-        generateManifestJson({
-          name: 'Toolnest',
-          shortName: 'Tools',
-          themeColor: '#6366f1',
-          backgroundColor: '#ffffff',
-        }),
-      ],
-      { type: 'application/json' }
-    );
-    setTimeout(() => triggerDownload(manifestBlob, 'site.webmanifest'), all.length * 200);
+
+    downloadZip(filesToZip, 'favicon-suite.zip');
   };
 
-  const handleCopyHtml = () => {
-    navigator.clipboard.writeText(generateHtmlSnippet());
-    setCopiedHtml(true);
-    setTimeout(() => setCopiedHtml(false), 2000);
+  const handleCopyHtml = async () => {
+    const ok = await copyToClipboard(generateHtmlSnippet());
+    if (ok) {
+      setCopiedHtml(true);
+      setTimeout(() => setCopiedHtml(false), 2000);
+    }
   };
 
   return (
@@ -137,7 +130,7 @@ export const FaviconGeneratorTool: React.FC = () => {
       <IconPreviewGrid
         icons={icons}
         icoIcon={icoIcon}
-        onDownload={(item) => triggerDownload(item.blob, item.filename)}
+        onDownload={(item) => downloadFile(item.blob, { filename: item.filename })}
       />
 
       {/* Action Bar */}
@@ -151,8 +144,8 @@ export const FaviconGeneratorTool: React.FC = () => {
             onClick={handleDownloadAll}
             className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-primary text-on-primary text-xs font-semibold hover:bg-primary/90 cursor-pointer shadow-xs"
           >
-            <Download className="w-3.5 h-3.5" />
-            <span>Download All Assets ({icons.length + 1})</span>
+            <Archive className="w-3.5 h-3.5" />
+            <span>Download ZIP Suite ({icons.length + 1} assets)</span>
           </button>
         </div>
       )}

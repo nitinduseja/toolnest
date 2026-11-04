@@ -1,3 +1,5 @@
+import DOMPurify from 'dompurify';
+
 /**
  * Pure domain logic for client-side Markdown rendering and text metrics.
  * Safe zero-dependency GitHub Flavored Markdown (GFM) parser with XSS prevention.
@@ -40,11 +42,13 @@ export function renderInlineMarkdown(text: string): string {
     /!\[([^\]]*)\]\(([^)]+)\)/g,
     '<img src="$2" alt="$1" class="max-w-full rounded" />'
   );
-  // Links [text](url)
-  res = res.replace(
-    /\[([^\]]+)\]\(([^)]+)\)/g,
-    '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>'
-  );
+  // Links [text](url) with safe protocol check
+  res = res.replace(/\[([^\]]+)\]\(([^)]+)\)/g, (_, linkText, url) => {
+    const trimmedUrl = url.trim();
+    const isSafe = /^(https?:|mailto:|#|\/)/i.test(trimmedUrl);
+    const safeUrl = isSafe ? trimmedUrl : '#';
+    return `<a href="${safeUrl}" target="_blank" rel="noopener noreferrer">${linkText}</a>`;
+  });
   // Bold **text**
   res = res.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
   // Italic *text*
@@ -191,7 +195,10 @@ export function renderMarkdownToHtml(markdown: string): string {
   }
 
   flushBuffers();
-  return output.join('\n');
+  const rawHtml = output.join('\n');
+  return typeof window !== 'undefined'
+    ? DOMPurify.sanitize(rawHtml, { ADD_ATTR: ['target', 'rel'] })
+    : rawHtml;
 }
 
 export function getSampleMarkdown(): string {

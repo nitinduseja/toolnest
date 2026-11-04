@@ -1,13 +1,62 @@
-import React, { useState, useMemo } from 'react';
-import { Copy, Check, Trash2, KeyRound, AlertTriangle, ShieldCheck, Clock } from 'lucide-react';
-import { parseJwt, getSampleJwt } from './jwtLogic';
+import React, { useState, useMemo, useEffect } from 'react';
+import {
+  Copy,
+  Check,
+  Trash2,
+  KeyRound,
+  AlertTriangle,
+  ShieldCheck,
+  ShieldAlert,
+  Clock,
+  Key,
+} from 'lucide-react';
+import { parseJwt, getSampleJwt, verifyJwtSignature } from './jwtLogic';
 import { copyToClipboard } from '@/lib/clipboard';
 
 export const JwtDecoderTool: React.FC = () => {
   const [tokenInput, setTokenInput] = useState<string>(getSampleJwt());
+  const [secretKey, setSecretKey] = useState<string>('');
+  const [sigStatus, setSigStatus] = useState<'idle' | 'valid' | 'invalid' | 'error'>('idle');
+  const [sigError, setSigError] = useState<string | null>(null);
   const [copiedKey, setCopiedKey] = useState<string | null>(null);
 
   const parsed = useMemo(() => parseJwt(tokenInput), [tokenInput]);
+
+  useEffect(() => {
+    let isCancelled = false;
+
+    if (!secretKey.trim() || !parsed.valid) {
+      setSigStatus('idle');
+      setSigError(null);
+      return;
+    }
+
+    verifyJwtSignature(tokenInput, secretKey)
+      .then((res) => {
+        if (!isCancelled) {
+          if (res.error) {
+            setSigStatus('error');
+            setSigError(res.error);
+          } else if (res.verified) {
+            setSigStatus('valid');
+            setSigError(null);
+          } else {
+            setSigStatus('invalid');
+            setSigError('Signature does not match secret key');
+          }
+        }
+      })
+      .catch((err: unknown) => {
+        if (!isCancelled) {
+          setSigStatus('error');
+          setSigError(err instanceof Error ? err.message : 'Verification failed');
+        }
+      });
+
+    return () => {
+      isCancelled = true;
+    };
+  }, [tokenInput, secretKey, parsed.valid]);
 
   const handleCopy = async (text: string, key: string) => {
     if (!text) return;
@@ -28,21 +77,27 @@ export const JwtDecoderTool: React.FC = () => {
         <div className="flex items-center gap-2">
           <KeyRound className="w-4 h-4 text-primary shrink-0" />
           <span>
-            <strong>Zero Network Transmission:</strong> JWTs are decoded completely in your browser
-            memory. Sensitive tokens are never sent across the network.
+            <strong>Zero Network Transmission:</strong> JWTs are decoded and verified completely in
+            your browser memory via native Web Crypto. Secrets are never transmitted.
           </span>
         </div>
         <div className="flex items-center gap-2">
           <button
             type="button"
-            onClick={() => setTokenInput(getSampleJwt())}
+            onClick={() => {
+              setTokenInput(getSampleJwt());
+              setSecretKey('');
+            }}
             className="px-2.5 py-1 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface font-medium transition-colors"
           >
             Load Sample
           </button>
           <button
             type="button"
-            onClick={() => setTokenInput('')}
+            onClick={() => {
+              setTokenInput('');
+              setSecretKey('');
+            }}
             disabled={!tokenInput}
             className="p-1.5 rounded-lg text-outline hover:text-red-400 hover:bg-surface-container transition-colors disabled:opacity-40"
             title="Clear Token"
@@ -169,12 +224,12 @@ export const JwtDecoderTool: React.FC = () => {
         </div>
       </div>
 
-      {/* Signature Section */}
-      <div className="p-4 rounded-xl bg-surface-container-low border border-outline-variant space-y-2">
+      {/* Signature Verification Section */}
+      <div className="p-4 rounded-xl bg-surface-container-low border border-outline-variant space-y-3">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <ShieldCheck className="w-4 h-4 text-primary shrink-0" />
-            <span className="text-xs font-semibold text-on-surface">Signature</span>
+            <Key className="w-4 h-4 text-primary shrink-0" />
+            <span className="text-xs font-semibold text-on-surface">HMAC-SHA256 Signature Verification</span>
           </div>
           <button
             type="button"
@@ -190,9 +245,38 @@ export const JwtDecoderTool: React.FC = () => {
             <span>{copiedKey === 'signature' ? 'Copied' : 'Copy'}</span>
           </button>
         </div>
-        <p className="font-mono text-xs text-outline break-all bg-surface-container-lowest p-2.5 rounded-lg border border-outline-variant/50">
+
+        <div className="space-y-1.5">
+          <label htmlFor="jwt-secret" className="text-xs text-outline font-medium">
+            Secret Key (for HS256 validation):
+          </label>
+          <input
+            id="jwt-secret"
+            type="password"
+            value={secretKey}
+            onChange={(e) => setSecretKey(e.target.value)}
+            placeholder="Enter secret key to verify signature..."
+            className="w-full px-3 py-2 rounded-xl bg-surface border border-outline-variant font-mono text-xs text-on-surface placeholder:text-outline focus:outline-none focus:ring-2 focus:ring-primary-container"
+          />
+        </div>
+
+        {/* Verification Status Pill */}
+        {sigStatus === 'valid' && (
+          <div className="p-2.5 rounded-lg bg-emerald-500/10 border border-emerald-500/30 flex items-center gap-2 text-xs text-emerald-400">
+            <ShieldCheck className="w-4 h-4 shrink-0" />
+            <span className="font-semibold">Signature Verified: Valid secret key for this token.</span>
+          </div>
+        )}
+        {sigStatus === 'invalid' && (
+          <div className="p-2.5 rounded-lg bg-red-500/10 border border-red-500/30 flex items-center gap-2 text-xs text-red-400">
+            <ShieldAlert className="w-4 h-4 shrink-0" />
+            <span className="font-semibold">{sigError || 'Signature Invalid: Secret key does not match.'}</span>
+          </div>
+        )}
+
+        <div className="p-2.5 rounded-lg bg-surface-container-lowest border border-outline-variant/50 font-mono text-xs text-outline break-all">
           {parsed.signature || '// Token signature string'}
-        </p>
+        </div>
       </div>
     </div>
   );

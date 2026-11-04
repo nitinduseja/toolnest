@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Star, ArrowRight, X } from 'lucide-react';
+import { Star, ArrowRight, X, Columns2 } from 'lucide-react';
 import { ToolDefinition } from '@/registry/types';
 import { Icon } from '@/components/atoms/Icon';
 import { useFavorites } from '@/features/favorites/useFavorites';
@@ -9,9 +9,15 @@ interface ToolCardProps {
   tool: ToolDefinition;
   onRemove?: () => void;
   removeLabel?: string;
+  onOpenInSplit?: () => void;
 }
 
-export const ToolCard: React.FC<ToolCardProps> = ({ tool, onRemove, removeLabel }) => {
+export const ToolCard: React.FC<ToolCardProps> = ({
+  tool,
+  onRemove,
+  removeLabel,
+  onOpenInSplit,
+}) => {
   const { isFavorite, toggleFavorite } = useFavorites();
   const favorite = isFavorite(tool.id);
 
@@ -25,6 +31,14 @@ export const ToolCard: React.FC<ToolCardProps> = ({ tool, onRemove, removeLabel 
     e.preventDefault();
     e.stopPropagation();
     onRemove?.();
+  };
+
+  const handleNavigateClick = (e: React.MouseEvent) => {
+    if ((e.metaKey || e.ctrlKey) && onOpenInSplit) {
+      e.preventDefault();
+      e.stopPropagation();
+      onOpenInSplit();
+    }
   };
 
   return (
@@ -65,7 +79,11 @@ export const ToolCard: React.FC<ToolCardProps> = ({ tool, onRemove, removeLabel 
           </div>
         </div>
 
-        <Link to={`/tools/${tool.slug}`} className="focus:outline-none">
+        <Link
+          to={`/tools/${tool.slug}`}
+          onClick={handleNavigateClick}
+          className="focus:outline-none"
+        >
           <h3 className="font-semibold text-sm text-on-surface group-hover:text-primary transition-colors mb-1">
             {tool.name}
           </h3>
@@ -79,13 +97,27 @@ export const ToolCard: React.FC<ToolCardProps> = ({ tool, onRemove, removeLabel 
         <span className="capitalize text-[11px] font-medium">
           {tool.category.replace('-', ' ')}
         </span>
-        <Link
-          to={`/tools/${tool.slug}`}
-          className="inline-flex items-center gap-1 text-[11px] font-medium text-primary hover:underline"
-        >
-          <span>Open</span>
-          <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
-        </Link>
+        <div className="flex items-center gap-2">
+          {onOpenInSplit && (
+            <button
+              type="button"
+              onClick={onOpenInSplit}
+              title="Open in split view (⌘+Click)"
+              className="inline-flex items-center gap-1 text-[11px] font-medium text-outline hover:text-primary transition-colors cursor-pointer"
+            >
+              <Columns2 className="w-3 h-3" />
+              <span>Split</span>
+            </button>
+          )}
+          <Link
+            to={`/tools/${tool.slug}`}
+            onClick={handleNavigateClick}
+            className="inline-flex items-center gap-1 text-[11px] font-medium text-primary hover:underline"
+          >
+            <span>Open</span>
+            <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
+          </Link>
+        </div>
       </div>
     </div>
   );

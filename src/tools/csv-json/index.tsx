@@ -1,16 +1,41 @@
 import React, { useState, useMemo, useRef } from 'react';
-import { Copy, Check, Download, Upload, Trash2, AlertTriangle, Info } from 'lucide-react';
-import { convertCsvToJson } from './csvLogic';
+import { Copy, Check, Download, Upload, Trash2, AlertTriangle, Info, ArrowLeftRight } from 'lucide-react';
+import { convertCsvToJson, convertJsonToCsv } from './csvLogic';
 import { copyToClipboard } from '@/lib/clipboard';
 import { downloadFile } from '@/lib/downloads';
+
+type ConversionDirection = 'csv-to-json' | 'json-to-csv';
 
 const SAMPLE_CSV = `id,name,role,department
 101,"Linus Torvalds","Fellow","Linux Foundation"
 102,"Ada Lovelace","Mathematician","Computing Pioneer"
 103,"Grace Hopper","Rear Admiral","US Navy"`;
 
+const SAMPLE_JSON = `[
+  {
+    "id": 101,
+    "name": "Linus Torvalds",
+    "role": "Fellow",
+    "department": "Linux Foundation"
+  },
+  {
+    "id": 102,
+    "name": "Ada Lovelace",
+    "role": "Mathematician",
+    "department": "Computing Pioneer"
+  },
+  {
+    "id": 103,
+    "name": "Grace Hopper",
+    "role": "Rear Admiral",
+    "department": "US Navy"
+  }
+]`;
+
 export const CsvToJsonTool: React.FC = () => {
-  const [csvInput, setCsvInput] = useState(SAMPLE_CSV);
+  const [direction, setDirection] = useState<ConversionDirection>('csv-to-json');
+  const [input, setInput] = useState(SAMPLE_CSV);
+  const [delimiter, setDelimiter] = useState<string>(',');
   const [hasHeader, setHasHeader] = useState(true);
   const [skipEmptyLines, setSkipEmptyLines] = useState(true);
   const [indent, setIndent] = useState(2);
@@ -18,17 +43,47 @@ export const CsvToJsonTool: React.FC = () => {
   const [isDragging, setIsDragging] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const result = useMemo(() => {
-    return convertCsvToJson(csvInput, {
-      hasHeader,
-      skipEmptyLines,
-      indent,
-    });
-  }, [csvInput, hasHeader, skipEmptyLines, indent]);
+  const conversionResult = useMemo(() => {
+    if (direction === 'csv-to-json') {
+      const res = convertCsvToJson(input, {
+        hasHeader,
+        skipEmptyLines,
+        indent,
+        delimiter: delimiter || undefined,
+      });
+      return {
+        output: res.jsonString,
+        rowCount: res.rowCount,
+        warnings: res.warnings,
+        errors: res.errors,
+      };
+    } else {
+      const res = convertJsonToCsv(input, {
+        delimiter,
+        header: hasHeader,
+      });
+      return {
+        output: res.csvString,
+        rowCount: res.rowCount,
+        warnings: res.warnings,
+        errors: res.errors,
+      };
+    }
+  }, [direction, input, delimiter, hasHeader, skipEmptyLines, indent]);
+
+  const handleSwap = () => {
+    if (direction === 'csv-to-json') {
+      setDirection('json-to-csv');
+      setInput(conversionResult.output || SAMPLE_JSON);
+    } else {
+      setDirection('csv-to-json');
+      setInput(conversionResult.output || SAMPLE_CSV);
+    }
+  };
 
   const handleCopy = async () => {
-    if (!result.jsonString) return;
-    const ok = await copyToClipboard(result.jsonString);
+    if (!conversionResult.output) return;
+    const ok = await copyToClipboard(conversionResult.output);
     if (ok) {
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
@@ -36,17 +91,18 @@ export const CsvToJsonTool: React.FC = () => {
   };
 
   const handleDownload = () => {
-    if (!result.jsonString) return;
-    downloadFile(result.jsonString, {
-      filename: 'data.json',
-      mimeType: 'application/json',
+    if (!conversionResult.output) return;
+    const isJson = direction === 'csv-to-json';
+    downloadFile(conversionResult.output, {
+      filename: isJson ? 'data.json' : 'data.csv',
+      mimeType: isJson ? 'application/json' : 'text/csv',
     });
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      file.text().then((text) => setCsvInput(text));
+      file.text().then((text) => setInput(text));
     }
   };
 
@@ -55,7 +111,7 @@ export const CsvToJsonTool: React.FC = () => {
     setIsDragging(false);
     const file = e.dataTransfer.files?.[0];
     if (file) {
-      file.text().then((text) => setCsvInput(text));
+      file.text().then((text) => setInput(text));
     }
   };
 
@@ -64,14 +120,76 @@ export const CsvToJsonTool: React.FC = () => {
       <input
         ref={fileInputRef}
         type="file"
-        accept=".csv,.txt"
+        accept=".csv,.tsv,.json,.txt"
         onChange={handleFileChange}
         className="hidden"
       />
 
-      {/* Configuration Toolbar */}
+      {/* Direction & Options Toolbar */}
       <div className="flex flex-wrap items-center justify-between gap-3 p-3 rounded-xl bg-surface-container-low border border-outline-variant">
         <div className="flex flex-wrap items-center gap-3">
+          <div className="flex items-center gap-1 p-1 rounded-xl bg-surface-container-high border border-outline-variant/60">
+            <button
+              type="button"
+              onClick={() => {
+                if (direction !== 'csv-to-json') {
+                  setDirection('csv-to-json');
+                  setInput(SAMPLE_CSV);
+                }
+              }}
+              className={`px-3 py-1 rounded-lg text-xs font-semibold transition-colors ${
+                direction === 'csv-to-json'
+                  ? 'bg-primary-container text-on-primary-container shadow-xs'
+                  : 'text-on-surface-variant hover:text-on-surface'
+              }`}
+            >
+              CSV to JSON
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                if (direction !== 'json-to-csv') {
+                  setDirection('json-to-csv');
+                  setInput(SAMPLE_JSON);
+                }
+              }}
+              className={`px-3 py-1 rounded-lg text-xs font-semibold transition-colors ${
+                direction === 'json-to-csv'
+                  ? 'bg-primary-container text-on-primary-container shadow-xs'
+                  : 'text-on-surface-variant hover:text-on-surface'
+              }`}
+            >
+              JSON to CSV
+            </button>
+          </div>
+
+          <button
+            type="button"
+            onClick={handleSwap}
+            className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors"
+            title="Swap input and output"
+          >
+            <ArrowLeftRight className="w-3.5 h-3.5" />
+            <span className="hidden sm:inline">Swap</span>
+          </button>
+
+          <div className="h-4 w-px bg-outline-variant" />
+
+          {/* Delimiter */}
+          <div className="flex items-center gap-1.5 text-xs text-outline">
+            <span>Delimiter:</span>
+            <select
+              value={delimiter}
+              onChange={(e) => setDelimiter(e.target.value)}
+              className="h-8 px-2 rounded-lg bg-surface border border-outline-variant text-xs text-on-surface focus:outline-none"
+            >
+              <option value=",">Comma (,)</option>
+              <option value=";">Semicolon (;)</option>
+              <option value="&#9;">Tab (\t)</option>
+              <option value="|">Pipe (|)</option>
+            </select>
+          </div>
+
           <label className="flex items-center gap-1.5 text-xs text-on-surface cursor-pointer select-none">
             <input
               type="checkbox"
@@ -79,31 +197,35 @@ export const CsvToJsonTool: React.FC = () => {
               onChange={(e) => setHasHeader(e.target.checked)}
               className="rounded border-outline-variant text-primary focus:ring-primary"
             />
-            <span>First Row as Headers</span>
+            <span>Include Headers</span>
           </label>
 
-          <label className="flex items-center gap-1.5 text-xs text-on-surface cursor-pointer select-none">
-            <input
-              type="checkbox"
-              checked={skipEmptyLines}
-              onChange={(e) => setSkipEmptyLines(e.target.checked)}
-              className="rounded border-outline-variant text-primary focus:ring-primary"
-            />
-            <span>Skip Blank Lines</span>
-          </label>
+          {direction === 'csv-to-json' && (
+            <label className="flex items-center gap-1.5 text-xs text-on-surface cursor-pointer select-none">
+              <input
+                type="checkbox"
+                checked={skipEmptyLines}
+                onChange={(e) => setSkipEmptyLines(e.target.checked)}
+                className="rounded border-outline-variant text-primary focus:ring-primary"
+              />
+              <span>Skip Blank Lines</span>
+            </label>
+          )}
 
-          <div className="flex items-center gap-1.5 text-xs text-outline">
-            <span>Indent:</span>
-            <select
-              value={indent}
-              onChange={(e) => setIndent(Number(e.target.value))}
-              className="h-8 px-2 rounded-lg bg-surface border border-outline-variant text-xs text-on-surface focus:outline-none"
-            >
-              <option value={2}>2 Spaces</option>
-              <option value={4}>4 Spaces</option>
-              <option value={0}>Minified</option>
-            </select>
-          </div>
+          {direction === 'csv-to-json' && (
+            <div className="flex items-center gap-1.5 text-xs text-outline">
+              <span>Indent:</span>
+              <select
+                value={indent}
+                onChange={(e) => setIndent(Number(e.target.value))}
+                className="h-8 px-2 rounded-lg bg-surface border border-outline-variant text-xs text-on-surface focus:outline-none"
+              >
+                <option value={2}>2 Spaces</option>
+                <option value={4}>4 Spaces</option>
+                <option value={0}>Minified</option>
+              </select>
+            </div>
+          )}
         </div>
 
         <div className="flex items-center gap-2">
@@ -111,23 +233,23 @@ export const CsvToJsonTool: React.FC = () => {
             type="button"
             onClick={() => fileInputRef.current?.click()}
             className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs text-on-surface-variant hover:bg-surface-container transition-colors"
-            title="Upload CSV File"
+            title="Upload File"
           >
             <Upload className="w-3.5 h-3.5" />
             <span className="hidden sm:inline">Upload</span>
           </button>
           <button
             type="button"
-            onClick={() => setCsvInput(SAMPLE_CSV)}
+            onClick={() => setInput(direction === 'csv-to-json' ? SAMPLE_CSV : SAMPLE_JSON)}
             className="px-2.5 py-1.5 rounded-lg text-xs text-on-surface-variant hover:bg-surface-container transition-colors"
           >
             Sample
           </button>
           <button
             type="button"
-            onClick={() => setCsvInput('')}
+            onClick={() => setInput('')}
             className="p-1.5 rounded-lg text-outline hover:text-red-500 hover:bg-surface-container transition-colors"
-            title="Clear CSV"
+            title="Clear Input"
           >
             <Trash2 className="w-4 h-4" />
           </button>
@@ -135,20 +257,20 @@ export const CsvToJsonTool: React.FC = () => {
           <button
             type="button"
             onClick={handleCopy}
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-surface hover:bg-surface-container text-xs font-medium text-on-surface border border-outline-variant/60 transition-colors"
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-surface hover:bg-surface-container text-xs font-medium text-on-surface border border-outline-variant transition-colors"
           >
             {copied ? (
               <Check className="w-3.5 h-3.5 text-emerald-500" />
             ) : (
               <Copy className="w-3.5 h-3.5" />
             )}
-            <span>{copied ? 'Copied' : 'Copy JSON'}</span>
+            <span>{copied ? 'Copied' : 'Copy'}</span>
           </button>
           <button
             type="button"
             onClick={handleDownload}
             className="p-1.5 rounded-lg text-outline hover:text-on-surface hover:bg-surface-container transition-colors"
-            title="Download JSON"
+            title="Download result"
           >
             <Download className="w-4 h-4" />
           </button>
@@ -156,7 +278,7 @@ export const CsvToJsonTool: React.FC = () => {
       </div>
 
       {/* Warnings & Errors */}
-      {result.warnings.map((w, i) => (
+      {conversionResult.warnings.map((w, i) => (
         <div
           key={i}
           className="p-3 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-center gap-2 text-xs text-amber-500"
@@ -166,7 +288,7 @@ export const CsvToJsonTool: React.FC = () => {
         </div>
       ))}
 
-      {result.errors.map((err, i) => (
+      {conversionResult.errors.map((err, i) => (
         <div
           key={i}
           className="p-3 rounded-xl bg-red-500/10 border border-red-500/30 flex items-center gap-2 text-xs text-red-400"
@@ -190,28 +312,35 @@ export const CsvToJsonTool: React.FC = () => {
           onDrop={handleDrop}
         >
           <div className="flex items-center justify-between text-xs text-outline px-1">
-            <span className="font-medium">
-              Raw CSV Input{isDragging && ' — Drop CSV file to load'}
+            <span className="font-medium text-on-surface">
+              {direction === 'csv-to-json' ? 'CSV Source Input' : 'JSON Source Input'}
+              {isDragging && ' — Drop file here'}
             </span>
-            <span className="font-mono text-[11px]">{csvInput.length} chars</span>
+            <span className="font-mono text-[11px]">{input.length} chars</span>
           </div>
           <textarea
-            value={csvInput}
-            onChange={(e) => setCsvInput(e.target.value)}
-            placeholder="Paste CSV rows here, or drag and drop a .csv file..."
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            placeholder={
+              direction === 'csv-to-json'
+                ? 'Paste CSV or delimited table rows here...'
+                : 'Paste JSON array of objects here...'
+            }
             className="w-full h-80 sm:h-96 p-4 rounded-xl bg-surface-container-low border border-outline-variant font-mono text-xs text-on-surface placeholder:text-outline focus:outline-none focus:ring-2 focus:ring-primary-container resize-y"
           />
         </div>
 
         <div className="space-y-2">
           <div className="flex items-center justify-between text-xs text-outline px-1">
-            <span className="font-medium">JSON Objects Output</span>
-            <span className="font-mono text-[11px]">{result.rowCount} rows converted</span>
+            <span className="font-medium text-on-surface">
+              {direction === 'csv-to-json' ? 'JSON Objects Output' : 'CSV Delimited Output'}
+            </span>
+            <span className="font-mono text-[11px]">{conversionResult.rowCount} rows</span>
           </div>
           <textarea
             readOnly
-            value={result.jsonString}
-            placeholder="Parsed JSON output will appear here..."
+            value={conversionResult.output}
+            placeholder="Parsed result will appear here..."
             className="w-full h-80 sm:h-96 p-4 rounded-xl bg-surface-container-lowest border border-outline-variant font-mono text-xs text-on-surface placeholder:text-outline focus:outline-none resize-y"
           />
         </div>

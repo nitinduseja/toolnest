@@ -1,6 +1,7 @@
 /**
  * Pure domain logic for decoding and inspecting JSON Web Tokens (JWT).
- * RFC 7519 compliant client-side token parsing without network dependencies.
+ * RFC 7519 / RFC 7515 compliant client-side token parsing and HMAC-SHA256 verification
+ * without network dependencies.
  */
 
 export interface JwtClaimsSummary {
@@ -23,6 +24,11 @@ export interface ParsedJwtResult {
   rawPayload: string;
   claimsSummary: JwtClaimsSummary | null;
   error: string | null;
+}
+
+export interface VerificationResult {
+  verified: boolean;
+  error?: string;
 }
 
 /**
@@ -162,6 +168,91 @@ export function parseJwt(token: string, nowMs = Date.now()): ParsedJwtResult {
       error: err instanceof Error ? err.message : 'Failed to decode JWT base64/JSON payload.',
     };
   }
+}
+
+/**
+ * Verifies HMAC-SHA256 (HS256) signature of a JWT using Web Crypto API.
+ */
+export async function verifyJwtSignature(
+  token: string,
+  secret: string
+): Promise<VerificationResult> {
+  if (!secret) {
+    return { verified: false, error: 'Enter secret key to verify signature' };
+  }
+  const parts = token.trim().split('.');
+  if (parts.length !== 3) {
+    return { verified: false, error: 'Invalid JWT structure' };
+  }
+
+  const [headerB64, payloadB64, signatureB64] = parts;
+  const signingInput = `${headerB64}.${payloadB64}`;
+
+  try {
+    const enc = new TextEncoder();
+    const key = await crypto.subtle.importKey(
+      'raw',
+      enc.encode(secret),
+      { name: 'HMAC', hash: { name: 'SHA-256' } },
+      false,
+      ['sign']
+    );
+
+    const signatureBytes = await crypto.subtle.sign('HMAC', key, enc.encode(signingInput));
+
+    let binary = '';
+    const bytes = new Uint8Array(signatureBytes);
+    for (let i = 0; i < bytes.length; i++) {
+      binary += String.fromCharCode(bytes[i]);
+    }
+    const computedSignatureB64 = btoa(binary)
+      .replace(/\+/g, '-')
+      .replace(/\//g, '_')
+      .replace(/=+$/, '');
+
+    const verified = computedSignatureB64 === signatureB64;
+    return { verified };
+  } catch (err) {
+    return {
+      verified: false,
+      error: err instanceof Error ? err.message : 'Cryptographic verification failed',
+    };
+  }
+}
+
+/**
+ * Generates an HMAC-SHA256 signed JWT with a given secret.
+ */
+export async function signJwt(
+  header: Record<string, unknown>,
+  payload: Record<string, unknown>,
+  secret: string
+): Promise<string> {
+  const headerB64 = encodeBase64Url(JSON.stringify(header));
+  const payloadB64 = encodeBase64Url(JSON.stringify(payload));
+  const signingInput = `${headerB64}.${payloadB64}`;
+
+  const enc = new TextEncoder();
+  const key = await crypto.subtle.importKey(
+    'raw',
+    enc.encode(secret),
+    { name: 'HMAC', hash: { name: 'SHA-256' } },
+    false,
+    ['sign']
+  );
+  const signatureBytes = await crypto.subtle.sign('HMAC', key, enc.encode(signingInput));
+
+  let binary = '';
+  const bytes = new Uint8Array(signatureBytes);
+  for (let i = 0; i < bytes.length; i++) {
+    binary += String.fromCharCode(bytes[i]);
+  }
+  const signatureB64 = btoa(binary)
+    .replace(/\+/g, '-')
+    .replace(/\//g, '_')
+    .replace(/=+$/, '');
+
+  return `${signingInput}.${signatureB64}`;
 }
 
 /**

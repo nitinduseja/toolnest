@@ -4,10 +4,24 @@ export interface CsvToJsonOptions {
   hasHeader?: boolean;
   skipEmptyLines?: boolean;
   indent?: number;
+  delimiter?: string;
 }
 
 export interface CsvConversionResult {
   jsonString: string;
+  rowCount: number;
+  warnings: string[];
+  errors: string[];
+}
+
+export interface JsonToCsvOptions {
+  delimiter?: string;
+  header?: boolean;
+  quotes?: boolean;
+}
+
+export interface JsonToCsvResult {
+  csvString: string;
   rowCount: number;
   warnings: string[];
   errors: string[];
@@ -22,12 +36,22 @@ export function convertCsvToJson(
     return { jsonString: '[]', rowCount: 0, warnings: [], errors: [] };
   }
 
-  const { hasHeader = true, skipEmptyLines = true, indent = 2 } = options || {};
+  const {
+    hasHeader = true,
+    skipEmptyLines = true,
+    indent = 2,
+    delimiter = '',
+  } = options || {};
 
-  const parsed = Papa.parse(trimmed, {
+  const parseConfig: Papa.ParseConfig = {
     header: false,
     skipEmptyLines,
-  });
+  };
+  if (delimiter) {
+    parseConfig.delimiter = delimiter;
+  }
+
+  const parsed = Papa.parse(trimmed, parseConfig);
 
   const errors: string[] = parsed.errors.map((e) => `Row ${e.row}: ${e.message}`);
   const warnings: string[] = [];
@@ -46,7 +70,7 @@ export function convertCsvToJson(
 
     // Deduplicate duplicate column headers deterministically
     rawHeaders.forEach((h, idx) => {
-      const colName = h.trim() || `column_${idx + 1}`;
+      const colName = (h ?? '').trim() || `column_${idx + 1}`;
       const count = (headerCounts.get(colName) || 0) + 1;
       headerCounts.set(colName, count);
 
@@ -77,4 +101,67 @@ export function convertCsvToJson(
     warnings,
     errors,
   };
+}
+
+export function convertJsonToCsv(
+  jsonContent: string,
+  options?: JsonToCsvOptions
+): JsonToCsvResult {
+  const trimmed = jsonContent.trim();
+  if (!trimmed) {
+    return { csvString: '', rowCount: 0, warnings: [], errors: [] };
+  }
+
+  const { delimiter = ',', header = true, quotes = false } = options || {};
+
+  let parsed: unknown;
+  try {
+    parsed = JSON.parse(trimmed);
+  } catch (err) {
+    return {
+      csvString: '',
+      rowCount: 0,
+      warnings: [],
+      errors: [err instanceof Error ? `JSON syntax error: ${err.message}` : 'Invalid JSON input'],
+    };
+  }
+
+  if (!Array.isArray(parsed)) {
+    if (typeof parsed === 'object' && parsed !== null) {
+      parsed = [parsed];
+    } else {
+      return {
+        csvString: '',
+        rowCount: 0,
+        warnings: [],
+        errors: ['Input must be a JSON array of objects or values.'],
+      };
+    }
+  }
+
+  const dataArray = parsed as unknown[];
+  if (dataArray.length === 0) {
+    return { csvString: '', rowCount: 0, warnings: [], errors: [] };
+  }
+
+  try {
+    const csvString = Papa.unparse(dataArray, {
+      delimiter,
+      header,
+      quotes,
+    });
+    return {
+      csvString,
+      rowCount: dataArray.length,
+      warnings: [],
+      errors: [],
+    };
+  } catch (err) {
+    return {
+      csvString: '',
+      rowCount: 0,
+      warnings: [],
+      errors: [err instanceof Error ? err.message : 'Failed to unparse JSON into CSV.'],
+    };
+  }
 }

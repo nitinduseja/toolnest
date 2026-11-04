@@ -1,3 +1,5 @@
+import { zipSync, strToU8 } from 'fflate';
+
 /**
  * Safe client-side file downloader that cleans up object URLs.
  */
@@ -22,6 +24,26 @@ export function downloadFile(content: string | Blob, options: DownloadOptions): 
     document.body.removeChild(link);
     setTimeout(() => URL.revokeObjectURL(url), 1000);
     return true;
+  } catch {
+    return false;
+  }
+}
+
+/**
+ * Bundles multiple files into a single ZIP archive and triggers a single download.
+ */
+export function downloadZip(
+  files: Record<string, Uint8Array | string>,
+  zipFilename = 'bundle.zip'
+): boolean {
+  try {
+    const zipData: Record<string, Uint8Array> = {};
+    for (const [filename, content] of Object.entries(files)) {
+      zipData[filename] = typeof content === 'string' ? strToU8(content) : content;
+    }
+    const zipped = zipSync(zipData);
+    const blob = new Blob([zipped as Uint8Array], { type: 'application/zip' });
+    return downloadFile(blob, { filename: zipFilename, mimeType: 'application/zip' });
   } catch {
     return false;
   }
