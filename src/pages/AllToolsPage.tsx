@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { Search, SlidersHorizontal, X } from 'lucide-react';
+import { SlidersHorizontal, X } from 'lucide-react';
 import { ALL_TOOLS } from '@/registry/tool-registry';
 import { CATEGORIES } from '@/registry/categories';
 import { ToolCard } from '@/components/molecules/ToolCard';
@@ -48,75 +48,80 @@ export const AllToolsPage: React.FC = () => {
 
   return (
     <div className="space-y-6">
-      <div className="space-y-1">
-        <h1 className="text-2xl font-bold tracking-tight text-on-surface">All Tools</h1>
-        <p className="text-xs sm:text-sm text-on-surface-variant">
-          Complete catalog of {ALL_TOOLS.length} privacy-first browser developer utilities.
-        </p>
-      </div>
+      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+        <div className="space-y-1">
+          <h1 className="text-2xl font-bold tracking-tight text-on-surface">Explore Tools</h1>
+          <p className="text-xs sm:text-sm text-on-surface-variant">
+            Complete catalog of {ALL_TOOLS.length} privacy-first browser developer utilities.
+          </p>
+        </div>
 
-      {/* Search and Filters Bar */}
-      <div className="flex flex-col md:flex-row gap-3 items-stretch md:items-center justify-between">
-        <div className="relative flex-1 max-w-md">
-          <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-outline pointer-events-none" />
-          <input
-            type="search"
-            value={query}
-            onChange={(e) => handleQueryChange(e.target.value)}
-            placeholder="Search tools by name, tag, or function..."
-            autoComplete="off"
-            enterKeyHint="search"
-            className="w-full h-10 pl-10 pr-9 rounded-xl bg-surface-container-low border border-outline-variant text-xs sm:text-sm text-on-surface placeholder:text-outline focus:outline-none focus:ring-2 focus:ring-primary-container transition-all"
-          />
-          {query && (
+        {/* Active Query Filter Pill if navigated with a search query */}
+        {query && (
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-primary-container text-on-primary-container text-xs font-medium self-start sm:self-auto shadow-2xs">
+            <span>Query: &ldquo;{query}&rdquo;</span>
             <button
               type="button"
               onClick={() => handleQueryChange('')}
-              aria-label="Clear search query"
-              className="absolute right-2 top-1/2 -translate-y-1/2 p-1 rounded-md text-outline hover:text-on-surface hover:bg-surface-container transition-colors"
+              className="p-0.5 rounded-md hover:bg-black/10 dark:hover:bg-white/10 transition-colors"
+              aria-label="Clear query filter"
+              title="Clear search query"
             >
               <X className="w-3.5 h-3.5" />
             </button>
-          )}
-        </div>
+          </div>
+        )}
+      </div>
 
-        <div className="flex items-center gap-2 overflow-x-auto pb-1 text-xs select-none">
-          <button
-            type="button"
-            onClick={() => handleCategoryChange('all')}
-            className={`px-3 py-1.5 rounded-lg whitespace-nowrap transition-colors ${
-              selectedCategory === 'all'
-                ? 'bg-primary-container text-on-primary-container font-semibold'
-                : 'bg-surface-container-low border border-outline-variant text-on-surface-variant hover:bg-surface-container'
-            }`}
-          >
-            All Categories ({ALL_TOOLS.length})
-          </button>
-          {CATEGORIES.map((cat) => {
-            const count = ALL_TOOLS.filter((t) => t.category === cat.id).length;
-            return (
-              <button
-                key={cat.id}
-                type="button"
-                onClick={() => handleCategoryChange(cat.id)}
-                className={`px-3 py-1.5 rounded-lg whitespace-nowrap transition-colors ${
-                  selectedCategory === cat.id
-                    ? 'bg-primary-container text-on-primary-container font-semibold'
-                    : 'bg-surface-container-low border border-outline-variant text-on-surface-variant hover:bg-surface-container'
-                }`}
-              >
-                {cat.name} ({count})
-              </button>
-            );
-          })}
-        </div>
+      {/* Category Filter Navigation Bar */}
+      <div className="flex items-center gap-2 overflow-x-auto pb-1 text-xs select-none scrollbar-none">
+        <button
+          type="button"
+          onClick={() => handleCategoryChange('all')}
+          className={`px-3 py-1.5 rounded-xl whitespace-nowrap transition-all ${
+            selectedCategory === 'all'
+              ? 'bg-primary text-on-primary font-semibold shadow-xs'
+              : 'bg-surface-container-low border border-outline-variant text-on-surface-variant hover:bg-surface-container'
+          }`}
+        >
+          All Categories ({ALL_TOOLS.length})
+        </button>
+        {CATEGORIES.map((cat) => {
+          const count = ALL_TOOLS.filter((t) => t.category === cat.id).length;
+          return (
+            <button
+              key={cat.id}
+              type="button"
+              onClick={() => handleCategoryChange(cat.id)}
+              className={`px-3 py-1.5 rounded-xl whitespace-nowrap transition-all ${
+                selectedCategory === cat.id
+                  ? 'bg-primary text-on-primary font-semibold shadow-xs'
+                  : 'bg-surface-container-low border border-outline-variant text-on-surface-variant hover:bg-surface-container'
+              }`}
+            >
+              {cat.name} ({count})
+            </button>
+          );
+        })}
       </div>
 
       {/* Results Header */}
-      <div className="flex items-center justify-between text-xs text-outline pt-2">
+      <div className="flex items-center justify-between text-xs text-outline">
         <span>
           Showing {filteredTools.length} tool{filteredTools.length !== 1 ? 's' : ''}
         </span>
+        {(query || selectedCategory !== 'all') && (
+          <button
+            type="button"
+            onClick={() => {
+              handleQueryChange('');
+              handleCategoryChange('all');
+            }}
+            className="text-primary hover:underline font-medium"
+          >
+            Clear all filters
+          </button>
+        )}
       </div>
 
       {/* Tool Grid or Empty State */}
@@ -127,11 +132,11 @@ export const AllToolsPage: React.FC = () => {
           ))}
         </div>
       ) : (
-        <div className="py-16 text-center rounded-xl border border-dashed border-outline-variant bg-surface-container-lowest/50 space-y-3">
+        <div className="py-16 text-center rounded-2xl border border-dashed border-outline-variant bg-surface-container-lowest/50 space-y-3">
           <SlidersHorizontal className="w-8 h-8 text-outline mx-auto" />
           <h3 className="font-semibold text-sm text-on-surface">No matching tools found</h3>
           <p className="text-xs text-on-surface-variant max-w-sm mx-auto">
-            Try adjusting your search terms or clearing your category filters.
+            Try selecting a different category or clearing your active search filter.
           </p>
           <button
             type="button"
@@ -139,7 +144,7 @@ export const AllToolsPage: React.FC = () => {
               handleQueryChange('');
               handleCategoryChange('all');
             }}
-            className="px-3 py-1.5 rounded-lg bg-surface-container-high text-xs font-medium text-on-surface hover:bg-surface-container transition-colors"
+            className="px-3.5 py-2 rounded-xl bg-primary text-on-primary text-xs font-semibold hover:opacity-95 shadow-md shadow-primary/20 transition-all cursor-pointer"
           >
             Reset Filters
           </button>

@@ -3,7 +3,7 @@ import { ShieldCheck, Columns2, Command, WifiOff, Sparkles } from 'lucide-react'
 
 export const ArchitectureBentoSection: React.FC = () => {
   return (
-    <section className="space-y-6 pt-4">
+    <section className="space-y-6 pt-4 relative z-10">
       <div>
         <div className="flex items-center gap-2 text-primary text-xs font-semibold uppercase tracking-wider mb-1">
           <Sparkles className="w-3.5 h-3.5" />
@@ -67,7 +67,7 @@ export const ArchitectureBentoSection: React.FC = () => {
             <div className="w-10 h-10 rounded-xl bg-sky-500/10 border border-sky-500/20 text-sky-500 flex items-center justify-center">
               <Command className="w-5 h-5" />
             </div>
-            <h3 className="text-base font-bold text-on-surface">Raycast-Grade Command Palette</h3>
+            <h3 className="text-base font-bold text-on-surface">Universal Command Palette</h3>
             <p className="text-xs text-on-surface-variant leading-relaxed">
               Search all 36 tools, filter categories, and execute actions with sub-millisecond
               response times via <kbd className="font-mono">⌘K</kbd> or{' '}

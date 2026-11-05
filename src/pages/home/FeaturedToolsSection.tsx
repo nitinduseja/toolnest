@@ -23,7 +23,7 @@ export const FeaturedToolsSection: React.FC = () => {
   }, [activeTab]);
 
   return (
-    <section className="space-y-6">
+    <section className="space-y-6 relative z-10">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-2 text-primary text-xs font-semibold uppercase tracking-wider mb-1">

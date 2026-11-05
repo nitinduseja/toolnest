@@ -143,7 +143,7 @@ spacing:
 
 ## Brand & Style
 
-This design system targets software engineers, technical leads, and systems architects who demand an ultra-responsive, ergonomic, and distraction-free developer workbench. Merging the keyboard-first utility of Raycast, the structural rhythm of Linear, and the neutral clarity of GitHub, the interface establishes a high-density, low-friction environment.
+This design system targets software engineers, technical leads, and systems architects who demand an ultra-responsive, ergonomic, and distraction-free developer workbench. Merging keyboard-first speed, structural clarity, and high-density information architecture, the interface establishes a high-density, low-friction environment.
 
 ### Design Principles
 
@@ -238,7 +238,7 @@ The geometric framework balances human software design with technical discipline
 - **Focus**: Border `#635BFF`, box-shadow `0 0 0 3px rgba(99, 91, 255, 0.15)`.
 - **Keybinding Cue**: Right-aligned monospace badge (`JetBrains Mono`, 11px) with background `#F0F2F7`, border `#E2E4EB`, text `#64748B`.
 
-### Command Palette (Raycast-Style)
+### Command Palette (Universal Launchpad)
 
 - **Container**: Max width 640px, elevated surface with Level 3 elevation, radius 12px, border 1px solid `#E2E4EB`.
 - **Item Row**: 40px height, radius 6px, padding horizontal 12px. Active/hovered item receives background `#F0F2F7` with primary accent icon `#635BFF`.

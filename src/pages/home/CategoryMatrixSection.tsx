@@ -7,7 +7,7 @@ import { Icon } from '@/components/atoms/Icon';
 
 export const CategoryMatrixSection: React.FC = () => {
   return (
-    <section className="space-y-6">
+    <section className="space-y-6 relative z-10">
       <div className="flex items-center justify-between">
         <div>
           <div className="flex items-center gap-2 text-primary text-xs font-semibold uppercase tracking-wider mb-1">

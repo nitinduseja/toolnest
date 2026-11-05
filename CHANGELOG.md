@@ -5,6 +5,71 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.2.0] - 2026-11-04
+
+### Changed
+
+- **Mobile Bottom Navigation Overhaul**:
+  - Replaced the direct Favorites tab in `MobileFloatingNav` with a `More` (three-dot) menu icon opening a floating popover menu with direct links to both Favorites and Recent Tools, including real-time item count badges.
+  - Elevated the center Search button (`-mt-5 -translate-y-1`) with a floating button appearance, primary gradient, and tactile glow ring.
+  - Added click-outside and Escape key dismissal for full accessibility across mobile viewports.
+- **Standalone Tool Header Mobile Responsiveness**:
+  - Optimized `StandaloneToolHeader` layout for mobile screens:
+    - Added a compact mobile search icon button, keeping the Command Palette accessible without cluttering the screen width.
+    - Streamlined mobile header controls by keeping essential actions (Hub, Tool Identity, Search, Favorites, and Theme Toggle) and hiding desktop-specific controls (Split View, Fullscreen, Shortcuts) on narrow screens.
+    - Applied responsive max-width truncation to tool titles, preventing line-wrapping and header overflow on 360px+ devices.
+- **Command Palette Theme Synchronization**:
+  - Fixed root cause of Command Palette appearing dark in Light Theme: corrected `--color-primary-container` in `:root` from dark indigo (`#635bff`) to soft indigo tint (`#eeedfe`) with deep indigo text (`#261c8a`), conforming to Material Design 3 and Stitch token specifications.
+  - Adapted backdrop from static `bg-black/65` to responsive `bg-black/35 dark:bg-black/75 backdrop-blur-xs dark:backdrop-blur-md`.
+  - Replaced invalid Tailwind opacity classes with dynamic theme colors across header, tabs, empty state, and footer for immediate theme reaction without reload.
+- **Homepage Headline and Subtitle Overlapping Fix**:
+  - Eliminated text clipping and visual collisions between the headline and subtitle in `HeroSection.tsx`.
+  - Increased line height (`leading-tight sm:leading-[1.18] lg:leading-[1.15]`), added gradient descender padding (`pb-1 sm:pb-2`), and expanded vertical spacing (`space-y-4 sm:space-y-5`, `pt-1`) for clean responsiveness across mobile, tablet, and desktop.
+- **Standardized Brand Icon (`BrandLogo`)**:
+  - Created standardized `BrandLogo` component reproducing the exact 4-quadrant rounded geometry and colors from `public/favicon.svg`.
+  - Replaced mismatched generic sparkle icons in `DesktopFloatingNav`, `TabletFloatingNav`, `StandaloneToolHeader`, and `HomeFooter` with `BrandLogo` for 100% brand consistency throughout the application.
+- **Homepage Top Spacing on Mobile**:
+  - Resolved excessive empty top spacing on mobile screens where bottom navigation is used instead of a top header.
+  - Reduced mobile top padding in `PortalShell.tsx` from `pt-20` to `pt-4 sm:pt-6 md:pt-20 lg:pt-24` and in `HeroSection.tsx` from `pt-8` to `pt-2 sm:pt-8 md:pt-12 lg:pt-14`.
+  - Mobile layout now starts immediately with balanced vertical rhythm while desktop and tablet retain required clearance for top floating navigation headers.
+- **Explore Page Search Experience**:
+  - Unified search on the Explore page by utilizing the global header search bar (`DesktopFloatingNav` & `TabletFloatingNav`), eliminating the separate in-page search input to prevent duplicate search interfaces.
+  - Added responsive active search query pill indicators (`Query: "..." [X]`) when navigating with query parameters.
+- **Home Page Search Results Stacking & Layout Fix**:
+  - Resolved root cause of search results dropdown being partially obscured behind sections below the search bar:
+    - Structured strict multi-tier stacking contexts (`HeroSection` at `z-30`, subsequent sections at `z-10`, and `HeroSearchBar` dropdown at `z-50`).
+    - Eliminated invalid Tailwind color opacity classes (`/98`, `/95`) that left dropdowns semi-transparent, replacing them with solid, crisp backgrounds (`bg-surface dark:bg-surface-container-lowest`) with `backdrop-blur-2xl` and elevation shadow.
+    - Set explicit internal stacking contexts between the search bar (`z-30`/`z-50`), Quick Launch chips (`z-10`), and the Trust & Performance Metrics Strip (`z-0`).
+    - Fixed container clipping and isolated ambient background glow containers with dedicated overflow bounds so the main section never clips dropdown elements.
+    - Added responsive height constraints (`max-h-[360px] sm:max-h-[420px] overflow-y-auto overscroll-contain`) ensuring full visibility and smooth scrolling across mobile, tablet, and desktop viewports.
+  - Eliminated duplicate native browser cross (`X`) button in WebKit/Blink by disabling native search cancel pseudo-elements and utilizing a single React clear button.
+- **Original Branding Enforcement**:
+  - Removed all third-party brand and product references (e.g., Raycast) across the application UI, Bento grid, documentation, and design assets in full alignment with Toolnest's original identity.
+- **Version Bump**:
+  - Updated application version to 2.2.0 across `package.json`, `SettingsPage.tsx`, and documentation.
+
+## [2.1.0] - 2026-11-04
+
+### Added
+
+- **Interactive Home Page Search Experience (`HeroSearchBar`)**:
+  - Purpose-built focal search container with tactile glowing border, ambient focus ring, and clear button (`X`).
+  - Real-time dropdown search suggestions: typing directly previews top matching tools with categories, descriptions, and quick-launch arrows.
+  - Full keyboard navigation (`ArrowDown`, `ArrowUp`, `Enter`, `Escape`) for instant tool execution.
+  - Direct integration with Command Palette (`⌘K`) shortcut badge.
+- **Complete Command Palette UI/UX Overhaul**:
+  - Restructured architecture into modular subcomponents: `CommandPaletteHeader`, `CommandPaletteTabs`, `CommandPaletteItem`, `CommandPaletteEmpty`, and `CommandPaletteFooter`.
+  - Unified search input header with responsive ESC badge and clear action.
+  - Rich result item presentation with icon containers, matched subtitles, category badges, and launch action indicators.
+  - Helpful illustrated empty state with keyword guidance and quick catalog discovery.
+  - Tactile status footer with keyboard navigation pill badges and air-gapped privacy indicator.
+
+### Changed
+
+- **Eliminated Competing Search Bars**:
+  - Removed duplicate search triggers from the global floating navigation header (`DesktopFloatingNav` and `TabletFloatingNav`) on the Home Page and on screens with their own primary search bar.
+  - Established a strict single-primary-search paradigm across all screens in the portal.
+
 ## [2.0.0] - 2026-11-04
 
 ### Added
@@ -57,7 +122,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - QR Code Generator (SVG & PNG client-side download)
   - Unit Converter (Length, Mass, Temperature, Data Storage)
   - CSV to JSON Converter with quote & line break support
-- Global Raycast-style Command Palette (`Ctrl+K` / `⌘K`).
+- Global Universal Command Palette (`Ctrl+K` / `⌘K`).
 - Triple responsive shells (Mobile bottom nav, Tablet icon rail, Desktop persistent sidebar).
 - System, Light, and Dark mode theme engine with flash prevention.
 - Safe local persistence for Favorites and Recent Tools.

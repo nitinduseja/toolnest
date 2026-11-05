@@ -13,7 +13,7 @@ Toolnest is an open-source, privacy-first developer workbench providing essentia
 ## ⚡ Key Highlights
 
 - 🔒 **Privacy-First & Local-Only**: Everything executes client-side via native browser APIs and Web Crypto. Your sensitive payloads never leave your computer.
-- ⌨️ **Raycast-Style Command Palette**: Press <kbd>Ctrl</kbd> + <kbd>K</kbd> (or <kbd>⌘</kbd> + <kbd>K</kbd>) to instantly search all tools, categories, and system commands.
+- ⌨️ **Universal Command Palette**: Press <kbd>Ctrl</kbd> + <kbd>K</kbd> (or <kbd>⌘</kbd> + <kbd>K</kbd>) to instantly search all tools, categories, and system commands.
 - 📱 **Adaptive Multi-Shell Layout**:
   - **Desktop (≥1024px)**: 240px persistent navigation rail, multi-column workspace, side-by-side split input/output editors.
   - **Tablet (640–1023px)**: Compact collapsible header, icon rail navigation, fluid grids.

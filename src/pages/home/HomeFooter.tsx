@@ -1,7 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Sparkles, Shield } from 'lucide-react';
+import { Shield } from 'lucide-react';
 import { GithubIcon } from '@/components/atoms/GithubIcon';
+import { BrandLogo } from '@/components/atoms/BrandLogo';
 
 interface HomeFooterProps {
   onOpenShortcuts: () => void;
@@ -9,11 +10,9 @@ interface HomeFooterProps {
 
 export const HomeFooter: React.FC<HomeFooterProps> = ({ onOpenShortcuts }) => {
   return (
-    <footer className="pt-16 pb-8 border-t border-outline-variant/60 flex flex-col sm:flex-row items-center justify-between gap-6 text-xs text-outline">
+    <footer className="pt-16 pb-8 border-t border-outline-variant/60 flex flex-col sm:flex-row items-center justify-between gap-6 text-xs text-outline relative z-10">
       <div className="flex items-center gap-3">
-        <div className="w-6 h-6 rounded-lg bg-primary-container/20 text-primary flex items-center justify-center">
-          <Sparkles className="w-3.5 h-3.5" />
-        </div>
+        <BrandLogo className="w-6 h-6 rounded-md shadow-2xs shrink-0" />
         <div>
           <span className="font-bold text-on-surface">TOOLNEST</span>
           <span className="text-outline ml-2">— Open-Source Client-Side Workstation</span>

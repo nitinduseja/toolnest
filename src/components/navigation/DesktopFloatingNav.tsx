@@ -1,7 +1,8 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Search, Star, Clock, Layers, Sparkles, HelpCircle } from 'lucide-react';
+import { Search, Star, Clock, Layers, HelpCircle } from 'lucide-react';
 import { ThemeToggle } from '@/features/theme/ThemeToggle';
+import { BrandLogo } from '@/components/atoms/BrandLogo';
 import { useFavorites } from '@/features/favorites/useFavorites';
 import { useRecentTools } from '@/features/recent-tools/useRecentTools';
 
@@ -21,6 +22,7 @@ export const DesktopFloatingNav: React.FC<DesktopFloatingNavProps> = ({
   const { recentToolIds } = useRecentTools();
   const favoriteCount = favorites.length;
 
+  const isHome = location.pathname === '/';
   const isToolsActive = location.pathname.startsWith('/tools');
   const isFavoritesActive = location.pathname === '/favorites';
   const isRecentActive = location.pathname === '/recent';
@@ -37,9 +39,7 @@ export const DesktopFloatingNav: React.FC<DesktopFloatingNavProps> = ({
           className="flex items-center gap-2 group pr-2 focus:outline-none"
           title="Toolnest Home"
         >
-          <div className="w-7 h-7 rounded-full bg-gradient-to-tr from-primary to-indigo-500 flex items-center justify-center text-white shadow-xs group-hover:scale-105 transition-transform">
-            <Sparkles className="w-3.5 h-3.5" />
-          </div>
+          <BrandLogo className="w-7 h-7 rounded-lg shadow-xs group-hover:scale-105 transition-transform shrink-0" />
           <span className="font-extrabold text-xs tracking-tight text-on-surface bg-gradient-to-r from-on-surface via-on-surface to-primary bg-clip-text">
             TOOLNEST
           </span>
@@ -101,19 +101,24 @@ export const DesktopFloatingNav: React.FC<DesktopFloatingNavProps> = ({
         {/* Vertical Divider */}
         <div className="h-4 w-px bg-outline-variant" />
 
-        {/* Command Palette Trigger Button */}
-        <button
-          type="button"
-          onClick={onOpenCommandPalette}
-          className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-surface-container hover:bg-surface-container-high border border-outline-variant/60 text-xs text-on-surface-variant transition-colors"
-          title="Open Command Palette (Ctrl+K or ⌘K)"
-        >
-          <Search className="w-3.5 h-3.5 text-outline" />
-          <span className="text-[11px] font-medium">Search...</span>
-          <kbd className="px-1.5 py-0.5 rounded text-[10px] font-mono bg-surface border border-outline-variant text-outline">
-            ⌘K
-          </kbd>
-        </button>
+        {/* Command Palette Trigger Button (displayed on all portal pages except Home) */}
+        {!isHome && (
+          <>
+            <button
+              type="button"
+              onClick={onOpenCommandPalette}
+              className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-surface-container hover:bg-surface-container-high border border-outline-variant/60 text-xs text-on-surface-variant transition-colors"
+              title="Open Command Palette (Ctrl+K or ⌘K)"
+            >
+              <Search className="w-3.5 h-3.5 text-outline" />
+              <span className="text-[11px] font-medium">Search...</span>
+              <kbd className="px-1.5 py-0.5 rounded text-[10px] font-mono bg-surface border border-outline-variant text-outline">
+                ⌘K
+              </kbd>
+            </button>
+            <div className="h-4 w-px bg-outline-variant" />
+          </>
+        )}
 
         {/* Theme Toggle */}
         <ThemeToggle />

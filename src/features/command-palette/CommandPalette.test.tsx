@@ -57,4 +57,22 @@ describe('CommandPalette Keyboard Navigation', () => {
     // First filtered item is selected
     expect(filteredItems[0]).toHaveAttribute('aria-selected', 'true');
   });
+
+  it('renders theme-adaptive dialog structure and respects active theme', () => {
+    const { container } = render(
+      <MemoryRouter>
+        <ThemeProvider>
+          <CommandPalette open={true} onOpenChange={() => {}} />
+        </ThemeProvider>
+      </MemoryRouter>
+    );
+
+    // Modal dialog container uses semantic theme classes
+    const dialogRoot =
+      container.querySelector('[cmdk-root]') || document.body.querySelector('[cmdk-root]');
+    expect(dialogRoot).toBeInTheDocument();
+
+    const searchInput = screen.getByPlaceholderText('Type to search...');
+    expect(searchInput).toHaveClass('text-on-surface');
+  });
 });

@@ -1,7 +1,8 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Search, Star, Layers, Sparkles } from 'lucide-react';
+import { Search, Star, Layers } from 'lucide-react';
 import { ThemeToggle } from '@/features/theme/ThemeToggle';
+import { BrandLogo } from '@/components/atoms/BrandLogo';
 import { useFavorites } from '@/features/favorites/useFavorites';
 
 interface TabletFloatingNavProps {
@@ -18,6 +19,7 @@ export const TabletFloatingNav: React.FC<TabletFloatingNavProps> = ({
   const { favorites } = useFavorites();
   const favoriteCount = favorites.length;
 
+  const isHome = location.pathname === '/';
   const isToolsActive = location.pathname.startsWith('/tools');
   const isFavoritesActive = location.pathname === '/favorites';
 
@@ -27,10 +29,12 @@ export const TabletFloatingNav: React.FC<TabletFloatingNavProps> = ({
         aria-label="Tablet primary navigation"
         className="w-full glass-dock rounded-2xl px-4 py-2 shadow-xl shadow-black/5 dark:shadow-black/40 flex items-center justify-between transition-all"
       >
-        <Link to="/" className="flex items-center gap-2 group focus:outline-none">
-          <div className="w-7 h-7 rounded-lg bg-gradient-to-tr from-primary to-indigo-500 flex items-center justify-center text-white shadow-xs">
-            <Sparkles className="w-3.5 h-3.5" />
-          </div>
+        <Link
+          to="/"
+          className="flex items-center gap-2 group focus:outline-none"
+          title="Toolnest Home"
+        >
+          <BrandLogo className="w-7 h-7 rounded-lg shadow-xs group-hover:scale-105 transition-transform shrink-0" />
           <span className="font-extrabold text-xs tracking-tight text-on-surface">TOOLNEST</span>
         </Link>
 
@@ -69,15 +73,17 @@ export const TabletFloatingNav: React.FC<TabletFloatingNavProps> = ({
         </div>
 
         <div className="flex items-center gap-2">
-          <button
-            type="button"
-            onClick={onOpenCommandPalette}
-            className="p-2 rounded-xl bg-surface-container hover:bg-surface-container-high border border-outline-variant/60 text-on-surface-variant"
-            title="Search (⌘K)"
-            aria-label="Search tools"
-          >
-            <Search className="w-4 h-4" />
-          </button>
+          {!isHome && (
+            <button
+              type="button"
+              onClick={onOpenCommandPalette}
+              className="p-2 rounded-xl bg-surface-container hover:bg-surface-container-high border border-outline-variant/60 text-on-surface-variant"
+              title="Search (⌘K)"
+              aria-label="Search tools"
+            >
+              <Search className="w-4 h-4" />
+            </button>
+          )}
           <ThemeToggle />
         </div>
       </nav>
