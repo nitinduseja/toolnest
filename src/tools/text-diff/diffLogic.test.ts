@@ -1,5 +1,11 @@
 import { describe, it, expect } from 'vitest';
-import { computeDiff, computeSideBySideDiff } from './diffLogic';
+import {
+  computeDiff,
+  computeSideBySideDiff,
+  computeInlineWordDiff,
+  generateUnifiedPatch,
+  collapseUnchangedRows,
+} from './diffLogic';
 
 describe('Text Diff Checker Domain Logic', () => {
   it('detects added and removed lines correctly', () => {
@@ -39,5 +45,28 @@ describe('Text Diff Checker Domain Logic', () => {
 
     expect(sbs[2].left?.lineNum).toBe(3);
     expect(sbs[2].right?.lineNum).toBe(3);
+  });
+
+  it('computes inline word-level diff between two replaced strings', () => {
+    const { leftWords, rightWords } = computeInlineWordDiff('const count = 1;', 'const count = 5;');
+    expect(leftWords.some((w) => w.text === '1' && w.changed)).toBe(true);
+    expect(rightWords.some((w) => w.text === '5' && w.changed)).toBe(true);
+  });
+
+  it('generates standard git-compatible unified patch', () => {
+    const patch = generateUnifiedPatch('hello\nworld', 'hello\nToolnest');
+    expect(patch).toContain('Index: file.txt');
+    expect(patch).toContain('-world');
+    expect(patch).toContain('+Toolnest');
+  });
+
+  it('collapses identical lines leaving context rows', () => {
+    const lines = Array.from({ length: 20 }, (_, i) => `identical line ${i}`).join('\n');
+    const sbs = computeSideBySideDiff(lines, lines);
+    const collapsed = collapseUnchangedRows(sbs, 2);
+
+    expect(collapsed.some((r) => r.isFoldMarker)).toBe(true);
+    const marker = collapsed.find((r) => r.isFoldMarker);
+    expect(marker?.foldedCount).toBeGreaterThan(10);
   });
 });

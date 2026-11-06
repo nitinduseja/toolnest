@@ -5,6 +5,30 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.4.0] - 2026-11-06
+
+### Added
+
+- **Color Palette & Contrast Studio (`color-palette`)**:
+  - 100% client-side HTML5 Canvas pixel quantization and color extraction from uploaded images (`.png`, `.jpg`, `.webp`, `.svg`).
+  - Configurable palette sizing (4, 6, 8, 10 colors) with percentage usage calculation and color distance deduplication.
+  - Interactive harmonic palette generator: Complementary (180°), Analogous (±30°), Triadic (120°), Tetradic (90°), Split-Complementary, and Monochromatic shades/tints.
+  - WCAG 2.1 contrast ratio calculations with real-time AA / AAA compliance rating against light and dark backgrounds.
+  - Export modal supporting CSS custom properties (`:root`), Tailwind CSS theme config, JSON, and SVG swatch download.
+  - 16 dedicated unit and component tests.
+- **RegEx Visualizer & Syntax Explainer (`regex-tester`)**:
+  - Interactive Syntax Visualizer tab rendering an end-to-end token flow rail for regular expressions.
+  - Grammatical token decomposition: Anchors (`^`, `$`, `\b`), Character Sets (`[...]`, `[^...]`), Escaped classes (`\d`, `\w`, `\s`), Quantifiers (`+`, `*`, `?`, `{n,m}`), Groups (capturing, non-capturing, lookaheads), and Alternations (`|`).
+  - Interactive Token Breakdown table and selected token inspector card with plain-English descriptions.
+  - Regex Quick Reference & Cheat Sheet drawer with one-click token insertion and clipboard copy.
+- **Diff Checker Enhancements (`text-diff`)**:
+  - Word-level intra-line diff highlighting for modified rows in side-by-side view.
+  - One-click "Swap Texts" button to invert original and modified inputs.
+  - Direct file upload support for both original and modified panes.
+  - Downloadable git-compatible `.patch` / `.diff` unified export file.
+  - Collapse unchanged lines toggle to fold long identical code blocks into expandable markers.
+  - Extracted modular `DiffToolbar` and added dedicated component tests.
+
 ## [2.3.0] - 2026-11-05
 
 ### Added

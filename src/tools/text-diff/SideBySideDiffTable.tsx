@@ -7,7 +7,7 @@ interface SideBySideDiffTableProps {
 
 export const SideBySideDiffTable: React.FC<SideBySideDiffTableProps> = ({ rows }) => {
   return (
-    <div className="border border-outline-variant rounded-lg overflow-x-auto bg-surface font-mono text-xs">
+    <div className="border border-outline-variant rounded-xl overflow-x-auto bg-surface font-mono text-xs">
       <table className="w-full border-collapse">
         <thead>
           <tr className="bg-surface-container text-outline text-[11px] border-b border-outline-variant">
@@ -24,6 +24,22 @@ export const SideBySideDiffTable: React.FC<SideBySideDiffTableProps> = ({ rows }
         <tbody>
           {rows.length > 0 ? (
             rows.map((row, idx) => {
+              if (row.isFoldMarker) {
+                return (
+                  <tr
+                    key={idx}
+                    className="bg-surface-container-low/60 border-b border-outline-variant/30"
+                  >
+                    <td
+                      colSpan={4}
+                      className="py-1.5 px-4 text-center text-[11px] text-outline font-sans"
+                    >
+                      ··· {row.foldedCount} unchanged lines collapsed ···
+                    </td>
+                  </tr>
+                );
+              }
+
               const isRemoved = row.left?.type === 'removed';
               const isAdded = row.right?.type === 'added';
               const leftBg = isRemoved ? 'bg-red-500/15 text-red-500 dark:text-red-400' : '';
@@ -44,7 +60,20 @@ export const SideBySideDiffTable: React.FC<SideBySideDiffTableProps> = ({ rows }
                   <td
                     className={`py-0.5 px-3 border-r border-outline-variant/50 whitespace-pre font-mono ${leftBg}`}
                   >
-                    {row.left?.text ?? ''}
+                    {row.left?.words
+                      ? row.left.words.map((w, wIdx) => (
+                          <span
+                            key={wIdx}
+                            className={
+                              w.changed
+                                ? 'bg-red-500/35 text-red-600 dark:text-red-300 font-bold px-0.5 rounded-xs'
+                                : ''
+                            }
+                          >
+                            {w.text}
+                          </span>
+                        ))
+                      : (row.left?.text ?? '')}
                   </td>
                   {/* Right Line Num */}
                   <td className="py-0.5 px-2 text-right select-none text-outline border-r border-outline-variant/50 text-[11px] bg-surface-container-low/40">
@@ -52,7 +81,20 @@ export const SideBySideDiffTable: React.FC<SideBySideDiffTableProps> = ({ rows }
                   </td>
                   {/* Right Text */}
                   <td className={`py-0.5 px-3 whitespace-pre font-mono ${rightBg}`}>
-                    {row.right?.text ?? ''}
+                    {row.right?.words
+                      ? row.right.words.map((w, wIdx) => (
+                          <span
+                            key={wIdx}
+                            className={
+                              w.changed
+                                ? 'bg-emerald-500/35 text-emerald-600 dark:text-emerald-300 font-bold px-0.5 rounded-xs'
+                                : ''
+                            }
+                          >
+                            {w.text}
+                          </span>
+                        ))
+                      : (row.right?.text ?? '')}
                   </td>
                 </tr>
               );

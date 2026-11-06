@@ -1,8 +1,16 @@
-import React, { useState, useMemo } from 'react';
-import { Copy, Check, Trash2, GitCompare, Columns2, AlignLeft } from 'lucide-react';
-import { computeDiff, computeSideBySideDiff, DiffMode } from './diffLogic';
+import React, { useState, useMemo, useRef } from 'react';
+import { GitCompare, Upload } from 'lucide-react';
+import {
+  computeDiff,
+  computeSideBySideDiff,
+  collapseUnchangedRows,
+  generateUnifiedPatch,
+  DiffMode,
+} from './diffLogic';
 import { SideBySideDiffTable } from './SideBySideDiffTable';
+import { DiffToolbar } from './DiffToolbar';
 import { copyToClipboard } from '@/lib/clipboard';
+import { downloadFile } from '@/lib/downloads';
 
 const SAMPLE_ORIGINAL = `function calculateTotal(price, tax) {
   var total = price + tax;
@@ -23,7 +31,12 @@ export const TextDiffTool: React.FC = () => {
   const [viewMode, setViewMode] = useState<ViewMode>('split');
   const [ignoreWhitespace, setIgnoreWhitespace] = useState(false);
   const [ignoreCase, setIgnoreCase] = useState(false);
+  const [collapseUnchanged, setCollapseUnchanged] = useState(false);
+  const [enableWordDiff, setEnableWordDiff] = useState(true);
   const [copied, setCopied] = useState(false);
+
+  const origFileRef = useRef<HTMLInputElement>(null);
+  const modFileRef = useRef<HTMLInputElement>(null);
 
   const diffOptions = useMemo(
     () => ({ ignoreWhitespace, ignoreCase }),
@@ -34,9 +47,14 @@ export const TextDiffTool: React.FC = () => {
     return computeDiff(original, modified, { ...diffOptions, mode });
   }, [original, modified, mode, diffOptions]);
 
+  const rawSideBySideResult = useMemo(() => {
+    return computeSideBySideDiff(original, modified, { ...diffOptions, enableWordDiff });
+  }, [original, modified, diffOptions, enableWordDiff]);
+
   const sideBySideResult = useMemo(() => {
-    return computeSideBySideDiff(original, modified, diffOptions);
-  }, [original, modified, diffOptions]);
+    if (!collapseUnchanged) return rawSideBySideResult;
+    return collapseUnchangedRows(rawSideBySideResult);
+  }, [rawSideBySideResult, collapseUnchanged]);
 
   const stats = useMemo(() => {
     let additions = 0;
@@ -67,166 +85,120 @@ export const TextDiffTool: React.FC = () => {
     }
   };
 
+  const handleExportPatch = () => {
+    const patch = generateUnifiedPatch(original, modified, 'changes.patch');
+    downloadFile(patch, { filename: 'changes.patch', mimeType: 'text/x-patch' });
+  };
+
+  const handleSwapTexts = () => {
+    const temp = original;
+    setOriginal(modified);
+    setModified(temp);
+  };
+
+  const handleFileUpload = (file: File, target: 'original' | 'modified') => {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const text = (e.target?.result as string) || '';
+      if (target === 'original') setOriginal(text);
+      else setModified(text);
+    };
+    reader.readAsText(file);
+  };
+
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 max-w-5xl mx-auto pb-12">
+      {/* Hidden File Inputs */}
+      <input
+        type="file"
+        ref={origFileRef}
+        onChange={(e) => e.target.files?.[0] && handleFileUpload(e.target.files[0], 'original')}
+        className="hidden"
+      />
+      <input
+        type="file"
+        ref={modFileRef}
+        onChange={(e) => e.target.files?.[0] && handleFileUpload(e.target.files[0], 'modified')}
+        className="hidden"
+      />
+
       {/* Action Toolbar */}
-      <div className="flex flex-wrap items-center justify-between gap-2 p-3 rounded-xl bg-surface-container-low border border-outline-variant">
-        <div className="flex flex-wrap items-center gap-2">
-          {/* View Mode (Split vs Unified) */}
-          <div className="flex bg-surface-container rounded-lg p-0.5 border border-outline-variant/40">
-            <button
-              type="button"
-              onClick={() => setViewMode('split')}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-semibold transition-colors cursor-pointer ${
-                viewMode === 'split'
-                  ? 'bg-primary text-on-primary shadow-xs'
-                  : 'text-on-surface-variant hover:text-on-surface'
-              }`}
-            >
-              <Columns2 className="w-3.5 h-3.5" />
-              <span>Side-by-Side</span>
-            </button>
-            <button
-              type="button"
-              onClick={() => setViewMode('unified')}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-semibold transition-colors cursor-pointer ${
-                viewMode === 'unified'
-                  ? 'bg-primary text-on-primary shadow-xs'
-                  : 'text-on-surface-variant hover:text-on-surface'
-              }`}
-            >
-              <AlignLeft className="w-3.5 h-3.5" />
-              <span>Unified</span>
-            </button>
-          </div>
+      <DiffToolbar
+        viewMode={viewMode}
+        onViewModeChange={setViewMode}
+        mode={mode}
+        onModeChange={setMode}
+        ignoreWhitespace={ignoreWhitespace}
+        onIgnoreWhitespaceChange={setIgnoreWhitespace}
+        ignoreCase={ignoreCase}
+        onIgnoreCaseChange={setIgnoreCase}
+        collapseUnchanged={collapseUnchanged}
+        onCollapseUnchangedChange={setCollapseUnchanged}
+        enableWordDiff={enableWordDiff}
+        onEnableWordDiffChange={setEnableWordDiff}
+        stats={stats}
+        onSwapTexts={handleSwapTexts}
+        onClearBoth={() => {
+          setOriginal('');
+          setModified('');
+        }}
+        onApplySample={() => {
+          setOriginal(SAMPLE_ORIGINAL);
+          setModified(SAMPLE_MODIFIED);
+        }}
+        onCopyDiff={handleCopyUnified}
+        onExportPatch={handleExportPatch}
+        copied={copied}
+      />
 
-          {/* Granularity (Lines vs Words) */}
-          {viewMode === 'unified' && (
-            <div className="flex bg-surface-container rounded-lg p-0.5 border border-outline-variant/40">
-              <button
-                type="button"
-                onClick={() => setMode('lines')}
-                className={`px-2.5 py-1 rounded text-xs font-semibold transition-colors cursor-pointer ${
-                  mode === 'lines'
-                    ? 'bg-primary text-on-primary shadow-xs'
-                    : 'text-on-surface-variant hover:text-on-surface'
-                }`}
-              >
-                Lines
-              </button>
-              <button
-                type="button"
-                onClick={() => setMode('words')}
-                className={`px-2.5 py-1 rounded text-xs font-semibold transition-colors cursor-pointer ${
-                  mode === 'words'
-                    ? 'bg-primary text-on-primary shadow-xs'
-                    : 'text-on-surface-variant hover:text-on-surface'
-                }`}
-              >
-                Words
-              </button>
-            </div>
-          )}
-
-          {/* Diff Filters */}
-          <label className="flex items-center gap-1.5 text-xs text-on-surface-variant cursor-pointer px-1">
-            <input
-              type="checkbox"
-              checked={ignoreWhitespace}
-              onChange={(e) => setIgnoreWhitespace(e.target.checked)}
-              className="rounded accent-primary w-3.5 h-3.5"
-            />
-            <span>Ignore Whitespace</span>
-          </label>
-
-          <label className="flex items-center gap-1.5 text-xs text-on-surface-variant cursor-pointer px-1">
-            <input
-              type="checkbox"
-              checked={ignoreCase}
-              onChange={(e) => setIgnoreCase(e.target.checked)}
-              className="rounded accent-primary w-3.5 h-3.5"
-            />
-            <span>Ignore Case</span>
-          </label>
-
-          <div className="flex items-center gap-1.5 text-xs font-mono ml-1">
-            <span className="px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-500 font-medium">
-              +{stats.additions} added
-            </span>
-            <span className="px-2 py-0.5 rounded bg-red-500/10 text-red-500 font-medium">
-              -{stats.deletions} removed
-            </span>
-          </div>
-        </div>
-
-        <div className="flex items-center gap-2">
-          <button
-            type="button"
-            onClick={() => {
-              setOriginal(SAMPLE_ORIGINAL);
-              setModified(SAMPLE_MODIFIED);
-            }}
-            className="px-2.5 py-1.5 rounded-lg text-xs text-on-surface-variant hover:bg-surface-container transition-colors cursor-pointer"
-          >
-            Sample
-          </button>
-          <button
-            type="button"
-            onClick={() => {
-              setOriginal('');
-              setModified('');
-            }}
-            className="p-1.5 rounded-lg text-outline hover:text-red-500 hover:bg-surface-container transition-colors cursor-pointer"
-            title="Clear Both"
-          >
-            <Trash2 className="w-4 h-4" />
-          </button>
-          <div className="h-4 w-px bg-outline-variant" />
-          <button
-            type="button"
-            onClick={handleCopyUnified}
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-surface hover:bg-surface-container text-xs font-medium text-on-surface border border-outline-variant/60 transition-colors cursor-pointer"
-          >
-            {copied ? (
-              <Check className="w-3.5 h-3.5 text-emerald-500" />
-            ) : (
-              <Copy className="w-3.5 h-3.5" />
-            )}
-            <span>{copied ? 'Copied' : 'Copy Diff'}</span>
-          </button>
-        </div>
-      </div>
-
-      {/* Inputs (Desktop Side-by-side / Mobile Stacked) */}
+      {/* Input Panes */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         <div className="space-y-2">
-          <label className="text-xs font-medium text-outline px-1 block">Original Version</label>
+          <div className="flex items-center justify-between text-xs px-1 text-on-surface-variant">
+            <span className="font-semibold">Original Version</span>
+            <button
+              type="button"
+              onClick={() => origFileRef.current?.click()}
+              className="text-primary hover:underline flex items-center gap-1 font-medium"
+            >
+              <Upload className="w-3 h-3" /> Upload File
+            </button>
+          </div>
           <textarea
             value={original}
             onChange={(e) => setOriginal(e.target.value)}
-            placeholder="Paste original source text..."
-            className="w-full h-44 p-4 rounded-xl bg-surface-container-low border border-outline-variant font-mono text-xs text-on-surface placeholder:text-outline focus:outline-none focus:ring-2 focus:ring-primary-container resize-y"
+            placeholder="Paste original source text or upload a file..."
+            className="w-full h-44 p-4 rounded-2xl bg-surface-container-low border border-outline-variant font-mono text-xs text-on-surface placeholder:text-outline focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary resize-y"
           />
         </div>
 
         <div className="space-y-2">
-          <label className="text-xs font-medium text-outline px-1 block">Modified Version</label>
+          <div className="flex items-center justify-between text-xs px-1 text-on-surface-variant">
+            <span className="font-semibold">Modified Version</span>
+            <button
+              type="button"
+              onClick={() => modFileRef.current?.click()}
+              className="text-primary hover:underline flex items-center gap-1 font-medium"
+            >
+              <Upload className="w-3 h-3" /> Upload File
+            </button>
+          </div>
           <textarea
             value={modified}
             onChange={(e) => setModified(e.target.value)}
-            placeholder="Paste modified source text..."
-            className="w-full h-44 p-4 rounded-xl bg-surface-container-low border border-outline-variant font-mono text-xs text-on-surface placeholder:text-outline focus:outline-none focus:ring-2 focus:ring-primary-container resize-y"
+            placeholder="Paste modified source text or upload a file..."
+            className="w-full h-44 p-4 rounded-2xl bg-surface-container-low border border-outline-variant font-mono text-xs text-on-surface placeholder:text-outline focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary resize-y"
           />
         </div>
       </div>
 
       {/* Visual Diff Output */}
-      <div className="p-4 rounded-xl bg-surface-container-lowest border border-outline-variant space-y-3">
+      <div className="p-4 sm:p-5 rounded-2xl bg-surface-container-lowest border border-outline-variant/60 space-y-3 shadow-xs">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <GitCompare className="w-4 h-4 text-primary" />
-            <h3 className="text-xs font-semibold uppercase text-outline">
-              Diff Visualization ({viewMode === 'split' ? 'Side-by-Side' : 'Unified'})
+            <h3 className="text-xs font-bold uppercase tracking-wider text-outline">
+              Diff Output ({viewMode === 'split' ? 'Side-by-Side' : 'Unified'})
             </h3>
           </div>
           <span className="text-[11px] font-mono text-outline">
@@ -237,20 +209,18 @@ export const TextDiffTool: React.FC = () => {
         </div>
 
         {viewMode === 'split' ? (
-          /* Side-by-Side Synchronized View */
           <SideBySideDiffTable rows={sideBySideResult} />
         ) : (
-          /* Unified Inline View */
-          <div className="font-mono text-xs p-4 rounded-lg bg-surface border border-outline-variant overflow-x-auto whitespace-pre-wrap leading-relaxed">
+          <div className="font-mono text-xs p-4 rounded-xl bg-surface border border-outline-variant overflow-x-auto whitespace-pre-wrap leading-relaxed">
             {diffResult.length > 0 ? (
               diffResult.map((part, index) => {
                 let colorClass = 'text-on-surface';
                 if (part.added) {
                   colorClass =
-                    'bg-emerald-500/20 text-emerald-500 dark:text-emerald-400 px-0.5 rounded';
+                    'bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 px-0.5 rounded';
                 } else if (part.removed) {
                   colorClass =
-                    'bg-red-500/20 text-red-500 dark:text-red-400 line-through px-0.5 rounded';
+                    'bg-red-500/20 text-red-600 dark:text-red-400 line-through px-0.5 rounded';
                 }
                 return (
                   <span key={`${index}-${part.value.slice(0, 10)}`} className={colorClass}>
