@@ -263,7 +263,7 @@ export const SettingsPage: React.FC = () => {
           About Toolnest
         </h2>
         <div className="text-xs sm:text-sm text-on-surface-variant space-y-2">
-          <p>Version 2.2.0 • MIT Open Source License</p>
+          <p>Version 2.3.0 • MIT Open Source License</p>
           <p>Deployable as a static client-side SPA on Netlify.</p>
         </div>
         <div className="pt-2">

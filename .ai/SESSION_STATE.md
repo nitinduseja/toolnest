@@ -2,10 +2,16 @@
 
 ## Current Status
 
-- **Current Version**: 2.2.0
-- **Current Milestone**: Portal Revamp & Search Experience Overhaul (Complete)
-- **Active Task**: Ready for commit and deployment
+- **Current Version**: 2.3.0
+- **Current Milestone**: Additional Tools - Chmod / Linux Permissions Calculator
+- **Active Task**: Ready for commit and review
 - **Completed**:
+  - Chmod / Linux Permissions Calculator (`chmod-calculator`):
+    - Full-screen standalone tool with responsive distraction-free header.
+    - Pure calculation logic (`chmodLogic.ts`): octal parsing/formatting, symbolic string parsing/formatting, command generation, special permission flags (setuid, setgid, sticky bit).
+    - Security advisories & role-by-role permission explainer.
+    - Presets for common Linux workflows (644, 755, 600, 700, 400, 664, 775, 1777, 777).
+    - 23 dedicated tests (18 logic tests, 5 component tests).
   - Portal Revamp: Responsive floating navigation (Desktop top-floating dock, Tablet floating bar, Mobile bottom dock).
   - Standalone distraction-free workspaces for all 36 client-side offline tools.
   - Explore Page Search unification (using global floating header search, removing redundant in-page search bar, active query filter indicators).
@@ -31,5 +37,5 @@
 - `pnpm lint`: Passed (0 errors, 0 warnings)
 - `pnpm format:check`: Passed (All matched files use Prettier style)
 - `pnpm exec tsc --noEmit`: Passed (0 type errors)
-- `pnpm test`: Passed (324 tests passing across 48 test suites)
-- `pnpm build`: Passed (Production bundle built cleanly in ~8s)
+- `pnpm test`: Passed (348 tests passing across 50 test suites)
+- `pnpm build`: Passed (Production bundle built cleanly in ~10s)

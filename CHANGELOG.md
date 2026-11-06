@@ -5,6 +5,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.3.0] - 2026-11-05
+
+### Added
+
+- **Chmod / Linux Permissions Calculator (`chmod-calculator`)**:
+  - Full-screen standalone tool for calculating octal permissions, symbolic flags (`rwxrwxrwx`), and generating POSIX terminal commands.
+  - Interactive 3-role permission matrix: Owner (`u`), Group (`g`), and Others (`o`) with individual Read (`4`), Write (`2`), and Execute (`1`) toggles and live role octals.
+  - Special Linux permissions support: Setuid (`4000`), Setgid (`2000`), and Sticky Bit (`1000`) with POSIX symbolic notation rendering (`s`, `S`, `t`, `T`).
+  - File vs Directory mode toggle (`-` vs `d`).
+  - Direct 2-way synchronized interactive input fields for typing octal numbers (e.g. `755`, `1777`) or symbolic strings (e.g. `-rwxr-xr-x`, `drwxrwxrwt`).
+  - Linux permission presets: Standard File (`644`), Standard Executable/Directory (`755`), SSH Key / Private File (`600`), Private Folder (`700`), Read-Only Sensitive File (`400`), Group Shared File (`664`), Group Shared Dir (`775`), Sticky Temp Dir (`1777`), and Public Access (`777`).
+  - Terminal Command Generator with modifiers: Recursive (`-R`), Verbose (`-v`), Changes only (`-c`), Silent (`-f`), `sudo` prefix, and bulk tree `find` commands.
+  - Real-time Permission Explanation and Security Advisory audit: automated detection of world-writable hazards, dangerous 777 exposure, and setuid privilege escalation warnings.
+  - 100% offline client-side calculation with zero network dependencies.
+  - Added 23 unit and component tests (18 in `chmodLogic.test.ts`, 5 in `ChmodCalculator.test.tsx`). Total test suite expanded to 348 tests across 50 test files.
+
 ## [2.2.0] - 2026-11-04
 
 ### Changed
