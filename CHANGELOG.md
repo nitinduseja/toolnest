@@ -5,6 +5,35 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.5.0] - 2026-11-07
+
+### Added
+
+- **Docker Run to Compose Converter (`docker-compose-converter`)**:
+  - Transform complex CLI `docker run` commands into clean, formatted `docker-compose.yml` configurations.
+  - Automatically parses ports (`-p`, `--publish`), volumes & binds (`-v`, `--volume`), environment variables (`-e`, `--env`, `--env-file`), container names (`--name`), network modes (`--network`), restart policies (`--restart`), working directories (`-w`), user context (`-u`), privileged flags (`--privileged`), and entrypoint arguments.
+  - Interactive presets for Nginx Web Server, PostgreSQL DB, Redis Cache, and Node.js Microservice.
+  - One-click copy, download as `.yml`, and parsed metadata attribute chips.
+- **Keycode & Keyboard Event Inspector (`keycode-inspector`)**:
+  - Full-screen interactive keyboard diagnostic stage capturing physical key events in real-time.
+  - Large hero display of JavaScript `event.keyCode` / `event.which`, `event.key`, `event.code`, location descriptions (Standard, Left, Right, Numpad), and active modifier flags (Ctrl, Alt, Shift, Meta, Repeat).
+  - Virtual interactive keypad enabling mobile/touch users to simulate keypress events without a physical keyboard.
+  - Event listener code generator for React (TypeScript), Vanilla JS, and keyboard shortcut conditional guards.
+  - Interactive history drawer with recent keystrokes, event timestamps, and re-inspection.
+- **User-Agent & Client Hints Parser (`user-agent-parser`)**:
+  - 100% client-side deterministic User-Agent and Client Hints analyzer.
+  - Deconstructs browser (Chrome, Safari, Firefox, Edge, Samsung Internet, Opera), major and minor version numbers, rendering engine (Blink, WebKit, Gecko), operating system (Windows 11/10, macOS, iOS, Android, Linux), device form factor (Desktop, Mobile, Tablet, Bot), and CPU architecture (x86_64, arm64, arm).
+  - Search engine bot & crawler detection with dedicated advisory banners (Googlebot, Bingbot, DuckDuckBot, Baiduspider, YandexBot, Twitterbot).
+  - One-click "Detect My Browser" button, device presets, and JSON export.
+- **CSS Box Shadow & Glow Generator (`box-shadow-generator`)**:
+  - Interactive multi-layer box shadow and neon glow studio.
+  - Individual layer controls for X offset, Y offset, blur radius, spread, hex color, opacity percentage, inset toggle, and layer visibility.
+  - Multi-backdrop interactive preview stage (Light, Slate, Dark Obsidian, Gradient) with customizable preview card radius and surface color.
+  - Curated presets: Soft Elevation, Floating 3D, Neon Cyberpunk, Sharp Retro, and Inner Inset.
+  - Instant code generator exporting to standard CSS (`box-shadow:`), Tailwind CSS arbitrary classes (`shadow-[...]`), and CSS custom variables (`--custom-box-shadow`).
+- **Tool Registry Expansion**:
+  - Created modular `src/registry/studio-tools.ts` adhering strictly to the 3-30-300 lines limit rule.
+
 ## [2.4.0] - 2026-11-06
 
 ### Added

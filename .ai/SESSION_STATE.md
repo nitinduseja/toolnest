@@ -2,27 +2,38 @@
 
 ## Current Status
 
-- **Current Version**: 2.4.0
-- **Current Milestone**: Color Palette Studio, RegEx Visualizer & Diff Checker Upgrades (Complete)
-- **Active Task**: Ready for commit and push
+- **Current Version**: 2.5.0
+- **Current Milestone**: 4 New Studio Tools: Docker Compose Converter, Keycode Inspector, User-Agent Parser, Box Shadow Generator (Complete)
+- **Active Task**: All 4 tools built, tested, integrated, and verified
 - **Completed**:
-  - Color Palette & Contrast Studio (`color-palette`):
-    - 100% client-side HTML5 Canvas pixel quantization and color extraction from images.
-    - Harmonic palette generator (Complementary, Analogous, Triadic, Tetradic, Split-Comp, Monochromatic).
-    - WCAG 2.1 contrast ratio calculations with real-time AA / AAA compliance.
-    - Export to CSS variables, Tailwind, JSON, and SVG download.
-  - RegEx Visualizer & Syntax Explainer (`regex-tester`):
-    - Syntax visualizer pipeline rail with interactive token inspector.
-    - Granular grammatical token engine (`regexVisualizerLogic.ts`).
-    - Quick reference & cheat sheet drawer.
-  - Diff Checker Improvements (`text-diff`):
-    - Word-level intra-line diff highlighting for modified rows.
-    - One-click Swap Texts button.
-    - Direct file upload for Original and Modified inputs.
-    - Git-compatible `.patch` file export.
-    - Collapse unchanged rows toggle.
-  - Chmod / Linux Permissions Calculator (`chmod-calculator`).
-  - Portal Revamp & Search Experience Overhaul.
+  - Docker Run to Compose Converter (`docker-compose-converter`):
+    - CLI tokenization and flag parsing (ports, volumes, env, networks, restart, workdir, user, privileged).
+    - Presets for Nginx, Postgres, Redis, Node.js App.
+    - One-click copy, download `.yml`, and parsed badges.
+  - Keycode & Keyboard Event Inspector (`keycode-inspector`):
+    - Full-screen event stage capturing key, code, keyCode/which, location, and modifiers.
+    - Virtual simulation keypad for mobile/touch accessibility.
+    - Snippet generator for React TS, Vanilla JS, and keyboard shortcut guards.
+    - Keystroke history timeline.
+  - User-Agent & Client Hints Parser (`user-agent-parser`):
+    - 100% client-side deterministic parsing of Browser, OS, Engine, Device Type, and CPU Arch.
+    - Bot / crawler detection (Googlebot, Bingbot, etc.).
+    - Detect My Browser button and JSON export.
+  - CSS Box Shadow & Glow Generator (`box-shadow-generator`):
+    - Multi-layer shadow and neon glow studio.
+    - Sliders for X, Y, Blur, Spread, Opacity, Inset, and Color.
+    - Multi-backdrop preview stage with card radius and surface controls.
+    - Presets (Soft Elevation, Floating 3D, Neon Cyberpunk, Sharp Retro, Inner Inset).
+    - Code export in CSS, Tailwind arbitrary, and CSS Variables.
+  - Tool Registry:
+    - Registered all 4 tools in `src/registry/studio-tools.ts` under 300 lines limit.
+    - Updated `tool-registry.ts` and validated registry integrity.
+  - Previous Milestones:
+    - Color Palette & Contrast Studio (`color-palette`)
+    - RegEx Visualizer & Syntax Explainer (`regex-tester`)
+    - Diff Checker Improvements (`text-diff`)
+    - Chmod / Linux Permissions Calculator (`chmod-calculator`)
+    - Mobile Navigation and Tool Page Responsive Improvements
 
 ## Verification Gates Passed
 
