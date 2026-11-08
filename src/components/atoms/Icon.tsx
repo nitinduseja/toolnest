@@ -54,6 +54,8 @@ import {
   Camera,
   Send,
   Network,
+  Share2,
+  Layout,
   LucideProps,
 } from 'lucide-react';
 
@@ -112,6 +114,8 @@ const ICON_REGISTRY: Record<string, React.ComponentType<LucideProps>> = {
   ChevronRight,
   ChevronDown,
   Menu,
+  Share2,
+  Layout,
 };
 
 interface IconProps extends LucideProps {

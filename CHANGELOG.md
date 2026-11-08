@@ -5,6 +5,37 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.6.0] - 2026-11-08
+
+### Added
+
+- **Meta Tags & Open Graph (OG) Previewer (`open-graph-preview`)**:
+  - Live, real-time social card preview tabs for Google SERP, Twitter / X (Summary Large Image & Summary), Facebook feed, LinkedIn feed, Discord rich embed, and Slack message attachment.
+  - Form controls with real-time SEO character length health meters for Page Title (30-60 chars) and Description (50-160 chars).
+  - Local image file upload previewing graphics via client-side FileReader Data URIs.
+  - Complete HTML `<head>` snippet generator including standard meta, canonical, Open Graph (`og:`), Twitter (`twitter:`), and JSON-LD Schema.org structured data.
+  - 12 unit and component tests passing.
+- **CSS Flexbox & Grid Playground (`css-layout-builder`)**:
+  - Interactive multi-mode visual canvas for modern CSS Flexbox and CSS Grid layout design.
+  - Flexbox mode with controls for flex-direction, justify-content, align-items, flex-wrap, and gap.
+  - Grid mode with controls for columns, gap, justify-items, and align-items.
+  - Interactive canvas item manager with dynamic item insertion, removal, and sizing.
+  - Instant code generator exporting pure CSS and Tailwind utility classes.
+  - 9 unit and component tests passing.
+- **Bcrypt & Password Hash Studio (`bcrypt-generator`)**:
+  - Pure client-side salted bcrypt password hashing and verification powered by `bcryptjs`.
+  - Configurable cost factor / rounds (4 to 12) with security level indicators.
+  - Candidate credential verifier testing plain text passwords against existing `$2a$` and `$2b$` hashes with instant match/mismatch status and algorithm/salt inspector.
+  - Work factor CPU benchmark comparing computation duration and iterations ($2^N$).
+  - 9 unit and component tests passing.
+- **OpenAPI / Swagger Spec Inspector (`openapi-inspector`)**:
+  - 100% offline OpenAPI 3.0 & Swagger 2.0 parser supporting both YAML and JSON syntax via `js-yaml`.
+  - Filterable endpoints browser by path, tag, and HTTP method badges (GET, POST, PUT, DELETE, PATCH).
+  - Interactive parameter schema inspector (query, path, header, required).
+  - Realistic mock JSON response generator synthesizing dummy payloads based on schema types and formats (email, uuid, date-time, uri, arrays, objects).
+  - Ready-to-use cURL command generator with copy button.
+  - 7 unit and component tests passing.
+
 ## [2.5.0] - 2026-11-07
 
 ### Added

@@ -2,38 +2,36 @@
 
 ## Current Status
 
-- **Current Version**: 2.5.0
-- **Current Milestone**: 4 New Studio Tools: Docker Compose Converter, Keycode Inspector, User-Agent Parser, Box Shadow Generator (Complete)
+- **Current Version**: 2.6.0
+- **Current Milestone**: 4 New Tools: Meta Tags & OG Previewer, CSS Flexbox & Grid Playground, Bcrypt Hash Studio, OpenAPI Spec Inspector (Complete)
 - **Active Task**: All 4 tools built, tested, integrated, and verified
 - **Completed**:
-  - Docker Run to Compose Converter (`docker-compose-converter`):
-    - CLI tokenization and flag parsing (ports, volumes, env, networks, restart, workdir, user, privileged).
-    - Presets for Nginx, Postgres, Redis, Node.js App.
-    - One-click copy, download `.yml`, and parsed badges.
-  - Keycode & Keyboard Event Inspector (`keycode-inspector`):
-    - Full-screen event stage capturing key, code, keyCode/which, location, and modifiers.
-    - Virtual simulation keypad for mobile/touch accessibility.
-    - Snippet generator for React TS, Vanilla JS, and keyboard shortcut guards.
-    - Keystroke history timeline.
-  - User-Agent & Client Hints Parser (`user-agent-parser`):
-    - 100% client-side deterministic parsing of Browser, OS, Engine, Device Type, and CPU Arch.
-    - Bot / crawler detection (Googlebot, Bingbot, etc.).
-    - Detect My Browser button and JSON export.
-  - CSS Box Shadow & Glow Generator (`box-shadow-generator`):
-    - Multi-layer shadow and neon glow studio.
-    - Sliders for X, Y, Blur, Spread, Opacity, Inset, and Color.
-    - Multi-backdrop preview stage with card radius and surface controls.
-    - Presets (Soft Elevation, Floating 3D, Neon Cyberpunk, Sharp Retro, Inner Inset).
-    - Code export in CSS, Tailwind arbitrary, and CSS Variables.
-  - Tool Registry:
-    - Registered all 4 tools in `src/registry/studio-tools.ts` under 300 lines limit.
-    - Updated `tool-registry.ts` and validated registry integrity.
+  - Meta Tags & Open Graph (OG) Previewer (`open-graph-preview`):
+    - Google SERP, Twitter / X, Facebook, LinkedIn, Discord, and Slack visual card previews.
+    - Title and Description real-time SEO length meters.
+    - Local image file upload preview via Data URIs.
+    - Full HTML `<head>` tags and JSON-LD schema generation.
+  - CSS Flexbox & Grid Playground (`css-layout-builder`):
+    - Dual Flexbox & CSS Grid visual layout studio.
+    - Flex controls: direction, justify, align, wrap, gap.
+    - Grid controls: columns, gap, justify-items, align-items.
+    - Interactive canvas item manager with CSS & Tailwind utility export.
+  - Bcrypt & Password Hash Studio (`bcrypt-generator`):
+    - Salted bcrypt hash generator with cost factor slider (4 to 12).
+    - Password verifier with candidate password matching against `$2a$` and `$2b$` hashes.
+    - Work factor CPU benchmark comparing rounds ($2^N$).
+  - OpenAPI / Swagger Spec Inspector (`openapi-inspector`):
+    - OpenAPI 3.0 / Swagger YAML and JSON parsing.
+    - Filterable endpoints browser by path, tag, and HTTP method.
+    - Schema parameter inspector and realistic mock response generator.
+    - Ready-to-use cURL generator.
+  - Studio Tools Registry:
+    - Registered in `src/registry/studio-tools.ts` under 300 lines limit.
+    - Validated registry integrity (43 total tools in registry).
   - Previous Milestones:
-    - Color Palette & Contrast Studio (`color-palette`)
-    - RegEx Visualizer & Syntax Explainer (`regex-tester`)
-    - Diff Checker Improvements (`text-diff`)
-    - Chmod / Linux Permissions Calculator (`chmod-calculator`)
-    - Mobile Navigation and Tool Page Responsive Improvements
+    - Docker Run to Compose Converter, Keycode Inspector, UA Parser, Box Shadow Generator (v2.5.0)
+    - Color Palette & Contrast Studio, RegEx Visualizer, Diff Checker Upgrades (v2.4.0)
+    - Chmod / Linux Permissions Calculator (v2.3.0)
 
 ## Verification Gates Passed
 

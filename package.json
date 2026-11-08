@@ -1,7 +1,7 @@
 {
   "name": "toolnest",
   "private": true,
-  "version": "2.5.0",
+  "version": "2.6.0",
   "description": "Useful tools. One workspace. Privacy-first developer toolbox.",
   "homepage": "https://github.com/nitinduseja/toolnest#readme",
   "repository": {
@@ -26,6 +26,7 @@
     "prepare": "husky"
   },
   "dependencies": {
+    "bcryptjs": "^3.0.3",
     "clsx": "^2.1.1",
     "cmdk": "^1.0.4",
     "diff": "^7.0.0",
@@ -46,6 +47,7 @@
     "@eslint/js": "^9.21.0",
     "@playwright/test": "^1.50.1",
     "@testing-library/jest-dom": "^6.6.3",
+    "@types/bcryptjs": "^3.0.0",
     "@testing-library/react": "^16.2.0",
     "@testing-library/user-event": "^14.6.1",
     "@types/diff": "^7.0.0",
