@@ -56,10 +56,14 @@ import {
   Network,
   Share2,
   Layout,
+  Printer,
+  FileDown,
   LucideProps,
 } from 'lucide-react';
 
 const ICON_REGISTRY: Record<string, React.ComponentType<LucideProps>> = {
+  Printer,
+  FileDown,
   Network,
   KeyRound,
   FileEdit,

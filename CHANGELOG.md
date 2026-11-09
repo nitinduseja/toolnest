@@ -5,6 +5,33 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.7.0] - 2026-11-09
+
+### Added
+
+- **CSS Gradient & Mesh Studio (`gradient-generator`)**:
+  - Interactive multi-stop linear, radial, and conic gradient designer.
+  - Multi-stop color controls with hex input, position sliders, dynamic add/remove up to 8 stops.
+  - Angle controls with quick +45° nudges for linear/conic, and radial geometry options (circle, ellipse).
+  - Multi-aspect live canvas (Card, Banner, Square) and randomizer generator.
+  - Export to standard CSS, Tailwind CSS arbitrary classes, and CSS custom property blocks.
+  - 15 unit and component tests passing.
+- **SQL DDL to TypeScript / Zod / Prisma Converter (`sql-to-schema`)**:
+  - Pure client-side SQL `CREATE TABLE` DDL parser handling identifiers, primary keys, nullability flags, and data types across Postgres, MySQL, and SQLite.
+  - Code generators for strongly-typed TypeScript interfaces, Zod validation schemas (`z.object`), and Prisma models (`model`).
+  - Preloaded schema templates (Users & Authentication, E-commerce Products & Orders).
+  - 14 unit and component tests passing.
+- **DNS over HTTPS (DoH) Inspector (`dns-lookup`)**:
+  - Query live DNS records directly from browser memory via standard public DoH endpoints (Cloudflare and Google).
+  - Record type filters for `A`, `AAAA`, `CNAME`, `MX`, `TXT`, `NS`, `SOA`, and `CAA`.
+  - Human-friendly TTL formatting, formatted answers table, and raw JSON response inspector.
+  - 13 unit and component tests passing.
+- **Markdown to PDF & Printable HTML Exporter (`markdown-exporter`)**:
+  - Client-side Markdown publishing studio with themes (Modern Sans, Academic Serif, Minimal Clean, Compact Mono).
+  - Print stylesheet engine with `@page` sizing (A4, Letter), orientation (portrait, landscape), and optional cover page generation.
+  - One-click browser print / PDF export, standalone offline HTML file download, and full HTML copying.
+  - 13 unit and component tests passing.
+
 ## [2.6.0] - 2026-11-08
 
 ### Added
