@@ -50,6 +50,11 @@ export const ToolCard: React.FC<ToolCardProps> = ({
           </div>
 
           <div className="flex items-center gap-1.5">
+            {tool.isNew && (
+              <span className="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30">
+                New
+              </span>
+            )}
             {tool.badge && (
               <span className="px-2 py-0.5 rounded-full text-[10px] font-mono font-semibold bg-surface-container-high text-primary border border-primary/20">
                 {tool.badge}

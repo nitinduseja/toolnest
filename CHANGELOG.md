@@ -5,6 +5,33 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.8.0] - 2026-11-10
+
+### Added
+
+- **50 Tools Major Milestone**: Toolnest now includes 50 privacy-preserving, client-side tools across 12 canonical categories.
+- **SVG Pattern & Background Generator (`svg-patterns`)**:
+  - Repeatable SVG pattern designer supporting Polka Dots, Grid, Isometric 3D, Chevron / Herringbone, Diagonals, Hexagons, and Circuit PCB.
+  - Granular pattern controls for scale, stroke width, opacity, foreground color, and background color with transparency toggle.
+  - Interactive live repeating canvas with UI mockup overlay card toggle.
+  - Export to CSS `background-image`, pure SVG code, SVG Data URIs, and Tailwind CSS arbitrary classes.
+  - 13 unit and component tests passing.
+- **JWT Studio & Signature Debugger (`jwt-studio`)**:
+  - Interactive JSON Web Token studio for creating, signing, and debugging JWTs.
+  - Algorithms supported: `HS256`, `HS384`, `HS512`, and `none` using Web Crypto Subtle API.
+  - Header and Payload JSON editors with quick expiry helpers (+15m, +1h, +24h, +7d).
+  - 3-part color-coded token breakdown (Header in red, Payload in purple, Signature in cyan) with copy buttons.
+  - Real-time cryptographic signature verification and expiration status detection.
+  - 12 unit and component tests passing.
+- **Security Headers & CSP Builder (`security-headers`)**:
+  - Interactive configuration studio for modern HTTP security headers: Content-Security-Policy (CSP), Strict-Transport-Security (HSTS), X-Frame-Options, and X-Content-Type-Options.
+  - Automated security audit scoring (A+, A, B, C, F) with warnings for insecure directives (such as `'unsafe-inline'` and `'unsafe-eval'`).
+  - One-click configuration export for Nginx, Apache `.htaccess`, Netlify `_headers`, Cloudflare Workers, and raw HTTP response headers.
+  - 11 unit and component tests passing.
+- **UI & Discoverability Enhancements**:
+  - Quick Feature Filter Pills on `AllToolsPage` allowing one-click filtering by "All Tools (50)", "⚡ Offline Ready", and "✨ New in v2.8".
+  - Dynamic `New` badge on tool cards highlighting newly published tools in the directory.
+
 ## [2.7.0] - 2026-11-09
 
 ### Added

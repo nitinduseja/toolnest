@@ -35,4 +35,5 @@ export interface ToolDefinition {
   isOfflineReady?: boolean;
   privacyNote?: string;
   badge?: string;
+  isNew?: boolean;
 }

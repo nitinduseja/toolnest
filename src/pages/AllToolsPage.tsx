@@ -12,6 +12,7 @@ export const AllToolsPage: React.FC = () => {
 
   const [query, setQuery] = useState(initialQuery);
   const [selectedCategory, setSelectedCategory] = useState(initialCategory);
+  const [featureFilter, setFeatureFilter] = useState<'all' | 'offline' | 'new'>('all');
 
   const handleQueryChange = (val: string) => {
     setQuery(val);
@@ -37,14 +38,18 @@ export const AllToolsPage: React.FC = () => {
     const q = query.toLowerCase().trim();
     return ALL_TOOLS.filter((tool) => {
       const matchesCat = selectedCategory === 'all' || tool.category === selectedCategory;
+      const matchesFeature =
+        featureFilter === 'all' ||
+        (featureFilter === 'offline' && tool.isOfflineReady) ||
+        (featureFilter === 'new' && tool.isNew);
       const matchesQuery =
         !q ||
         tool.name.toLowerCase().includes(q) ||
         tool.description.toLowerCase().includes(q) ||
         tool.keywords.some((k) => k.toLowerCase().includes(q));
-      return matchesCat && matchesQuery;
+      return matchesCat && matchesFeature && matchesQuery;
     });
-  }, [query, selectedCategory]);
+  }, [query, selectedCategory, featureFilter]);
 
   return (
     <div className="space-y-6">
@@ -71,6 +76,43 @@ export const AllToolsPage: React.FC = () => {
             </button>
           </div>
         )}
+      </div>
+
+      {/* Quick Feature Filter Pills */}
+      <div className="flex flex-wrap items-center gap-2">
+        <button
+          type="button"
+          onClick={() => setFeatureFilter('all')}
+          className={`px-3 py-1 rounded-lg text-xs font-medium transition ${
+            featureFilter === 'all'
+              ? 'bg-primary/10 text-primary font-semibold border border-primary/30'
+              : 'bg-surface-container-low border border-outline-variant text-on-surface-variant hover:bg-surface-container'
+          }`}
+        >
+          All Tools ({ALL_TOOLS.length})
+        </button>
+        <button
+          type="button"
+          onClick={() => setFeatureFilter('offline')}
+          className={`px-3 py-1 rounded-lg text-xs font-medium transition ${
+            featureFilter === 'offline'
+              ? 'bg-primary/10 text-primary font-semibold border border-primary/30'
+              : 'bg-surface-container-low border border-outline-variant text-on-surface-variant hover:bg-surface-container'
+          }`}
+        >
+          ⚡ Offline Ready ({ALL_TOOLS.filter((t) => t.isOfflineReady).length})
+        </button>
+        <button
+          type="button"
+          onClick={() => setFeatureFilter('new')}
+          className={`px-3 py-1 rounded-lg text-xs font-medium transition ${
+            featureFilter === 'new'
+              ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-semibold border border-emerald-500/30'
+              : 'bg-surface-container-low border border-outline-variant text-on-surface-variant hover:bg-surface-container'
+          }`}
+        >
+          ✨ New in v2.8 ({ALL_TOOLS.filter((t) => t.isNew).length})
+        </button>
       </div>
 
       {/* Category Filter Navigation Bar */}
@@ -110,12 +152,13 @@ export const AllToolsPage: React.FC = () => {
         <span>
           Showing {filteredTools.length} tool{filteredTools.length !== 1 ? 's' : ''}
         </span>
-        {(query || selectedCategory !== 'all') && (
+        {(query || selectedCategory !== 'all' || featureFilter !== 'all') && (
           <button
             type="button"
             onClick={() => {
               handleQueryChange('');
               handleCategoryChange('all');
+              setFeatureFilter('all');
             }}
             className="text-primary hover:underline font-medium"
           >

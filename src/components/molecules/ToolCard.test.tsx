@@ -36,4 +36,15 @@ describe('ToolCard Component', () => {
       })
     ).toBeInTheDocument();
   });
+
+  it('renders New badge when tool.isNew is true', () => {
+    const newTool = { ...sampleTool, isNew: true };
+    render(
+      <MemoryRouter>
+        <ToolCard tool={newTool} />
+      </MemoryRouter>
+    );
+
+    expect(screen.getByText('New')).toBeInTheDocument();
+  });
 });
