@@ -24,8 +24,8 @@ test.describe('Toolnest Application Workflows', () => {
 
     // Press Ctrl+K
     await page.keyboard.press('Control+KeyK');
-    const dialog = page.locator('[role="dialog"]');
-    await expect(dialog).toBeVisible();
+    const searchInput = page.locator('input[placeholder="Type to search..."]');
+    await expect(searchInput).toBeVisible();
 
     // Verify first item is selected
     const options = page.locator('[role="option"]');
@@ -45,7 +45,7 @@ test.describe('Toolnest Application Workflows', () => {
 
     // Close on Escape
     await page.keyboard.press('Escape');
-    await expect(dialog).not.toBeVisible();
+    await expect(searchInput).not.toBeVisible();
   });
 
   test('navigates to direct tool route (/tools/uuid-generator) and generates UUIDs', async ({
@@ -54,7 +54,7 @@ test.describe('Toolnest Application Workflows', () => {
     await page.goto('/tools/uuid-generator');
     await expect(page.locator('h1', { hasText: 'UUID Generator' })).toBeVisible();
 
-    const generateBtn = page.locator('button', { hasText: 'Generate New' });
+    const generateBtn = page.locator('button', { hasText: 'Regenerate' });
     await expect(generateBtn).toBeVisible();
     await generateBtn.click();
   });
@@ -76,11 +76,9 @@ test.describe('Toolnest Application Workflows', () => {
   });
 
   test('toggles theme and persists across routes', async ({ page }) => {
-    await page.goto('/');
-    const themeBtn = page.locator('button[aria-label^="Toggle theme"]');
-    await themeBtn.click();
-
-    const lightOption = page.locator('[role="menuitem"]:has-text("Light")');
+    await page.goto('/settings');
+    const lightOption = page.locator('button', { hasText: 'Light Mode' });
+    await expect(lightOption).toBeVisible();
     await lightOption.click();
 
     // Verify dark class removed

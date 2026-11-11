@@ -29,8 +29,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - One-click configuration export for Nginx, Apache `.htaccess`, Netlify `_headers`, Cloudflare Workers, and raw HTTP response headers.
   - 11 unit and component tests passing.
 - **UI & Discoverability Enhancements**:
-  - Quick Feature Filter Pills on `AllToolsPage` allowing one-click filtering by "All Tools (50)", "⚡ Offline Ready", and "✨ New in v2.8".
+  - Quick Feature Filter Pills on `AllToolsPage` allowing one-click filtering by "All Tools (53)", "⚡ Offline Ready", and "✨ New in v2.8".
   - Dynamic `New` badge on tool cards highlighting newly published tools in the directory.
+- **Documentation & E2E Testing Suite**:
+  - Updated comprehensive `README.md` showcasing the complete 53-tool suite grouped across 12 canonical categories with badge counts, modern feature matrix, and deployment guide.
+  - Expanded Playwright E2E browser tests: added `tools-workflows.spec.ts` (SVG Patterns, JWT Studio, Security Headers, Docker Compose) and `directory-filtering.spec.ts` (count badges, feature pills, search query filters).
+  - All 28 Playwright E2E tests passing across desktop and mobile viewports.
 
 ## [2.7.0] - 2026-11-09
 

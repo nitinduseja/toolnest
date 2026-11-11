@@ -10,6 +10,7 @@ import { useRecentTools } from '@/features/recent-tools/useRecentTools';
 import { CommandPalette } from '@/features/command-palette/CommandPalette';
 import { ShortcutsModal } from '@/features/shortcuts/ShortcutsModal';
 import { useGlobalShortcuts } from '@/features/shortcuts/useGlobalShortcuts';
+import { usePageTitle } from '@/hooks/usePageTitle';
 
 interface StandaloneToolLayoutProps {
   tool: ToolDefinition;
@@ -17,6 +18,7 @@ interface StandaloneToolLayoutProps {
 }
 
 export const StandaloneToolLayout: React.FC<StandaloneToolLayoutProps> = ({ tool, children }) => {
+  usePageTitle();
   const { addRecentTool } = useRecentTools();
   const [isSplit, setIsSplit] = useState(false);
   const [secondarySlug, setSecondarySlug] = useState<string>(getStoredSecondarySlug);
