@@ -196,4 +196,31 @@ export const STUDIO_BATCH2_TOOLS: ToolDefinition[] = [
     badge: 'CSP Engine',
     isNew: true,
   },
+  {
+    id: 'code-to-image',
+    slug: 'code-to-image',
+    name: 'Code Screenshot & Card Studio',
+    description:
+      'Generate presentation-ready code snippet cards with themes, window headers, gradient backgrounds, and PNG/SVG export.',
+    category: 'developer-tools',
+    iconName: 'Camera',
+    keywords: [
+      'code to image',
+      'code screenshot',
+      'carbon',
+      'snippet',
+      'syntax highlight',
+      'card',
+      'export png',
+      'export svg',
+      'developer',
+    ],
+    component: React.lazy(() => import('@/tools/code-to-image')),
+    tags: ['Code', 'Screenshot', 'Carbon', 'Syntax', 'Image', 'SVG'],
+    isOfflineReady: true,
+    privacyNote:
+      'Code snippets and SVG/PNG cards rendered 100% locally in browser memory using Canvas API. Zero telemetry.',
+    badge: 'Card Studio',
+    isNew: true,
+  },
 ];

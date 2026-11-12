@@ -9,7 +9,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- **50 Tools Major Milestone**: Toolnest now includes 50 privacy-preserving, client-side tools across 12 canonical categories.
+- **54 Tools Milestone**: Toolnest now includes 54 privacy-preserving, client-side tools across 12 canonical categories.
+- **Code Screenshot & Card Studio (`code-to-image`)**:
+  - Presentation-ready code snippet card studio (similar to Carbon/Ray.so) running 100% client-side.
+  - Multi-theme syntax highlighting: Dracula, One Dark, Nord, Monokai, GitHub Dark, and GitHub Light.
+  - Window frame options: macOS traffic lights, Windows controls, Minimal bar, or None with custom editable title.
+  - Curated gradient backgrounds (Sunset, Neon, Ocean, Aurora, Midnight, Peach, Transparent) plus customizable padding, card border radius, font size, and line numbers toggle.
+  - 1-click curated style presets (Social Card, Terminal Classic, Clean Minimalist, Cyber Glow, Warm Sunset).
+  - High-resolution SVG generation, offscreen canvas PNG rendering (2x retina scale), and instant clipboard copying (`Copy PNG`, `Copy SVG`).
+  - 15 unit and component tests passing.
 - **SVG Pattern & Background Generator (`svg-patterns`)**:
   - Repeatable SVG pattern designer supporting Polka Dots, Grid, Isometric 3D, Chevron / Herringbone, Diagonals, Hexagons, and Circuit PCB.
   - Granular pattern controls for scale, stroke width, opacity, foreground color, and background color with transparency toggle.

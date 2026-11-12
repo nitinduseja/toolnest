@@ -8,7 +8,7 @@ test.describe('All Tools Directory & Filtering', () => {
 
     const allToolsBtn = page.locator('button', { hasText: 'All Tools (' });
     await expect(allToolsBtn).toBeVisible();
-    await expect(allToolsBtn).toContainText('53');
+    await expect(allToolsBtn).toContainText('54');
   });
 
   test('filters tools by feature pills and displays New badges', async ({ page }) => {

@@ -4,18 +4,18 @@
 
 [![CI Quality Gate](https://github.com/nitinduseja/toolnest/actions/workflows/ci.yml/badge.svg)](https://github.com/nitinduseja/toolnest/actions/workflows/ci.yml)
 [![Version](https://img.shields.io/badge/version-2.8.0-blue.svg)](package.json)
-[![Tools Count](https://img.shields.io/badge/tools-53%20production%20tools-emerald.svg)](src/registry/)
+[![Tools Count](https://img.shields.io/badge/tools-54%20production%20tools-emerald.svg)](src/registry/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 [![Netlify Status](https://api.netlify.com/api/v1/badges/toolnest/deploy-status)](https://app.netlify.com)
 
-Toolnest is an open-source, privacy-first developer workbench providing 53 essential utilities, converters, formatters, and generators in one distraction-free workspace. All data transformations run 100% inside your browser — zero analytics, zero server storage, zero third-party AI APIs.
+Toolnest is an open-source, privacy-first developer workbench providing 54 essential utilities, converters, formatters, and generators in one distraction-free workspace. All data transformations run 100% inside your browser — zero analytics, zero server storage, zero third-party AI APIs.
 
 ---
 
 ## ⚡ Key Highlights
 
 - 🔒 **Privacy-First & Local-Only**: Everything executes client-side via native Web Crypto API, Canvas, and Web Workers. Your sensitive payloads never leave your computer.
-- ⌨️ **Universal Command Palette**: Press <kbd>Ctrl</kbd> + <kbd>K</kbd> (or <kbd>⌘</kbd> + <kbd>K</kbd>) to instantly search all 53 tools, categories, and system shortcuts.
+- ⌨️ **Universal Command Palette**: Press <kbd>Ctrl</kbd> + <kbd>K</kbd> (or <kbd>⌘</kbd> + <kbd>K</kbd>) to instantly search all 54 tools, categories, and system shortcuts.
 - ⚡ **Progressive Web App (PWA)**: Full offline service worker caching. Install Toolnest as a standalone desktop or mobile application.
 - 📱 **Adaptive Multi-Shell Layout**:
   - **Desktop (≥1024px)**: 240px persistent navigation rail, multi-column workspace, side-by-side split input/output editors.
@@ -26,11 +26,11 @@ Toolnest is an open-source, privacy-first developer workbench providing 53 essen
 
 ---
 
-## 🛠️ The 53 Developer Tools by Category
+## 🛠️ The 54 Developer Tools by Category
 
 Toolnest organizes its complete suite across **12 canonical categories**:
 
-### 💻 Developer Tools (12 Tools)
+### 💻 Developer Tools (13 Tools)
 
 - **JSON Formatter & Validator**: RFC 8259 prettifier, minifier, validator with detailed error syntax highlighting.
 - **Regex Tester**: Real-time pattern evaluation, capture group inspection, and flag toggles.
@@ -44,6 +44,7 @@ Toolnest organizes its complete suite across **12 canonical categories**:
 - **Keycode & Keyboard Event Inspector**: Interactive virtual keypad, physical key inspector, and event listener snippets.
 - **OpenAPI / Swagger Spec Inspector**: Inspect OpenAPI 3.0 / Swagger specs, browse parameters, and synthesize mocks.
 - **SQL DDL to Schema Converter**: Convert SQL `CREATE TABLE` statements into TypeScript, Zod, and Prisma models.
+- **Code Screenshot & Card Studio**: Generate presentation-ready code snippet cards with themes, window headers, gradient backgrounds, and PNG/SVG export.
 
 ### 🔐 Security & Cryptography (5 Tools)
 

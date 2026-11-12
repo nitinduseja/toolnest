@@ -69,4 +69,26 @@ test.describe('Interactive Tool Workflows', () => {
     // Verify converted output code contains docker-compose service definition
     await expect(page.locator('pre code')).toContainText('services:');
   });
+
+  test('navigates to Code Screenshot Studio, switches themes, and renders SVG canvas', async ({
+    page,
+  }) => {
+    await page.goto('/tools/code-to-image');
+    await expect(page.locator('h1', { hasText: 'Code Screenshot & Card Studio' })).toBeVisible();
+
+    const canvas = page.locator('[data-testid="code-card-canvas"]');
+    await expect(canvas).toBeVisible();
+
+    // Select Nord theme
+    const nordBtn = page.getByRole('button', { name: 'Nord', exact: true });
+    await nordBtn.click();
+
+    // Select preset
+    const presetBtn = page.locator('button', { hasText: 'Clean Minimalist (Nord)' });
+    await presetBtn.click();
+
+    // Verify download action buttons are visible
+    await expect(page.locator('button', { hasText: 'Download PNG' })).toBeVisible();
+    await expect(page.locator('button', { hasText: 'Download SVG' })).toBeVisible();
+  });
 });
