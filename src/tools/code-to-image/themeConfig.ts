@@ -1,3 +1,4 @@
+
 import {
   CodeCardConfig,
   SyntaxTheme,
@@ -18,6 +19,7 @@ export const CODE_PRESETS: CodeCardPreset[] = [
       borderRadius: 12,
       fontSize: 14,
       showLineNumbers: true,
+      shadow: 'medium',
     },
   },
   {
@@ -31,6 +33,7 @@ export const CODE_PRESETS: CodeCardPreset[] = [
       borderRadius: 16,
       fontSize: 14,
       showLineNumbers: false,
+      shadow: 'subtle',
     },
   },
   {
@@ -44,6 +47,7 @@ export const CODE_PRESETS: CodeCardPreset[] = [
       borderRadius: 14,
       fontSize: 15,
       showLineNumbers: true,
+      shadow: 'neon',
     },
   },
   {
@@ -57,6 +61,7 @@ export const CODE_PRESETS: CodeCardPreset[] = [
       borderRadius: 10,
       fontSize: 13,
       showLineNumbers: true,
+      shadow: 'subtle',
     },
   },
 ];
@@ -72,7 +77,7 @@ interface UserPayload {
 export async function POST(req: NextRequest): Promise<NextResponse> {
   const payload: UserPayload = await req.json();
   const signature = crypto.randomUUID();
-  
+
   return NextResponse.json({
     status: 200,
     signature,
@@ -187,39 +192,49 @@ export function getThemeColors(theme: SyntaxTheme): ThemeColors {
   return THEME_MAP[theme] || THEME_MAP.dracula;
 }
 
-export function getBackgroundDefs(preset: BackgroundPreset): { fill: string; defs: string } {
-  switch (preset) {
-    case 'sunset':
-      return {
-        fill: 'url(#bg-gradient)',
-        defs: '<linearGradient id="bg-gradient" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#f97316"/><stop offset="50%" stop-color="#ec4899"/><stop offset="100%" stop-color="#8b5cf6"/></linearGradient>',
-      };
-    case 'neon':
-      return {
-        fill: 'url(#bg-gradient)',
-        defs: '<linearGradient id="bg-gradient" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#06b6d4"/><stop offset="50%" stop-color="#3b82f6"/><stop offset="100%" stop-color="#9333ea"/></linearGradient>',
-      };
-    case 'ocean':
-      return {
-        fill: 'url(#bg-gradient)',
-        defs: '<linearGradient id="bg-gradient" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#0284c7"/><stop offset="100%" stop-color="#0f172a"/></linearGradient>',
-      };
-    case 'aurora':
-      return {
-        fill: 'url(#bg-gradient)',
-        defs: '<linearGradient id="bg-gradient" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#10b981"/><stop offset="50%" stop-color="#06b6d4"/><stop offset="100%" stop-color="#3b82f6"/></linearGradient>',
-      };
-    case 'midnight':
-      return {
-        fill: 'url(#bg-gradient)',
-        defs: '<linearGradient id="bg-gradient" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#1e1b4b"/><stop offset="100%" stop-color="#0f172a"/></linearGradient>',
-      };
-    case 'peach':
-      return {
-        fill: 'url(#bg-gradient)',
-        defs: '<linearGradient id="bg-gradient" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#fb923c"/><stop offset="100%" stop-color="#f43f5e"/></linearGradient>',
-      };
-    default:
-      return { fill: 'transparent', defs: '' };
+const GRADIENTS: Record<
+  Exclude<BackgroundPreset, 'transparent'>,
+  string
+> = {
+  sunset:
+    '<stop offset="0%" stop-color="#f97316"/><stop offset="50%" stop-color="#ec4899"/><stop offset="100%" stop-color="#8b5cf6"/>',
+  neon:
+    '<stop offset="0%" stop-color="#06b6d4"/><stop offset="50%" stop-color="#3b82f6"/><stop offset="100%" stop-color="#9333ea"/>',
+  ocean:
+    '<stop offset="0%" stop-color="#0284c7"/><stop offset="100%" stop-color="#0f172a"/>',
+  aurora:
+    '<stop offset="0%" stop-color="#10b981"/><stop offset="50%" stop-color="#06b6d4"/><stop offset="100%" stop-color="#3b82f6"/>',
+  midnight:
+    '<stop offset="0%" stop-color="#1e1b4b"/><stop offset="100%" stop-color="#0f172a"/>',
+  peach:
+    '<stop offset="0%" stop-color="#fb923c"/><stop offset="100%" stop-color="#f43f5e"/>',
+};
+
+export function getBackgroundDefs(
+  preset: BackgroundPreset
+): { fill: string; defs: string } {
+  if (preset === 'transparent') {
+    return { fill: 'transparent', defs: '' };
   }
+
+  const gradient = GRADIENTS[preset];
+
+  if (!gradient) {
+    return { fill: 'transparent', defs: '' };
+  }
+
+  return {
+    fill: 'url(#bg-gradient)',
+    defs: `
+      <linearGradient
+        id="bg-gradient"
+        x1="0%"
+        y1="0%"
+        x2="100%"
+        y2="100%"
+      >
+        ${gradient}
+      </linearGradient>
+    `,
+  };
 }

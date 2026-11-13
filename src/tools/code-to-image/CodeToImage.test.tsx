@@ -1,58 +1,145 @@
+
 import { describe, it, expect } from 'vitest';
-import { render, screen, fireEvent } from '@testing-library/react';
+
+import {
+  render,
+  screen,
+  fireEvent,
+} from '@testing-library/react';
+
 import { CodeToImage } from './index';
 
 describe('CodeToImage Component', () => {
-  it('renders header title and curated presets', () => {
+  it('renders header and curated presets', () => {
     render(<CodeToImage />);
+
     expect(
-      screen.getByRole('heading', { level: 1, name: /Code Screenshot & Card Studio/i })
+      screen.getByRole('heading', {
+        level: 1,
+        name: /Code Screenshot & Card Studio/i,
+      })
     ).toBeInTheDocument();
-    expect(screen.getByText(/Modern Mac \(Dracula\)/i)).toBeInTheDocument();
-    expect(screen.getByText(/Clean Minimalist \(Nord\)/i)).toBeInTheDocument();
+
+    expect(
+      screen.getByText(/Modern Mac \(Dracula\)/i)
+    ).toBeInTheDocument();
+
+    expect(
+      screen.getByText(/Clean Minimalist \(Nord\)/i)
+    ).toBeInTheDocument();
   });
 
   it('renders SVG canvas and initial sample code', () => {
     render(<CodeToImage />);
+
     const canvas = screen.getByTestId('code-card-canvas');
+
     expect(canvas).toBeInTheDocument();
-    expect(canvas.innerHTML).toContain('svg');
+    expect(canvas.innerHTML).toContain('<svg');
     expect(canvas.innerHTML).toContain('handler.ts');
   });
 
-  it('updates title input and reflects in SVG output', () => {
+  it('updates title and reflects it in SVG', () => {
     render(<CodeToImage />);
-    const titleInput = screen.getByLabelText(/Window Title \/ File/i);
-    fireEvent.change(titleInput, { target: { value: 'custom_api.py' } });
+
+    const titleInput = screen.getByLabelText(
+      /Window Title \/ File/i
+    );
+
+    fireEvent.change(titleInput, {
+      target: { value: 'custom_api.py' },
+    });
 
     const canvas = screen.getByTestId('code-card-canvas');
+
     expect(canvas.innerHTML).toContain('custom_api.py');
   });
 
-  it('switches syntax theme when button is clicked', () => {
+  it('updates programming language', () => {
     render(<CodeToImage />);
-    const nordBtn = screen.getByRole('button', { name: 'Nord' });
-    fireEvent.click(nordBtn);
+
+    const languageSelect = screen.getByLabelText(/Language/i);
+
+    fireEvent.change(languageSelect, {
+      target: { value: 'python' },
+    });
+
+    expect(languageSelect).toHaveValue('python');
+  });
+
+  it('switches syntax theme', () => {
+    render(<CodeToImage />);
+
+    fireEvent.click(
+      screen.getByRole('button', { name: 'Nord' })
+    );
 
     const canvas = screen.getByTestId('code-card-canvas');
-    expect(canvas.innerHTML).toContain('#2e3440'); // Nord background
+
+    expect(canvas.innerHTML).toContain('#2e3440');
   });
 
   it('switches window style to Windows', () => {
     render(<CodeToImage />);
-    const winBtn = screen.getByRole('button', { name: 'Windows' });
-    fireEvent.click(winBtn);
+
+    fireEvent.click(
+      screen.getByRole('button', { name: 'Windows' })
+    );
 
     const canvas = screen.getByTestId('code-card-canvas');
-    expect(canvas.innerHTML).not.toContain('circle cx="20" cy="18"');
+
+    expect(canvas.innerHTML).not.toContain(
+      'circle cx="20" cy="18"'
+    );
   });
 
-  it('applies curated preset configuration', () => {
+  it('applies curated preset', () => {
     render(<CodeToImage />);
-    const presetBtn = screen.getByText(/Clean Minimalist \(Nord\)/i);
-    fireEvent.click(presetBtn);
+
+    fireEvent.click(
+      screen.getByText(/Clean Minimalist \(Nord\)/i)
+    );
 
     const canvas = screen.getByTestId('code-card-canvas');
+
     expect(canvas.innerHTML).toContain('#2e3440');
+  });
+
+  it('preserves title when applying a preset', () => {
+    render(<CodeToImage />);
+
+    const titleInput = screen.getByLabelText(
+      /Window Title \/ File/i
+    );
+
+    fireEvent.change(titleInput, {
+      target: { value: 'my-custom-file.ts' },
+    });
+
+    fireEvent.click(
+      screen.getByText(/Clean Minimalist \(Nord\)/i)
+    );
+
+    expect(titleInput).toHaveValue('my-custom-file.ts');
+
+    const canvas = screen.getByTestId('code-card-canvas');
+
+    expect(canvas.innerHTML).toContain('my-custom-file.ts');
+  });
+
+  it('preserves code when applying a preset', () => {
+    render(<CodeToImage />);
+
+    const codeInput = screen.getByLabelText('Code Snippet');
+
+    fireEvent.change(codeInput, {
+      target: { value: 'const customValue = 123;' },
+    });
+
+    fireEvent.click(
+      screen.getByText(/Clean Minimalist \(Nord\)/i)
+    );
+
+    expect(codeInput).toHaveValue('const customValue = 123;');
   });
 });

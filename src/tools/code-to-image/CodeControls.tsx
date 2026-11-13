@@ -1,4 +1,6 @@
+
 import React from 'react';
+
 import {
   CodeCardConfig,
   SyntaxTheme,
@@ -41,6 +43,7 @@ const BACKGROUNDS: { id: BackgroundPreset; label: string }[] = [
 const LANGUAGES: { id: SupportedLanguage; label: string }[] = [
   { id: 'typescript', label: 'TypeScript' },
   { id: 'javascript', label: 'JavaScript' },
+  { id: 'php', label: 'PHP' },
   { id: 'python', label: 'Python' },
   { id: 'html', label: 'HTML / XML' },
   { id: 'css', label: 'CSS' },
@@ -52,166 +55,218 @@ const LANGUAGES: { id: SupportedLanguage; label: string }[] = [
   { id: 'text', label: 'Plain Text' },
 ];
 
-export const CodeControls: React.FC<CodeControlsProps> = ({ config, onChange }) => {
+export const CodeControls: React.FC<CodeControlsProps> = ({
+  config,
+  onChange,
+}) => {
+  const update = (partial: Partial<CodeCardConfig>) => {
+    onChange({ ...config, ...partial });
+  };
+
+  const updateNumber = (
+    key: 'padding' | 'borderRadius' | 'fontSize',
+    value: number
+  ) => {
+    if (!Number.isFinite(value)) return;
+
+    update({ [key]: value });
+  };
+
   return (
     <div className="flex flex-col gap-4 rounded-2xl border border-outline-variant bg-surface-container-low p-4 sm:p-5">
-      {/* Code Editor & Filename */}
+
       <div className="flex flex-col gap-2">
         <div className="flex flex-wrap items-center justify-between gap-2">
-          <label htmlFor="code-title" className="text-xs font-semibold text-on-surface">
+          <label
+            htmlFor="code-title"
+            className="text-xs font-semibold text-on-surface"
+          >
             Window Title / File
           </label>
+
           <div className="flex items-center gap-2">
-            <label htmlFor="code-language" className="text-xs text-outline font-medium">
+            <label
+              htmlFor="code-language"
+              className="text-xs text-outline font-medium"
+            >
               Language:
             </label>
+
             <select
               id="code-language"
               value={config.language}
               onChange={(e) =>
-                onChange({ ...config, language: e.target.value as SupportedLanguage })
+                update({
+                  language: e.target.value as SupportedLanguage,
+                })
               }
               className="h-7 px-2 rounded-lg bg-surface border border-outline-variant text-xs text-on-surface focus:outline-none"
             >
-              {LANGUAGES.map((l) => (
-                <option key={l.id} value={l.id}>
-                  {l.label}
+              {LANGUAGES.map((language) => (
+                <option key={language.id} value={language.id}>
+                  {language.label}
                 </option>
               ))}
             </select>
           </div>
         </div>
+
         <input
           id="code-title"
           type="text"
+          maxLength={200}
           value={config.title}
-          onChange={(e) => onChange({ ...config, title: e.target.value })}
+          onChange={(e) => update({ title: e.target.value })}
           placeholder="e.g. index.ts, server.py"
           className="w-full px-3 py-1.5 rounded-lg bg-surface border border-outline-variant text-xs font-mono text-on-surface focus:outline-none"
         />
+
         <label htmlFor="code-input" className="sr-only">
           Code Snippet
         </label>
+
         <textarea
           id="code-input"
           rows={10}
+          maxLength={100000}
+          spellCheck={false}
           value={config.code}
-          onChange={(e) => onChange({ ...config, code: e.target.value })}
+          onChange={(e) => update({ code: e.target.value })}
           placeholder="Paste or write your code snippet here..."
           className="w-full p-3 rounded-lg bg-surface border border-outline-variant text-xs font-mono text-on-surface focus:outline-none resize-y"
         />
       </div>
 
-      {/* Syntax Theme & Window Controls */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 border-t border-outline-variant/60 pt-3">
+
         <div className="flex flex-col gap-1.5">
-          <span className="text-xs font-semibold text-on-surface">Syntax Theme</span>
+          <span className="text-xs font-semibold text-on-surface">
+            Syntax Theme
+          </span>
+
           <div className="grid grid-cols-2 gap-1">
-            {THEMES.map((th) => (
+            {THEMES.map((theme) => (
               <button
-                key={th.id}
+                key={theme.id}
                 type="button"
-                onClick={() => onChange({ ...config, theme: th.id })}
+                aria-pressed={config.theme === theme.id}
+                onClick={() => update({ theme: theme.id })}
                 className={`px-2.5 py-1.5 rounded-lg text-xs font-medium transition ${
-                  config.theme === th.id
+                  config.theme === theme.id
                     ? 'bg-primary text-on-primary font-semibold shadow-2xs'
                     : 'bg-surface border border-outline-variant text-on-surface-variant hover:bg-surface-container'
                 }`}
               >
-                {th.label}
+                {theme.label}
               </button>
             ))}
           </div>
         </div>
 
         <div className="flex flex-col gap-1.5">
-          <span className="text-xs font-semibold text-on-surface">Window Chrome</span>
+          <span className="text-xs font-semibold text-on-surface">
+            Window Chrome
+          </span>
+
           <div className="grid grid-cols-2 gap-1">
-            {WINDOW_STYLES.map((ws) => (
+            {WINDOW_STYLES.map((style) => (
               <button
-                key={ws.id}
+                key={style.id}
                 type="button"
-                onClick={() => onChange({ ...config, windowStyle: ws.id })}
+                aria-pressed={config.windowStyle === style.id}
+                onClick={() => update({ windowStyle: style.id })}
                 className={`px-2.5 py-1.5 rounded-lg text-xs font-medium transition ${
-                  config.windowStyle === ws.id
+                  config.windowStyle === style.id
                     ? 'bg-primary text-on-primary font-semibold shadow-2xs'
                     : 'bg-surface border border-outline-variant text-on-surface-variant hover:bg-surface-container'
                 }`}
               >
-                {ws.label}
+                {style.label}
               </button>
             ))}
           </div>
         </div>
       </div>
 
-      {/* Canvas Background Gradient */}
       <div className="flex flex-col gap-1.5 border-t border-outline-variant/60 pt-3">
-        <span className="text-xs font-semibold text-on-surface">Background Preset</span>
+        <span className="text-xs font-semibold text-on-surface">
+          Background Preset
+        </span>
+
         <div className="flex flex-wrap gap-1.5">
-          {BACKGROUNDS.map((bg) => (
+          {BACKGROUNDS.map((background) => (
             <button
-              key={bg.id}
+              key={background.id}
               type="button"
-              onClick={() => onChange({ ...config, background: bg.id })}
+              aria-pressed={config.background === background.id}
+              onClick={() => update({ background: background.id })}
               className={`px-2.5 py-1 rounded-lg text-xs font-medium transition ${
-                config.background === bg.id
+                config.background === background.id
                   ? 'bg-primary text-on-primary font-semibold shadow-2xs'
                   : 'bg-surface border border-outline-variant text-on-surface-variant hover:bg-surface-container'
               }`}
             >
-              {bg.label}
+              {background.label}
             </button>
           ))}
         </div>
       </div>
 
-      {/* Sliders: Padding, Radius, Font Size, Line Numbers */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 border-t border-outline-variant/60 pt-3 text-xs">
+
         <div className="flex flex-col gap-1">
           <div className="flex justify-between text-on-surface-variant">
-            <span>Canvas Padding</span>
+            <label htmlFor="canvas-padding">Canvas Padding</label>
             <span className="font-mono">{config.padding}px</span>
           </div>
+
           <input
+            id="canvas-padding"
             type="range"
-            aria-label="Canvas Padding"
             min={16}
             max={64}
             value={config.padding}
-            onChange={(e) => onChange({ ...config, padding: Number(e.target.value) })}
+            onChange={(e) =>
+              updateNumber('padding', Number(e.target.value))
+            }
             className="w-full accent-primary"
           />
         </div>
 
         <div className="flex flex-col gap-1">
           <div className="flex justify-between text-on-surface-variant">
-            <span>Corner Radius</span>
+            <label htmlFor="corner-radius">Corner Radius</label>
             <span className="font-mono">{config.borderRadius}px</span>
           </div>
+
           <input
+            id="corner-radius"
             type="range"
-            aria-label="Corner Radius"
             min={4}
             max={24}
             value={config.borderRadius}
-            onChange={(e) => onChange({ ...config, borderRadius: Number(e.target.value) })}
+            onChange={(e) =>
+              updateNumber('borderRadius', Number(e.target.value))
+            }
             className="w-full accent-primary"
           />
         </div>
 
         <div className="flex flex-col gap-1">
           <div className="flex justify-between text-on-surface-variant">
-            <span>Font Size</span>
+            <label htmlFor="font-size">Font Size</label>
             <span className="font-mono">{config.fontSize}px</span>
           </div>
+
           <input
+            id="font-size"
             type="range"
-            aria-label="Font Size"
             min={12}
             max={20}
             value={config.fontSize}
-            onChange={(e) => onChange({ ...config, fontSize: Number(e.target.value) })}
+            onChange={(e) =>
+              updateNumber('fontSize', Number(e.target.value))
+            }
             className="w-full accent-primary"
           />
         </div>
@@ -222,7 +277,9 @@ export const CodeControls: React.FC<CodeControlsProps> = ({ config, onChange }) 
           <input
             type="checkbox"
             checked={config.showLineNumbers}
-            onChange={(e) => onChange({ ...config, showLineNumbers: e.target.checked })}
+            onChange={(e) =>
+              update({ showLineNumbers: e.target.checked })
+            }
             className="rounded border-outline-variant text-primary focus:ring-primary accent-primary"
           />
           <span>Show Line Numbers</span>

@@ -1,16 +1,30 @@
+
 import { describe, it, expect } from 'vitest';
-import { escapeXml, tokenizeLine, tokenizeCode, generateCardSvg } from './codeImageLogic';
+
+import {
+  escapeXml,
+  computeCardMetrics,
+} from './codeImageLogic';
+
+import { generateCardSvg } from './svgGenerator';
+import { tokenizeCode, tokenizeLine } from './codeTokenizer';
+
 import {
   createDefaultConfig,
   getThemeColors,
   getBackgroundDefs,
   CODE_PRESETS,
 } from './themeConfig';
-import { SyntaxTheme, BackgroundPreset } from './types';
+
+import {
+  SyntaxTheme,
+  BackgroundPreset,
+} from './types';
 
 describe('codeImageLogic', () => {
   it('creates valid default configuration', () => {
     const config = createDefaultConfig();
+
     expect(config.title).toBe('handler.ts');
     expect(config.theme).toBe('dracula');
     expect(config.language).toBe('typescript');
@@ -18,31 +32,94 @@ describe('codeImageLogic', () => {
     expect(config.showLineNumbers).toBe(true);
   });
 
-  it('escapes XML special characters safely', () => {
-    expect(escapeXml('<script src="test.js">&\'</script>')).toBe(
+  it('escapes XML special characters', () => {
+    expect(
+      escapeXml('<script src="test.js">&\'</script>')
+    ).toBe(
       '&lt;script src=&quot;test.js&quot;&gt;&amp;&#39;&lt;/script&gt;'
     );
   });
 
-  it('tokenizes keywords, strings, numbers, and comments', () => {
-    const line = 'const count = 42; // number of items';
-    const tokens = tokenizeLine(line);
-    const types = tokens.map((t) => t.type);
+  it('highlights TypeScript keywords', () => {
+    const tokens = tokenizeLine(
+      'const count = 42;',
+      'typescript'
+    );
 
-    expect(types).toContain('keyword');
-    expect(types).toContain('number');
-    expect(types).toContain('operator');
-    expect(types).toContain('comment');
+    expect(tokens.some((t) => t.type === 'keyword')).toBe(true);
+    expect(tokens.some((t) => t.type === 'number')).toBe(true);
+    expect(tokens.some((t) => t.type === 'operator')).toBe(true);
   });
 
-  it('tokenizes multi-line code blocks', () => {
-    const code = 'function add(a, b) {\n  return a + b;\n}';
-    const lines = tokenizeCode(code);
-    expect(lines.length).toBe(3);
-    expect(lines[0][0].type).toBe('keyword');
+  it('highlights Python keywords', () => {
+    const tokens = tokenizeLine(
+      'def calculate(self):',
+      'python'
+    );
+
+    expect(tokens[0].type).toBe('keyword');
   });
 
-  it('provides distinct colors for all supported syntax themes', () => {
+  it('does not highlight JavaScript words as Python keywords', () => {
+    const tokens = tokenizeLine(
+      'const value = 10;',
+      'python'
+    );
+
+    expect(tokens[0].type).toBe('text');
+  });
+
+  it('highlights function calls', () => {
+    const tokens = tokenizeLine(
+      'console.log("hello");',
+      'javascript'
+    );
+
+    expect(tokens.some((t) => t.type === 'function')).toBe(true);
+  });
+
+  it('highlights hexadecimal and scientific numbers', () => {
+    const tokens = tokenizeLine(
+      'const a = 0xff; const b = 1.5e-5;',
+      'javascript'
+    );
+
+    const numbers = tokens
+      .filter((t) => t.type === 'number')
+      .map((t) => t.text);
+
+    expect(numbers).toContain('0xff');
+    expect(numbers).toContain('1.5e-5');
+  });
+
+  it('supports multiline block comments', () => {
+    const lines = tokenizeCode(
+      'const a = 1;\n/* comment\nstill comment */\nconst b = 2;',
+      'typescript'
+    );
+
+    expect(lines[1].some((t) => t.type === 'comment')).toBe(true);
+    expect(lines[2].some((t) => t.type === 'comment')).toBe(true);
+    expect(lines[3].some((t) => t.type === 'keyword')).toBe(true);
+  });
+
+  it('supports template literal interpolation', () => {
+    const tokens = tokenizeLine(
+      '`Hello ${user.name}`',
+      'javascript'
+    );
+
+    expect(tokens.some((t) => t.type === 'string')).toBe(true);
+    expect(tokens.some((t) => t.text === 'user')).toBe(true);
+  });
+
+  it('preserves empty lines', () => {
+    const lines = tokenizeCode('const a = 1;\n\nconst b = 2;');
+
+    expect(lines).toHaveLength(3);
+  });
+
+  it('provides colors for every supported theme', () => {
     const themes: SyntaxTheme[] = [
       'dracula',
       'one-dark',
@@ -54,14 +131,16 @@ describe('codeImageLogic', () => {
 
     themes.forEach((theme) => {
       const colors = getThemeColors(theme);
+
       expect(colors.background).toMatch(/^#[0-9a-fA-F]{6}$/);
       expect(colors.text).toMatch(/^#[0-9a-fA-F]{6}$/);
       expect(colors.keyword).toBeDefined();
       expect(colors.string).toBeDefined();
+      expect(colors.headerBg).toBeDefined();
     });
   });
 
-  it('returns valid SVG gradient defs for background presets', () => {
+  it('returns valid background definitions', () => {
     const presets: BackgroundPreset[] = [
       'sunset',
       'neon',
@@ -71,8 +150,10 @@ describe('codeImageLogic', () => {
       'peach',
       'transparent',
     ];
+
     presets.forEach((preset) => {
       const bg = getBackgroundDefs(preset);
+
       if (preset === 'transparent') {
         expect(bg.fill).toBe('transparent');
       } else {
@@ -82,35 +163,78 @@ describe('codeImageLogic', () => {
     });
   });
 
-  it('generates a valid SVG card with window chrome and text', () => {
-    const config = createDefaultConfig();
-    const svg = generateCardSvg(config);
+  it('generates a valid SVG card', () => {
+    const svg = generateCardSvg(createDefaultConfig());
 
-    expect(svg).toContain('<svg xmlns="http://www.w3.org/2000/svg"');
+    expect(svg).toContain('<svg');
     expect(svg).toContain('viewBox=');
-    expect(svg).toContain('circle cx="20" cy="18"'); // Mac traffic lights
+    expect(svg).toContain('circle cx="20" cy="18"');
     expect(svg).toContain('handler.ts');
   });
 
-  it('respects showLineNumbers toggle', () => {
-    const withNumbers = generateCardSvg({
+  it('escapes malicious code and title content', () => {
+    const svg = generateCardSvg({
       ...createDefaultConfig(),
+      title: '<script>alert(1)</script>',
+      code: '<script>alert("test")</script>',
+    });
+
+    expect(svg).not.toContain('<script>');
+    expect(svg).toContain('&lt;script&gt;');
+  });
+
+  it('respects line number settings', () => {
+    const config = createDefaultConfig();
+
+    const withNumbers = generateCardSvg({
+      ...config,
       code: 'console.log("hello");',
       showLineNumbers: true,
     });
-    expect(withNumbers).toContain('tspan fill=');
-    expect(withNumbers).toContain(' 1  ');
+
+    expect(withNumbers).toContain('fill=');
 
     const withoutNumbers = generateCardSvg({
-      ...createDefaultConfig(),
+      ...config,
       code: 'console.log("hello");',
       showLineNumbers: false,
     });
-    expect(withoutNumbers).not.toContain(' 1  ');
+
+    expect(withoutNumbers).not.toContain('font-weight="500"');
   });
 
-  it('contains curated presets with valid config properties', () => {
+  it('calculates wider gutters for large line counts', () => {
+    const config = createDefaultConfig();
+
+    const lines = Array.from(
+      { length: 120 },
+      () => tokenizeLine('const value = 1;')
+    );
+
+    const metrics = computeCardMetrics(config, lines);
+
+    expect(metrics.numGutter).toBeGreaterThan(42);
+    expect(metrics.cardHeight).toBeGreaterThan(1000);
+  });
+
+  it('handles invalid numeric configuration safely', () => {
+    const config = {
+      ...createDefaultConfig(),
+      fontSize: Number.NaN,
+      padding: Number.POSITIVE_INFINITY,
+      borderRadius: -100,
+    };
+
+    const svg = generateCardSvg(config);
+
+    expect(svg).toContain('<svg');
+    expect(svg).not.toContain('NaN');
+    expect(svg).not.toContain('Infinity');
+  });
+
+  it('contains curated presets', () => {
     expect(CODE_PRESETS.length).toBeGreaterThanOrEqual(4);
+
     CODE_PRESETS.forEach((preset) => {
       expect(preset.name).toBeTruthy();
       expect(preset.config.theme).toBeDefined();
