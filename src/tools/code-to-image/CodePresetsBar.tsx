@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Sparkles } from 'lucide-react';
 
@@ -9,12 +8,9 @@ interface CodePresetsBarProps {
   onSelect: (config: Partial<CodeCardConfig>) => void;
 }
 
-export const CodePresetsBar: React.FC<CodePresetsBarProps> = ({
-  onSelect,
-}) => {
+export const CodePresetsBar: React.FC<CodePresetsBarProps> = ({ onSelect }) => {
   return (
     <div className="flex flex-wrap items-center gap-2 p-3 rounded-xl bg-surface-container-low border border-outline-variant/60">
-
       <div className="flex items-center gap-1.5 text-xs font-semibold text-outline mr-1">
         <Sparkles className="w-3.5 h-3.5 text-primary" />
         <span>Presets:</span>

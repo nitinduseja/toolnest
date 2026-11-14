@@ -1,4 +1,3 @@
-
 import {
   CodeCardConfig,
   SyntaxTheme,
@@ -192,27 +191,18 @@ export function getThemeColors(theme: SyntaxTheme): ThemeColors {
   return THEME_MAP[theme] || THEME_MAP.dracula;
 }
 
-const GRADIENTS: Record<
-  Exclude<BackgroundPreset, 'transparent'>,
-  string
-> = {
+const GRADIENTS: Record<Exclude<BackgroundPreset, 'transparent'>, string> = {
   sunset:
     '<stop offset="0%" stop-color="#f97316"/><stop offset="50%" stop-color="#ec4899"/><stop offset="100%" stop-color="#8b5cf6"/>',
-  neon:
-    '<stop offset="0%" stop-color="#06b6d4"/><stop offset="50%" stop-color="#3b82f6"/><stop offset="100%" stop-color="#9333ea"/>',
-  ocean:
-    '<stop offset="0%" stop-color="#0284c7"/><stop offset="100%" stop-color="#0f172a"/>',
+  neon: '<stop offset="0%" stop-color="#06b6d4"/><stop offset="50%" stop-color="#3b82f6"/><stop offset="100%" stop-color="#9333ea"/>',
+  ocean: '<stop offset="0%" stop-color="#0284c7"/><stop offset="100%" stop-color="#0f172a"/>',
   aurora:
     '<stop offset="0%" stop-color="#10b981"/><stop offset="50%" stop-color="#06b6d4"/><stop offset="100%" stop-color="#3b82f6"/>',
-  midnight:
-    '<stop offset="0%" stop-color="#1e1b4b"/><stop offset="100%" stop-color="#0f172a"/>',
-  peach:
-    '<stop offset="0%" stop-color="#fb923c"/><stop offset="100%" stop-color="#f43f5e"/>',
+  midnight: '<stop offset="0%" stop-color="#1e1b4b"/><stop offset="100%" stop-color="#0f172a"/>',
+  peach: '<stop offset="0%" stop-color="#fb923c"/><stop offset="100%" stop-color="#f43f5e"/>',
 };
 
-export function getBackgroundDefs(
-  preset: BackgroundPreset
-): { fill: string; defs: string } {
+export function getBackgroundDefs(preset: BackgroundPreset): { fill: string; defs: string } {
   if (preset === 'transparent') {
     return { fill: 'transparent', defs: '' };
   }

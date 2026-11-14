@@ -1,4 +1,3 @@
-
 import { downloadFile } from '@/lib/downloads';
 
 const MAX_CANVAS_DIMENSION = 16384;
@@ -8,9 +7,7 @@ function getSvgDimensions(svg: string): {
   width: number;
   height: number;
 } {
-  const viewBox = svg.match(
-    /viewBox\s*=\s*["']\s*[-\d.]+\s+[-\d.]+\s+([\d.]+)\s+([\d.]+)\s*["']/
-  );
+  const viewBox = svg.match(/viewBox\s*=\s*["']\s*[-\d.]+\s+[-\d.]+\s+([\d.]+)\s+([\d.]+)\s*["']/);
 
   const widthMatch = svg.match(/\bwidth\s*=\s*["']([\d.]+)(?:px)?["']/);
   const heightMatch = svg.match(/\bheight\s*=\s*["']([\d.]+)(?:px)?["']/);
@@ -18,22 +15,14 @@ function getSvgDimensions(svg: string): {
   const width = Number(viewBox?.[1] || widthMatch?.[1]);
   const height = Number(viewBox?.[2] || heightMatch?.[1]);
 
-  if (
-    !Number.isFinite(width) ||
-    !Number.isFinite(height) ||
-    width <= 0 ||
-    height <= 0
-  ) {
+  if (!Number.isFinite(width) || !Number.isFinite(height) || width <= 0 || height <= 0) {
     throw new Error('Invalid SVG dimensions');
   }
 
   return { width, height };
 }
 
-export function renderSvgToCanvas(
-  svgString: string,
-  scale = 2
-): Promise<HTMLCanvasElement> {
+export function renderSvgToCanvas(svgString: string, scale = 2): Promise<HTMLCanvasElement> {
   return new Promise((resolve, reject) => {
     let objectUrl: string | null = null;
 
@@ -42,9 +31,7 @@ export function renderSvgToCanvas(
         throw new Error('Canvas rendering requires a browser');
       }
 
-      const safeScale = Number.isFinite(scale)
-        ? Math.min(4, Math.max(1, scale))
-        : 2;
+      const safeScale = Number.isFinite(scale) ? Math.min(4, Math.max(1, scale)) : 2;
 
       const { width, height } = getSvgDimensions(svgString);
 
@@ -87,14 +74,7 @@ export function renderSvgToCanvas(
             throw new Error('Canvas 2D context not available');
           }
 
-          context.setTransform(
-            safeScale,
-            0,
-            0,
-            safeScale,
-            0,
-            0
-          );
+          context.setTransform(safeScale, 0, 0, safeScale, 0, 0);
 
           context.drawImage(img, 0, 0, width, height);
 
@@ -144,14 +124,9 @@ export async function downloadPngFromSvg(
   }
 }
 
-export async function copyPngToClipboard(
-  svgString: string
-): Promise<boolean> {
+export async function copyPngToClipboard(svgString: string): Promise<boolean> {
   try {
-    if (
-      !navigator.clipboard?.write ||
-      typeof ClipboardItem === 'undefined'
-    ) {
+    if (!navigator.clipboard?.write || typeof ClipboardItem === 'undefined') {
       return false;
     }
 

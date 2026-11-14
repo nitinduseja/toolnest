@@ -1,21 +1,11 @@
-
 import React, { useEffect, useState } from 'react';
 
-import {
-  Copy,
-  Check,
-  Image as ImageIcon,
-  FileCode,
-  AlertCircle,
-} from 'lucide-react';
+import { Copy, Check, Image as ImageIcon, FileCode, AlertCircle } from 'lucide-react';
 
 import { CodeCardConfig } from './types';
 import { generateCardSvg } from './svgGenerator';
 
-import {
-  downloadPngFromSvg,
-  copyPngToClipboard,
-} from './canvasRenderer';
+import { downloadPngFromSvg, copyPngToClipboard } from './canvasRenderer';
 
 import { downloadFile } from '@/lib/downloads';
 import { copyToClipboard } from '@/lib/clipboard';
@@ -36,9 +26,7 @@ function createFilename(title: string, extension: string): string {
   return `${base || 'code-snippet'}.${extension}`;
 }
 
-export const CodePreviewStage: React.FC<CodePreviewStageProps> = ({
-  config,
-}) => {
+export const CodePreviewStage: React.FC<CodePreviewStageProps> = ({ config }) => {
   const [feedback, setFeedback] = useState<FeedbackType>(null);
   const [error, setError] = useState('');
 
@@ -63,9 +51,7 @@ export const CodePreviewStage: React.FC<CodePreviewStageProps> = ({
       if (success) {
         setFeedback('png');
       } else {
-        setError(
-          'PNG copying is not supported by this browser or permission was denied.'
-        );
+        setError('PNG copying is not supported by this browser or permission was denied.');
       }
     } catch {
       setError('Unable to copy PNG.');
@@ -94,10 +80,7 @@ export const CodePreviewStage: React.FC<CodePreviewStageProps> = ({
     try {
       const filename = createFilename(config.title, 'png');
 
-      const success = await downloadPngFromSvg(
-        svgMarkup,
-        filename
-      );
+      const success = await downloadPngFromSvg(svgMarkup, filename);
 
       if (success) {
         setFeedback('download');
@@ -137,10 +120,8 @@ export const CodePreviewStage: React.FC<CodePreviewStageProps> = ({
 
   return (
     <div className="flex flex-col gap-4">
-
       {/* Live Preview */}
       <div className="relative flex flex-col items-center justify-center p-6 rounded-2xl border border-outline-variant bg-surface-container-low min-h-[380px] overflow-auto shadow-inner">
-
         <div
           data-testid="code-card-canvas"
           className="max-w-full overflow-auto rounded-xl transition-all duration-200"
@@ -152,9 +133,7 @@ export const CodePreviewStage: React.FC<CodePreviewStageProps> = ({
 
       {/* Action Toolbar */}
       <div className="flex flex-wrap items-center justify-between gap-2 p-3 rounded-xl bg-surface-container-low border border-outline-variant">
-
         <div className="flex flex-wrap items-center gap-2">
-
           <button
             type="button"
             onClick={handleDownloadPng}
@@ -172,11 +151,9 @@ export const CodePreviewStage: React.FC<CodePreviewStageProps> = ({
             <FileCode className="w-3.5 h-3.5" />
             <span>Download SVG</span>
           </button>
-
         </div>
 
         <div className="flex flex-wrap items-center gap-2">
-
           <button
             type="button"
             onClick={handleCopyPng}
@@ -188,9 +165,7 @@ export const CodePreviewStage: React.FC<CodePreviewStageProps> = ({
               <Copy className="w-3.5 h-3.5" />
             )}
 
-            <span>
-              {feedback === 'png' ? 'Copied PNG!' : 'Copy PNG'}
-            </span>
+            <span>{feedback === 'png' ? 'Copied PNG!' : 'Copy PNG'}</span>
           </button>
 
           <button
@@ -204,20 +179,14 @@ export const CodePreviewStage: React.FC<CodePreviewStageProps> = ({
               <Copy className="w-3.5 h-3.5" />
             )}
 
-            <span>
-              {feedback === 'svg' ? 'Copied SVG!' : 'Copy SVG'}
-            </span>
+            <span>{feedback === 'svg' ? 'Copied SVG!' : 'Copy SVG'}</span>
           </button>
-
         </div>
       </div>
 
       {/* Feedback */}
       {error && (
-        <div
-          role="alert"
-          className="flex items-center gap-2 text-xs text-red-500"
-        >
+        <div role="alert" className="flex items-center gap-2 text-xs text-red-500">
           <AlertCircle className="w-4 h-4 shrink-0" />
           {error}
         </div>

@@ -1,4 +1,3 @@
-
 import React from 'react';
 
 import {
@@ -55,18 +54,12 @@ const LANGUAGES: { id: SupportedLanguage; label: string }[] = [
   { id: 'text', label: 'Plain Text' },
 ];
 
-export const CodeControls: React.FC<CodeControlsProps> = ({
-  config,
-  onChange,
-}) => {
+export const CodeControls: React.FC<CodeControlsProps> = ({ config, onChange }) => {
   const update = (partial: Partial<CodeCardConfig>) => {
     onChange({ ...config, ...partial });
   };
 
-  const updateNumber = (
-    key: 'padding' | 'borderRadius' | 'fontSize',
-    value: number
-  ) => {
+  const updateNumber = (key: 'padding' | 'borderRadius' | 'fontSize', value: number) => {
     if (!Number.isFinite(value)) return;
 
     update({ [key]: value });
@@ -74,21 +67,14 @@ export const CodeControls: React.FC<CodeControlsProps> = ({
 
   return (
     <div className="flex flex-col gap-4 rounded-2xl border border-outline-variant bg-surface-container-low p-4 sm:p-5">
-
       <div className="flex flex-col gap-2">
         <div className="flex flex-wrap items-center justify-between gap-2">
-          <label
-            htmlFor="code-title"
-            className="text-xs font-semibold text-on-surface"
-          >
+          <label htmlFor="code-title" className="text-xs font-semibold text-on-surface">
             Window Title / File
           </label>
 
           <div className="flex items-center gap-2">
-            <label
-              htmlFor="code-language"
-              className="text-xs text-outline font-medium"
-            >
+            <label htmlFor="code-language" className="text-xs text-outline font-medium">
               Language:
             </label>
 
@@ -138,11 +124,8 @@ export const CodeControls: React.FC<CodeControlsProps> = ({
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 border-t border-outline-variant/60 pt-3">
-
         <div className="flex flex-col gap-1.5">
-          <span className="text-xs font-semibold text-on-surface">
-            Syntax Theme
-          </span>
+          <span className="text-xs font-semibold text-on-surface">Syntax Theme</span>
 
           <div className="grid grid-cols-2 gap-1">
             {THEMES.map((theme) => (
@@ -164,9 +147,7 @@ export const CodeControls: React.FC<CodeControlsProps> = ({
         </div>
 
         <div className="flex flex-col gap-1.5">
-          <span className="text-xs font-semibold text-on-surface">
-            Window Chrome
-          </span>
+          <span className="text-xs font-semibold text-on-surface">Window Chrome</span>
 
           <div className="grid grid-cols-2 gap-1">
             {WINDOW_STYLES.map((style) => (
@@ -189,9 +170,7 @@ export const CodeControls: React.FC<CodeControlsProps> = ({
       </div>
 
       <div className="flex flex-col gap-1.5 border-t border-outline-variant/60 pt-3">
-        <span className="text-xs font-semibold text-on-surface">
-          Background Preset
-        </span>
+        <span className="text-xs font-semibold text-on-surface">Background Preset</span>
 
         <div className="flex flex-wrap gap-1.5">
           {BACKGROUNDS.map((background) => (
@@ -213,7 +192,6 @@ export const CodeControls: React.FC<CodeControlsProps> = ({
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 border-t border-outline-variant/60 pt-3 text-xs">
-
         <div className="flex flex-col gap-1">
           <div className="flex justify-between text-on-surface-variant">
             <label htmlFor="canvas-padding">Canvas Padding</label>
@@ -226,9 +204,7 @@ export const CodeControls: React.FC<CodeControlsProps> = ({
             min={16}
             max={64}
             value={config.padding}
-            onChange={(e) =>
-              updateNumber('padding', Number(e.target.value))
-            }
+            onChange={(e) => updateNumber('padding', Number(e.target.value))}
             className="w-full accent-primary"
           />
         </div>
@@ -245,9 +221,7 @@ export const CodeControls: React.FC<CodeControlsProps> = ({
             min={4}
             max={24}
             value={config.borderRadius}
-            onChange={(e) =>
-              updateNumber('borderRadius', Number(e.target.value))
-            }
+            onChange={(e) => updateNumber('borderRadius', Number(e.target.value))}
             className="w-full accent-primary"
           />
         </div>
@@ -264,9 +238,7 @@ export const CodeControls: React.FC<CodeControlsProps> = ({
             min={12}
             max={20}
             value={config.fontSize}
-            onChange={(e) =>
-              updateNumber('fontSize', Number(e.target.value))
-            }
+            onChange={(e) => updateNumber('fontSize', Number(e.target.value))}
             className="w-full accent-primary"
           />
         </div>
@@ -277,9 +249,7 @@ export const CodeControls: React.FC<CodeControlsProps> = ({
           <input
             type="checkbox"
             checked={config.showLineNumbers}
-            onChange={(e) =>
-              update({ showLineNumbers: e.target.checked })
-            }
+            onChange={(e) => update({ showLineNumbers: e.target.checked })}
             className="rounded border-outline-variant text-primary focus:ring-primary accent-primary"
           />
           <span>Show Line Numbers</span>
