@@ -1,0 +1,114 @@
+import React from 'react';
+import { AlertTriangle, CheckCircle2, Flame, Layers } from 'lucide-react';
+import { DensitySlot, CollisionEvent } from './types';
+
+interface TimelineHeatmapViewProps {
+  density: DensitySlot[];
+  collisions: CollisionEvent[];
+}
+
+export const TimelineHeatmapView: React.FC<TimelineHeatmapViewProps> = ({
+  density,
+  collisions,
+}) => {
+  const maxCount = Math.max(1, ...density.map((d) => d.count));
+
+  const getHeatColor = (count: number) => {
+    if (count === 0) return 'bg-slate-900 text-slate-600 border-slate-800';
+    const ratio = count / maxCount;
+    if (ratio < 0.25) return 'bg-indigo-950/60 text-indigo-300 border-indigo-900/60';
+    if (ratio < 0.5) return 'bg-indigo-900/70 text-indigo-200 border-indigo-700/60';
+    if (ratio < 0.75) return 'bg-indigo-700 text-white border-indigo-500';
+    return 'bg-amber-600 text-white border-amber-400 font-bold';
+  };
+
+  return (
+    <div className="space-y-4">
+      {/* 24-Hour Density Heatmap */}
+      <div className="bg-slate-900/60 border border-slate-800 rounded-xl p-4">
+        <div className="flex items-center justify-between mb-3">
+          <h3 className="text-sm font-semibold text-slate-200 flex items-center gap-2">
+            <Flame className="w-4 h-4 text-amber-400" />
+            24-Hour Load Heatmap (Hourly Execution Density)
+          </h3>
+          <span className="text-[11px] text-slate-400">Peak hour: {maxCount} runs</span>
+        </div>
+
+        <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-12 gap-1.5">
+          {density.map((slot) => (
+            <div
+              key={slot.hour}
+              className={`p-2 rounded-lg border text-center transition-all ${getHeatColor(
+                slot.count
+              )}`}
+              title={`Hour ${String(slot.hour).padStart(2, '0')}:00 - ${slot.count} executions`}
+            >
+              <div className="text-[10px] font-mono opacity-70">
+                {String(slot.hour).padStart(2, '0')}h
+              </div>
+              <div className="text-sm font-bold">{slot.count}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Collision & Concurrency Analysis */}
+      <div className="bg-slate-900/60 border border-slate-800 rounded-xl p-4">
+        <div className="flex items-center justify-between mb-3">
+          <h3 className="text-sm font-semibold text-slate-200 flex items-center gap-2">
+            {collisions.length > 0 ? (
+              <AlertTriangle className="w-4 h-4 text-rose-400" />
+            ) : (
+              <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+            )}
+            Simultaneous Collision Analysis ({collisions.length})
+          </h3>
+          <span className="text-[11px] text-slate-400">
+            {collisions.length === 0
+              ? 'No overlapping execution times detected'
+              : 'Jobs firing at the exact same minute'}
+          </span>
+        </div>
+
+        {collisions.length === 0 ? (
+          <div className="p-3 bg-emerald-950/30 border border-emerald-900/50 rounded-lg text-xs text-emerald-300 flex items-center gap-2">
+            <CheckCircle2 className="w-4 h-4 flex-shrink-0" />
+            All active cron jobs fire at distinct minutes. No simultaneous server load spikes
+            detected.
+          </div>
+        ) : (
+          <div className="space-y-2 max-h-[220px] overflow-y-auto pr-1">
+            {collisions.map((col, idx) => (
+              <div
+                key={idx}
+                className="p-2.5 bg-rose-950/30 border border-rose-900/50 rounded-lg flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs"
+              >
+                <div className="flex items-center gap-2">
+                  <span className="px-1.5 py-0.5 rounded bg-rose-900/60 text-rose-200 font-mono font-bold">
+                    {col.timeString}
+                  </span>
+                  <span className="text-slate-400 font-medium">({col.dateString})</span>
+                  <span className="text-rose-300 font-semibold">
+                    {col.jobs.length} simultaneous jobs:
+                  </span>
+                </div>
+                <div className="flex flex-wrap items-center gap-1.5">
+                  {col.jobs.map((j) => (
+                    <span
+                      key={j.jobId}
+                      className="px-2 py-0.5 rounded-full text-[10px] font-medium text-white flex items-center gap-1"
+                      style={{ backgroundColor: j.color }}
+                    >
+                      <Layers className="w-2.5 h-2.5" />
+                      {j.jobName}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};

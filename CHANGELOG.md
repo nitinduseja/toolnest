@@ -9,7 +9,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- **54 Tools Milestone**: Toolnest now includes 54 privacy-preserving, client-side tools across 12 canonical categories.
+- **55 Tools Milestone**: Toolnest now includes 55 privacy-preserving, client-side tools across 12 canonical categories.
+- **Crontab Timeline & Execution Visualizer (`cron-timeline`)**:
+  - Interactive multi-cron schedule manager with individual enable/disable toggles, custom color coding, and humanized POSIX explanations.
+  - 24-hour and 7-day Gantt execution timeline with interactive run nodes, exact timestamps, and relative countdown tags.
+  - 24-hour load heatmap displaying hourly execution density and peak windows.
+  - Automated collision and concurrency detection alerting when multiple jobs fire at the exact same minute.
+  - Multi-timezone support (Local, UTC, EST/EDT, PST/PDT, GMT/BST, CET, JST, IST, AEST).
+  - Production presets (E-commerce Backend Ops, Data Warehouse ETL, DevOps System Maintenance).
+  - Bidirectional crontab format import (`crontab -l`) and export with one-click clipboard copy.
+  - 18 unit and component tests passing.
 - **Code Screenshot & Card Studio (`code-to-image`)**:
   - Presentation-ready code snippet card studio (similar to Carbon/Ray.so) running 100% client-side.
   - Multi-theme syntax highlighting: Dracula, One Dark, Nord, Monokai, GitHub Dark, and GitHub Light.

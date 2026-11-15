@@ -223,4 +223,32 @@ export const STUDIO_BATCH2_TOOLS: ToolDefinition[] = [
     badge: 'Card Studio',
     isNew: true,
   },
+  {
+    id: 'cron-timeline',
+    slug: 'cron-timeline',
+    name: 'Crontab Timeline & Execution Visualizer',
+    description:
+      'Multi-cron Gantt timeline, 24-hour execution density heatmap, collision detection, and crontab import/export.',
+    category: 'date-time',
+    iconName: 'Clock',
+    keywords: [
+      'cron',
+      'crontab',
+      'timeline',
+      'visualizer',
+      'gantt',
+      'schedule',
+      'collision',
+      'heatmap',
+      'execution',
+      'devops',
+    ],
+    component: React.lazy(() => import('@/tools/cron-timeline')),
+    tags: ['Cron', 'Timeline', 'Schedule', 'DevOps', 'Date', 'Time'],
+    isOfflineReady: true,
+    privacyNote:
+      'All cron timeline predictions and collision checks are calculated 100% locally in browser memory.',
+    badge: 'Multi-Cron',
+    isNew: true,
+  },
 ];

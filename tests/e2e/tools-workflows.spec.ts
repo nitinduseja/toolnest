@@ -91,4 +91,23 @@ test.describe('Interactive Tool Workflows', () => {
     await expect(page.locator('button', { hasText: 'Download PNG' })).toBeVisible();
     await expect(page.locator('button', { hasText: 'Download SVG' })).toBeVisible();
   });
+
+  test('navigates to Crontab Timeline Visualizer, switches horizon and tabs', async ({ page }) => {
+    await page.goto('/tools/cron-timeline');
+    await expect(
+      page.locator('h1', { hasText: 'Crontab Timeline & Execution Visualizer' })
+    ).toBeVisible();
+
+    // Verify stats and timeline are visible
+    await expect(page.locator('text=Active Jobs')).toBeVisible();
+    await expect(page.locator('button', { hasText: '7 Days' })).toBeVisible();
+
+    // Switch to 7 days
+    await page.locator('button', { hasText: '7 Days' }).click();
+    await expect(page.locator('text=Execution Timeline (7 Days)')).toBeVisible();
+
+    // Switch to Load Heatmap tab
+    await page.locator('button', { hasText: 'Load Heatmap & Collisions' }).click();
+    await expect(page.locator('text=24-Hour Load Heatmap')).toBeVisible();
+  });
 });
