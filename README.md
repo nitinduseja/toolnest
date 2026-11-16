@@ -4,18 +4,18 @@
 
 [![CI Quality Gate](https://github.com/nitinduseja/toolnest/actions/workflows/ci.yml/badge.svg)](https://github.com/nitinduseja/toolnest/actions/workflows/ci.yml)
 [![Version](https://img.shields.io/badge/version-2.8.0-blue.svg)](package.json)
-[![Tools Count](https://img.shields.io/badge/tools-55%20production%20tools-emerald.svg)](src/registry/)
+[![Tools Count](https://img.shields.io/badge/tools-56%20production%20tools-emerald.svg)](src/registry/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 [![Netlify Status](https://api.netlify.com/api/v1/badges/toolnest/deploy-status)](https://app.netlify.com)
 
-Toolnest is an open-source, privacy-first developer workbench providing 55 essential utilities, converters, formatters, and generators in one distraction-free workspace. All data transformations run 100% inside your browser — zero analytics, zero server storage, zero third-party AI APIs.
+Toolnest is an open-source, privacy-first developer workbench providing 56 essential utilities, converters, formatters, and generators in one distraction-free workspace. All data transformations run 100% inside your browser — zero analytics, zero server storage, zero third-party AI APIs.
 
 ---
 
 ## ⚡ Key Highlights
 
 - 🔒 **Privacy-First & Local-Only**: Everything executes client-side via native Web Crypto API, Canvas, and Web Workers. Your sensitive payloads never leave your computer.
-- ⌨️ **Universal Command Palette**: Press <kbd>Ctrl</kbd> + <kbd>K</kbd> (or <kbd>⌘</kbd> + <kbd>K</kbd>) to instantly search all 55 tools, categories, and system shortcuts.
+- ⌨️ **Universal Command Palette**: Press <kbd>Ctrl</kbd> + <kbd>K</kbd> (or <kbd>⌘</kbd> + <kbd>K</kbd>) to instantly search all 56 tools, categories, and system shortcuts.
 - ⚡ **Progressive Web App (PWA)**: Full offline service worker caching. Install Toolnest as a standalone desktop or mobile application.
 - 📱 **Adaptive Multi-Shell Layout**:
   - **Desktop (≥1024px)**: 240px persistent navigation rail, multi-column workspace, side-by-side split input/output editors.
@@ -26,7 +26,7 @@ Toolnest is an open-source, privacy-first developer workbench providing 55 essen
 
 ---
 
-## 🛠️ The 55 Developer Tools by Category
+## 🛠️ The 56 Developer Tools by Category
 
 Toolnest organizes its complete suite across **12 canonical categories**:
 
@@ -105,11 +105,12 @@ Toolnest organizes its complete suite across **12 canonical categories**:
 - **Unit Converter**: Exact metric and imperial conversions for length, mass, temperature, and data storage.
 - **Subnet & CIDR IP Calculator**: IPv4 subnet masks, usable host ranges, binary bitmasks, and VLSM splits.
 
-### 📁 Data & Files (3 Tools)
+### 📁 Data & Files (4 Tools)
 
 - **CSV to JSON Converter**: RFC 4180 parsing with custom delimiters, quotes, and array output.
 - **YAML ↔ JSON Converter**: Bidirectional translation with syntax validation and indentation controls.
 - **PDF Page Merger & Splitter**: Merge multiple PDFs, extract page ranges, and reorder pages locally.
+- **Data Pivot & Chart Visualizer**: Interactive CSV & JSON tabular explorer with Bar, Line, Area, and Donut charts, column statistics, and SVG/PNG export.
 
 ### ✨ Learning & Generators (2 Tools)
 

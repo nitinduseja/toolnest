@@ -58,10 +58,12 @@ import {
   Layout,
   Printer,
   FileDown,
+  BarChart2,
   LucideProps,
 } from 'lucide-react';
 
 const ICON_REGISTRY: Record<string, React.ComponentType<LucideProps>> = {
+  BarChart2,
   Printer,
   FileDown,
   Network,

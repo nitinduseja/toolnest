@@ -110,4 +110,24 @@ test.describe('Interactive Tool Workflows', () => {
     await page.locator('button', { hasText: 'Load Heatmap & Collisions' }).click();
     await expect(page.locator('text=24-Hour Load Heatmap')).toBeVisible();
   });
+
+  test('navigates to Data Pivot & Chart Visualizer, switches chart type and views table', async ({
+    page,
+  }) => {
+    await page.goto('/tools/data-chart');
+    await expect(
+      page.locator('h1, h2', { hasText: 'Data Pivot & Chart Visualizer' })
+    ).toBeVisible();
+
+    // Verify SVG container renders
+    await expect(page.locator('[data-testid="chart-svg-container"]')).toBeVisible();
+
+    // Switch to Donut chart
+    await page.locator('button', { hasText: 'Donut' }).click();
+    await expect(page.locator('[data-testid="chart-svg-container"]')).toBeVisible();
+
+    // Switch to Data Table view
+    await page.locator('button', { hasText: 'Data Table' }).click();
+    await expect(page.locator('input[placeholder="Search records..."]')).toBeVisible();
+  });
 });

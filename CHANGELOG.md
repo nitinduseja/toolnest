@@ -9,7 +9,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- **55 Tools Milestone**: Toolnest now includes 55 privacy-preserving, client-side tools across 12 canonical categories.
+- **56 Tools Milestone**: Toolnest now includes 56 privacy-preserving, client-side tools across 12 canonical categories.
+- **Data Pivot & Chart Visualizer (`data-chart`)**:
+  - In-browser CSV and JSON tabular explorer with interactive data table, sorting, column filtering, search, and pagination.
+  - Pure SVG client-side chart generator supporting Bar (column), Line, Area, and Donut (pie) charts with zero external chart library dependencies.
+  - Real-time column metrics and summary statistics: Count, Sum, Mean (Average), Median, Min, Max, and Standard Deviation (σ).
+  - Flexible aggregation groupings (Sum, Average, Count, Min, Max) by any categorical dimension.
+  - Multi-palette themes (Indigo, Emerald, Amber, Sunset, Cyber) and SVG / PNG (2x retina) download actions.
+  - 17 unit and component tests passing.
 - **Crontab Timeline & Execution Visualizer (`cron-timeline`)**:
   - Interactive multi-cron schedule manager with individual enable/disable toggles, custom color coding, and humanized POSIX explanations.
   - 24-hour and 7-day Gantt execution timeline with interactive run nodes, exact timestamps, and relative countdown tags.

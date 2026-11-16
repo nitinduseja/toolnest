@@ -251,4 +251,33 @@ export const STUDIO_BATCH2_TOOLS: ToolDefinition[] = [
     badge: 'Multi-Cron',
     isNew: true,
   },
+  {
+    id: 'data-chart',
+    slug: 'data-chart',
+    name: 'Data Pivot & Chart Visualizer',
+    description:
+      'Interactive CSV & JSON tabular explorer with Bar, Line, Area, and Donut charts, column statistics, and SVG/PNG export.',
+    category: 'data-files',
+    iconName: 'BarChart2',
+    keywords: [
+      'data chart',
+      'chart',
+      'pivot',
+      'visualizer',
+      'csv',
+      'json',
+      'bar chart',
+      'line chart',
+      'donut chart',
+      'table',
+      'statistics',
+    ],
+    component: React.lazy(() => import('@/tools/data-chart')),
+    tags: ['Data', 'Chart', 'CSV', 'JSON', 'Analytics', 'Visualization'],
+    isOfflineReady: true,
+    privacyNote:
+      'All CSV/JSON data parsing, aggregation statistics, and SVG chart renderings are computed 100% client-side.',
+    badge: 'Chart Studio',
+    isNew: true,
+  },
 ];
