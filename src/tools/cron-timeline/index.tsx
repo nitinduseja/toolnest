@@ -112,14 +112,14 @@ export default function CronTimelineTool() {
       <TimelineStatsBar stats={stats} />
 
       {/* Tabs */}
-      <div className="flex border-b border-slate-800 gap-4 text-xs font-medium">
+      <div className="flex border-b border-outline-variant gap-4 text-xs font-medium">
         <button
           type="button"
           onClick={() => setActiveTab('timeline')}
           className={`pb-2 flex items-center gap-1.5 transition-colors ${
             activeTab === 'timeline'
-              ? 'text-indigo-400 border-b-2 border-indigo-500 font-semibold'
-              : 'text-slate-400 hover:text-slate-200'
+              ? 'text-primary border-b-2 border-primary font-semibold'
+              : 'text-on-surface-variant hover:text-on-surface'
           }`}
         >
           <Clock className="w-4 h-4" /> Timeline Gantt
@@ -129,8 +129,8 @@ export default function CronTimelineTool() {
           onClick={() => setActiveTab('density')}
           className={`pb-2 flex items-center gap-1.5 transition-colors ${
             activeTab === 'density'
-              ? 'text-indigo-400 border-b-2 border-indigo-500 font-semibold'
-              : 'text-slate-400 hover:text-slate-200'
+              ? 'text-primary border-b-2 border-primary font-semibold'
+              : 'text-on-surface-variant hover:text-on-surface'
           }`}
         >
           <Flame className="w-4 h-4" /> Load Heatmap & Collisions ({collisions.length})
@@ -140,8 +140,8 @@ export default function CronTimelineTool() {
           onClick={() => setActiveTab('upcoming')}
           className={`pb-2 flex items-center gap-1.5 transition-colors ${
             activeTab === 'upcoming'
-              ? 'text-indigo-400 border-b-2 border-indigo-500 font-semibold'
-              : 'text-slate-400 hover:text-slate-200'
+              ? 'text-primary border-b-2 border-primary font-semibold'
+              : 'text-on-surface-variant hover:text-on-surface'
           }`}
         >
           <ListOrdered className="w-4 h-4" /> Upcoming Stream

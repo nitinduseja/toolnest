@@ -72,10 +72,10 @@ export const DataTableView: React.FC<DataTableViewProps> = ({ data, columns }) =
   };
 
   return (
-    <div className="bg-slate-900/60 border border-slate-800 rounded-xl p-4 space-y-3">
+    <div className="bg-surface-container-low border border-outline-variant/60 rounded-xl p-4 space-y-3">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
         <div className="relative flex-1 max-w-xs">
-          <Search className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" />
+          <Search className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-outline" />
           <input
             type="text"
             value={searchTerm}
@@ -84,7 +84,7 @@ export const DataTableView: React.FC<DataTableViewProps> = ({ data, columns }) =
               setPage(0);
             }}
             placeholder="Search records..."
-            className="w-full pl-9 pr-3 py-1.5 bg-slate-800 border border-slate-700 rounded-lg text-xs text-slate-200 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+            className="w-full pl-9 pr-3 py-1.5 bg-surface border border-outline-variant rounded-lg text-xs text-on-surface focus:outline-none focus:ring-1 focus:ring-primary"
           />
         </div>
 
@@ -92,10 +92,10 @@ export const DataTableView: React.FC<DataTableViewProps> = ({ data, columns }) =
           <button
             type="button"
             onClick={handleCopyJson}
-            className="flex items-center gap-1 px-2.5 py-1.5 text-xs text-slate-300 bg-slate-800 hover:bg-slate-700 border border-slate-700 rounded-lg transition-colors"
+            className="flex items-center gap-1 px-2.5 py-1.5 text-xs text-on-surface bg-surface hover:bg-surface-container-high border border-outline-variant rounded-lg transition-colors"
           >
             {copied ? (
-              <Check className="w-3.5 h-3.5 text-emerald-400" />
+              <Check className="w-3.5 h-3.5 text-emerald-500" />
             ) : (
               <Copy className="w-3.5 h-3.5" />
             )}
@@ -104,38 +104,38 @@ export const DataTableView: React.FC<DataTableViewProps> = ({ data, columns }) =
           <button
             type="button"
             onClick={handleExportCsv}
-            className="flex items-center gap-1 px-2.5 py-1.5 text-xs text-slate-300 bg-slate-800 hover:bg-slate-700 border border-slate-700 rounded-lg transition-colors"
+            className="flex items-center gap-1 px-2.5 py-1.5 text-xs text-on-surface bg-surface hover:bg-surface-container-high border border-outline-variant rounded-lg transition-colors"
           >
             <Download className="w-3.5 h-3.5" /> Export CSV
           </button>
         </div>
       </div>
 
-      <div className="border border-slate-800 rounded-lg overflow-x-auto">
-        <table className="w-full text-left text-xs text-slate-300">
-          <thead className="bg-slate-950 text-slate-400 uppercase text-[10px] tracking-wider border-b border-slate-800">
+      <div className="border border-outline-variant rounded-lg overflow-x-auto">
+        <table className="w-full text-left text-xs text-on-surface">
+          <thead className="bg-surface-container text-on-surface-variant uppercase text-[10px] tracking-wider border-b border-outline-variant">
             <tr>
               {columns.map((c) => (
                 <th
                   key={c.name}
                   onClick={() => handleSort(c.name)}
-                  className="p-2.5 cursor-pointer hover:text-slate-100 transition-colors select-none"
+                  className="p-2.5 cursor-pointer hover:text-on-surface transition-colors select-none"
                 >
                   <div className="flex items-center gap-1">
                     <span>{c.name}</span>
-                    <ArrowUpDown className="w-3 h-3 text-slate-500" />
+                    <ArrowUpDown className="w-3 h-3 text-outline" />
                   </div>
                 </th>
               ))}
             </tr>
           </thead>
-          <tbody className="divide-y divide-slate-800/60 font-mono">
+          <tbody className="divide-y divide-outline-variant/40 font-mono">
             {pageRows.map((row, rIdx) => (
-              <tr key={rIdx} className="hover:bg-slate-800/40 transition-colors">
+              <tr key={rIdx} className="hover:bg-surface-container-low/60 transition-colors">
                 {columns.map((c) => (
                   <td key={c.name} className="p-2.5 truncate max-w-[180px]">
                     {row[c.name] === null || row[c.name] === undefined ? (
-                      <span className="text-slate-600 font-sans italic">null</span>
+                      <span className="text-outline font-sans italic">null</span>
                     ) : (
                       String(row[c.name])
                     )}
@@ -145,7 +145,7 @@ export const DataTableView: React.FC<DataTableViewProps> = ({ data, columns }) =
             ))}
             {pageRows.length === 0 && (
               <tr>
-                <td colSpan={columns.length} className="text-center py-6 text-slate-500">
+                <td colSpan={columns.length} className="text-center py-6 text-outline">
                   No matching records found.
                 </td>
               </tr>
@@ -155,7 +155,7 @@ export const DataTableView: React.FC<DataTableViewProps> = ({ data, columns }) =
       </div>
 
       {/* Pagination Footer */}
-      <div className="flex items-center justify-between text-xs text-slate-400 pt-1">
+      <div className="flex items-center justify-between text-xs text-on-surface-variant pt-1">
         <span>
           Showing {page * pageSize + 1}–{Math.min(filteredData.length, (page + 1) * pageSize)} of{' '}
           {filteredData.length} records
@@ -168,7 +168,7 @@ export const DataTableView: React.FC<DataTableViewProps> = ({ data, columns }) =
               setPageSize(Number(e.target.value));
               setPage(0);
             }}
-            className="px-2 py-1 bg-slate-800 border border-slate-700 rounded-md text-xs text-slate-200"
+            className="px-2 py-1 bg-surface border border-outline-variant rounded-md text-xs text-on-surface"
           >
             <option value={10}>10 / page</option>
             <option value={25}>25 / page</option>
@@ -179,7 +179,7 @@ export const DataTableView: React.FC<DataTableViewProps> = ({ data, columns }) =
             type="button"
             disabled={page === 0}
             onClick={() => setPage(page - 1)}
-            className="px-2.5 py-1 bg-slate-800 border border-slate-700 rounded-md disabled:opacity-40"
+            className="px-2.5 py-1 bg-surface border border-outline-variant rounded-md disabled:opacity-40"
           >
             Prev
           </button>
@@ -190,7 +190,7 @@ export const DataTableView: React.FC<DataTableViewProps> = ({ data, columns }) =
             type="button"
             disabled={page >= totalPages - 1}
             onClick={() => setPage(page + 1)}
-            className="px-2.5 py-1 bg-slate-800 border border-slate-700 rounded-md disabled:opacity-40"
+            className="px-2.5 py-1 bg-surface border border-outline-variant rounded-md disabled:opacity-40"
           >
             Next
           </button>

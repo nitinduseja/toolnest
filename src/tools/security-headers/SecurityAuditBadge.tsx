@@ -15,7 +15,7 @@ export const SecurityAuditBadge: React.FC<SecurityAuditBadgeProps> = ({ audit })
         : 'border-red-500/40 bg-red-500/10 text-red-500';
 
   return (
-    <div className="flex flex-col gap-3 rounded-xl border border-border/40 bg-surface-primary/60 p-4">
+    <div className="flex flex-col gap-3 rounded-xl border border-outline-variant/40 bg-surface/60 p-4">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
           <div
@@ -25,11 +25,11 @@ export const SecurityAuditBadge: React.FC<SecurityAuditBadgeProps> = ({ audit })
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <span className="text-sm font-bold text-text-primary">
+              <span className="text-sm font-bold text-on-surface">
                 Security Score: {audit.score}/100
               </span>
             </div>
-            <p className="text-xs text-text-tertiary">
+            <p className="text-xs text-outline">
               {audit.warnings.length === 0
                 ? 'Excellent security posture. No high-risk configuration detected.'
                 : `${audit.warnings.length} security recommendation${audit.warnings.length > 1 ? 's' : ''} found.`}
@@ -39,7 +39,7 @@ export const SecurityAuditBadge: React.FC<SecurityAuditBadgeProps> = ({ audit })
       </div>
 
       {audit.warnings.length > 0 && (
-        <div className="flex flex-col gap-1.5 border-t border-border/40 pt-3">
+        <div className="flex flex-col gap-1.5 border-t border-outline-variant/40 pt-3">
           {audit.warnings.map((w, idx) => (
             <div key={idx} className="flex items-center gap-2 text-xs text-amber-500">
               <Icon name="Shield" className="h-3.5 w-3.5 flex-shrink-0" />

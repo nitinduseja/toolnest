@@ -34,10 +34,10 @@ export const GradientGenerator: React.FC = () => {
             <Icon name="Palette" className="h-6 w-6" />
           </div>
           <div>
-            <h1 className="text-xl font-bold tracking-tight text-text-primary sm:text-2xl">
+            <h1 className="text-xl font-bold tracking-tight text-on-surface sm:text-2xl">
               CSS Gradient & Mesh Studio
             </h1>
-            <p className="text-xs text-text-secondary sm:text-sm">
+            <p className="text-xs text-on-surface-variant sm:text-sm">
               Design multi-stop linear, radial, and conic gradients with live visual preview and
               instant CSS / Tailwind export.
             </p>
@@ -53,9 +53,9 @@ export const GradientGenerator: React.FC = () => {
         {/* Controls Column */}
         <div className="flex flex-col gap-4 lg:col-span-6">
           {/* Gradient Type & Geometry */}
-          <div className="flex flex-col gap-4 rounded-xl border border-border/40 bg-surface-primary/60 p-4">
+          <div className="flex flex-col gap-4 rounded-xl border border-outline-variant/40 bg-surface/60 p-4">
             <div>
-              <span className="text-xs font-semibold uppercase tracking-wider text-text-tertiary">
+              <span className="text-xs font-semibold uppercase tracking-wider text-outline">
                 Gradient Type
               </span>
               <div className="mt-2 grid grid-cols-3 gap-2">
@@ -66,8 +66,8 @@ export const GradientGenerator: React.FC = () => {
                     onClick={() => setType(t)}
                     className={`rounded-lg px-3 py-2 text-xs font-semibold capitalize transition ${
                       config.type === t
-                        ? 'bg-primary text-primary-foreground shadow-sm'
-                        : 'border border-border/50 bg-surface-secondary text-text-secondary hover:bg-surface-secondary/80'
+                        ? 'bg-primary text-on-primary shadow-sm'
+                        : 'border border-outline-variant/50 bg-surface-container-low text-on-surface-variant hover:bg-surface-container-low/80'
                     }`}
                   >
                     {t}
@@ -82,7 +82,7 @@ export const GradientGenerator: React.FC = () => {
                 <div className="flex items-center justify-between">
                   <label
                     htmlFor="gradient-angle"
-                    className="text-xs font-semibold text-text-secondary"
+                    className="text-xs font-semibold text-on-surface-variant"
                   >
                     Angle ({config.angle}°)
                   </label>
@@ -106,7 +106,7 @@ export const GradientGenerator: React.FC = () => {
               </div>
             ) : (
               <div className="flex flex-col gap-2">
-                <span className="text-xs font-semibold text-text-secondary">Radial Shape</span>
+                <span className="text-xs font-semibold text-on-surface-variant">Radial Shape</span>
                 <div className="grid grid-cols-2 gap-2">
                   {(['circle', 'ellipse'] as RadialShape[]).map((shape) => (
                     <button
@@ -115,8 +115,8 @@ export const GradientGenerator: React.FC = () => {
                       onClick={() => setRadialShape(shape)}
                       className={`rounded-lg px-3 py-1.5 text-xs font-semibold capitalize transition ${
                         config.radialShape === shape
-                          ? 'bg-primary text-primary-foreground'
-                          : 'border border-border/50 bg-surface-secondary text-text-secondary'
+                          ? 'bg-primary text-on-primary'
+                          : 'border border-outline-variant/50 bg-surface-container-low text-on-surface-variant'
                       }`}
                     >
                       {shape}

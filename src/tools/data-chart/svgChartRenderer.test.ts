@@ -60,4 +60,21 @@ describe('svgChartRenderer', () => {
     expect(svg).toContain('<path');
     expect(svg).toContain('Alpha (25%)');
   });
+
+  it('generates light mode SVG with white background and dark text when isDark is false', () => {
+    const config: ChartConfig = {
+      chartType: 'bar',
+      dimension: 'Group',
+      metric: 'Value',
+      aggregate: 'sum',
+      theme: 'indigo',
+      title: 'Light Theme Chart',
+      showGrid: true,
+      showLegend: true,
+    };
+    const lightSvg = generateChartSvg(points, config, false);
+    expect(lightSvg).toContain('fill="#FFFFFF"');
+    expect(lightSvg).toContain('fill="#0F172A"');
+    expect(lightSvg).toContain('Light Theme Chart');
+  });
 });

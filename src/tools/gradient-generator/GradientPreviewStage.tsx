@@ -45,7 +45,7 @@ export const GradientPreviewStage: React.FC<GradientPreviewStageProps> = ({
   return (
     <div className="flex flex-col gap-4">
       {/* Visual Canvas */}
-      <div className="relative overflow-hidden rounded-2xl border border-border/50 bg-surface-secondary shadow-lg">
+      <div className="relative overflow-hidden rounded-2xl border border-outline-variant/50 bg-surface-container-low shadow-lg">
         <div
           data-testid="gradient-canvas"
           className={`transition-all duration-300 ${aspectClass}`}
@@ -92,7 +92,7 @@ export const GradientPreviewStage: React.FC<GradientPreviewStageProps> = ({
       </div>
 
       {/* Code Export Box */}
-      <div className="rounded-xl border border-border/40 bg-surface-primary/60 p-4">
+      <div className="rounded-xl border border-outline-variant/40 bg-surface/60 p-4">
         <div className="flex items-center justify-between gap-2 pb-2">
           <div className="flex items-center gap-1.5">
             {(['css', 'tailwind', 'css-var'] as CodeExportFormat[]).map((fmt) => (
@@ -102,8 +102,8 @@ export const GradientPreviewStage: React.FC<GradientPreviewStageProps> = ({
                 onClick={() => setFormat(fmt)}
                 className={`rounded-md px-3 py-1 text-xs font-semibold capitalize transition ${
                   format === fmt
-                    ? 'bg-primary text-primary-foreground'
-                    : 'text-text-secondary hover:bg-surface-secondary'
+                    ? 'bg-primary text-on-primary'
+                    : 'text-on-surface-variant hover:bg-surface-container-low'
                 }`}
               >
                 {fmt === 'css-var' ? 'CSS Variables' : fmt}
@@ -121,7 +121,7 @@ export const GradientPreviewStage: React.FC<GradientPreviewStageProps> = ({
           </button>
         </div>
 
-        <pre className="overflow-x-auto rounded-lg bg-surface-secondary/70 p-3 font-mono text-xs text-text-primary">
+        <pre className="overflow-x-auto rounded-lg bg-surface-container-low/70 p-3 font-mono text-xs text-on-surface">
           <code>{getCode()}</code>
         </pre>
       </div>

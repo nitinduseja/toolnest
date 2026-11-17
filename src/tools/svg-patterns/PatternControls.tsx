@@ -18,10 +18,10 @@ interface PatternControlsProps {
 
 export const PatternControls: React.FC<PatternControlsProps> = ({ config, onChange }) => {
   return (
-    <div className="flex flex-col gap-4 rounded-xl border border-border/40 bg-surface-primary/60 p-4">
+    <div className="flex flex-col gap-4 rounded-xl border border-outline-variant/40 bg-surface/60 p-4">
       {/* Pattern Type Selector */}
       <div>
-        <span className="text-xs font-semibold uppercase tracking-wider text-text-tertiary">
+        <span className="text-xs font-semibold uppercase tracking-wider text-outline">
           Pattern Type
         </span>
         <div className="mt-2 grid grid-cols-2 gap-1.5 sm:grid-cols-4">
@@ -32,8 +32,8 @@ export const PatternControls: React.FC<PatternControlsProps> = ({ config, onChan
               onClick={() => onChange({ ...config, type: pt.id })}
               className={`rounded-lg px-2.5 py-1.5 text-xs font-medium transition ${
                 config.type === pt.id
-                  ? 'bg-primary text-primary-foreground shadow-sm'
-                  : 'border border-border/50 bg-surface-secondary text-text-secondary hover:bg-surface-secondary/80'
+                  ? 'bg-primary text-on-primary shadow-sm'
+                  : 'border border-outline-variant/50 bg-surface-container-low text-on-surface-variant hover:bg-surface-container-low/80'
               }`}
             >
               {pt.label}
@@ -45,7 +45,7 @@ export const PatternControls: React.FC<PatternControlsProps> = ({ config, onChan
       {/* Colors Grid */}
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
         <div className="flex flex-col gap-1.5">
-          <label htmlFor="fg-color" className="text-xs font-semibold text-text-secondary">
+          <label htmlFor="fg-color" className="text-xs font-semibold text-on-surface-variant">
             Pattern Color
           </label>
           <div className="flex items-center gap-2">
@@ -55,24 +55,24 @@ export const PatternControls: React.FC<PatternControlsProps> = ({ config, onChan
               aria-label="Foreground color"
               value={config.fgColor}
               onChange={(e) => onChange({ ...config, fgColor: e.target.value })}
-              className="h-8 w-10 cursor-pointer rounded border border-border bg-transparent p-0.5"
+              className="h-8 w-10 cursor-pointer rounded border border-outline-variant bg-transparent p-0.5"
             />
             <input
               type="text"
               aria-label="Foreground hex"
               value={config.fgColor}
               onChange={(e) => onChange({ ...config, fgColor: e.target.value })}
-              className="w-full rounded border border-border/60 bg-surface-secondary px-2.5 py-1 font-mono text-xs text-text-primary"
+              className="w-full rounded border border-outline-variant/60 bg-surface-container-low px-2.5 py-1 font-mono text-xs text-on-surface"
             />
           </div>
         </div>
 
         <div className="flex flex-col gap-1.5">
           <div className="flex items-center justify-between">
-            <label htmlFor="bg-color" className="text-xs font-semibold text-text-secondary">
+            <label htmlFor="bg-color" className="text-xs font-semibold text-on-surface-variant">
               Background Color
             </label>
-            <label className="flex cursor-pointer items-center gap-1.5 text-[11px] text-text-tertiary">
+            <label className="flex cursor-pointer items-center gap-1.5 text-[11px] text-outline">
               <input
                 type="checkbox"
                 checked={config.isTransparentBg}
@@ -90,7 +90,7 @@ export const PatternControls: React.FC<PatternControlsProps> = ({ config, onChan
               disabled={config.isTransparentBg}
               value={config.bgColor}
               onChange={(e) => onChange({ ...config, bgColor: e.target.value })}
-              className="h-8 w-10 cursor-pointer rounded border border-border bg-transparent p-0.5 disabled:opacity-40"
+              className="h-8 w-10 cursor-pointer rounded border border-outline-variant bg-transparent p-0.5 disabled:opacity-40"
             />
             <input
               type="text"
@@ -98,18 +98,18 @@ export const PatternControls: React.FC<PatternControlsProps> = ({ config, onChan
               disabled={config.isTransparentBg}
               value={config.bgColor}
               onChange={(e) => onChange({ ...config, bgColor: e.target.value })}
-              className="w-full rounded border border-border/60 bg-surface-secondary px-2.5 py-1 font-mono text-xs text-text-primary disabled:opacity-40"
+              className="w-full rounded border border-outline-variant/60 bg-surface-container-low px-2.5 py-1 font-mono text-xs text-on-surface disabled:opacity-40"
             />
           </div>
         </div>
       </div>
 
       {/* Sliders: Scale, Stroke Width, Opacity */}
-      <div className="flex flex-col gap-3 border-t border-border/40 pt-3">
+      <div className="flex flex-col gap-3 border-t border-outline-variant/40 pt-3">
         <div className="flex flex-col gap-1">
           <div className="flex justify-between text-xs">
-            <span className="font-semibold text-text-secondary">Scale / Tile Size</span>
-            <span className="font-mono text-text-tertiary">{config.scale}px</span>
+            <span className="font-semibold text-on-surface-variant">Scale / Tile Size</span>
+            <span className="font-mono text-outline">{config.scale}px</span>
           </div>
           <input
             type="range"
@@ -124,8 +124,8 @@ export const PatternControls: React.FC<PatternControlsProps> = ({ config, onChan
 
         <div className="flex flex-col gap-1">
           <div className="flex justify-between text-xs">
-            <span className="font-semibold text-text-secondary">Stroke / Dot Width</span>
-            <span className="font-mono text-text-tertiary">{config.strokeWidth}px</span>
+            <span className="font-semibold text-on-surface-variant">Stroke / Dot Width</span>
+            <span className="font-mono text-outline">{config.strokeWidth}px</span>
           </div>
           <input
             type="range"
@@ -141,10 +141,8 @@ export const PatternControls: React.FC<PatternControlsProps> = ({ config, onChan
 
         <div className="flex flex-col gap-1">
           <div className="flex justify-between text-xs">
-            <span className="font-semibold text-text-secondary">Opacity</span>
-            <span className="font-mono text-text-tertiary">
-              {Math.round(config.opacity * 100)}%
-            </span>
+            <span className="font-semibold text-on-surface-variant">Opacity</span>
+            <span className="font-mono text-outline">{Math.round(config.opacity * 100)}%</span>
           </div>
           <input
             type="range"

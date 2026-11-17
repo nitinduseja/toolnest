@@ -45,13 +45,13 @@ export const TimelineJobsManager: React.FC<TimelineJobsManagerProps> = ({
   };
 
   return (
-    <div className="bg-slate-900/60 border border-slate-800 rounded-xl p-4">
+    <div className="bg-surface-container-low border border-outline-variant/60 rounded-xl p-4">
       <div className="flex items-center justify-between mb-3">
-        <h3 className="text-sm font-semibold text-slate-200">Scheduled Jobs ({jobs.length})</h3>
+        <h3 className="text-sm font-semibold text-on-surface">Scheduled Jobs ({jobs.length})</h3>
         <button
           type="button"
           onClick={() => setIsAdding(!isAdding)}
-          className="flex items-center gap-1 px-2.5 py-1 text-xs font-medium text-white bg-indigo-600 hover:bg-indigo-500 rounded-lg transition-colors"
+          className="flex items-center gap-1 px-2.5 py-1 text-xs font-medium text-on-primary bg-primary hover:bg-primary/90 rounded-lg transition-colors"
         >
           <Plus className="w-3.5 h-3.5" /> Add Job
         </button>
@@ -60,13 +60,13 @@ export const TimelineJobsManager: React.FC<TimelineJobsManagerProps> = ({
       {isAdding && (
         <form
           onSubmit={handleCreate}
-          className="mb-4 p-3 bg-slate-800/80 border border-indigo-500/30 rounded-xl space-y-3"
+          className="mb-4 p-3 bg-surface border border-primary/30 rounded-xl space-y-3"
         >
           <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
             <div>
               <label
                 htmlFor="new-job-name"
-                className="block text-[11px] font-medium text-slate-400 mb-1"
+                className="block text-[11px] font-medium text-on-surface-variant mb-1"
               >
                 Job Name
               </label>
@@ -77,13 +77,13 @@ export const TimelineJobsManager: React.FC<TimelineJobsManagerProps> = ({
                 value={newName}
                 onChange={(e) => setNewName(e.target.value)}
                 placeholder="e.g. Daily Data Sync"
-                className="w-full px-2.5 py-1.5 text-xs bg-slate-900 border border-slate-700 rounded-lg text-slate-200 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                className="w-full px-2.5 py-1.5 text-xs bg-surface-container border border-outline-variant rounded-lg text-on-surface focus:outline-none focus:ring-1 focus:ring-primary"
               />
             </div>
             <div>
               <label
                 htmlFor="new-job-cron"
-                className="block text-[11px] font-medium text-slate-400 mb-1"
+                className="block text-[11px] font-medium text-on-surface-variant mb-1"
               >
                 Cron Expression (5-part)
               </label>
@@ -94,13 +94,13 @@ export const TimelineJobsManager: React.FC<TimelineJobsManagerProps> = ({
                 value={newExpr}
                 onChange={(e) => setNewExpr(e.target.value)}
                 placeholder="0 0 * * *"
-                className="w-full px-2.5 py-1.5 text-xs font-mono bg-slate-900 border border-slate-700 rounded-lg text-indigo-300 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                className="w-full px-2.5 py-1.5 text-xs font-mono bg-surface-container border border-outline-variant rounded-lg text-primary focus:outline-none focus:ring-1 focus:ring-primary"
               />
             </div>
             <div>
               <label
                 htmlFor="new-job-cmd"
-                className="block text-[11px] font-medium text-slate-400 mb-1"
+                className="block text-[11px] font-medium text-on-surface-variant mb-1"
               >
                 Command / Script (Optional)
               </label>
@@ -110,7 +110,7 @@ export const TimelineJobsManager: React.FC<TimelineJobsManagerProps> = ({
                 value={newCmd}
                 onChange={(e) => setNewCmd(e.target.value)}
                 placeholder="/usr/bin/python task.py"
-                className="w-full px-2.5 py-1.5 text-xs font-mono bg-slate-900 border border-slate-700 rounded-lg text-slate-200 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                className="w-full px-2.5 py-1.5 text-xs font-mono bg-surface-container border border-outline-variant rounded-lg text-on-surface focus:outline-none focus:ring-1 focus:ring-primary"
               />
             </div>
           </div>
@@ -118,13 +118,13 @@ export const TimelineJobsManager: React.FC<TimelineJobsManagerProps> = ({
             <button
               type="button"
               onClick={() => setIsAdding(false)}
-              className="px-2.5 py-1 text-xs text-slate-400 hover:text-slate-200"
+              className="px-2.5 py-1 text-xs text-on-surface-variant hover:text-on-surface"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="px-3 py-1 text-xs font-medium text-white bg-indigo-600 hover:bg-indigo-500 rounded-lg"
+              className="px-3 py-1 text-xs font-medium text-on-primary bg-primary hover:bg-primary/90 rounded-lg"
             >
               Save Job
             </button>
@@ -140,8 +140,8 @@ export const TimelineJobsManager: React.FC<TimelineJobsManagerProps> = ({
               key={job.id}
               className={`flex flex-col sm:flex-row sm:items-center justify-between gap-2 p-2.5 rounded-lg border transition-all ${
                 job.enabled
-                  ? 'bg-slate-800/40 border-slate-700/60'
-                  : 'bg-slate-900/30 border-slate-800/40 opacity-60'
+                  ? 'bg-surface border-outline-variant/60'
+                  : 'bg-surface-container-low/50 border-outline-variant/40 opacity-60'
               }`}
             >
               <div className="flex items-center gap-3">
@@ -149,12 +149,12 @@ export const TimelineJobsManager: React.FC<TimelineJobsManagerProps> = ({
                   type="button"
                   onClick={() => onToggleJob(job.id)}
                   title={job.enabled ? 'Disable Job' : 'Enable Job'}
-                  className="text-slate-400 hover:text-slate-200 transition-colors"
+                  className="text-on-surface-variant hover:text-on-surface transition-colors"
                 >
                   {job.enabled ? (
-                    <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+                    <CheckCircle2 className="w-4 h-4 text-emerald-500" />
                   ) : (
-                    <CircleOff className="w-4 h-4 text-slate-600" />
+                    <CircleOff className="w-4 h-4 text-outline" />
                   )}
                 </button>
                 <div
@@ -163,16 +163,16 @@ export const TimelineJobsManager: React.FC<TimelineJobsManagerProps> = ({
                 />
                 <div>
                   <div className="flex items-center gap-2">
-                    <span className="text-xs font-semibold text-slate-100">{job.name}</span>
-                    <span className="px-1.5 py-0.5 rounded text-[10px] font-mono bg-slate-800 text-indigo-300 border border-slate-700">
+                    <span className="text-xs font-semibold text-on-surface">{job.name}</span>
+                    <span className="px-1.5 py-0.5 rounded text-[10px] font-mono bg-surface-container text-primary border border-outline-variant">
                       {job.expression}
                     </span>
                   </div>
-                  <div className="text-[11px] text-slate-400 flex items-center gap-1 mt-0.5">
+                  <div className="text-[11px] text-on-surface-variant flex items-center gap-1 mt-0.5">
                     {parsed.valid ? (
                       parsed.humanDescription
                     ) : (
-                      <span className="text-rose-400 flex items-center gap-0.5">
+                      <span className="text-rose-500 flex items-center gap-0.5">
                         <AlertCircle className="w-3 h-3" /> Invalid cron expression
                       </span>
                     )}
@@ -192,7 +192,7 @@ export const TimelineJobsManager: React.FC<TimelineJobsManagerProps> = ({
                   type="button"
                   onClick={() => onDeleteJob(job.id)}
                   title="Remove Job"
-                  className="p-1 text-slate-500 hover:text-rose-400 transition-colors"
+                  className="p-1 text-on-surface-variant hover:text-rose-500 transition-colors"
                 >
                   <Trash2 className="w-3.5 h-3.5" />
                 </button>

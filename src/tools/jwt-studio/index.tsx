@@ -80,10 +80,10 @@ export const JwtStudio: React.FC = () => {
             <Icon name="KeyRound" className="h-6 w-6" />
           </div>
           <div>
-            <h1 className="text-xl font-bold tracking-tight text-text-primary sm:text-2xl">
+            <h1 className="text-xl font-bold tracking-tight text-on-surface sm:text-2xl">
               JWT Studio & Signature Debugger
             </h1>
-            <p className="text-xs text-text-secondary sm:text-sm">
+            <p className="text-xs text-on-surface-variant sm:text-sm">
               Mint, debug, and verify JSON Web Tokens client-side with HMAC cryptographic signing,
               expiry timers, and tamper checks.
             </p>
@@ -100,7 +100,7 @@ export const JwtStudio: React.FC = () => {
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
         {/* Header & Secret Controls */}
         <div className="flex flex-col gap-4">
-          <div className="flex flex-col gap-2 rounded-xl border border-border/50 bg-surface-primary/70 p-4">
+          <div className="flex flex-col gap-2 rounded-xl border border-outline-variant/50 bg-surface/70 p-4">
             <div className="flex items-center justify-between">
               <label
                 htmlFor="jwt-header-editor"
@@ -114,7 +114,7 @@ export const JwtStudio: React.FC = () => {
                     key={alg}
                     type="button"
                     onClick={() => handleSetAlgorithm(alg)}
-                    className="rounded border border-border/60 bg-surface-secondary px-2 py-0.5 text-[11px] font-mono text-text-secondary hover:border-primary/50"
+                    className="rounded border border-outline-variant/60 bg-surface-container-low px-2 py-0.5 text-[11px] font-mono text-on-surface-variant hover:border-primary/50"
                   >
                     {alg}
                   </button>
@@ -126,12 +126,12 @@ export const JwtStudio: React.FC = () => {
               rows={4}
               value={headerJson}
               onChange={(e) => setHeaderJson(e.target.value)}
-              className="w-full rounded-lg border border-border/60 bg-surface-secondary/70 p-2.5 font-mono text-xs text-text-primary focus:border-primary focus:outline-none"
+              className="w-full rounded-lg border border-outline-variant/60 bg-surface-container-low/70 p-2.5 font-mono text-xs text-on-surface focus:border-primary focus:outline-none"
             />
           </div>
 
           {/* Secret Key Input */}
-          <div className="flex flex-col gap-2 rounded-xl border border-border/50 bg-surface-primary/70 p-4">
+          <div className="flex flex-col gap-2 rounded-xl border border-outline-variant/50 bg-surface/70 p-4">
             <label
               htmlFor="jwt-secret-input"
               className="text-xs font-semibold uppercase tracking-wider text-cyan-500"
@@ -144,13 +144,13 @@ export const JwtStudio: React.FC = () => {
               value={secret}
               onChange={(e) => setSecret(e.target.value)}
               placeholder="Enter your HMAC signing secret..."
-              className="w-full rounded-lg border border-border/60 bg-surface-secondary/70 px-3 py-2 font-mono text-xs text-text-primary focus:border-primary focus:outline-none"
+              className="w-full rounded-lg border border-outline-variant/60 bg-surface-container-low/70 px-3 py-2 font-mono text-xs text-on-surface focus:border-primary focus:outline-none"
             />
           </div>
         </div>
 
         {/* Payload JSON Editor */}
-        <div className="flex flex-col gap-2 rounded-xl border border-border/50 bg-surface-primary/70 p-4">
+        <div className="flex flex-col gap-2 rounded-xl border border-outline-variant/50 bg-surface/70 p-4">
           <div className="flex items-center justify-between">
             <label
               htmlFor="jwt-payload-editor"
@@ -159,25 +159,25 @@ export const JwtStudio: React.FC = () => {
               PAYLOAD: Data Claims
             </label>
             <div className="flex items-center gap-1 text-[11px]">
-              <span className="text-text-tertiary">Quick Expiry:</span>
+              <span className="text-outline">Quick Expiry:</span>
               <button
                 type="button"
                 onClick={() => handleAddExpirySeconds(900)}
-                className="rounded bg-surface-secondary px-2 py-0.5 text-text-secondary hover:text-text-primary"
+                className="rounded bg-surface-container-low px-2 py-0.5 text-on-surface-variant hover:text-on-surface"
               >
                 +15m
               </button>
               <button
                 type="button"
                 onClick={() => handleAddExpirySeconds(3600)}
-                className="rounded bg-surface-secondary px-2 py-0.5 text-text-secondary hover:text-text-primary"
+                className="rounded bg-surface-container-low px-2 py-0.5 text-on-surface-variant hover:text-on-surface"
               >
                 +1h
               </button>
               <button
                 type="button"
                 onClick={() => handleAddExpirySeconds(86400)}
-                className="rounded bg-surface-secondary px-2 py-0.5 text-text-secondary hover:text-text-primary"
+                className="rounded bg-surface-container-low px-2 py-0.5 text-on-surface-variant hover:text-on-surface"
               >
                 +24h
               </button>
@@ -188,7 +188,7 @@ export const JwtStudio: React.FC = () => {
             rows={10}
             value={payloadJson}
             onChange={(e) => setPayloadJson(e.target.value)}
-            className="w-full rounded-lg border border-border/60 bg-surface-secondary/70 p-2.5 font-mono text-xs text-text-primary focus:border-primary focus:outline-none"
+            className="w-full rounded-lg border border-outline-variant/60 bg-surface-container-low/70 p-2.5 font-mono text-xs text-on-surface focus:border-primary focus:outline-none"
           />
         </div>
       </div>

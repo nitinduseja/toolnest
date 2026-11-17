@@ -88,8 +88,8 @@ export const CodeSnippetModal: React.FC<CodeSnippetModalProps> = ({ isOpen, requ
         </div>
 
         {/* Code Content */}
-        <div className="p-4 overflow-auto flex-1 bg-neutral-950">
-          <pre className="font-mono text-xs text-neutral-200 leading-relaxed overflow-x-auto whitespace-pre">
+        <div className="p-4 overflow-auto flex-1 bg-surface-container-lowest">
+          <pre className="font-mono text-xs text-on-surface leading-relaxed overflow-x-auto whitespace-pre">
             {snippet}
           </pre>
         </div>

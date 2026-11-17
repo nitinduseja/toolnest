@@ -32,10 +32,10 @@ export const SecurityHeaders: React.FC = () => {
             <Icon name="ShieldCheck" className="h-6 w-6" />
           </div>
           <div>
-            <h1 className="text-xl font-bold tracking-tight text-text-primary sm:text-2xl">
+            <h1 className="text-xl font-bold tracking-tight text-on-surface sm:text-2xl">
               Security Headers & CSP Builder
             </h1>
-            <p className="text-xs text-text-secondary sm:text-sm">
+            <p className="text-xs text-on-surface-variant sm:text-sm">
               Design, audit, and generate Content-Security-Policy (CSP), HSTS, and protection
               headers with real-time security grading.
             </p>
@@ -49,16 +49,16 @@ export const SecurityHeaders: React.FC = () => {
       {/* Main Grid */}
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
         {/* Controls Column */}
-        <div className="flex flex-col gap-4 rounded-xl border border-border/50 bg-surface-primary/70 p-4">
-          <span className="text-xs font-semibold uppercase tracking-wider text-text-tertiary">
+        <div className="flex flex-col gap-4 rounded-xl border border-outline-variant/50 bg-surface/70 p-4">
+          <span className="text-xs font-semibold uppercase tracking-wider text-outline">
             Header Configuration
           </span>
 
           {/* HSTS Controls */}
-          <div className="flex flex-col gap-2 rounded-lg border border-border/50 bg-surface-secondary/40 p-3">
+          <div className="flex flex-col gap-2 rounded-lg border border-outline-variant/50 bg-surface-container-low/40 p-3">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-bold text-text-primary">Strict-Transport-Security</span>
-              <label className="flex cursor-pointer items-center gap-1.5 text-xs text-text-secondary">
+              <span className="text-xs font-bold text-on-surface">Strict-Transport-Security</span>
+              <label className="flex cursor-pointer items-center gap-1.5 text-xs text-on-surface-variant">
                 <input
                   type="checkbox"
                   checked={config.hsts.enabled}
@@ -71,7 +71,7 @@ export const SecurityHeaders: React.FC = () => {
               </label>
             </div>
             {config.hsts.enabled && (
-              <div className="flex items-center gap-4 pt-1 text-xs text-text-secondary">
+              <div className="flex items-center gap-4 pt-1 text-xs text-on-surface-variant">
                 <label className="flex items-center gap-1.5">
                   <input
                     type="checkbox"
@@ -102,8 +102,8 @@ export const SecurityHeaders: React.FC = () => {
           </div>
 
           {/* Frame Protection */}
-          <div className="flex flex-col gap-2 rounded-lg border border-border/50 bg-surface-secondary/40 p-3">
-            <span className="text-xs font-bold text-text-primary">
+          <div className="flex flex-col gap-2 rounded-lg border border-outline-variant/50 bg-surface-container-low/40 p-3">
+            <span className="text-xs font-bold text-on-surface">
               X-Frame-Options (Clickjacking)
             </span>
             <div className="grid grid-cols-3 gap-2">
@@ -114,8 +114,8 @@ export const SecurityHeaders: React.FC = () => {
                   onClick={() => setConfig({ ...config, xFrameOptions: opt })}
                   className={`rounded-lg px-2.5 py-1.5 text-xs font-medium transition ${
                     config.xFrameOptions === opt
-                      ? 'bg-primary text-primary-foreground shadow-sm'
-                      : 'border border-border/60 bg-surface-primary text-text-secondary'
+                      ? 'bg-primary text-on-primary shadow-sm'
+                      : 'border border-outline-variant/60 bg-surface text-on-surface-variant'
                   }`}
                 >
                   {opt}
@@ -125,11 +125,9 @@ export const SecurityHeaders: React.FC = () => {
           </div>
 
           {/* Additional Core Toggles */}
-          <div className="flex flex-col gap-2 rounded-lg border border-border/50 bg-surface-secondary/40 p-3 text-xs">
+          <div className="flex flex-col gap-2 rounded-lg border border-outline-variant/50 bg-surface-container-low/40 p-3 text-xs">
             <label className="flex cursor-pointer items-center justify-between">
-              <span className="font-semibold text-text-primary">
-                X-Content-Type-Options: nosniff
-              </span>
+              <span className="font-semibold text-on-surface">X-Content-Type-Options: nosniff</span>
               <input
                 type="checkbox"
                 checked={config.xContentTypeOptions}
@@ -137,8 +135,8 @@ export const SecurityHeaders: React.FC = () => {
                 className="rounded accent-primary"
               />
             </label>
-            <label className="flex cursor-pointer items-center justify-between border-t border-border/30 pt-2">
-              <span className="font-semibold text-text-primary">Upgrade-Insecure-Requests</span>
+            <label className="flex cursor-pointer items-center justify-between border-t border-outline-variant/30 pt-2">
+              <span className="font-semibold text-on-surface">Upgrade-Insecure-Requests</span>
               <input
                 type="checkbox"
                 checked={config.csp.upgradeInsecure}
@@ -155,7 +153,7 @@ export const SecurityHeaders: React.FC = () => {
         </div>
 
         {/* Server Snippet Export Column */}
-        <div className="flex flex-col gap-3 rounded-xl border border-border/50 bg-surface-primary/70 p-4">
+        <div className="flex flex-col gap-3 rounded-xl border border-outline-variant/50 bg-surface/70 p-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-1">
               {(['nginx', 'apache', 'netlify', 'cloudflare', 'raw'] as ServerTarget[]).map(
@@ -166,8 +164,8 @@ export const SecurityHeaders: React.FC = () => {
                     onClick={() => setTarget(tgt)}
                     className={`rounded-md px-2.5 py-1 text-xs font-semibold uppercase transition ${
                       target === tgt
-                        ? 'bg-primary text-primary-foreground shadow-sm'
-                        : 'text-text-secondary hover:bg-surface-secondary'
+                        ? 'bg-primary text-on-primary shadow-sm'
+                        : 'text-on-surface-variant hover:bg-surface-container-low'
                     }`}
                   >
                     {tgt}
@@ -186,7 +184,7 @@ export const SecurityHeaders: React.FC = () => {
             </button>
           </div>
 
-          <pre className="h-[21rem] overflow-auto rounded-lg bg-surface-secondary/70 p-3 font-mono text-xs text-text-primary">
+          <pre className="h-[21rem] overflow-auto rounded-lg bg-surface-container-low/70 p-3 font-mono text-xs text-on-surface">
             <code>{snippet}</code>
           </pre>
         </div>

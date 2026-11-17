@@ -9,6 +9,30 @@ interface ChartDims {
   left: number;
 }
 
+export interface ChartThemeColors {
+  bg: string;
+  title: string;
+  grid: string;
+  axis: string;
+  donutStroke: string;
+}
+
+export const DARK_CHART_COLORS: ChartThemeColors = {
+  bg: '#0F172A',
+  title: '#F8FAFC',
+  grid: '#334155',
+  axis: '#94A3B8',
+  donutStroke: '#0F172A',
+};
+
+export const LIGHT_CHART_COLORS: ChartThemeColors = {
+  bg: '#FFFFFF',
+  title: '#0F172A',
+  grid: '#E2E8F0',
+  axis: '#64748B',
+  donutStroke: '#FFFFFF',
+};
+
 const DIMS: ChartDims = {
   width: 800,
   height: 450,
@@ -27,7 +51,7 @@ function escapeXml(str: string): string {
     .replace(/'/g, '&apos;');
 }
 
-function renderGrid(dims: ChartDims, maxVal: number): string {
+function renderGrid(dims: ChartDims, maxVal: number, colors: ChartThemeColors): string {
   const plotW = dims.width - dims.left - dims.right;
   const plotH = dims.height - dims.top - dims.bottom;
   const lines: string[] = [];
@@ -36,16 +60,20 @@ function renderGrid(dims: ChartDims, maxVal: number): string {
     const y = dims.top + (plotH / 4) * i;
     const val = Math.round(maxVal - (maxVal / 4) * i);
     lines.push(
-      `<line x1="${dims.left}" y1="${y}" x2="${dims.left + plotW}" y2="${y}" stroke="#334155" stroke-dasharray="3 3" opacity="0.6" />`
+      `<line x1="${dims.left}" y1="${y}" x2="${dims.left + plotW}" y2="${y}" stroke="${colors.grid}" stroke-dasharray="3 3" opacity="0.6" />`
     );
     lines.push(
-      `<text x="${dims.left - 10}" y="${y + 4}" fill="#94A3B8" font-size="11" font-family="sans-serif" text-anchor="end">${val.toLocaleString()}</text>`
+      `<text x="${dims.left - 10}" y="${y + 4}" fill="${colors.axis}" font-size="11" font-family="sans-serif" text-anchor="end">${val.toLocaleString()}</text>`
     );
   }
   return lines.join('\n');
 }
 
-function renderBarChart(points: AggregatedPoint[], dims: ChartDims): string {
+function renderBarChart(
+  points: AggregatedPoint[],
+  dims: ChartDims,
+  colors: ChartThemeColors
+): string {
   const plotW = dims.width - dims.left - dims.right;
   const plotH = dims.height - dims.top - dims.bottom;
   const maxVal = Math.max(1, ...points.map((p) => p.value));
@@ -64,14 +92,19 @@ function renderBarChart(points: AggregatedPoint[], dims: ChartDims): string {
       </rect>`
     );
     elements.push(
-      `<text x="${x + barW / 2}" y="${dims.height - dims.bottom + 18}" fill="#94A3B8" font-size="11" font-family="sans-serif" text-anchor="middle">${escapeXml(p.label.slice(0, 10))}</text>`
+      `<text x="${x + barW / 2}" y="${dims.height - dims.bottom + 18}" fill="${colors.axis}" font-size="11" font-family="sans-serif" text-anchor="middle">${escapeXml(p.label.slice(0, 10))}</text>`
     );
   });
 
   return elements.join('\n');
 }
 
-function renderLineOrArea(points: AggregatedPoint[], dims: ChartDims, isArea: boolean): string {
+function renderLineOrArea(
+  points: AggregatedPoint[],
+  opts: { dims: ChartDims; isArea: boolean },
+  colors: ChartThemeColors
+): string {
+  const { dims, isArea } = opts;
   const plotW = dims.width - dims.left - dims.right;
   const plotH = dims.height - dims.top - dims.bottom;
   const maxVal = Math.max(1, ...points.map((p) => p.value));
@@ -102,19 +135,24 @@ function renderLineOrArea(points: AggregatedPoint[], dims: ChartDims, isArea: bo
 
   coords.forEach((c) => {
     elements.push(
-      `<circle cx="${c.x}" cy="${c.y}" r="4" fill="${c.point.color}" stroke="#0F172A" stroke-width="2">
+      `<circle cx="${c.x}" cy="${c.y}" r="4" fill="${c.point.color}" stroke="${colors.donutStroke}" stroke-width="2">
         <title>${escapeXml(c.point.label)}: ${c.point.formattedValue}</title>
       </circle>`
     );
     elements.push(
-      `<text x="${c.x}" y="${dims.height - dims.bottom + 18}" fill="#94A3B8" font-size="11" font-family="sans-serif" text-anchor="middle">${escapeXml(c.point.label.slice(0, 8))}</text>`
+      `<text x="${c.x}" y="${dims.height - dims.bottom + 18}" fill="${colors.axis}" font-size="11" font-family="sans-serif" text-anchor="middle">${escapeXml(c.point.label.slice(0, 8))}</text>`
     );
   });
 
   return elements.join('\n');
 }
 
-function renderDonutSlice(startAngle: number, endAngle: number, color: string): string {
+function renderDonutSlice(
+  angles: { start: number; end: number },
+  color: string,
+  strokeColor: string
+): string {
+  const { start: startAngle, end: endAngle } = angles;
   const cx = 300;
   const cy = 230;
   const r = 130;
@@ -133,10 +171,10 @@ function renderDonutSlice(startAngle: number, endAngle: number, color: string): 
   const largeArc = endAngle - startAngle > Math.PI ? 1 : 0;
   const d = `M ${x1} ${y1} A ${r} ${r} 0 ${largeArc} 1 ${x2} ${y2} L ${ix1} ${iy1} A ${ir} ${ir} 0 ${largeArc} 0 ${ix2} ${iy2} Z`;
 
-  return `<path d="${d}" fill="${color}" stroke="#0F172A" stroke-width="2" />`;
+  return `<path d="${d}" fill="${color}" stroke="${strokeColor}" stroke-width="2" />`;
 }
 
-function renderDonutChart(points: AggregatedPoint[]): string {
+function renderDonutChart(points: AggregatedPoint[], colors: ChartThemeColors): string {
   const slices: string[] = [];
   const legend: string[] = [];
   let currentAngle = -Math.PI / 2;
@@ -144,14 +182,16 @@ function renderDonutChart(points: AggregatedPoint[]): string {
   points.forEach((p, idx) => {
     const sliceAngle = (p.percent / 100) * (2 * Math.PI);
     const endAngle = currentAngle + sliceAngle;
-    slices.push(renderDonutSlice(currentAngle, endAngle, p.color));
+    slices.push(
+      renderDonutSlice({ start: currentAngle, end: endAngle }, p.color, colors.donutStroke)
+    );
     currentAngle = endAngle;
 
     if (idx < 8) {
       const legY = 110 + idx * 26;
       legend.push(
         `<rect x="520" y="${legY}" width="12" height="12" rx="3" fill="${p.color}" />
-         <text x="540" y="${legY + 10}" fill="#E2E8F0" font-size="12" font-family="sans-serif">${escapeXml(p.label)} (${p.percent}%)</text>`
+         <text x="540" y="${legY + 10}" fill="${colors.title}" font-size="12" font-family="sans-serif">${escapeXml(p.label)} (${p.percent}%)</text>`
       );
     }
   });
@@ -159,24 +199,29 @@ function renderDonutChart(points: AggregatedPoint[]): string {
   return `<g>${slices.join('\n')}</g><g>${legend.join('\n')}</g>`;
 }
 
-export function generateChartSvg(points: AggregatedPoint[], config: ChartConfig): string {
+export function generateChartSvg(
+  points: AggregatedPoint[],
+  config: ChartConfig,
+  isDark = true
+): string {
+  const colors = isDark ? DARK_CHART_COLORS : LIGHT_CHART_COLORS;
   const maxVal = Math.max(1, ...points.map((p) => p.value));
   const title = escapeXml(config.title || `${config.metric} by ${config.dimension}`);
 
   let content = '';
   if (config.chartType === 'bar') {
-    content = `${config.showGrid ? renderGrid(DIMS, maxVal) : ''}${renderBarChart(points, DIMS)}`;
+    content = `${config.showGrid ? renderGrid(DIMS, maxVal, colors) : ''}${renderBarChart(points, DIMS, colors)}`;
   } else if (config.chartType === 'line') {
-    content = `${config.showGrid ? renderGrid(DIMS, maxVal) : ''}${renderLineOrArea(points, DIMS, false)}`;
+    content = `${config.showGrid ? renderGrid(DIMS, maxVal, colors) : ''}${renderLineOrArea(points, { dims: DIMS, isArea: false }, colors)}`;
   } else if (config.chartType === 'area') {
-    content = `${config.showGrid ? renderGrid(DIMS, maxVal) : ''}${renderLineOrArea(points, DIMS, true)}`;
+    content = `${config.showGrid ? renderGrid(DIMS, maxVal, colors) : ''}${renderLineOrArea(points, { dims: DIMS, isArea: true }, colors)}`;
   } else if (config.chartType === 'donut') {
-    content = renderDonutChart(points);
+    content = renderDonutChart(points, colors);
   }
 
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${DIMS.width} ${DIMS.height}" width="100%" height="100%">
-    <rect width="${DIMS.width}" height="${DIMS.height}" fill="#0F172A" rx="12" />
-    <text x="${DIMS.left}" y="32" fill="#F8FAFC" font-size="16" font-weight="bold" font-family="sans-serif">${title}</text>
+    <rect width="${DIMS.width}" height="${DIMS.height}" fill="${colors.bg}" rx="12" />
+    <text x="${DIMS.left}" y="32" fill="${colors.title}" font-size="16" font-weight="bold" font-family="sans-serif">${title}</text>
     ${content}
   </svg>`;
 }

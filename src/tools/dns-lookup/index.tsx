@@ -52,10 +52,10 @@ export const DnsLookup: React.FC = () => {
             <Icon name="Globe" className="h-6 w-6" />
           </div>
           <div>
-            <h1 className="text-xl font-bold tracking-tight text-text-primary sm:text-2xl">
+            <h1 className="text-xl font-bold tracking-tight text-on-surface sm:text-2xl">
               DNS over HTTPS (DoH) Inspector
             </h1>
-            <p className="text-xs text-text-secondary sm:text-sm">
+            <p className="text-xs text-on-surface-variant sm:text-sm">
               Query global DNS records directly from your browser using privacy-preserving
               Cloudflare and Google DoH endpoints.
             </p>
@@ -66,7 +66,7 @@ export const DnsLookup: React.FC = () => {
       <DnsPresetsBar onSelect={(d) => setDomain(d)} />
 
       {/* Query Bar */}
-      <div className="flex flex-col gap-4 rounded-xl border border-border/50 bg-surface-primary/70 p-4">
+      <div className="flex flex-col gap-4 rounded-xl border border-outline-variant/50 bg-surface/70 p-4">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
           <div className="relative flex-1">
             <input
@@ -75,7 +75,7 @@ export const DnsLookup: React.FC = () => {
               onChange={(e) => setDomain(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && void runQuery()}
               placeholder="e.g. example.com"
-              className="w-full rounded-lg border border-border/60 bg-surface-secondary/70 px-3.5 py-2 text-sm text-text-primary focus:border-primary focus:outline-none"
+              className="w-full rounded-lg border border-outline-variant/60 bg-surface-container-low/70 px-3.5 py-2 text-sm text-on-surface focus:border-primary focus:outline-none"
             />
           </div>
 
@@ -84,7 +84,7 @@ export const DnsLookup: React.FC = () => {
               aria-label="DNS Provider"
               value={provider}
               onChange={(e) => setProvider(e.target.value as DnsProvider)}
-              className="rounded-lg border border-border/60 bg-surface-secondary px-3 py-2 text-xs font-semibold text-text-primary focus:border-primary focus:outline-none"
+              className="rounded-lg border border-outline-variant/60 bg-surface-container-low px-3 py-2 text-xs font-semibold text-on-surface focus:border-primary focus:outline-none"
             >
               <option value="cloudflare">Cloudflare (1.1.1.1)</option>
               <option value="google">Google (8.8.8.8)</option>
@@ -94,7 +94,7 @@ export const DnsLookup: React.FC = () => {
               type="button"
               onClick={() => void runQuery()}
               disabled={loading}
-              className="flex items-center gap-1.5 rounded-lg bg-primary px-4 py-2 text-xs font-semibold text-primary-foreground transition hover:opacity-90 disabled:opacity-50"
+              className="flex items-center gap-1.5 rounded-lg bg-primary px-4 py-2 text-xs font-semibold text-on-primary transition hover:opacity-90 disabled:opacity-50"
             >
               <Icon
                 name={loading ? 'RefreshCw' : 'Search'}
@@ -107,7 +107,7 @@ export const DnsLookup: React.FC = () => {
 
         {/* Record Type Buttons */}
         <div className="flex flex-wrap items-center gap-1.5">
-          <span className="mr-1 text-xs font-semibold uppercase tracking-wider text-text-tertiary">
+          <span className="mr-1 text-xs font-semibold uppercase tracking-wider text-outline">
             Record Type:
           </span>
           {RECORD_TYPES.map((type) => (
@@ -117,8 +117,8 @@ export const DnsLookup: React.FC = () => {
               onClick={() => setRecordType(type)}
               className={`rounded-md px-2.5 py-1 text-xs font-bold transition ${
                 recordType === type
-                  ? 'bg-primary text-primary-foreground shadow-sm'
-                  : 'border border-border/50 bg-surface-secondary text-text-secondary hover:bg-surface-secondary/80'
+                  ? 'bg-primary text-on-primary shadow-sm'
+                  : 'border border-outline-variant/50 bg-surface-container-low text-on-surface-variant hover:bg-surface-container-low/80'
               }`}
             >
               {type}
@@ -139,24 +139,22 @@ export const DnsLookup: React.FC = () => {
         <div className="flex flex-col gap-3">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <span className="text-xs font-semibold text-text-secondary">
-                Status: <strong className="text-text-primary">{statusLabel}</strong>
+              <span className="text-xs font-semibold text-on-surface-variant">
+                Status: <strong className="text-on-surface">{statusLabel}</strong>
               </span>
               {response.Answer && (
-                <span className="rounded-full bg-surface-secondary px-2 py-0.5 text-[11px] text-text-tertiary">
+                <span className="rounded-full bg-surface-container-low px-2 py-0.5 text-[11px] text-outline">
                   {response.Answer.length} record{response.Answer.length === 1 ? '' : 's'}
                 </span>
               )}
             </div>
 
-            <div className="flex items-center gap-1 rounded-lg border border-border/40 bg-surface-primary p-0.5">
+            <div className="flex items-center gap-1 rounded-lg border border-outline-variant/40 bg-surface p-0.5">
               <button
                 type="button"
                 onClick={() => setViewMode('table')}
                 className={`rounded px-2.5 py-1 text-xs font-medium transition ${
-                  viewMode === 'table'
-                    ? 'bg-primary text-primary-foreground'
-                    : 'text-text-secondary'
+                  viewMode === 'table' ? 'bg-primary text-on-primary' : 'text-on-surface-variant'
                 }`}
               >
                 Table
@@ -165,7 +163,7 @@ export const DnsLookup: React.FC = () => {
                 type="button"
                 onClick={() => setViewMode('json')}
                 className={`rounded px-2.5 py-1 text-xs font-medium transition ${
-                  viewMode === 'json' ? 'bg-primary text-primary-foreground' : 'text-text-secondary'
+                  viewMode === 'json' ? 'bg-primary text-on-primary' : 'text-on-surface-variant'
                 }`}
               >
                 Raw JSON
@@ -176,7 +174,7 @@ export const DnsLookup: React.FC = () => {
           {viewMode === 'table' ? (
             <DnsRecordCard answers={response.Answer || []} />
           ) : (
-            <pre className="max-h-96 overflow-auto rounded-xl border border-border/50 bg-surface-secondary/70 p-4 font-mono text-xs text-text-primary">
+            <pre className="max-h-96 overflow-auto rounded-xl border border-outline-variant/50 bg-surface-container-low/70 p-4 font-mono text-xs text-on-surface">
               <code>{JSON.stringify(response, null, 2)}</code>
             </pre>
           )}

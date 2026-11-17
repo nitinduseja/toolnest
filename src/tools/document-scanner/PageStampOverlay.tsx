@@ -98,12 +98,12 @@ export const PageStampOverlay: React.FC<PageStampOverlayProps> = ({ stamp, onUpd
 
       {/* Floating Scale & Move Toolbar (Directly attached with no hover gap) */}
       <div
-        className={`absolute right-0 flex items-center gap-1 bg-neutral-900/90 text-white rounded-md px-2 py-1 text-[11px] shadow-xl z-20 transition-opacity ${
+        className={`absolute right-0 flex items-center gap-1 bg-surface-container-highest/95 text-on-surface border border-outline-variant rounded-md px-2 py-1 text-[11px] shadow-xl z-20 transition-opacity ${
           isNearTop ? 'top-full mt-1.5' : 'bottom-full mb-1.5'
         } ${isSelected ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}`}
       >
-        <Move className="w-3 h-3 text-white/50 shrink-0" />
-        <span className="text-[10px] text-white/60 mr-1">Drag</span>
+        <Move className="w-3 h-3 text-on-surface-variant shrink-0" />
+        <span className="text-[10px] text-on-surface-variant mr-1">Drag</span>
         <button
           type="button"
           onClick={(e) => {

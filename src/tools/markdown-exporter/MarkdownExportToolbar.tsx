@@ -20,11 +20,14 @@ export const MarkdownExportToolbar: React.FC<MarkdownExportToolbarProps> = ({
   copied,
 }) => {
   return (
-    <div className="flex flex-col gap-3 rounded-xl border border-border/50 bg-surface-primary/70 p-4">
+    <div className="flex flex-col gap-3 rounded-xl border border-outline-variant/50 bg-surface/70 p-4">
       {/* Row 1: Document Meta & Configuration */}
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-4">
         <div>
-          <label htmlFor="doc-title-input" className="text-xs font-semibold text-text-secondary">
+          <label
+            htmlFor="doc-title-input"
+            className="text-xs font-semibold text-on-surface-variant"
+          >
             Doc Title
           </label>
           <input
@@ -32,12 +35,15 @@ export const MarkdownExportToolbar: React.FC<MarkdownExportToolbarProps> = ({
             type="text"
             value={meta.title}
             onChange={(e) => onChangeMeta({ ...meta, title: e.target.value })}
-            className="mt-1 w-full rounded-lg border border-border/60 bg-surface-secondary px-2.5 py-1.5 text-xs text-text-primary focus:border-primary focus:outline-none"
+            className="mt-1 w-full rounded-lg border border-outline-variant/60 bg-surface-container-low px-2.5 py-1.5 text-xs text-on-surface focus:border-primary focus:outline-none"
           />
         </div>
 
         <div>
-          <label htmlFor="doc-author-input" className="text-xs font-semibold text-text-secondary">
+          <label
+            htmlFor="doc-author-input"
+            className="text-xs font-semibold text-on-surface-variant"
+          >
             Author / Org
           </label>
           <input
@@ -45,19 +51,19 @@ export const MarkdownExportToolbar: React.FC<MarkdownExportToolbarProps> = ({
             type="text"
             value={meta.author}
             onChange={(e) => onChangeMeta({ ...meta, author: e.target.value })}
-            className="mt-1 w-full rounded-lg border border-border/60 bg-surface-secondary px-2.5 py-1.5 text-xs text-text-primary focus:border-primary focus:outline-none"
+            className="mt-1 w-full rounded-lg border border-outline-variant/60 bg-surface-container-low px-2.5 py-1.5 text-xs text-on-surface focus:border-primary focus:outline-none"
           />
         </div>
 
         <div>
-          <label htmlFor="theme-select" className="text-xs font-semibold text-text-secondary">
+          <label htmlFor="theme-select" className="text-xs font-semibold text-on-surface-variant">
             Theme
           </label>
           <select
             id="theme-select"
             value={meta.theme}
             onChange={(e) => onChangeMeta({ ...meta, theme: e.target.value as ExportTheme })}
-            className="mt-1 w-full rounded-lg border border-border/60 bg-surface-secondary px-2.5 py-1.5 text-xs font-medium text-text-primary focus:border-primary focus:outline-none"
+            className="mt-1 w-full rounded-lg border border-outline-variant/60 bg-surface-container-low px-2.5 py-1.5 text-xs font-medium text-on-surface focus:border-primary focus:outline-none"
           >
             <option value="modern">Modern Sans</option>
             <option value="academic">Academic Serif</option>
@@ -67,7 +73,10 @@ export const MarkdownExportToolbar: React.FC<MarkdownExportToolbarProps> = ({
         </div>
 
         <div>
-          <label htmlFor="page-size-select" className="text-xs font-semibold text-text-secondary">
+          <label
+            htmlFor="page-size-select"
+            className="text-xs font-semibold text-on-surface-variant"
+          >
             Page Setup
           </label>
           <div className="mt-1 flex items-center gap-1.5">
@@ -75,7 +84,7 @@ export const MarkdownExportToolbar: React.FC<MarkdownExportToolbarProps> = ({
               id="page-size-select"
               value={meta.pageSize}
               onChange={(e) => onChangeMeta({ ...meta, pageSize: e.target.value as PageSize })}
-              className="w-1/2 rounded-lg border border-border/60 bg-surface-secondary px-2 py-1.5 text-xs text-text-primary"
+              className="w-1/2 rounded-lg border border-outline-variant/60 bg-surface-container-low px-2 py-1.5 text-xs text-on-surface"
             >
               <option value="a4">A4</option>
               <option value="letter">Letter</option>
@@ -86,7 +95,7 @@ export const MarkdownExportToolbar: React.FC<MarkdownExportToolbarProps> = ({
               onChange={(e) =>
                 onChangeMeta({ ...meta, orientation: e.target.value as PageOrientation })
               }
-              className="w-1/2 rounded-lg border border-border/60 bg-surface-secondary px-2 py-1.5 text-xs text-text-primary"
+              className="w-1/2 rounded-lg border border-outline-variant/60 bg-surface-container-low px-2 py-1.5 text-xs text-on-surface"
             >
               <option value="portrait">Portrait</option>
               <option value="landscape">Landscape</option>
@@ -96,8 +105,8 @@ export const MarkdownExportToolbar: React.FC<MarkdownExportToolbarProps> = ({
       </div>
 
       {/* Row 2: Toggles and Export Actions */}
-      <div className="flex flex-wrap items-center justify-between gap-3 border-t border-border/40 pt-3">
-        <label className="flex cursor-pointer items-center gap-2 text-xs font-medium text-text-secondary">
+      <div className="flex flex-wrap items-center justify-between gap-3 border-t border-outline-variant/40 pt-3">
+        <label className="flex cursor-pointer items-center gap-2 text-xs font-medium text-on-surface-variant">
           <input
             type="checkbox"
             checked={meta.includeCoverPage}
@@ -111,7 +120,7 @@ export const MarkdownExportToolbar: React.FC<MarkdownExportToolbarProps> = ({
           <button
             type="button"
             onClick={onCopyHtml}
-            className="flex items-center gap-1.5 rounded-lg border border-border/60 bg-surface-secondary px-3 py-1.5 text-xs font-medium text-text-primary transition hover:bg-surface-secondary/80"
+            className="flex items-center gap-1.5 rounded-lg border border-outline-variant/60 bg-surface-container-low px-3 py-1.5 text-xs font-medium text-on-surface transition hover:bg-surface-container-low/80"
           >
             <Icon name={copied ? 'Check' : 'Copy'} className="h-3.5 w-3.5" />
             <span>{copied ? 'Copied' : 'Copy HTML'}</span>
@@ -120,7 +129,7 @@ export const MarkdownExportToolbar: React.FC<MarkdownExportToolbarProps> = ({
           <button
             type="button"
             onClick={onDownloadHtml}
-            className="flex items-center gap-1.5 rounded-lg border border-border/60 bg-surface-secondary px-3 py-1.5 text-xs font-medium text-text-primary transition hover:bg-surface-secondary/80"
+            className="flex items-center gap-1.5 rounded-lg border border-outline-variant/60 bg-surface-container-low px-3 py-1.5 text-xs font-medium text-on-surface transition hover:bg-surface-container-low/80"
           >
             <Icon name="Download" className="h-3.5 w-3.5" />
             <span>Download HTML</span>
@@ -129,7 +138,7 @@ export const MarkdownExportToolbar: React.FC<MarkdownExportToolbarProps> = ({
           <button
             type="button"
             onClick={onPrint}
-            className="flex items-center gap-1.5 rounded-lg bg-primary px-3.5 py-1.5 text-xs font-semibold text-primary-foreground shadow-sm transition hover:opacity-90"
+            className="flex items-center gap-1.5 rounded-lg bg-primary px-3.5 py-1.5 text-xs font-semibold text-on-primary shadow-sm transition hover:opacity-90"
           >
             <Icon name="Printer" className="h-3.5 w-3.5" />
             <span>Print / Save PDF</span>

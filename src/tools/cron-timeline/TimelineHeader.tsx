@@ -31,20 +31,20 @@ export const TimelineHeader: React.FC<TimelineHeaderProps> = ({
   };
 
   return (
-    <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 p-4 bg-slate-900/60 border border-slate-800 rounded-xl">
+    <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 p-4 bg-surface-container-low border border-outline-variant/60 rounded-xl">
       <div className="flex flex-wrap items-center gap-2">
         <label
           htmlFor="cron-tz-select"
-          className="flex items-center gap-1.5 text-xs font-medium text-slate-400"
+          className="flex items-center gap-1.5 text-xs font-medium text-on-surface-variant"
         >
-          <Clock className="w-3.5 h-3.5 text-indigo-400" />
+          <Clock className="w-3.5 h-3.5 text-primary" />
           Timezone:
         </label>
         <select
           id="cron-tz-select"
           value={timezone}
           onChange={(e) => onTimezoneChange(e.target.value)}
-          className="px-2.5 py-1.5 text-xs bg-slate-800 border border-slate-700 rounded-lg text-slate-200 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+          className="px-2.5 py-1.5 text-xs bg-surface border border-outline-variant rounded-lg text-on-surface focus:outline-none focus:ring-1 focus:ring-primary"
         >
           {TIMEZONE_OPTIONS.map((opt) => (
             <option key={opt.value} value={opt.value}>
@@ -53,14 +53,14 @@ export const TimelineHeader: React.FC<TimelineHeaderProps> = ({
           ))}
         </select>
 
-        <div className="flex items-center bg-slate-800 border border-slate-700 rounded-lg p-0.5 text-xs ml-2">
+        <div className="flex items-center bg-surface-container border border-outline-variant rounded-lg p-0.5 text-xs ml-2">
           <button
             type="button"
             onClick={() => onHorizonChange('24h')}
             className={`flex items-center gap-1 px-2.5 py-1 rounded-md transition-colors ${
               horizon === '24h'
-                ? 'bg-indigo-600 text-white font-medium shadow-sm'
-                : 'text-slate-400 hover:text-slate-200'
+                ? 'bg-primary text-on-primary font-medium shadow-sm'
+                : 'text-on-surface-variant hover:text-on-surface'
             }`}
           >
             <Clock className="w-3 h-3" /> 24 Hours
@@ -70,8 +70,8 @@ export const TimelineHeader: React.FC<TimelineHeaderProps> = ({
             onClick={() => onHorizonChange('7d')}
             className={`flex items-center gap-1 px-2.5 py-1 rounded-md transition-colors ${
               horizon === '7d'
-                ? 'bg-indigo-600 text-white font-medium shadow-sm'
-                : 'text-slate-400 hover:text-slate-200'
+                ? 'bg-primary text-on-primary font-medium shadow-sm'
+                : 'text-on-surface-variant hover:text-on-surface'
             }`}
           >
             <Calendar className="w-3 h-3" /> 7 Days
@@ -83,21 +83,23 @@ export const TimelineHeader: React.FC<TimelineHeaderProps> = ({
         <div className="relative group">
           <button
             type="button"
-            className="flex items-center gap-1 px-2.5 py-1.5 text-xs font-medium text-slate-300 bg-slate-800 hover:bg-slate-700/80 border border-slate-700 rounded-lg transition-colors"
+            className="flex items-center gap-1 px-2.5 py-1.5 text-xs font-medium text-on-surface bg-surface hover:bg-surface-container-high border border-outline-variant rounded-lg transition-colors"
           >
-            <Sparkles className="w-3.5 h-3.5 text-amber-400" />
+            <Sparkles className="w-3.5 h-3.5 text-amber-500" />
             Preset Suites
           </button>
-          <div className="absolute right-0 top-full mt-1 w-64 p-1.5 bg-slate-800/95 border border-slate-700 rounded-xl shadow-xl backdrop-blur-md hidden group-hover:block z-30">
+          <div className="absolute right-0 top-full mt-1 w-64 p-1.5 bg-surface border border-outline-variant rounded-xl shadow-xl backdrop-blur-md hidden group-hover:block z-30">
             {PRESET_SUITES.map((preset) => (
               <button
                 key={preset.id}
                 type="button"
                 onClick={() => onLoadPreset(preset.id)}
-                className="w-full text-left p-2 rounded-lg hover:bg-slate-700 text-xs text-slate-200 transition-colors"
+                className="w-full text-left p-2 rounded-lg hover:bg-surface-container-high text-xs text-on-surface transition-colors"
               >
-                <div className="font-semibold text-slate-100">{preset.name}</div>
-                <div className="text-[11px] text-slate-400 truncate">{preset.description}</div>
+                <div className="font-semibold text-on-surface">{preset.name}</div>
+                <div className="text-[11px] text-on-surface-variant truncate">
+                  {preset.description}
+                </div>
               </button>
             ))}
           </div>
@@ -106,16 +108,16 @@ export const TimelineHeader: React.FC<TimelineHeaderProps> = ({
         <button
           type="button"
           onClick={onOpenImportModal}
-          className="flex items-center gap-1 px-2.5 py-1.5 text-xs font-medium text-slate-300 bg-slate-800 hover:bg-slate-700/80 border border-slate-700 rounded-lg transition-colors"
+          className="flex items-center gap-1 px-2.5 py-1.5 text-xs font-medium text-on-surface bg-surface hover:bg-surface-container-high border border-outline-variant rounded-lg transition-colors"
         >
-          <Upload className="w-3.5 h-3.5 text-sky-400" />
+          <Upload className="w-3.5 h-3.5 text-sky-500" />
           Import Crontab
         </button>
 
         <button
           type="button"
           onClick={handleCopy}
-          className="flex items-center gap-1 px-2.5 py-1.5 text-xs font-medium text-slate-200 bg-indigo-600/80 hover:bg-indigo-600 border border-indigo-500/50 rounded-lg transition-colors"
+          className="flex items-center gap-1 px-2.5 py-1.5 text-xs font-medium text-on-primary bg-primary hover:bg-primary/90 border border-transparent rounded-lg transition-colors"
         >
           {copied ? (
             <>

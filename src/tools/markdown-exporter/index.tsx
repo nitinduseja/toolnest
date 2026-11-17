@@ -71,10 +71,10 @@ export const MarkdownExporter: React.FC = () => {
             <Icon name="Printer" className="h-6 w-6" />
           </div>
           <div>
-            <h1 className="text-xl font-bold tracking-tight text-text-primary sm:text-2xl">
+            <h1 className="text-xl font-bold tracking-tight text-on-surface sm:text-2xl">
               Markdown to PDF & Printable HTML Exporter
             </h1>
-            <p className="text-xs text-text-secondary sm:text-sm">
+            <p className="text-xs text-on-surface-variant sm:text-sm">
               Typeset professional documents, architecture RFCs, and formal statements with
               dedicated print stylesheets and offline export.
             </p>
@@ -83,8 +83,8 @@ export const MarkdownExporter: React.FC = () => {
       </div>
 
       {/* Presets Bar */}
-      <div className="flex flex-wrap items-center gap-2 rounded-xl border border-border/40 bg-surface-primary/60 p-3">
-        <span className="text-xs font-semibold uppercase tracking-wider text-text-tertiary">
+      <div className="flex flex-wrap items-center gap-2 rounded-xl border border-outline-variant/40 bg-surface/60 p-3">
+        <span className="text-xs font-semibold uppercase tracking-wider text-outline">
           Document Templates:
         </span>
         {EXPORT_PRESETS.map((preset) => (
@@ -92,7 +92,7 @@ export const MarkdownExporter: React.FC = () => {
             key={preset.id}
             type="button"
             onClick={() => handleSelectPreset(preset)}
-            className="rounded-lg border border-border/60 bg-surface-secondary/60 px-3 py-1 text-xs font-medium text-text-primary transition hover:border-primary/50 hover:bg-surface-secondary"
+            className="rounded-lg border border-outline-variant/60 bg-surface-container-low/60 px-3 py-1 text-xs font-medium text-on-surface transition hover:border-primary/50 hover:bg-surface-container-low"
           >
             {preset.name}
           </button>
@@ -112,15 +112,15 @@ export const MarkdownExporter: React.FC = () => {
       {/* Split Workspace */}
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
         {/* Editor Pane */}
-        <div className="flex flex-col gap-2 rounded-xl border border-border/50 bg-surface-primary/70 p-4">
+        <div className="flex flex-col gap-2 rounded-xl border border-outline-variant/50 bg-surface/70 p-4">
           <div className="flex items-center justify-between">
             <label
               htmlFor="markdown-source-input"
-              className="text-xs font-semibold uppercase tracking-wider text-text-tertiary"
+              className="text-xs font-semibold uppercase tracking-wider text-outline"
             >
               Markdown Source
             </label>
-            <span className="text-xs text-text-tertiary">
+            <span className="text-xs text-outline">
               {wordsCount} words · {markdown.length} chars
             </span>
           </div>
@@ -130,19 +130,19 @@ export const MarkdownExporter: React.FC = () => {
             value={markdown}
             onChange={(e) => setMarkdown(e.target.value)}
             placeholder="Type your markdown here..."
-            className="w-full resize-y rounded-lg border border-border/60 bg-surface-secondary/70 p-3 font-mono text-xs text-text-primary focus:border-primary focus:outline-none"
+            className="w-full resize-y rounded-lg border border-outline-variant/60 bg-surface-container-low/70 p-3 font-mono text-xs text-on-surface focus:border-primary focus:outline-none"
           />
         </div>
 
         {/* Live Printable Preview Pane */}
-        <div className="flex flex-col gap-2 rounded-xl border border-border/50 bg-surface-primary/70 p-4">
+        <div className="flex flex-col gap-2 rounded-xl border border-outline-variant/50 bg-surface/70 p-4">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold uppercase tracking-wider text-text-tertiary">
+            <span className="text-xs font-semibold uppercase tracking-wider text-outline">
               Print Sheet Preview ({meta.pageSize.toUpperCase()} · {meta.theme})
             </span>
-            <span className="text-xs text-text-tertiary">Live Render</span>
+            <span className="text-xs text-outline">Live Render</span>
           </div>
-          <div className="h-[23.5rem] overflow-auto rounded-lg border border-border/60 bg-white p-6 text-black shadow-inner">
+          <div className="h-[23.5rem] overflow-auto rounded-lg border border-outline-variant/60 bg-white p-6 text-black shadow-inner">
             <iframe
               title="Print Document Preview"
               srcDoc={fullHtml}

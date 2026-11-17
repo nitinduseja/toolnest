@@ -24,10 +24,10 @@ export const JwtTokenBreakdown: React.FC<JwtTokenBreakdownProps> = ({ token, ver
       : 'text-emerald-500 bg-emerald-500/10 border-emerald-500/30';
 
   return (
-    <div className="flex flex-col gap-4 rounded-xl border border-border/50 bg-surface-primary/70 p-4">
+    <div className="flex flex-col gap-4 rounded-xl border border-outline-variant/50 bg-surface/70 p-4">
       {/* Verification Status Badge */}
       <div className="flex items-center justify-between">
-        <span className="text-xs font-semibold uppercase tracking-wider text-text-tertiary">
+        <span className="text-xs font-semibold uppercase tracking-wider text-outline">
           Encoded JWT & Signature
         </span>
         <div
@@ -39,17 +39,17 @@ export const JwtTokenBreakdown: React.FC<JwtTokenBreakdownProps> = ({ token, ver
       </div>
 
       {/* 3-Part Token Display */}
-      <div className="group relative overflow-hidden rounded-lg border border-border/60 bg-surface-secondary/80 p-3 font-mono text-xs break-all">
+      <div className="group relative overflow-hidden rounded-lg border border-outline-variant/60 bg-surface-container-low/80 p-3 font-mono text-xs break-all">
         {parts.length === 3 ? (
           <p className="leading-relaxed">
             <span className="text-red-500 dark:text-red-400">{parts[0]}</span>
-            <span className="text-text-tertiary">.</span>
+            <span className="text-outline">.</span>
             <span className="text-purple-500 dark:text-purple-400">{parts[1]}</span>
-            <span className="text-text-tertiary">.</span>
+            <span className="text-outline">.</span>
             <span className="text-cyan-500 dark:text-cyan-400">{parts[2]}</span>
           </p>
         ) : (
-          <span className="text-text-primary">{token}</span>
+          <span className="text-on-surface">{token}</span>
         )}
 
         <button

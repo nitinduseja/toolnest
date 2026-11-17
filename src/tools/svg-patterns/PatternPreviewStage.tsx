@@ -52,7 +52,7 @@ export const PatternPreviewStage: React.FC<PatternPreviewStageProps> = ({ config
   return (
     <div className="flex flex-col gap-4">
       {/* Live Repeating Preview Canvas */}
-      <div className="relative flex h-72 w-full items-center justify-center overflow-hidden rounded-2xl border border-border/60 bg-surface-secondary shadow-lg sm:h-80">
+      <div className="relative flex h-72 w-full items-center justify-center overflow-hidden rounded-2xl border border-outline-variant/60 bg-surface-container-low shadow-lg sm:h-80">
         <div
           data-testid="pattern-canvas"
           className="absolute inset-0 h-full w-full"
@@ -96,7 +96,7 @@ export const PatternPreviewStage: React.FC<PatternPreviewStageProps> = ({ config
       </div>
 
       {/* Code Export Box */}
-      <div className="rounded-xl border border-border/40 bg-surface-primary/60 p-4">
+      <div className="rounded-xl border border-outline-variant/40 bg-surface/60 p-4">
         <div className="flex items-center justify-between gap-2 pb-2">
           <div className="flex items-center gap-1.5">
             {(['css', 'tailwind', 'svg', 'data-uri'] as PatternExportFormat[]).map((fmt) => (
@@ -106,8 +106,8 @@ export const PatternPreviewStage: React.FC<PatternPreviewStageProps> = ({ config
                 onClick={() => setFormat(fmt)}
                 className={`rounded-md px-3 py-1 text-xs font-semibold uppercase transition ${
                   format === fmt
-                    ? 'bg-primary text-primary-foreground shadow-sm'
-                    : 'text-text-secondary hover:bg-surface-secondary'
+                    ? 'bg-primary text-on-primary shadow-sm'
+                    : 'text-on-surface-variant hover:bg-surface-container-low'
                 }`}
               >
                 {fmt === 'data-uri' ? 'URI' : fmt}
@@ -125,7 +125,7 @@ export const PatternPreviewStage: React.FC<PatternPreviewStageProps> = ({ config
           </button>
         </div>
 
-        <pre className="max-h-36 overflow-auto rounded-lg bg-surface-secondary/70 p-3 font-mono text-xs text-text-primary">
+        <pre className="max-h-36 overflow-auto rounded-lg bg-surface-container-low/70 p-3 font-mono text-xs text-on-surface">
           <code>{getExportCode()}</code>
         </pre>
       </div>

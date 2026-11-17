@@ -29,25 +29,25 @@ export const ImportCrontabModal: React.FC<ImportCrontabModalProps> = ({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
-      <div className="w-full max-w-lg bg-slate-900 border border-slate-700 rounded-2xl shadow-2xl p-5 space-y-4">
+      <div className="w-full max-w-lg bg-surface border border-outline-variant rounded-2xl shadow-2xl p-5 space-y-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <Upload className="w-4 h-4 text-sky-400" />
-            <h3 className="text-sm font-semibold text-slate-100">Import Crontab</h3>
+            <Upload className="w-4 h-4 text-sky-500" />
+            <h3 className="text-sm font-semibold text-on-surface">Import Crontab</h3>
           </div>
           <button
             type="button"
             onClick={onClose}
-            className="text-slate-400 hover:text-slate-200 p-1"
+            className="text-on-surface-variant hover:text-on-surface p-1"
           >
             <X className="w-4 h-4" />
           </button>
         </div>
 
-        <p className="text-xs text-slate-400">
-          Paste the output of <code className="text-sky-300 font-mono">crontab -l</code> or any
+        <p className="text-xs text-on-surface-variant">
+          Paste the output of <code className="text-primary font-mono">crontab -l</code> or any
           standard crontab file below. Lines starting with{' '}
-          <code className="text-slate-300 font-mono">#</code> will be used as job titles.
+          <code className="text-outline font-mono">#</code> will be used as job titles.
         </p>
 
         <textarea
@@ -55,14 +55,14 @@ export const ImportCrontabModal: React.FC<ImportCrontabModalProps> = ({
           value={content}
           onChange={(e) => setContent(e.target.value)}
           placeholder={`# Nightly DB Backup\n0 2 * * * /usr/local/bin/backup-db\n\n# Hourly Health Ping\n0 * * * * curl -s https://api.site.com/health`}
-          className="w-full p-3 text-xs font-mono bg-slate-950 border border-slate-700 rounded-xl text-slate-200 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+          className="w-full p-3 text-xs font-mono bg-surface-container-lowest border border-outline-variant rounded-xl text-on-surface focus:outline-none focus:ring-1 focus:ring-primary"
         />
 
         <div className="flex justify-end gap-2">
           <button
             type="button"
             onClick={onClose}
-            className="px-3 py-1.5 text-xs text-slate-400 hover:text-slate-200"
+            className="px-3 py-1.5 text-xs text-on-surface-variant hover:text-on-surface"
           >
             Cancel
           </button>
@@ -70,7 +70,7 @@ export const ImportCrontabModal: React.FC<ImportCrontabModalProps> = ({
             type="button"
             onClick={handleImportSubmit}
             disabled={!content.trim()}
-            className="px-4 py-1.5 text-xs font-medium text-white bg-indigo-600 hover:bg-indigo-500 disabled:opacity-50 rounded-lg transition-colors"
+            className="px-4 py-1.5 text-xs font-medium text-on-primary bg-primary hover:bg-primary/90 disabled:opacity-50 rounded-lg transition-colors"
           >
             Import Jobs
           </button>

@@ -42,6 +42,18 @@ export default {
         success: '#10B981',
         'success-container': '#ECFDF5',
         warning: '#F59E0B',
+        // Compatibility aliases for legacy/variant utility tokens
+        'surface-primary': 'var(--color-surface)',
+        'surface-secondary': 'var(--color-surface-container-low)',
+        'primary-foreground': 'var(--color-on-primary)',
+        border: 'var(--color-outline-variant)',
+        'text-secondary': 'var(--color-on-surface-variant)',
+        'text-tertiary': 'var(--color-outline)',
+        'text-muted': 'var(--color-outline)',
+        'text-text-primary': 'var(--color-on-surface)',
+        'text-text-secondary': 'var(--color-on-surface-variant)',
+        'text-text-tertiary': 'var(--color-outline)',
+        'text-text-muted': 'var(--color-outline)',
       },
       fontFamily: {
         sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],

@@ -32,9 +32,9 @@ export const ColorStopControls: React.FC<ColorStopControlsProps> = ({ stops, onC
   };
 
   return (
-    <div className="flex flex-col gap-3 rounded-xl border border-border/40 bg-surface-primary/60 p-4">
+    <div className="flex flex-col gap-3 rounded-xl border border-outline-variant/40 bg-surface/60 p-4">
       <div className="flex items-center justify-between">
-        <h3 className="text-sm font-semibold text-text-primary">Color Stops ({stops.length}/8)</h3>
+        <h3 className="text-sm font-semibold text-on-surface">Color Stops ({stops.length}/8)</h3>
         <button
           type="button"
           onClick={handleAddStop}
@@ -49,22 +49,22 @@ export const ColorStopControls: React.FC<ColorStopControlsProps> = ({ stops, onC
         {stops.map((stop, idx) => (
           <div
             key={stop.id}
-            className="flex items-center gap-3 rounded-lg border border-border/50 bg-surface-secondary/40 px-3 py-2"
+            className="flex items-center gap-3 rounded-lg border border-outline-variant/50 bg-surface-container-low/40 px-3 py-2"
           >
-            <span className="w-5 text-xs font-semibold text-text-tertiary">#{idx + 1}</span>
+            <span className="w-5 text-xs font-semibold text-outline">#{idx + 1}</span>
             <input
               type="color"
               aria-label={`Color stop ${idx + 1}`}
               value={stop.color}
               onChange={(e) => handleColorChange(stop.id, e.target.value)}
-              className="h-8 w-9 cursor-pointer rounded border border-border bg-transparent p-0.5"
+              className="h-8 w-9 cursor-pointer rounded border border-outline-variant bg-transparent p-0.5"
             />
             <input
               type="text"
               aria-label={`Hex stop ${idx + 1}`}
               value={stop.color}
               onChange={(e) => handleColorChange(stop.id, e.target.value)}
-              className="w-20 rounded border border-border/60 bg-surface-primary px-2 py-1 font-mono text-xs text-text-primary"
+              className="w-20 rounded border border-outline-variant/60 bg-surface px-2 py-1 font-mono text-xs text-on-surface"
             />
             <div className="flex flex-1 items-center gap-2">
               <input
@@ -76,7 +76,7 @@ export const ColorStopControls: React.FC<ColorStopControlsProps> = ({ stops, onC
                 onChange={(e) => handlePositionChange(stop.id, Number(e.target.value))}
                 className="w-full accent-primary"
               />
-              <span className="w-10 text-right font-mono text-xs text-text-secondary">
+              <span className="w-10 text-right font-mono text-xs text-on-surface-variant">
                 {stop.position}%
               </span>
             </div>
@@ -85,7 +85,7 @@ export const ColorStopControls: React.FC<ColorStopControlsProps> = ({ stops, onC
               aria-label={`Delete stop ${idx + 1}`}
               disabled={stops.length <= 2}
               onClick={() => handleRemoveStop(stop.id)}
-              className="text-text-tertiary hover:text-red-500 disabled:cursor-not-allowed disabled:opacity-30"
+              className="text-outline hover:text-red-500 disabled:cursor-not-allowed disabled:opacity-30"
             >
               <Icon name="Trash2" className="h-4 w-4" />
             </button>

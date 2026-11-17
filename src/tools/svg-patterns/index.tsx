@@ -18,10 +18,10 @@ export const SvgPatterns: React.FC = () => {
             <Icon name="Layers" className="h-6 w-6" />
           </div>
           <div>
-            <h1 className="text-xl font-bold tracking-tight text-text-primary sm:text-2xl">
+            <h1 className="text-xl font-bold tracking-tight text-on-surface sm:text-2xl">
               SVG Pattern & Background Generator
             </h1>
-            <p className="text-xs text-text-secondary sm:text-sm">
+            <p className="text-xs text-on-surface-variant sm:text-sm">
               Design seamless repeating SVG background patterns, grids, dot matrices, and isometric
               tiles with live CSS and Tailwind export.
             </p>
