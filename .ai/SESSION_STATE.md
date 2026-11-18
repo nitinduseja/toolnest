@@ -3,9 +3,17 @@
 ## Current Status
 
 - **Current Version**: 2.8.0
-- **Current Milestone**: Data Pivot & Chart Visualizer (`data-chart`) (Complete, 56 Tools Milestone Reached)
-- **Active Task**: All 56 tools registered, tested, and verified across all test gates
+- **Current Milestone**: All 56 Tools Theme-Adaptive (Light & Dark Mode) & Verified
+- **Active Task**: All 56 tools registered, tested, theme-adaptive, and verified across all test gates
 - **Completed**:
+  - **Light Mode Theme Support Audit & Refactoring (Global)**:
+    - Audited all 56 tools across `src/tools/` for light mode readability and contrast.
+    - Fully refactored `cron-timeline` (8 files) and `data-chart` (7 files) from hardcoded Slate dark utilities to Toolnest semantic design tokens (`bg-surface`, `bg-surface-container-low`, `text-on-surface`, `border-outline-variant`).
+    - Upgraded `svgChartRenderer.ts` with dynamic light & dark palettes (`DARK_CHART_COLORS`, `LIGHT_CHART_COLORS`) and reactive `MutationObserver` in `DataPreviewStage.tsx`.
+    - Standardized 7 tools using legacy/non-standard tokens (`dns-lookup`, `gradient-generator`, `jwt-studio`, `markdown-exporter`, `security-headers`, `sql-to-schema`, `svg-patterns`) to native Toolnest semantic tokens across 21 files.
+    - Added compatibility fallback aliases in `tailwind.config.js`.
+    - Refactored `PageStampOverlay.tsx` and `CodeSnippetModal.tsx` for adaptive theme rendering.
+    - Committed (`2b2963f`) and pushed cleanly to `origin/main`.
   - **Data Pivot & Chart Visualizer (`data-chart`)**:
     - Created domain types and presets in `src/tools/data-chart/types.ts` and `src/tools/data-chart/presets.ts`.
     - Built RFC 4180 CSV & JSON parser and exporter in `src/tools/data-chart/dataParser.ts`.
@@ -42,20 +50,18 @@
     - Complete 55-tool suite grouped across 12 canonical categories.
     - Playwright browser E2E test suite updated.
   - **Unit & Component Testing**:
-    - 587 Vitest tests passing across 89 test suites (100% green).
+    - 605 Vitest tests passing across 93 test suites (100% green).
   - **Code Quality**:
     - ESLint: 0 errors, 0 warnings.
     - Prettier check: 100% formatted.
     - TypeScript: `tsc -b` compiles cleanly with 0 errors.
-    - Vite production build succeeds cleanly in ~49s.
+    - Vite production build succeeds cleanly.
 
 ## Verification Gates
 
 - Full suite of Playwright E2E tests passing on desktop and mobile (`pnpm test:e2e`)
-- 587 Vitest tests passing across 89 test suites (`pnpm test`)
+- 605 Vitest tests passing across 93 test suites (`pnpm test`)
 - 0 TypeScript errors (`tsc -b`)
 - 0 ESLint warnings (`eslint .`)
 - Code style verified (`prettier --check .`)
-- Strict 3-30-300 rule verified across all new files
-- Code style verified (`prettier --check .`)
-- Strict 3-30-300 rule verified across all new files
+- Strict 3-30-300 rule verified across all files
