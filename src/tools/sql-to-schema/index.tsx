@@ -9,11 +9,19 @@ import {
 } from './sqlSchemaLogic';
 import { SqlPresetsBar } from './SqlPresetsBar';
 import { Icon } from '@/components/atoms/Icon';
+import { CrossToolHandoffButton } from '@/components/molecules/CrossToolHandoffButton';
+import { useToolHandoff } from '@/lib/handoff/crossToolHandoff';
 
 export const SqlToSchema: React.FC = () => {
   const [ddl, setDdl] = useState<string>(SQL_PRESETS[0].ddl);
   const [target, setTarget] = useState<SchemaTarget>('typescript');
   const [copied, setCopied] = useState<boolean>(false);
+
+  useToolHandoff('sql-to-schema', (payload) => {
+    if (payload) {
+      setDdl(payload);
+    }
+  });
 
   const tables = useMemo(() => parseSqlDdl(ddl), [ddl]);
 
@@ -75,6 +83,17 @@ export const SqlToSchema: React.FC = () => {
               <span className="text-xs text-outline">
                 {tables.length} table{tables.length === 1 ? '' : 's'}, {totalCols} cols
               </span>
+              <CrossToolHandoffButton
+                sourceToolId="sql-to-schema"
+                targets={[
+                  {
+                    toolId: 'sql-formatter',
+                    label: 'Format SQL',
+                    description: 'Beautify and indent SQL DDL',
+                  },
+                ]}
+                getData={() => ddl}
+              />
               <button
                 type="button"
                 onClick={() => setDdl('')}

@@ -1,5 +1,9 @@
 import React from 'react';
 import { Copy, Check, Download, Upload, Trash2, ArrowLeftRight } from 'lucide-react';
+import {
+  CrossToolHandoffButton,
+  HandoffTarget,
+} from '@/components/molecules/CrossToolHandoffButton';
 
 export type ConversionDirection = 'csv-to-json' | 'json-to-csv';
 
@@ -22,6 +26,8 @@ interface CsvJsonToolbarProps {
   copied: boolean;
   handleDownload: () => void;
   hasOutput: boolean;
+  handoffTargets?: HandoffTarget[];
+  getHandoffData?: () => string;
 }
 
 export const CsvJsonToolbar: React.FC<CsvJsonToolbarProps> = ({
@@ -43,6 +49,8 @@ export const CsvJsonToolbar: React.FC<CsvJsonToolbarProps> = ({
   copied,
   handleDownload,
   hasOutput,
+  handoffTargets,
+  getHandoffData,
 }) => {
   return (
     <div className="flex flex-wrap items-center justify-between gap-3 p-3 rounded-xl bg-surface-container-low border border-outline-variant">
@@ -184,6 +192,14 @@ export const CsvJsonToolbar: React.FC<CsvJsonToolbarProps> = ({
           <Download className="w-3.5 h-3.5" />
           <span>Download</span>
         </button>
+        {handoffTargets && getHandoffData && (
+          <CrossToolHandoffButton
+            targets={handoffTargets}
+            getData={getHandoffData}
+            sourceSlug="csv-json"
+            disabled={!hasOutput}
+          />
+        )}
       </div>
     </div>
   );

@@ -12,6 +12,16 @@ import {
 } from 'lucide-react';
 import { parseJwt, getSampleJwt, verifyJwtSignature } from './jwtLogic';
 import { copyToClipboard } from '@/lib/clipboard';
+import { CrossToolHandoffButton } from '@/components/molecules/CrossToolHandoffButton';
+import { useToolHandoff } from '@/lib/handoff/crossToolHandoff';
+
+const HANDOFF_TARGETS = [
+  {
+    toolId: 'jwt-studio',
+    label: 'Edit in JWT Studio',
+    description: 'Edit claims, resign token, or modify expiration',
+  },
+];
 
 export const JwtDecoderTool: React.FC = () => {
   const [tokenInput, setTokenInput] = useState<string>(getSampleJwt());
@@ -20,11 +30,14 @@ export const JwtDecoderTool: React.FC = () => {
   const [sigError, setSigError] = useState<string | null>(null);
   const [copiedKey, setCopiedKey] = useState<string | null>(null);
 
+  useToolHandoff('jwt-decoder', (payload) => {
+    if (payload) setTokenInput(payload);
+  });
+
   const parsed = useMemo(() => parseJwt(tokenInput), [tokenInput]);
 
   useEffect(() => {
     let isCancelled = false;
-
     if (!secretKey.trim() || !parsed.valid) {
       setSigStatus('idle');
       setSigError(null);
@@ -33,24 +46,14 @@ export const JwtDecoderTool: React.FC = () => {
 
     verifyJwtSignature(tokenInput, secretKey)
       .then((res) => {
-        if (!isCancelled) {
-          if (res.error) {
-            setSigStatus('error');
-            setSigError(res.error);
-          } else if (res.verified) {
-            setSigStatus('valid');
-            setSigError(null);
-          } else {
-            setSigStatus('invalid');
-            setSigError('Signature does not match secret key');
-          }
-        }
+        if (isCancelled) return;
+        setSigStatus(res.error ? 'error' : res.verified ? 'valid' : 'invalid');
+        setSigError(res.error || (res.verified ? null : 'Signature does not match secret key'));
       })
       .catch((err: unknown) => {
-        if (!isCancelled) {
-          setSigStatus('error');
-          setSigError(err instanceof Error ? err.message : 'Verification failed');
-        }
+        if (isCancelled) return;
+        setSigStatus('error');
+        setSigError(err instanceof Error ? err.message : 'Verification failed');
       });
 
     return () => {
@@ -82,6 +85,12 @@ export const JwtDecoderTool: React.FC = () => {
           </span>
         </div>
         <div className="flex items-center gap-2">
+          <CrossToolHandoffButton
+            sourceToolId="jwt-decoder"
+            targets={HANDOFF_TARGETS}
+            getData={() => tokenInput}
+            disabled={!tokenInput}
+          />
           <button
             type="button"
             onClick={() => {

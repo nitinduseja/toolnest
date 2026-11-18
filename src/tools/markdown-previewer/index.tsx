@@ -14,11 +14,32 @@ import {
 import { calculateMarkdownStats, renderMarkdownToHtml, getSampleMarkdown } from './markdownLogic';
 import { copyToClipboard } from '@/lib/clipboard';
 import { downloadFile } from '@/lib/downloads';
+import { CrossToolHandoffButton } from '@/components/molecules/CrossToolHandoffButton';
+import { useToolHandoff } from '@/lib/handoff/crossToolHandoff';
+
+const HANDOFF_TARGETS = [
+  {
+    toolId: 'markdown-exporter',
+    label: 'Export Printable Document',
+    description: 'Typeset to PDF or printable HTML document',
+  },
+  {
+    toolId: 'markdown-table',
+    label: 'Edit in Table Generator',
+    description: 'Generate or edit Markdown tables',
+  },
+];
 
 export const MarkdownPreviewerTool: React.FC = () => {
   const [markdown, setMarkdown] = useState<string>(getSampleMarkdown());
   const [activeTab, setActiveTab] = useState<'split' | 'edit' | 'preview'>('split');
   const [copiedKey, setCopiedKey] = useState<string | null>(null);
+
+  useToolHandoff('markdown-previewer', (payload) => {
+    if (payload) {
+      setMarkdown(payload);
+    }
+  });
 
   const stats = useMemo(() => calculateMarkdownStats(markdown), [markdown]);
   const renderedHtml = useMemo(() => renderMarkdownToHtml(markdown), [markdown]);
@@ -120,6 +141,12 @@ export const MarkdownPreviewerTool: React.FC = () => {
         </div>
 
         <div className="flex items-center gap-2">
+          <CrossToolHandoffButton
+            sourceToolId="markdown-previewer"
+            targets={HANDOFF_TARGETS}
+            getData={() => markdown}
+            disabled={!markdown}
+          />
           <button
             type="button"
             onClick={() => handleCopy(markdown, 'markdown')}

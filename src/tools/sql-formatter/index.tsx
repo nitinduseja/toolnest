@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { Database, Copy, Check, Trash2, Download, Sparkles, Minimize2 } from 'lucide-react';
 import { formatSql, minifySql, getSampleSql, KeywordCase, IndentSize } from './sqlLogic';
 import { copyToClipboard } from '@/lib/clipboard';
 import { downloadFile } from '@/lib/downloads';
+import { CrossToolHandoffButton } from '@/components/molecules/CrossToolHandoffButton';
+import { useToolHandoff } from '@/lib/handoff/crossToolHandoff';
 
 export const SqlFormatterTool: React.FC = () => {
   const [input, setInput] = useState<string>(getSampleSql());
@@ -10,6 +12,25 @@ export const SqlFormatterTool: React.FC = () => {
   const [keywordCase, setKeywordCase] = useState<KeywordCase>('upper');
   const [indent, setIndent] = useState<IndentSize>('2');
   const [copied, setCopied] = useState<boolean>(false);
+
+  useToolHandoff('sql-formatter', (payload) => {
+    if (payload) {
+      setInput(payload);
+    }
+  });
+
+  const handoffTargets = useMemo(
+    () => [
+      {
+        toolId: 'sql-to-schema',
+        label: 'Generate Schema',
+        description: 'Convert SQL DDL to TypeScript, Prisma, or Zod schemas',
+      },
+    ],
+    []
+  );
+
+  const getHandoffData = useCallback(() => output || input, [output, input]);
 
   useEffect(() => {
     if (!input.trim()) {
@@ -144,6 +165,11 @@ export const SqlFormatterTool: React.FC = () => {
 
         {/* Action Buttons */}
         <div className="flex items-center gap-2">
+          <CrossToolHandoffButton
+            sourceToolId="sql-formatter"
+            targets={handoffTargets}
+            getData={getHandoffData}
+          />
           <button
             type="button"
             onClick={handleMinify}

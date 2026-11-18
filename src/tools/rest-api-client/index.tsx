@@ -32,19 +32,9 @@ import { CodeSnippetModal } from './CodeSnippetModal';
 import { WebhookSignerModal } from './WebhookSignerModal';
 import { EnvironmentModal } from './EnvironmentModal';
 import { CollectionRunnerModal } from './CollectionRunnerModal';
-
-const DEFAULT_REQUEST: ApiRequest = {
-  id: 'req_init',
-  method: 'GET',
-  url: 'https://jsonplaceholder.typicode.com/posts/1',
-  params: [],
-  headers: [{ id: 'h_1', key: 'Accept', value: 'application/json', enabled: true }],
-  auth: { type: 'none' },
-  bodyType: 'none',
-  bodyContent: '',
-  formParams: [],
-  assertions: [{ id: 'a_1', type: 'status-200', enabled: true }],
-};
+import { useToolHandoff } from '@/lib/handoff/crossToolHandoff';
+import { autoImportContent } from './collectionImportLogic';
+import { DEFAULT_REQUEST } from './sampleRequests';
 
 export const RestApiClientTool: React.FC = () => {
   const [request, setRequest] = useState<ApiRequest>(DEFAULT_REQUEST);
@@ -96,6 +86,19 @@ export const RestApiClientTool: React.FC = () => {
   }, [loadSavedData]);
 
   const activeEnv = environments.find((e) => e.id === activeEnvId) || null;
+
+  useToolHandoff('rest-api-client', (payload) => {
+    if (!payload) return;
+    const res = autoImportContent(payload);
+    if (res.single && res.single.url) {
+      setRequest((r) => ({ ...r, ...res.single }));
+      setResponse(null);
+    } else if (res.collection && res.collection.length > 0) {
+      importCollection(res.collection);
+      setRequest(res.collection[0]);
+      setResponse(null);
+    }
+  });
 
   const handleSend = async () => {
     if (!request.url.trim() || isLoading) return;

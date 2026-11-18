@@ -1,19 +1,25 @@
-import React, { useState, useMemo } from 'react';
-import {
-  Plus,
-  Trash2,
-  Copy,
-  Check,
-  Download,
-  AlignLeft,
-  AlignCenter,
-  AlignRight,
-  Upload,
-  Sparkles,
-} from 'lucide-react';
+import React, { useState, useMemo, useCallback } from 'react';
+import { Plus, Copy, Check, Download, Upload, Sparkles } from 'lucide-react';
 import { generateMarkdownTable, parseDelimitedToTable, ColumnAlignment } from './tableLogic';
 import { copyToClipboard } from '@/lib/clipboard';
 import { downloadFile } from '@/lib/downloads';
+import { CrossToolHandoffButton } from '@/components/molecules/CrossToolHandoffButton';
+import { useToolHandoff } from '@/lib/handoff/crossToolHandoff';
+import { CsvImportModal } from './CsvImportModal';
+import { MarkdownTableGrid } from './MarkdownTableGrid';
+
+const HANDOFF_TARGETS = [
+  {
+    toolId: 'markdown-previewer',
+    label: 'Preview in Markdown',
+    description: 'Render and preview table in Markdown viewer',
+  },
+  {
+    toolId: 'markdown-exporter',
+    label: 'Export Printable Document',
+    description: 'Typeset to PDF or printable HTML document',
+  },
+];
 
 export const MarkdownTableTool: React.FC = () => {
   const [headers, setHeaders] = useState<string[]>(['Feature', 'Toolnest', 'Cloud Alternative']);
@@ -25,7 +31,16 @@ export const MarkdownTableTool: React.FC = () => {
   const [alignments, setAlignments] = useState<ColumnAlignment[]>(['left', 'center', 'right']);
   const [copied, setCopied] = useState<boolean>(false);
   const [csvModalOpen, setCsvModalOpen] = useState<boolean>(false);
-  const [csvText, setCsvText] = useState<string>('');
+
+  useToolHandoff('markdown-table', (payload) => {
+    if (!payload) return;
+    const { headers: newHeaders, rows: newRows } = parseDelimitedToTable(payload);
+    if (newHeaders.length > 0 && newRows.length > 0) {
+      setHeaders(newHeaders);
+      setRows(newRows);
+      setAlignments(Array(newHeaders.length).fill('left'));
+    }
+  });
 
   const markdownOutput = useMemo(() => {
     return generateMarkdownTable({ headers, rows, alignments });
@@ -95,57 +110,20 @@ export const MarkdownTableTool: React.FC = () => {
     downloadFile(markdownOutput, { filename: 'table.md', mimeType: 'text/markdown' });
   };
 
-  const handleImportCsv = () => {
-    if (!csvText.trim()) return;
+  const handleImportCsv = useCallback((csvText: string) => {
     const { headers: newHeaders, rows: newRows } = parseDelimitedToTable(csvText);
     setHeaders(newHeaders);
     setRows(newRows);
     setAlignments(Array(newHeaders.length).fill('left'));
-    setCsvModalOpen(false);
-    setCsvText('');
-  };
+  }, []);
 
   return (
     <div className="space-y-4">
-      {/* Import Modal */}
-      {csvModalOpen && (
-        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4">
-          <div className="w-full max-w-lg bg-surface-container-low border border-outline-variant rounded-2xl p-5 space-y-4 shadow-2xl">
-            <div className="flex items-center justify-between pb-2 border-b border-outline-variant">
-              <span className="font-bold text-sm text-on-surface">Import CSV / Delimited Data</span>
-              <button
-                type="button"
-                onClick={() => setCsvModalOpen(false)}
-                className="text-outline hover:text-on-surface text-xs"
-              >
-                Cancel
-              </button>
-            </div>
-            <textarea
-              value={csvText}
-              onChange={(e) => setCsvText(e.target.value)}
-              placeholder="Paste comma or tab delimited rows here..."
-              className="w-full h-40 p-3 rounded-xl bg-surface-container-lowest border border-outline-variant font-mono text-xs text-on-surface placeholder:text-outline focus:outline-none"
-            />
-            <div className="flex justify-end gap-2">
-              <button
-                type="button"
-                onClick={() => setCsvModalOpen(false)}
-                className="px-3 py-1.5 rounded-lg text-xs font-medium text-on-surface hover:bg-surface-container transition-colors"
-              >
-                Cancel
-              </button>
-              <button
-                type="button"
-                onClick={handleImportCsv}
-                className="px-3.5 py-1.5 rounded-lg bg-primary-container text-on-primary-container text-xs font-semibold hover:opacity-95 transition-opacity"
-              >
-                Import to Grid
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+      <CsvImportModal
+        isOpen={csvModalOpen}
+        onClose={() => setCsvModalOpen(false)}
+        onImport={handleImportCsv}
+      />
 
       {/* Toolbar */}
       <div className="flex flex-wrap items-center justify-between gap-3 p-3 rounded-xl bg-surface-container-low border border-outline-variant">
@@ -153,7 +131,7 @@ export const MarkdownTableTool: React.FC = () => {
           <button
             type="button"
             onClick={addRow}
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-surface hover:bg-surface-container text-xs font-medium text-on-surface border border-outline-variant transition-colors"
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-surface hover:bg-surface-container text-xs font-medium text-on-surface border border-outline-variant transition-colors cursor-pointer"
           >
             <Plus className="w-3.5 h-3.5" />
             <span>Add Row</span>
@@ -161,7 +139,7 @@ export const MarkdownTableTool: React.FC = () => {
           <button
             type="button"
             onClick={addColumn}
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-surface hover:bg-surface-container text-xs font-medium text-on-surface border border-outline-variant transition-colors"
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-surface hover:bg-surface-container text-xs font-medium text-on-surface border border-outline-variant transition-colors cursor-pointer"
           >
             <Plus className="w-3.5 h-3.5" />
             <span>Add Column</span>
@@ -170,7 +148,7 @@ export const MarkdownTableTool: React.FC = () => {
           <button
             type="button"
             onClick={() => setCsvModalOpen(true)}
-            className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs text-on-surface-variant hover:bg-surface-container transition-colors"
+            className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs text-on-surface-variant hover:bg-surface-container transition-colors cursor-pointer"
           >
             <Upload className="w-3.5 h-3.5" />
             <span>Import CSV</span>
@@ -178,10 +156,16 @@ export const MarkdownTableTool: React.FC = () => {
         </div>
 
         <div className="flex items-center gap-2">
+          <CrossToolHandoffButton
+            sourceToolId="markdown-table"
+            targets={HANDOFF_TARGETS}
+            getData={() => markdownOutput}
+            disabled={!markdownOutput}
+          />
           <button
             type="button"
             onClick={handleCopy}
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-surface hover:bg-surface-container text-xs font-medium text-on-surface border border-outline-variant transition-colors"
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-surface hover:bg-surface-container text-xs font-medium text-on-surface border border-outline-variant transition-colors cursor-pointer"
           >
             {copied ? (
               <Check className="w-3.5 h-3.5 text-emerald-500" />
@@ -193,7 +177,7 @@ export const MarkdownTableTool: React.FC = () => {
           <button
             type="button"
             onClick={handleDownload}
-            className="p-1.5 rounded-lg text-outline hover:text-on-surface hover:bg-surface-container transition-colors"
+            className="p-1.5 rounded-lg text-outline hover:text-on-surface hover:bg-surface-container transition-colors cursor-pointer"
             title="Download table.md"
           >
             <Download className="w-4 h-4" />
@@ -201,88 +185,16 @@ export const MarkdownTableTool: React.FC = () => {
         </div>
       </div>
 
-      {/* Interactive Spreadsheet Grid */}
-      <div className="rounded-xl border border-outline-variant bg-surface-container-low overflow-x-auto p-4 space-y-3">
-        <div className="text-xs font-semibold uppercase tracking-wider text-outline px-1">
-          Visual Table Grid ({rows.length} rows × {headers.length} cols)
-        </div>
-
-        <table className="w-full text-xs border-collapse">
-          <thead>
-            <tr>
-              <th className="w-8 text-center text-outline font-mono">#</th>
-              {headers.map((h, colIdx) => (
-                <th key={colIdx} className="p-1.5 min-w-[140px]">
-                  <div className="flex items-center gap-1">
-                    <input
-                      type="text"
-                      value={h}
-                      onChange={(e) => handleHeaderChange(colIdx, e.target.value)}
-                      className="w-full px-2 py-1.5 rounded-lg bg-surface border border-outline-variant font-semibold text-on-surface focus:outline-none focus:ring-1 focus:ring-primary"
-                    />
-                    <button
-                      type="button"
-                      onClick={() => toggleAlignment(colIdx)}
-                      className="p-1.5 rounded-md hover:bg-surface-container text-outline hover:text-primary transition-colors shrink-0"
-                      title={`Alignment: ${alignments[colIdx] || 'left'} (click to cycle)`}
-                    >
-                      {alignments[colIdx] === 'center' ? (
-                        <AlignCenter className="w-3.5 h-3.5" />
-                      ) : alignments[colIdx] === 'right' ? (
-                        <AlignRight className="w-3.5 h-3.5" />
-                      ) : (
-                        <AlignLeft className="w-3.5 h-3.5" />
-                      )}
-                    </button>
-                    {headers.length > 1 && (
-                      <button
-                        type="button"
-                        onClick={() => removeColumn(colIdx)}
-                        className="p-1 rounded-md text-outline hover:text-red-400 hover:bg-surface-container shrink-0"
-                        title="Delete column"
-                      >
-                        <Trash2 className="w-3 h-3" />
-                      </button>
-                    )}
-                  </div>
-                </th>
-              ))}
-              <th className="w-8"></th>
-            </tr>
-          </thead>
-          <tbody>
-            {rows.map((row, rowIdx) => (
-              <tr key={rowIdx} className="hover:bg-surface-container/40 transition-colors">
-                <td className="text-center font-mono text-[11px] text-outline select-none">
-                  {rowIdx + 1}
-                </td>
-                {headers.map((_, colIdx) => (
-                  <td key={colIdx} className="p-1.5">
-                    <input
-                      type="text"
-                      value={row[colIdx] || ''}
-                      onChange={(e) => handleCellChange(rowIdx, colIdx, e.target.value)}
-                      className="w-full px-2 py-1.5 rounded-lg bg-surface-container-lowest border border-outline-variant/60 text-on-surface focus:outline-none focus:ring-1 focus:ring-primary"
-                    />
-                  </td>
-                ))}
-                <td className="p-1 text-center">
-                  {rows.length > 1 && (
-                    <button
-                      type="button"
-                      onClick={() => removeRow(rowIdx)}
-                      className="p-1 rounded text-outline hover:text-red-400 hover:bg-surface-container"
-                      title="Delete row"
-                    >
-                      <Trash2 className="w-3 h-3" />
-                    </button>
-                  )}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+      <MarkdownTableGrid
+        headers={headers}
+        rows={rows}
+        alignments={alignments}
+        onHeaderChange={handleHeaderChange}
+        onCellChange={handleCellChange}
+        onToggleAlignment={toggleAlignment}
+        onRemoveColumn={removeColumn}
+        onRemoveRow={removeRow}
+      />
 
       {/* Generated Markdown Preview */}
       <div className="space-y-2">

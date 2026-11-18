@@ -7,6 +7,7 @@ import {
   generateTailwindClass,
 } from './patternLogic';
 import { Icon } from '@/components/atoms/Icon';
+import { CrossToolHandoffButton } from '@/components/molecules/CrossToolHandoffButton';
 
 interface PatternPreviewStageProps {
   config: PatternConfig;
@@ -115,14 +116,32 @@ export const PatternPreviewStage: React.FC<PatternPreviewStageProps> = ({ config
             ))}
           </div>
 
-          <button
-            type="button"
-            onClick={handleCopy}
-            className="flex items-center gap-1.5 rounded-lg bg-primary/10 px-3 py-1.5 text-xs font-semibold text-primary transition hover:bg-primary/20"
-          >
-            <Icon name={copied ? 'Check' : 'Copy'} className="h-3.5 w-3.5" />
-            <span>{copied ? 'Copied!' : 'Copy Code'}</span>
-          </button>
+          <div className="flex items-center gap-2">
+            <CrossToolHandoffButton
+              sourceToolId="svg-patterns"
+              targets={[
+                {
+                  toolId: 'svg-optimizer',
+                  label: 'Optimize SVG',
+                  description: 'Minify and optimize SVG pattern markup',
+                },
+                {
+                  toolId: 'svg-to-jsx',
+                  label: 'Convert to JSX',
+                  description: 'Generate React / JSX component from pattern',
+                },
+              ]}
+              getData={() => svgCode}
+            />
+            <button
+              type="button"
+              onClick={handleCopy}
+              className="flex items-center gap-1.5 rounded-lg bg-primary/10 px-3 py-1.5 text-xs font-semibold text-primary transition hover:bg-primary/20"
+            >
+              <Icon name={copied ? 'Check' : 'Copy'} className="h-3.5 w-3.5" />
+              <span>{copied ? 'Copied!' : 'Copy Code'}</span>
+            </button>
+          </div>
         </div>
 
         <pre className="max-h-36 overflow-auto rounded-lg bg-surface-container-low/70 p-3 font-mono text-xs text-on-surface">

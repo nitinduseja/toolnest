@@ -1,7 +1,7 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useCallback } from 'react';
 import { BarChart2, Table, Upload } from 'lucide-react';
 import { DataRow, ChartConfig } from './types';
-import { parseData } from './dataParser';
+import { parseData, exportToCsv } from './dataParser';
 import { inferColumns, computeColumnStats, aggregateData } from './statsEngine';
 import { DATA_PRESETS } from './presets';
 import { DataControls } from './DataControls';
@@ -9,6 +9,8 @@ import { DataPreviewStage } from './DataPreviewStage';
 import { DataStatsCards } from './DataStatsCards';
 import { DataTableView } from './DataTableView';
 import { DataImportModal } from './DataImportModal';
+import { useToolHandoff } from '@/lib/handoff/crossToolHandoff';
+import { CrossToolHandoffButton } from '@/components/molecules/CrossToolHandoffButton';
 
 export default function DataChartTool() {
   const [data, setData] = useState<DataRow[]>(() => parseData(DATA_PRESETS[0].rawCsv));
@@ -47,7 +49,7 @@ export default function DataChartTool() {
     }));
   };
 
-  const handleImport = (rawText: string) => {
+  const handleImport = useCallback((rawText: string) => {
     const parsed = parseData(rawText);
     if (parsed.length > 0) {
       setData(parsed);
@@ -61,7 +63,14 @@ export default function DataChartTool() {
         title: 'Custom Dataset',
       }));
     }
-  };
+  }, []);
+
+  useToolHandoff('data-chart', handleImport);
+
+  const getExportData = useCallback(() => {
+    const colNames = columns.map((c) => c.name);
+    return exportToCsv(data, colNames);
+  }, [data, columns]);
 
   return (
     <div className="max-w-7xl mx-auto space-y-6">
@@ -122,6 +131,13 @@ export default function DataChartTool() {
             <Upload className="w-3.5 h-3.5 text-sky-500" />
             Import Data
           </button>
+
+          <CrossToolHandoffButton
+            targets={[{ slug: 'csv-json', label: 'Open in CSV/JSON' }]}
+            getData={getExportData}
+            sourceSlug="data-chart"
+            disabled={data.length === 0}
+          />
         </div>
       </div>
 

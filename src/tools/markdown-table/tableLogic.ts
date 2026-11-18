@@ -87,21 +87,42 @@ export function generateMarkdownTable(data: MarkdownTableData): string {
 }
 
 /**
- * Parses simple CSV or TSV string into tabular headers and rows.
+ * Parses simple CSV, TSV, or Markdown table string into tabular headers and rows.
  */
 export function parseDelimitedToTable(
   input: string,
-  delimiter = ','
+  delimiter?: string
 ): { headers: string[]; rows: string[][] } {
   const lines = input
     .trim()
     .split('\n')
-    .filter((l) => l.trim().length > 0);
+    .map((l) => l.trim())
+    .filter((l) => l.length > 0);
   if (lines.length === 0) {
     return { headers: ['Col 1', 'Col 2', 'Col 3'], rows: [['', '', '']] };
   }
 
-  const raw = lines.map((l) => l.split(delimiter).map((c) => c.trim().replace(/^["']|["']$/g, '')));
+  const firstLine = lines[0];
+  const delim =
+    delimiter || (firstLine.includes('|') ? '|' : firstLine.includes('\t') ? '\t' : ',');
+
+  if (delim === '|') {
+    const tableLines = lines.filter((l) => !/^\|?[\s\-:]+(\|[\s\-:]+)+\|?$/.test(l));
+    const raw = tableLines.map((l) => {
+      const trimmed = l.replace(/^\|/, '').replace(/\|$/, '');
+      return trimmed.split('|').map((c) => c.trim());
+    });
+    const headers = raw[0].map((h, idx) => h || `Col ${idx + 1}`);
+    const colCount = headers.length;
+    const rows = raw.slice(1).map((r) => {
+      const padded = [...r];
+      while (padded.length < colCount) padded.push('');
+      return padded.slice(0, colCount);
+    });
+    return { headers, rows: rows.length > 0 ? rows : [['', '', '']] };
+  }
+
+  const raw = lines.map((l) => l.split(delim).map((c) => c.trim().replace(/^["']|["']$/g, '')));
   const headers = raw[0].map((h, idx) => h || `Col ${idx + 1}`);
   const colCount = headers.length;
 

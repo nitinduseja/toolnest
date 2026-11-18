@@ -1,18 +1,10 @@
-import React, { useState, useRef } from 'react';
-import {
-  Copy,
-  Check,
-  Download,
-  Upload,
-  Trash2,
-  Wand2,
-  Minimize2,
-  CheckCircle,
-  AlertTriangle,
-} from 'lucide-react';
+import React, { useState, useRef, useCallback } from 'react';
+import { AlertTriangle } from 'lucide-react';
 import { formatJson, minifyJson, validateJson } from './jsonLogic';
 import { copyToClipboard } from '@/lib/clipboard';
 import { downloadFile } from '@/lib/downloads';
+import { useToolHandoff } from '@/lib/handoff/crossToolHandoff';
+import { JsonFormatterToolbar } from './JsonFormatterToolbar';
 
 const SAMPLE_JSON = `{
   "name": "Toolnest",
@@ -37,6 +29,14 @@ export const JsonFormatter: React.FC = () => {
   const [copied, setCopied] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  useToolHandoff('json-formatter', (payload) => {
+    if (payload) {
+      setInput(payload);
+      setOutput('');
+      setError(null);
+    }
+  });
 
   const handlePrettify = () => {
     try {
@@ -99,6 +99,21 @@ export const JsonFormatter: React.FC = () => {
     }
   };
 
+  const handleClear = () => {
+    setInput('');
+    setOutput('');
+    setError(null);
+  };
+
+  const handleDownload = () => {
+    downloadFile(output || input, {
+      filename: 'formatted.json',
+      mimeType: 'application/json',
+    });
+  };
+
+  const getHandoffData = useCallback(() => output || input, [output, input]);
+
   return (
     <div className="space-y-4">
       <input
@@ -109,113 +124,21 @@ export const JsonFormatter: React.FC = () => {
         className="hidden"
       />
 
-      {/* Action Toolbar */}
-      <div className="flex flex-wrap items-center justify-between gap-2 p-3 rounded-xl bg-surface-container-low border border-outline-variant">
-        <div className="flex flex-wrap items-center gap-2">
-          <button
-            type="button"
-            onClick={handlePrettify}
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-primary-container text-on-primary-container text-xs font-semibold hover:opacity-95 shadow-sm transition-opacity"
-          >
-            <Wand2 className="w-3.5 h-3.5" />
-            <span>Prettify</span>
-          </button>
+      <JsonFormatterToolbar
+        indent={indent}
+        onIndentChange={setIndent}
+        onPrettify={handlePrettify}
+        onMinify={handleMinify}
+        onValidate={handleValidate}
+        onUploadClick={() => fileInputRef.current?.click()}
+        onSample={() => setInput(SAMPLE_JSON)}
+        onClear={handleClear}
+        onCopy={handleCopy}
+        copied={copied}
+        onDownload={handleDownload}
+        getHandoffData={getHandoffData}
+      />
 
-          <div className="flex items-center bg-surface-container rounded-lg p-0.5 border border-outline-variant/40 text-xs">
-            {([2, 4, 'tab'] as const).map((opt) => (
-              <button
-                key={opt}
-                type="button"
-                onClick={() => setIndent(opt)}
-                className={`px-2 py-1 rounded text-[11px] font-mono transition-colors ${
-                  indent === opt
-                    ? 'bg-primary text-on-primary font-semibold shadow-xs'
-                    : 'text-on-surface-variant hover:text-on-surface'
-                }`}
-              >
-                {opt === 'tab' ? 'Tab' : `${opt} Sp`}
-              </button>
-            ))}
-          </div>
-
-          <button
-            type="button"
-            onClick={handleMinify}
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-surface hover:bg-surface-container text-xs text-on-surface border border-outline-variant/60 transition-colors"
-          >
-            <Minimize2 className="w-3.5 h-3.5" />
-            <span>Compact</span>
-          </button>
-
-          <button
-            type="button"
-            onClick={handleValidate}
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-surface hover:bg-surface-container text-xs text-on-surface border border-outline-variant/60 transition-colors"
-          >
-            <CheckCircle className="w-3.5 h-3.5 text-emerald-500" />
-            <span>Validate</span>
-          </button>
-        </div>
-
-        <div className="flex items-center gap-2">
-          <button
-            type="button"
-            onClick={() => fileInputRef.current?.click()}
-            className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors"
-            title="Upload JSON File"
-          >
-            <Upload className="w-3.5 h-3.5" />
-            <span className="hidden sm:inline">Upload</span>
-          </button>
-          <button
-            type="button"
-            onClick={() => setInput(SAMPLE_JSON)}
-            className="px-2.5 py-1.5 rounded-lg text-xs text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors"
-          >
-            Sample
-          </button>
-          <button
-            type="button"
-            onClick={() => {
-              setInput('');
-              setOutput('');
-              setError(null);
-            }}
-            className="p-1.5 rounded-lg text-outline hover:text-red-500 hover:bg-surface-container transition-colors"
-            title="Clear All"
-          >
-            <Trash2 className="w-4 h-4" />
-          </button>
-          <div className="h-4 w-px bg-outline-variant" />
-          <button
-            type="button"
-            onClick={handleCopy}
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-surface hover:bg-surface-container text-xs font-medium text-on-surface border border-outline-variant/60 transition-colors"
-          >
-            {copied ? (
-              <Check className="w-3.5 h-3.5 text-emerald-500" />
-            ) : (
-              <Copy className="w-3.5 h-3.5" />
-            )}
-            <span>{copied ? 'Copied' : 'Copy'}</span>
-          </button>
-          <button
-            type="button"
-            onClick={() =>
-              downloadFile(output || input, {
-                filename: 'formatted.json',
-                mimeType: 'application/json',
-              })
-            }
-            className="p-1.5 rounded-lg text-outline hover:text-on-surface hover:bg-surface-container transition-colors"
-            title="Download JSON"
-          >
-            <Download className="w-4 h-4" />
-          </button>
-        </div>
-      </div>
-
-      {/* Parsing Error Notice */}
       {error && (
         <div className="p-3 rounded-xl bg-red-500/10 border border-red-500/30 flex items-start gap-2.5 text-xs text-red-400">
           <AlertTriangle className="w-4 h-4 shrink-0 mt-0.5" />
@@ -226,7 +149,6 @@ export const JsonFormatter: React.FC = () => {
         </div>
       )}
 
-      {/* Split Code Viewers */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         <div
           className={`flex flex-col space-y-2 rounded-xl transition-all ${

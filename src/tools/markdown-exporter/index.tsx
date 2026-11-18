@@ -3,6 +3,7 @@ import { DocumentMeta, MarkdownPreset } from './types';
 import { generatePrintDocument, EXPORT_PRESETS } from './markdownExportLogic';
 import { MarkdownExportToolbar } from './MarkdownExportToolbar';
 import { Icon } from '@/components/atoms/Icon';
+import { useToolHandoff } from '@/lib/handoff/crossToolHandoff';
 
 const INITIAL_PRESET = EXPORT_PRESETS[0];
 
@@ -19,6 +20,12 @@ export const MarkdownExporter: React.FC = () => {
     theme: INITIAL_PRESET.meta.theme || 'modern',
   });
   const [copied, setCopied] = useState(false);
+
+  useToolHandoff('markdown-exporter', (payload) => {
+    if (payload) {
+      setMarkdown(payload);
+    }
+  });
 
   const fullHtml = useMemo(() => generatePrintDocument(markdown, meta), [markdown, meta]);
 
@@ -107,6 +114,7 @@ export const MarkdownExporter: React.FC = () => {
         onDownloadHtml={handleDownloadHtml}
         onCopyHtml={handleCopyHtml}
         copied={copied}
+        markdown={markdown}
       />
 
       {/* Split Workspace */}

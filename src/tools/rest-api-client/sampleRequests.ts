@@ -3,6 +3,19 @@
  */
 import { ApiRequest } from './types';
 
+export const DEFAULT_REQUEST: ApiRequest = {
+  id: 'req_init',
+  method: 'GET',
+  url: 'https://jsonplaceholder.typicode.com/posts/1',
+  params: [],
+  headers: [{ id: 'h_1', key: 'Accept', value: 'application/json', enabled: true }],
+  auth: { type: 'none' },
+  bodyType: 'none',
+  bodyContent: '',
+  formParams: [],
+  assertions: [{ id: 'a_1', type: 'status-200', enabled: true }],
+};
+
 export const SAMPLE_REQUESTS: { id: string; label: string; desc: string; req: ApiRequest }[] = [
   {
     id: 'jsonplaceholder-get',

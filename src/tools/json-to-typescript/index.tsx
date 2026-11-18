@@ -1,8 +1,10 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useCallback } from 'react';
 import { Copy, Check, Download, Trash2, AlertTriangle, FileCode2, Sparkles } from 'lucide-react';
 import { generateTypeScript, generateZodSchema } from './schemaLogic';
 import { copyToClipboard } from '@/lib/clipboard';
 import { downloadFile } from '@/lib/downloads';
+import { CrossToolHandoffButton } from '@/components/molecules/CrossToolHandoffButton';
+import { useToolHandoff } from '@/lib/handoff/crossToolHandoff';
 
 const SAMPLE_JSON = `{
   "id": 1042,
@@ -30,6 +32,30 @@ export const JsonToTypescriptTool: React.FC = () => {
   const [rootName, setRootName] = useState<string>('User');
   const [exportTypes, setExportTypes] = useState<boolean>(true);
   const [copied, setCopied] = useState<boolean>(false);
+
+  useToolHandoff('json-to-typescript', (payload) => {
+    if (payload) {
+      setJsonInput(payload);
+    }
+  });
+
+  const handoffTargets = useMemo(
+    () => [
+      {
+        toolId: 'json-formatter',
+        label: 'Format JSON',
+        description: 'Prettify and validate JSON structure',
+      },
+      {
+        toolId: 'data-chart',
+        label: 'Visualize Chart',
+        description: 'Plot charts and summarize datasets',
+      },
+    ],
+    []
+  );
+
+  const getHandoffData = useCallback(() => jsonInput, [jsonInput]);
 
   const result = useMemo(() => {
     if (format === 'zod') {
@@ -128,6 +154,11 @@ export const JsonToTypescriptTool: React.FC = () => {
         </div>
 
         <div className="flex items-center gap-2">
+          <CrossToolHandoffButton
+            sourceToolId="json-to-typescript"
+            targets={handoffTargets}
+            getData={getHandoffData}
+          />
           <button
             type="button"
             onClick={() => setJsonInput(SAMPLE_JSON)}

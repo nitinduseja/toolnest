@@ -1,6 +1,7 @@
 import React from 'react';
 import { DocumentMeta, ExportTheme, PageSize, PageOrientation } from './types';
 import { Icon } from '@/components/atoms/Icon';
+import { CrossToolHandoffButton } from '@/components/molecules/CrossToolHandoffButton';
 
 interface MarkdownExportToolbarProps {
   meta: DocumentMeta;
@@ -9,6 +10,7 @@ interface MarkdownExportToolbarProps {
   onDownloadHtml: () => void;
   onCopyHtml: () => void;
   copied: boolean;
+  markdown: string;
 }
 
 export const MarkdownExportToolbar: React.FC<MarkdownExportToolbarProps> = ({
@@ -18,6 +20,7 @@ export const MarkdownExportToolbar: React.FC<MarkdownExportToolbarProps> = ({
   onDownloadHtml,
   onCopyHtml,
   copied,
+  markdown,
 }) => {
   return (
     <div className="flex flex-col gap-3 rounded-xl border border-outline-variant/50 bg-surface/70 p-4">
@@ -117,6 +120,24 @@ export const MarkdownExportToolbar: React.FC<MarkdownExportToolbarProps> = ({
         </label>
 
         <div className="flex items-center gap-2">
+          <CrossToolHandoffButton
+            sourceToolId="markdown-exporter"
+            targets={[
+              {
+                toolId: 'markdown-previewer',
+                label: 'Preview in Markdown',
+                description: 'View in live Markdown previewer',
+              },
+              {
+                toolId: 'markdown-table',
+                label: 'Edit in Table Generator',
+                description: 'Generate or edit Markdown tables',
+              },
+            ]}
+            getData={() => markdown}
+            disabled={!markdown}
+          />
+
           <button
             type="button"
             onClick={onCopyHtml}

@@ -1,9 +1,10 @@
-import React, { useState, useMemo, useRef } from 'react';
+import React, { useState, useMemo, useRef, useCallback } from 'react';
 import { AlertTriangle, Info } from 'lucide-react';
 import { convertCsvToJson, convertJsonToCsv } from './csvLogic';
 import { CsvJsonToolbar, ConversionDirection } from './CsvJsonToolbar';
 import { copyToClipboard } from '@/lib/clipboard';
 import { downloadFile } from '@/lib/downloads';
+import { useToolHandoff } from '@/lib/handoff/crossToolHandoff';
 
 const SAMPLE_CSV = `id,name,role,department
 101,"Linus Torvalds","Fellow","Linux Foundation"
@@ -41,6 +42,32 @@ export const CsvToJsonTool: React.FC = () => {
   const [copied, setCopied] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const handleIncomingHandoff = useCallback((incomingData: string) => {
+    const trimmed = incomingData.trim();
+    if (trimmed.startsWith('[') || trimmed.startsWith('{')) {
+      setDirection('json-to-csv');
+      setInput(trimmed);
+    } else {
+      setDirection('csv-to-json');
+      setInput(trimmed);
+    }
+  }, []);
+
+  useToolHandoff('csv-json', handleIncomingHandoff);
+
+  const handoffTargets = useMemo(() => {
+    if (direction === 'csv-to-json') {
+      return [
+        { slug: 'data-chart', label: 'Visualize Chart', format: 'json' },
+        { slug: 'json-to-typescript', label: 'Generate Types', format: 'json' },
+      ];
+    }
+    return [
+      { slug: 'data-chart', label: 'Visualize Chart', format: 'csv' },
+      { slug: 'json-formatter', label: 'Format JSON', format: 'json' },
+    ];
+  }, [direction]);
 
   const conversionResult = useMemo(() => {
     if (direction === 'csv-to-json') {
@@ -147,6 +174,8 @@ export const CsvToJsonTool: React.FC = () => {
         copied={copied}
         handleDownload={handleDownload}
         hasOutput={Boolean(conversionResult.output)}
+        handoffTargets={handoffTargets}
+        getHandoffData={() => conversionResult.output || input}
       />
 
       {/* Warnings & Errors */}

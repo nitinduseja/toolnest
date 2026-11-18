@@ -1,5 +1,7 @@
 import React, { useState, useMemo, useRef } from 'react';
 import { Sparkles, Trash2, Upload, FileCode2, CheckCircle2 } from 'lucide-react';
+import { CrossToolHandoffButton } from '@/components/molecules/CrossToolHandoffButton';
+import { useToolHandoff } from '@/lib/handoff/crossToolHandoff';
 import type { SvgOptimizeOptions } from './types';
 import {
   DEFAULT_SVG_OPTIONS,
@@ -36,6 +38,23 @@ export const SvgOptimizerTool: React.FC = () => {
   const [svgInput, setSvgInput] = useState<string>(SAMPLE_RAW_SVG);
   const [options, setOptions] = useState<SvgOptimizeOptions>(DEFAULT_SVG_OPTIONS);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  useToolHandoff('svg-optimizer', (payload) => {
+    if (payload) {
+      setSvgInput(payload);
+    }
+  });
+
+  const handoffTargets = useMemo(
+    () => [
+      {
+        toolId: 'svg-to-jsx',
+        label: 'Convert to JSX',
+        description: 'Generate React / JSX component from SVG markup',
+      },
+    ],
+    []
+  );
 
   const isValid = useMemo(() => isValidSvg(svgInput), [svgInput]);
 
@@ -90,6 +109,12 @@ export const SvgOptimizerTool: React.FC = () => {
         </div>
 
         <div className="flex items-center gap-2">
+          <CrossToolHandoffButton
+            sourceToolId="svg-optimizer"
+            targets={handoffTargets}
+            getData={() => optimized || svgInput}
+            disabled={!isValid}
+          />
           <button
             type="button"
             onClick={() => setSvgInput(SAMPLE_RAW_SVG)}

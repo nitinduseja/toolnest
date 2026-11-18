@@ -1,8 +1,10 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useCallback } from 'react';
 import { Copy, Check, Download, Trash2, AlertTriangle, Code2, Sparkles } from 'lucide-react';
 import { convertCurl, TargetLanguage } from './curlLogic';
 import { copyToClipboard } from '@/lib/clipboard';
 import { downloadFile } from '@/lib/downloads';
+import { CrossToolHandoffButton } from '@/components/molecules/CrossToolHandoffButton';
+import { useToolHandoff } from '@/lib/handoff/crossToolHandoff';
 
 const SAMPLES = {
   post: `curl -X POST https://api.example.com/v1/users \\
@@ -19,6 +21,25 @@ export const CurlConverterTool: React.FC = () => {
   const [curlInput, setCurlInput] = useState<string>(SAMPLES.post);
   const [targetLang, setTargetLang] = useState<TargetLanguage>('fetch');
   const [copied, setCopied] = useState<boolean>(false);
+
+  useToolHandoff('curl-converter', (payload) => {
+    if (payload) {
+      setCurlInput(payload);
+    }
+  });
+
+  const handoffTargets = useMemo(
+    () => [
+      {
+        toolId: 'rest-api-client',
+        label: 'Test in REST Client',
+        description: 'Import and test this request in REST API client',
+      },
+    ],
+    []
+  );
+
+  const getHandoffData = useCallback(() => curlInput, [curlInput]);
 
   const result = useMemo(() => {
     return convertCurl(curlInput, targetLang);
@@ -107,6 +128,11 @@ export const CurlConverterTool: React.FC = () => {
         </div>
 
         <div className="flex items-center gap-2">
+          <CrossToolHandoffButton
+            sourceToolId="curl-converter"
+            targets={handoffTargets}
+            getData={getHandoffData}
+          />
           <button
             type="button"
             onClick={() => setCurlInput('')}

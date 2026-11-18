@@ -4,6 +4,7 @@ import { signJwt, verifyJwt, JWT_PRESETS } from './jwtStudioLogic';
 import { JwtPresetsBar } from './JwtPresetsBar';
 import { JwtTokenBreakdown } from './JwtTokenBreakdown';
 import { Icon } from '@/components/atoms/Icon';
+import { useToolHandoff } from '@/lib/handoff/crossToolHandoff';
 
 const INITIAL_PRESET = JWT_PRESETS[0];
 
@@ -20,6 +21,25 @@ export const JwtStudio: React.FC = () => {
     isValid: true,
     isExpired: false,
     message: 'Initializing...',
+  });
+
+  useToolHandoff('jwt-studio', (payload) => {
+    if (!payload) return;
+    const parts = payload.trim().split('.');
+    if (parts.length >= 2) {
+      try {
+        let b64h = parts[0].replace(/-/g, '+').replace(/_/g, '/');
+        while (b64h.length % 4) b64h += '=';
+        let b64p = parts[1].replace(/-/g, '+').replace(/_/g, '/');
+        while (b64p.length % 4) b64p += '=';
+        const hJson = JSON.parse(atob(b64h));
+        const pJson = JSON.parse(atob(b64p));
+        setHeaderJson(JSON.stringify(hJson, null, 2));
+        setPayloadJson(JSON.stringify(pJson, null, 2));
+      } catch {
+        // Ignore malformed token
+      }
+    }
   });
 
   const generateAndVerify = useCallback(async () => {

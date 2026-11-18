@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { JwtVerificationResult } from './types';
 import { Icon } from '@/components/atoms/Icon';
+import { CrossToolHandoffButton } from '@/components/molecules/CrossToolHandoffButton';
 
 interface JwtTokenBreakdownProps {
   token: string;
@@ -52,14 +53,28 @@ export const JwtTokenBreakdown: React.FC<JwtTokenBreakdownProps> = ({ token, ver
           <span className="text-on-surface">{token}</span>
         )}
 
-        <button
-          type="button"
-          onClick={handleCopy}
-          className="mt-3 flex items-center gap-1.5 rounded bg-primary/10 px-2.5 py-1 text-xs font-medium text-primary hover:bg-primary/20"
-        >
-          <Icon name={copied ? 'Check' : 'Copy'} className="h-3 w-3" />
-          <span>{copied ? 'Copied' : 'Copy Full Token'}</span>
-        </button>
+        <div className="mt-3 flex items-center gap-2">
+          <CrossToolHandoffButton
+            sourceToolId="jwt-studio"
+            targets={[
+              {
+                toolId: 'jwt-decoder',
+                label: 'Inspect in JWT Decoder',
+                description: 'Deep-dive into claims, headers, and signature diagnostics',
+              },
+            ]}
+            getData={() => token}
+            disabled={!token}
+          />
+          <button
+            type="button"
+            onClick={handleCopy}
+            className="flex items-center gap-1.5 rounded bg-primary/10 px-2.5 py-1 text-xs font-medium text-primary hover:bg-primary/20"
+          >
+            <Icon name={copied ? 'Check' : 'Copy'} className="h-3 w-3" />
+            <span>{copied ? 'Copied' : 'Copy Full Token'}</span>
+          </button>
+        </div>
       </div>
 
       {/* Token Explanatory Legend */}
