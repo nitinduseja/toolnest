@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Columns2, Star, Maximize2, Minimize2, Search, HelpCircle } from 'lucide-react';
+import { Columns2, Star, Maximize2, Minimize2, Search, HelpCircle, Layers } from 'lucide-react';
 import { ToolDefinition } from '@/registry/types';
 import { CATEGORY_MAP } from '@/registry/categories';
 import { Icon } from '@/components/atoms/Icon';
@@ -14,6 +14,7 @@ interface StandaloneToolHeaderProps {
   onToggleSplit: () => void;
   onOpenCommandPalette: () => void;
   onOpenShortcuts: () => void;
+  onOpenWorkspaces: () => void;
 }
 
 export const StandaloneToolHeader: React.FC<StandaloneToolHeaderProps> = ({
@@ -22,6 +23,7 @@ export const StandaloneToolHeader: React.FC<StandaloneToolHeaderProps> = ({
   onToggleSplit,
   onOpenCommandPalette,
   onOpenShortcuts,
+  onOpenWorkspaces,
 }) => {
   const { isFavorite, toggleFavorite } = useFavorites();
   const [isFullscreen, setIsFullscreen] = useState(false);
@@ -102,6 +104,17 @@ export const StandaloneToolHeader: React.FC<StandaloneToolHeaderProps> = ({
           aria-label="Search tools with command palette"
         >
           <Search className="w-4 h-4" />
+        </button>
+
+        {/* Workspaces modal toggle */}
+        <button
+          type="button"
+          onClick={onOpenWorkspaces}
+          title="Multi-Tool Workspaces & Presets"
+          className="hidden sm:flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors cursor-pointer"
+        >
+          <Layers className="w-3.5 h-3.5 text-primary" />
+          <span className="hidden lg:inline">Workspaces</span>
         </button>
 
         {/* Desktop/Tablet Split View toggle */}

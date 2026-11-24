@@ -2,7 +2,7 @@ import React, { useState, useMemo, useRef } from 'react';
 import { Sparkles, Trash2, Upload, FileCode2, CheckCircle2 } from 'lucide-react';
 import { CrossToolHandoffButton } from '@/components/molecules/CrossToolHandoffButton';
 import { useToolHandoff } from '@/lib/handoff/crossToolHandoff';
-import type { SvgOptimizeOptions } from './types';
+import type { SvgOptimizeOptions, SvgBatchItem } from './types';
 import {
   DEFAULT_SVG_OPTIONS,
   optimizeSvg,
@@ -11,6 +11,7 @@ import {
 } from './svgOptimizerLogic';
 import { SvgControls } from './SvgControls';
 import { SvgPreviewStage } from './SvgPreviewStage';
+import { SvgBatchOptimizer } from './SvgBatchOptimizer';
 
 const SAMPLE_RAW_SVG = `<?xml version="1.0" encoding="utf-8"?>
 <!-- Generator: Adobe Illustrator 27.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
@@ -37,6 +38,7 @@ const SAMPLE_RAW_SVG = `<?xml version="1.0" encoding="utf-8"?>
 export const SvgOptimizerTool: React.FC = () => {
   const [svgInput, setSvgInput] = useState<string>(SAMPLE_RAW_SVG);
   const [options, setOptions] = useState<SvgOptimizeOptions>(DEFAULT_SVG_OPTIONS);
+  const [batchItems, setBatchItems] = useState<SvgBatchItem[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   useToolHandoff('svg-optimizer', (payload) => {
@@ -68,14 +70,39 @@ export const SvgOptimizerTool: React.FC = () => {
   }, [svgInput, optimized]);
 
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = (ev) => {
-      const content = ev.target?.result as string;
-      if (content) setSvgInput(content);
-    };
-    reader.readAsText(file);
+    const files = Array.from(e.target.files || []);
+    if (files.length === 0) return;
+
+    if (files.length === 1 && batchItems.length === 0) {
+      const reader = new FileReader();
+      reader.onload = (ev) => {
+        const content = ev.target?.result as string;
+        if (content) setSvgInput(content);
+      };
+      reader.readAsText(files[0]);
+    } else {
+      files.forEach((file) => {
+        const reader = new FileReader();
+        reader.onload = (ev) => {
+          const content = ev.target?.result as string;
+          if (content && isValidSvg(content)) {
+            const opt = optimizeSvg(content, options);
+            const st = calculateSvgStats(content, opt);
+            setBatchItems((prev) => [
+              ...prev,
+              {
+                id: `svg_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`,
+                name: file.name,
+                originalSvg: content,
+                optimizedSvg: opt,
+                stats: st,
+              },
+            ]);
+          }
+        };
+        reader.readAsText(file);
+      });
+    }
     e.target.value = '';
   };
 
@@ -129,11 +156,12 @@ export const SvgOptimizerTool: React.FC = () => {
             className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-surface-container hover:bg-surface-container-high border border-outline-variant text-on-surface cursor-pointer"
           >
             <Upload className="w-3.5 h-3.5 text-primary" />
-            <span>Upload SVG</span>
+            <span>Upload SVG(s)</span>
           </button>
           <input
             ref={fileInputRef}
             type="file"
+            multiple
             accept=".svg,image/svg+xml"
             onChange={handleFileUpload}
             className="hidden"
@@ -193,6 +221,14 @@ export const SvgOptimizerTool: React.FC = () => {
           </div>
         </div>
       )}
+
+      {/* Batch Optimizer Queue */}
+      <SvgBatchOptimizer
+        items={batchItems}
+        onRemove={(id) => setBatchItems((prev) => prev.filter((item) => item.id !== id))}
+        onSelect={(item) => setSvgInput(item.originalSvg)}
+        onClearAll={() => setBatchItems([])}
+      />
 
       {/* Preview Stage */}
       {isValid ? (

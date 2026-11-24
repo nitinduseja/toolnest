@@ -4,6 +4,7 @@ import { EXPANDED_TOOLS } from './expanded-tools';
 import { ADVANCED_TOOLS } from './advanced-tools';
 import { STUDIO_TOOLS } from './studio-tools';
 import { STUDIO_BATCH2_TOOLS } from './studio-batch2-tools';
+import { STUDIO_BATCH3_TOOLS } from './studio-batch3-tools';
 import { validateRegistry as validateTools } from './validation';
 
 export const ALL_TOOLS: ToolDefinition[] = [
@@ -12,6 +13,7 @@ export const ALL_TOOLS: ToolDefinition[] = [
   ...ADVANCED_TOOLS,
   ...STUDIO_TOOLS,
   ...STUDIO_BATCH2_TOOLS,
+  ...STUDIO_BATCH3_TOOLS,
 ];
 
 export const TOOL_MAP = new Map(ALL_TOOLS.map((tool) => [tool.id, tool]));

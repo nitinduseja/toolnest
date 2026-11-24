@@ -1,7 +1,7 @@
 {
   "name": "Toolnest - Developer Toolbox",
   "short_name": "Toolnest",
-  "description": "Privacy-first offline developer toolbox with 25+ essential tools.",
+  "description": "Privacy-first offline developer toolbox with 60 essential developer tools.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#121318",

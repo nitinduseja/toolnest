@@ -20,3 +20,11 @@ export interface SvgOptimizationStats {
   savedBytes: number;
   savingsPercentage: number;
 }
+
+export interface SvgBatchItem {
+  id: string;
+  name: string;
+  originalSvg: string;
+  optimizedSvg: string;
+  stats: SvgOptimizationStats;
+}

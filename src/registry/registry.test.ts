@@ -10,7 +10,7 @@ describe('Tool Registry Validation', () => {
   });
 
   it('contains registered functional tools', () => {
-    expect(ALL_TOOLS.length).toBeGreaterThanOrEqual(13);
+    expect(ALL_TOOLS.length).toBe(60);
   });
 
   it('contains 12 canonical categories', () => {

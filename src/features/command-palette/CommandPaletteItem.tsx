@@ -74,14 +74,27 @@ export const PaletteCategoryItem: React.FC<CategoryItemProps> = ({ category, onS
 interface ActionItemProps {
   label: string;
   value: string;
+  description?: string;
   onSelect: () => void;
 }
 
-export const PaletteActionItem: React.FC<ActionItemProps> = ({ label, value, onSelect }) => {
+export const PaletteActionItem: React.FC<ActionItemProps> = ({
+  label,
+  value,
+  description,
+  onSelect,
+}) => {
   return (
     <Command.Item value={value} onSelect={onSelect} className={ITEM_SELECTION_CLASSES}>
-      <span className="text-xs sm:text-sm">{label}</span>
-      <ArrowRight className="w-3.5 h-3.5 opacity-60 shrink-0" />
+      <div className="flex flex-col min-w-0 pr-2">
+        <span className="text-xs sm:text-sm font-medium">{label}</span>
+        {description && (
+          <span className="text-[11px] text-on-surface-variant truncate opacity-75">
+            {description}
+          </span>
+        )}
+      </div>
+      <ArrowRight className="w-3.5 h-3.5 opacity-60 shrink-0 ml-auto" />
     </Command.Item>
   );
 };

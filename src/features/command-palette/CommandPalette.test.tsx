@@ -75,4 +75,22 @@ describe('CommandPalette Keyboard Navigation', () => {
     const searchInput = screen.getByPlaceholderText('Type to search...');
     expect(searchInput).toHaveClass('text-on-surface');
   });
+
+  it('filters quick actions when searching for actions', () => {
+    render(
+      <MemoryRouter>
+        <ThemeProvider>
+          <CommandPalette open={true} onOpenChange={() => {}} />
+        </ThemeProvider>
+      </MemoryRouter>
+    );
+
+    const input = screen.getByPlaceholderText('Type to search...');
+    fireEvent.change(input, { target: { value: 'theme toggle' } });
+
+    const filteredItems = screen.getAllByRole('option');
+    expect(filteredItems.some((el) => el.textContent?.includes('Toggle Light / Dark Theme'))).toBe(
+      true
+    );
+  });
 });

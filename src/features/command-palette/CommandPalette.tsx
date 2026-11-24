@@ -5,6 +5,7 @@ import { CATEGORIES } from '@/registry/categories';
 import { ALL_TOOLS } from '@/registry/tool-registry';
 import { useTheme } from '@/features/theme/useTheme';
 import { useRecentTools } from '@/features/recent-tools/useRecentTools';
+import { buildQuickActions } from './commandPaletteActions';
 import { CommandPaletteHeader } from './CommandPaletteHeader';
 import { CommandPaletteTabs, PaletteTab } from './CommandPaletteTabs';
 import { PaletteToolItem, PaletteCategoryItem, PaletteActionItem } from './CommandPaletteItem';
@@ -24,10 +25,17 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
 }) => {
   const navigate = useNavigate();
   const { preference, setPreference } = useTheme();
-  const { recentToolIds } = useRecentTools();
+  const { recentToolIds, clearRecentTools } = useRecentTools();
   const [search, setSearch] = useState(initialQuery);
   const [activeTab, setActiveTab] = useState<PaletteTab>('all');
   const inputRef = useRef<HTMLInputElement>(null);
+
+  const quickActions = buildQuickActions({
+    navigate,
+    preference,
+    setPreference,
+    clearRecentTools,
+  });
 
   // Sync initial query and focus input when dialog opens
   useEffect(() => {
@@ -174,34 +182,12 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
               heading="Actions"
               className="text-[11px] font-semibold uppercase text-outline px-2 py-1"
             >
-              {[
-                { label: 'Go to Home', val: 'action: home', fn: () => navigate('/') },
-                { label: 'Browse All Tools', val: 'action: tools', fn: () => navigate('/tools') },
-                {
-                  label: 'Open Favorites',
-                  val: 'action: favorites',
-                  fn: () => navigate('/favorites'),
-                },
-                {
-                  label: 'View Recent Tools',
-                  val: 'action: recent',
-                  fn: () => navigate('/recent'),
-                },
-                {
-                  label: 'Settings & Preferences',
-                  val: 'action: settings',
-                  fn: () => navigate('/settings'),
-                },
-                {
-                  label: 'Toggle Light / Dark Theme',
-                  val: 'action: theme toggle',
-                  fn: () => setPreference(preference === 'dark' ? 'light' : 'dark'),
-                },
-              ].map((act) => (
+              {quickActions.map((act) => (
                 <PaletteActionItem
                   key={act.val}
                   label={act.label}
                   value={act.val}
+                  description={act.description}
                   onSelect={() => runAction(act.fn)}
                 />
               ))}
