@@ -99,7 +99,7 @@ test.describe('Interactive Tool Workflows', () => {
     ).toBeVisible();
 
     // Verify stats and timeline are visible
-    await expect(page.locator('text=Active Jobs')).toBeVisible();
+    await expect(page.getByText('Active Jobs', { exact: true })).toBeVisible();
     await expect(page.locator('button', { hasText: '7 Days' })).toBeVisible();
 
     // Switch to 7 days

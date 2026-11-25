@@ -21,6 +21,7 @@ import {
   restoreUniversalBackup,
 } from '@/lib/backup/workspaceBackupLogic';
 import { usePwaInstall } from '@/lib/pwa/usePwaInstall';
+import { PrivacyStorageDashboard } from '@/features/privacy-dashboard/PrivacyStorageDashboard';
 
 export const SettingsPage: React.FC = () => {
   const { preference, setPreference } = useTheme();
@@ -185,6 +186,14 @@ export const SettingsPage: React.FC = () => {
           </span>
         </div>
       </section>
+
+      {/* Local Privacy & Storage Inspector */}
+      <PrivacyStorageDashboard
+        onDataPurged={(msg) => {
+          setImportStatus(msg);
+          setTimeout(() => setImportStatus(null), 3000);
+        }}
+      />
 
       {/* Local Data Storage Management */}
       <section className="p-6 rounded-xl bg-surface-container-low border border-outline-variant space-y-4">

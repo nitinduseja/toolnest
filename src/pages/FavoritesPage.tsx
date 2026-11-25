@@ -1,13 +1,21 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { Star, ArrowRight } from 'lucide-react';
-import { ALL_TOOLS } from '@/registry/tool-registry';
-import { ToolCard } from '@/components/molecules/ToolCard';
+import { TOOL_MAP } from '@/registry/tool-registry';
+import { ToolDefinition } from '@/registry/types';
 import { useFavorites } from '@/features/favorites/useFavorites';
+import { DraggableFavoriteGrid } from '@/features/favorites/DraggableFavoriteGrid';
 
 export const FavoritesPage: React.FC = () => {
-  const { favorites } = useFavorites();
-  const favoriteTools = ALL_TOOLS.filter((t) => favorites.includes(t.id));
+  const { favorites, reorderFavorites, moveFavorite } = useFavorites();
+
+  const favoriteTools = useMemo(
+    () =>
+      favorites
+        .map((id) => TOOL_MAP.get(id))
+        .filter((tool): tool is ToolDefinition => Boolean(tool)),
+    [favorites]
+  );
 
   return (
     <div className="space-y-6">
@@ -17,16 +25,17 @@ export const FavoritesPage: React.FC = () => {
           <h1 className="text-2xl font-bold tracking-tight text-on-surface">Starred Favorites</h1>
         </div>
         <p className="text-xs sm:text-sm text-on-surface-variant">
-          Quickly access your most frequently used utilities. Stored safely in your local browser.
+          Drag cards or use arrows to reorder your pinned utilities. Stored safely in your local
+          browser.
         </p>
       </div>
 
       {favoriteTools.length > 0 ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-          {favoriteTools.map((tool) => (
-            <ToolCard key={tool.id} tool={tool} />
-          ))}
-        </div>
+        <DraggableFavoriteGrid
+          tools={favoriteTools}
+          onReorder={reorderFavorites}
+          onMoveStep={moveFavorite}
+        />
       ) : (
         <div className="py-20 text-center rounded-2xl border border-dashed border-outline-variant bg-surface-container-lowest/50 space-y-3">
           <div className="w-12 h-12 rounded-full bg-amber-500/10 text-amber-500 flex items-center justify-center mx-auto">

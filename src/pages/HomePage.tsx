@@ -1,6 +1,7 @@
 import React from 'react';
 import { useOutletContext } from 'react-router-dom';
 import { HeroSection } from './home/HeroSection';
+import { PinnedFavoritesSection } from './home/PinnedFavoritesSection';
 import { FeaturedToolsSection } from './home/FeaturedToolsSection';
 import { CategoryMatrixSection } from './home/CategoryMatrixSection';
 import { ArchitectureBentoSection } from './home/ArchitectureBentoSection';
@@ -15,6 +16,7 @@ export const HomePage: React.FC = () => {
   return (
     <div className="space-y-16 lg:space-y-24">
       <HeroSection onOpenCommandPalette={onOpenCommandPalette} />
+      <PinnedFavoritesSection />
       <FeaturedToolsSection />
       <CategoryMatrixSection />
       <ArchitectureBentoSection />
