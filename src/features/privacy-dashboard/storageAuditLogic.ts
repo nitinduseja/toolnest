@@ -1,8 +1,9 @@
-import { listDocuments } from '@/tools/document-scanner/scannerDb';
+import { listDocuments, clearAllDocuments } from '@/tools/document-scanner/scannerDb';
 import {
   getCollectionItems,
   getEnvironments,
   getHistoryItems,
+  clearAllRestApiData,
 } from '@/tools/rest-api-client/apiStorage';
 
 export type StorageCategory = 'preferences' | 'workspaces' | 'navigation' | 'other';
@@ -131,4 +132,38 @@ export async function runStorageAudit(): Promise<StorageAuditReport> {
     cacheNames,
     swActive,
   };
+}
+
+export async function purgeDocumentScannerDb(): Promise<void> {
+  await clearAllDocuments().catch(() => {});
+}
+
+export async function purgeRestApiClientDb(): Promise<void> {
+  await clearAllRestApiData().catch(() => {});
+}
+
+export async function purgeAllToolnestStorage(): Promise<void> {
+  try {
+    const keys: string[] = [];
+    for (let i = 0; i < localStorage.length; i++) {
+      const k = localStorage.key(i);
+      if (k && k.startsWith('toolnest_')) keys.push(k);
+    }
+    keys.forEach((k) => purgeStorageKey(k));
+  } catch {
+    // Ignore storage errors
+  }
+
+  try {
+    sessionStorage.removeItem('toolnest_cross_tool_handoff');
+  } catch {
+    // Ignore sessionStorage errors
+  }
+
+  await Promise.all([purgeDocumentScannerDb(), purgeRestApiClientDb()]);
+
+  if (typeof caches !== 'undefined') {
+    const names = await caches.keys().catch(() => []);
+    await Promise.all(names.map((name) => caches.delete(name))).catch(() => {});
+  }
 }

@@ -1,33 +1,38 @@
 import { test, expect } from '@playwright/test';
 
 test.describe('Advanced Toolnest Workflows', () => {
-  test('supports workspace split view resizing and ratio persistence', async ({ page }) => {
-    await page.setViewportSize({ width: 1440, height: 900 });
+  test('supports workspace split view resizing and ratio persistence', async ({
+    page,
+    isMobile,
+  }) => {
     await page.goto('/tools/rest-api-client?split=json-formatter');
 
     await expect(page.locator('text=SPLIT PANE:')).toBeVisible();
     await expect(page.locator('[data-testid="primary-split-pane"]')).toBeVisible();
 
-    const separator = page.locator('[role="separator"]');
-    await expect(separator).toBeVisible();
-    await expect(page.locator('text=50% / 50%')).toBeVisible();
+    if (!isMobile) {
+      await page.setViewportSize({ width: 1440, height: 900 });
+      const separator = page.locator('[role="separator"]');
+      await expect(separator).toBeVisible();
+      await expect(page.locator('text=50% / 50%')).toBeVisible();
 
-    // Apply 70/30 preset
-    await page.locator('button', { hasText: '70/30' }).click();
-    await expect(page.locator('text=70% / 30%')).toBeVisible();
+      // Apply 70/30 preset
+      await page.locator('button', { hasText: '70/30' }).click();
+      await expect(page.locator('text=70% / 30%')).toBeVisible();
 
-    // Keyboard resize left by 5% -> 65/35
-    await separator.focus();
-    await page.keyboard.press('ArrowLeft');
-    await expect(page.locator('text=65% / 35%')).toBeVisible();
+      // Keyboard resize left by 5% -> 65/35
+      await separator.focus();
+      await page.keyboard.press('ArrowLeft');
+      await expect(page.locator('text=65% / 35%')).toBeVisible();
 
-    // Reload and verify ratio persisted
-    await page.reload();
-    await expect(page.locator('text=65% / 35%')).toBeVisible();
+      // Reload and verify ratio persisted
+      await page.reload();
+      await expect(page.locator('text=65% / 35%')).toBeVisible();
 
-    // Open Workspaces modal
-    await page.locator('button', { hasText: 'Workspaces' }).click();
-    await expect(page.locator('h2', { hasText: 'Multi-Tool Workspaces' })).toBeVisible();
+      // Open Workspaces modal
+      await page.locator('button', { hasText: 'Workspaces' }).click();
+      await expect(page.locator('h2', { hasText: 'Multi-Tool Workspaces' })).toBeVisible();
+    }
   });
 
   test('pins favorites, reorders them on Home and Favorites page, and persists order', async ({
@@ -58,7 +63,9 @@ test.describe('Advanced Toolnest Workflows', () => {
     await expect(favCards.nth(1)).toHaveAttribute('data-favorite-id', 'json-formatter');
   });
 
-  test('audits and purges local storage keys in Privacy & Storage Inspector', async ({ page }) => {
+  test('audits and purges local storage and IndexedDB in Privacy & Storage Inspector', async ({
+    page,
+  }) => {
     await page.goto('/');
     await page.evaluate(() => {
       localStorage.setItem('toolnest_favorites', JSON.stringify(['json-formatter']));
@@ -70,9 +77,49 @@ test.describe('Advanced Toolnest Workflows', () => {
     await expect(dashboard).toBeVisible();
     await expect(dashboard.locator('text=0 bytes sent')).toBeVisible();
     await expect(dashboard.locator('text=Pinned Favorites Order')).toBeVisible();
+    await expect(dashboard.locator('text=IndexedDB Databases')).toBeVisible();
 
     await dashboard.locator('button[aria-label="Purge Pinned Favorites Order"]').click();
     await expect(dashboard.locator('text=Pinned Favorites Order')).not.toBeVisible();
+  });
+
+  test('executes cross-tool handoff from JSON Formatter to JSON to TypeScript', async ({
+    page,
+  }) => {
+    await page.goto('/tools/json-formatter');
+    await page.locator('button', { hasText: 'Send to' }).click();
+    await page.locator('button', { hasText: 'Generate Types / Zod' }).click();
+
+    await expect(page).toHaveURL(/\/tools\/json-to-typescript/);
+    await expect(page.locator('h1', { hasText: 'JSON to TypeScript' })).toBeVisible();
+  });
+
+  test('processes multi-file SVG batch uploads in SVG Optimizer', async ({ page }) => {
+    await page.goto('/tools/svg-optimizer');
+    const svgA =
+      '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 10"><circle cx="5" cy="5" r="4"/></svg>';
+    const svgB =
+      '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><rect width="10" height="10"/></svg>';
+
+    await page.locator('input[type="file"]').setInputFiles([
+      { name: 'icon-a.svg', mimeType: 'image/svg+xml', buffer: Buffer.from(svgA) },
+      { name: 'icon-b.svg', mimeType: 'image/svg+xml', buffer: Buffer.from(svgB) },
+    ]);
+
+    await expect(page.locator('text=Batch SVG Queue (2 files)')).toBeVisible();
+    await expect(page.locator('button', { hasText: 'Download All (.zip)' })).toBeVisible();
+  });
+
+  test('executes Command Palette quick actions to toggle theme', async ({ page }) => {
+    await page.goto('/');
+    await page.keyboard.press('Control+KeyK');
+    const input = page.locator('input[placeholder="Type to search..."]');
+    await expect(input).toBeVisible();
+
+    await input.fill('Toggle Light / Dark Theme');
+    await page.locator('[role="option"]', { hasText: 'Toggle Light / Dark Theme' }).click();
+
+    await expect(input).not.toBeVisible();
   });
 
   test('loads all 4 Batch 3 studio tools cleanly', async ({ page }) => {

@@ -4,6 +4,7 @@ import {
   describeStorageKey,
   inspectLocalStorage,
   purgeStorageKey,
+  purgeAllToolnestStorage,
   runStorageAudit,
 } from './storageAuditLogic';
 
@@ -59,5 +60,19 @@ describe('storageAuditLogic', () => {
     expect(report.totalLocalBytes).toBeGreaterThan(0);
     expect(report.localKeys.some((k) => k.key === 'toolnest_split_ratio')).toBe(true);
     expect(report.indexedDb.scannerDocuments).toBe(0);
+  });
+
+  it('purges all toolnest localStorage and sessionStorage entries cleanly', async () => {
+    localStorage.setItem('toolnest_favorites', JSON.stringify(['json-formatter']));
+    localStorage.setItem('toolnest_theme', 'dark');
+    localStorage.setItem('unrelated_key', 'keep');
+    sessionStorage.setItem('toolnest_cross_tool_handoff', '{"data":"x"}');
+
+    await purgeAllToolnestStorage();
+
+    expect(localStorage.getItem('toolnest_favorites')).toBeNull();
+    expect(localStorage.getItem('toolnest_theme')).toBeNull();
+    expect(localStorage.getItem('unrelated_key')).toBe('keep');
+    expect(sessionStorage.getItem('toolnest_cross_tool_handoff')).toBeNull();
   });
 });

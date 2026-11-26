@@ -111,7 +111,7 @@ export const AllToolsPage: React.FC = () => {
               : 'bg-surface-container-low border border-outline-variant text-on-surface-variant hover:bg-surface-container'
           }`}
         >
-          ✨ New in v2.8 ({ALL_TOOLS.filter((t) => t.isNew).length})
+          ✨ New in v2.9 ({ALL_TOOLS.filter((t) => t.isNew).length})
         </button>
       </div>
 

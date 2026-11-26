@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { renderHook, act } from '@testing-library/react';
-import { usePwa } from './pwaManager';
+import { usePwa, getOfflineCacheAssetCount, warmOfflineCache } from './pwaManager';
 
 describe('pwaManager and usePwa hook', () => {
   it('returns initial online status based on navigator.onLine', () => {
@@ -39,5 +39,14 @@ describe('pwaManager and usePwa hook', () => {
         result.current.applyUpdate();
       });
     }).not.toThrow();
+  });
+
+  it('safely queries offline cache count and warmOfflineCache without CacheStorage', async () => {
+    const count = await getOfflineCacheAssetCount();
+    expect(count).toBeGreaterThanOrEqual(0);
+
+    const warmRes = await warmOfflineCache();
+    expect(typeof warmRes.ok).toBe('boolean');
+    expect(typeof warmRes.cachedCount).toBe('number');
   });
 });

@@ -4,8 +4,12 @@ import {
   StorageAuditReport,
   formatBytes,
   purgeStorageKey,
+  purgeDocumentScannerDb,
+  purgeRestApiClientDb,
+  purgeAllToolnestStorage,
   runStorageAudit,
 } from './storageAuditLogic';
+import { IndexedDbAuditSection } from './IndexedDbAuditSection';
 
 interface PrivacyStorageDashboardProps {
   onDataPurged?: (message: string) => void;
@@ -43,6 +47,28 @@ export const PrivacyStorageDashboard: React.FC<PrivacyStorageDashboardProps> = (
     onDataPurged?.('Offline service worker caches cleared.');
   };
 
+  const handlePurgeScannerDb = async () => {
+    await purgeDocumentScannerDb();
+    await loadAudit();
+    onDataPurged?.('Document Scanner IndexedDB scans cleared.');
+  };
+
+  const handlePurgeRestApiDb = async () => {
+    await purgeRestApiClientDb();
+    await loadAudit();
+    onDataPurged?.('REST API Client collections & history cleared.');
+  };
+
+  const handlePurgeAll = async () => {
+    if (
+      window.confirm('Purge ALL Toolnest localStorage keys, IndexedDB stores, and offline caches?')
+    ) {
+      await purgeAllToolnestStorage();
+      await loadAudit();
+      onDataPurged?.('All Toolnest local storage, IndexedDB databases, and caches purged.');
+    }
+  };
+
   const totalIdbRecords = report
     ? report.indexedDb.scannerDocuments +
       report.indexedDb.apiCollections +
@@ -69,15 +95,27 @@ export const PrivacyStorageDashboard: React.FC<PrivacyStorageDashboardProps> = (
           </div>
         </div>
 
-        <button
-          type="button"
-          onClick={loadAudit}
-          disabled={isRefreshing}
-          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-surface border border-outline-variant hover:bg-surface-container text-xs font-medium text-on-surface cursor-pointer self-start sm:self-auto"
-        >
-          <RefreshCw className={`w-3.5 h-3.5 text-primary ${isRefreshing ? 'animate-spin' : ''}`} />
-          <span>Refresh Audit</span>
-        </button>
+        <div className="flex flex-wrap items-center gap-2 self-start sm:self-auto">
+          <button
+            type="button"
+            onClick={loadAudit}
+            disabled={isRefreshing}
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-surface border border-outline-variant hover:bg-surface-container text-xs font-medium text-on-surface cursor-pointer"
+          >
+            <RefreshCw
+              className={`w-3.5 h-3.5 text-primary ${isRefreshing ? 'animate-spin' : ''}`}
+            />
+            <span>Refresh Audit</span>
+          </button>
+          <button
+            type="button"
+            onClick={handlePurgeAll}
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-red-500/30 hover:bg-red-500/10 text-xs font-medium text-red-500 cursor-pointer transition-colors"
+          >
+            <Trash2 className="w-3.5 h-3.5" />
+            <span>Purge All</span>
+          </button>
+        </div>
       </div>
 
       {/* Summary KPI Cards */}
@@ -194,6 +232,12 @@ export const PrivacyStorageDashboard: React.FC<PrivacyStorageDashboardProps> = (
               </div>
             )}
           </div>
+
+          <IndexedDbAuditSection
+            indexedDb={report.indexedDb}
+            onPurgeScanner={handlePurgeScannerDb}
+            onPurgeRestApi={handlePurgeRestApiDb}
+          />
         </>
       )}
     </section>

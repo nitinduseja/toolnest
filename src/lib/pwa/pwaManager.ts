@@ -72,6 +72,45 @@ export function registerPwaServiceWorker(): void {
   }
 }
 
+export async function getOfflineCacheAssetCount(): Promise<number> {
+  if (typeof caches === 'undefined') return 0;
+  try {
+    const names = await caches.keys();
+    let total = 0;
+    for (const name of names) {
+      const cache = await caches.open(name);
+      const keys = await cache.keys();
+      total += keys.length;
+    }
+    return total;
+  } catch {
+    return 0;
+  }
+}
+
+export async function warmOfflineCache(): Promise<{ ok: boolean; cachedCount: number }> {
+  if (typeof navigator !== 'undefined' && 'serviceWorker' in navigator) {
+    const reg = await navigator.serviceWorker.getRegistration().catch(() => undefined);
+    const active = reg?.active || navigator.serviceWorker.controller;
+    if (active && typeof MessageChannel !== 'undefined') {
+      return new Promise((resolve) => {
+        const channel = new MessageChannel();
+        const timer = setTimeout(() => resolve({ ok: false, cachedCount: 0 }), 5000);
+        channel.port1.onmessage = (event) => {
+          clearTimeout(timer);
+          resolve({
+            ok: true,
+            cachedCount: Number(event.data?.cachedCount || 0),
+          });
+        };
+        active.postMessage({ type: 'WARM_OFFLINE_CACHE' }, [channel.port2]);
+      });
+    }
+  }
+  const count = await getOfflineCacheAssetCount();
+  return { ok: count > 0, cachedCount: count };
+}
+
 export function usePwa(): PwaState {
   const [isOnline, setIsOnline] = useState<boolean>(() =>
     typeof navigator !== 'undefined' ? navigator.onLine : true

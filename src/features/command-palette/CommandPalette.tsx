@@ -186,7 +186,7 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
                 <PaletteActionItem
                   key={act.val}
                   label={act.label}
-                  value={act.val}
+                  value={`${act.label} ${act.val}`}
                   description={act.description}
                   onSelect={() => runAction(act.fn)}
                 />

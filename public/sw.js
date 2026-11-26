@@ -1,4 +1,4 @@
-const CACHE_NAME = 'toolnest-v3';
+const CACHE_NAME = 'toolnest-v4';
 const PRECACHE_URLS = [
   '/',
   '/index.html',
@@ -9,13 +9,26 @@ const PRECACHE_URLS = [
   '/site.webmanifest',
 ];
 
+async function warmManifestAssets() {
+  const cache = await caches.open(CACHE_NAME);
+  await Promise.allSettled(PRECACHE_URLS.map((url) => cache.add(url)));
+
+  try {
+    const res = await fetch('/precache-manifest.json', { cache: 'no-store' });
+    if (!res.ok) return (await cache.keys()).length;
+    const data = await res.json();
+    const assets = Array.isArray(data && data.assets) ? data.assets : [];
+    const existing = new Set((await cache.keys()).map((req) => new URL(req.url).pathname));
+    const missing = assets.filter((u) => typeof u === 'string' && !existing.has(u));
+    await Promise.allSettled(missing.map((url) => cache.add(url)));
+    return (await cache.keys()).length;
+  } catch {
+    return (await cache.keys()).length;
+  }
+}
+
 self.addEventListener('install', (event) => {
-  event.waitUntil(
-    caches
-      .open(CACHE_NAME)
-      .then((cache) => cache.addAll(PRECACHE_URLS))
-      .then(() => self.skipWaiting())
-  );
+  event.waitUntil(warmManifestAssets().then(() => self.skipWaiting()));
 });
 
 self.addEventListener('activate', (event) => {
@@ -36,8 +49,18 @@ self.addEventListener('activate', (event) => {
 });
 
 self.addEventListener('message', (event) => {
-  if (event.data && event.data.type === 'SKIP_WAITING') {
+  if (!event.data) return;
+  if (event.data.type === 'SKIP_WAITING') {
     self.skipWaiting();
+  } else if (event.data.type === 'WARM_OFFLINE_CACHE') {
+    const replyPort = event.ports && event.ports[0];
+    event.waitUntil(
+      warmManifestAssets().then((cachedCount) => {
+        if (replyPort) {
+          replyPort.postMessage({ type: 'OFFLINE_CACHE_READY', cachedCount });
+        }
+      })
+    );
   }
 });
 
@@ -45,13 +68,11 @@ self.addEventListener('fetch', (event) => {
   const { request } = event;
   if (request.method !== 'GET') return;
 
-  // SPA navigation fallback
   if (request.mode === 'navigate') {
     event.respondWith(fetch(request).catch(() => caches.match('/index.html')));
     return;
   }
 
-  // Stale-while-revalidate for assets
   event.respondWith(
     caches.match(request).then((cachedResponse) => {
       const fetchPromise = fetch(request)

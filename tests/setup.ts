@@ -39,3 +39,41 @@ global.ResizeObserver = class ResizeObserver {
 
 // Mock scrollIntoView for cmdk
 window.HTMLElement.prototype.scrollIntoView = vi.fn();
+
+// Polyfill localStorage when Node >= 25 leaves globalThis.localStorage undefined without --localstorage-file
+function createMemoryStorage(): Storage {
+  const store = new Map<string, string>();
+  return {
+    get length() {
+      return store.size;
+    },
+    clear: () => store.clear(),
+    getItem: (key: string) => (store.has(key) ? store.get(key)! : null),
+    setItem: (key: string, value: string) => {
+      store.set(key, String(value));
+    },
+    removeItem: (key: string) => {
+      store.delete(key);
+    },
+    key: (index: number) => Array.from(store.keys())[index] ?? null,
+  };
+}
+
+if (typeof globalThis.localStorage?.clear !== 'function') {
+  const fallback =
+    typeof window !== 'undefined' && typeof window.localStorage?.clear === 'function'
+      ? window.localStorage
+      : createMemoryStorage();
+  Object.defineProperty(globalThis, 'localStorage', {
+    configurable: true,
+    writable: true,
+    value: fallback,
+  });
+  if (typeof window !== 'undefined' && typeof window.localStorage?.clear !== 'function') {
+    Object.defineProperty(window, 'localStorage', {
+      configurable: true,
+      writable: true,
+      value: fallback,
+    });
+  }
+}

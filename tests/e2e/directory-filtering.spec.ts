@@ -14,8 +14,8 @@ test.describe('All Tools Directory & Filtering', () => {
   test('filters tools by feature pills and displays New badges', async ({ page }) => {
     await page.goto('/tools');
 
-    // Filter by New in v2.8
-    const newFilterBtn = page.locator('button', { hasText: 'New in v2.8' });
+    // Filter by New in v2.9
+    const newFilterBtn = page.locator('button', { hasText: 'New in v2.9' });
     await newFilterBtn.click();
 
     // Verify New badge is visible

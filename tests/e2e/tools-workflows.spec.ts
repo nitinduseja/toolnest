@@ -4,7 +4,7 @@ test.describe('Interactive Tool Workflows', () => {
   test('navigates to SVG Patterns, switches presets, and toggles formats', async ({ page }) => {
     await page.goto('/tools/svg-patterns');
     await expect(
-      page.locator('h1', { hasText: 'SVG Pattern & Background Generator' })
+      page.locator('h1', { hasText: 'SVG Pattern & Background Generator' }).first()
     ).toBeVisible();
 
     const canvas = page.locator('[data-testid="pattern-canvas"]');

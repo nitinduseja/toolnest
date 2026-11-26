@@ -3,20 +3,21 @@
 > **Useful tools. One workspace.**
 
 [![CI Quality Gate](https://github.com/nitinduseja/toolnest/actions/workflows/ci.yml/badge.svg)](https://github.com/nitinduseja/toolnest/actions/workflows/ci.yml)
-[![Version](https://img.shields.io/badge/version-2.8.0-blue.svg)](package.json)
-[![Tools Count](https://img.shields.io/badge/tools-56%20production%20tools-emerald.svg)](src/registry/)
+[![Version](https://img.shields.io/badge/version-2.9.0-blue.svg)](package.json)
+[![Tools Count](https://img.shields.io/badge/tools-60%20production%20tools-emerald.svg)](src/registry/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 [![Netlify Status](https://api.netlify.com/api/v1/badges/toolnest/deploy-status)](https://app.netlify.com)
 
-Toolnest is an open-source, privacy-first developer workbench providing 56 essential utilities, converters, formatters, and generators in one distraction-free workspace. All data transformations run 100% inside your browser — zero analytics, zero server storage, zero third-party AI APIs.
+Toolnest is an open-source, privacy-first developer workbench providing 60 essential utilities, converters, formatters, and generators in one distraction-free workspace. All data transformations run 100% inside your browser — zero analytics, zero server storage, zero third-party AI APIs.
 
 ---
 
 ## ⚡ Key Highlights
 
-- 🔒 **Privacy-First & Local-Only**: Everything executes client-side via native Web Crypto API, Canvas, and Web Workers. Your sensitive payloads never leave your computer.
-- ⌨️ **Universal Command Palette**: Press <kbd>Ctrl</kbd> + <kbd>K</kbd> (or <kbd>⌘</kbd> + <kbd>K</kbd>) to instantly search all 56 tools, categories, and system shortcuts.
-- ⚡ **Progressive Web App (PWA)**: Full offline service worker caching. Install Toolnest as a standalone desktop or mobile application.
+- 🔒 **Privacy-First & Local-Only**: Everything executes client-side via native Web Crypto API, Canvas, and Web Workers, with an in-app Privacy & Storage Inspector.
+- ⌨️ **Universal Command Palette & Quick Actions**: Press <kbd>Ctrl</kbd> + <kbd>K</kbd> (or <kbd>⌘</kbd> + <kbd>K</kbd>) to search all 60 tools or execute instant actions (UUID copy, theme toggle, split workspaces).
+- 🪟 **Resizable Split Workspaces & Saved Sessions**: Open dual-pane workspaces via `?split=`, drag the divider to resize (`25%`–`75%`), and save custom layouts.
+- ⚡ **Progressive Web App (PWA) & Full-Offline Precaching**: Pre-cache all 60 tool bundles and install Toolnest as a standalone desktop or mobile application.
 - 📱 **Adaptive Multi-Shell Layout**:
   - **Desktop (≥1024px)**: 240px persistent navigation rail, multi-column workspace, side-by-side split input/output editors.
   - **Tablet (640–1023px)**: Compact collapsible header, icon rail navigation, fluid grids.
@@ -26,13 +27,15 @@ Toolnest is an open-source, privacy-first developer workbench providing 56 essen
 
 ---
 
-## 🛠️ The 56 Developer Tools by Category
+## 🛠️ The 60 Developer Tools by Category
 
 Toolnest organizes its complete suite across **12 canonical categories**:
 
-### 💻 Developer Tools (13 Tools)
+### 💻 Developer Tools (15 Tools)
 
 - **JSON Formatter & Validator**: RFC 8259 prettifier, minifier, validator with detailed error syntax highlighting.
+- **JSON / YAML Structural Diff & Patch**: Semantic tree comparison and RFC 6902 JSON Patch generator.
+- **Webhook Payload Generator & Signer**: Craft simulated payloads (GitHub, Stripe, Shopify, Slack) with HMAC-SHA256 signatures and verification headers.
 - **Regex Tester**: Real-time pattern evaluation, capture group inspection, and flag toggles.
 - **SQL Formatter & Beautifier**: Format, indent, keyword capitalize, and minify standard SQL queries.
 - **JSON to TypeScript / Zod Schema**: Recursively infer TypeScript types, interfaces, and Zod validation schemas.
@@ -54,7 +57,7 @@ Toolnest organizes its complete suite across **12 canonical categories**:
 - **Security Headers & CSP Builder**: Design, audit (`A+` to `F`), and export CSP/HSTS headers for Nginx, Apache, Netlify, and Cloudflare.
 - **Bcrypt & Password Hash Studio**: Salted bcrypt generation, credential verification, and cost-factor benchmarks.
 
-### 🎨 Design & Colors (7 Tools)
+### 🎨 Design & Colors (8 Tools)
 
 - **Color Converter & Contrast Checker**: HEX, RGB, HSL conversions with WCAG 2.2 AA/AAA contrast ratios.
 - **CSS Glassmorphism & Box-Shadow**: Glassmorphic blur, border, specular highlight, and CSS code generator.
@@ -62,6 +65,7 @@ Toolnest organizes its complete suite across **12 canonical categories**:
 - **CSS Box Shadow & Glow Generator**: Multi-layer shadow and neon glow designer with CSS and Tailwind export.
 - **CSS Flexbox & Grid Playground**: Visual interactive canvas for Flexbox and CSS Grid layouts.
 - **CSS Gradient & Mesh Studio**: Linear, radial, conic, and multi-stop mesh gradient designer.
+- **CSS Keyframes & Animation Builder**: Visual keyframe timeline, easing curves, live preview, and CSS/Tailwind export.
 - **SVG Pattern & Background Generator**: Repeatable SVG backgrounds (Dots, Grid, Isometric, Chevrons, Hexagons, PCB).
 
 ### ✍️ Text & Writing (5 Tools)
@@ -81,12 +85,13 @@ Toolnest organizes its complete suite across **12 canonical categories**:
 - **SVG to JSX / React Component Generator**: Turn raw SVG into production-grade React components.
 - **Base64 Image / Data URI Studio**: Convert between image files and Data URI strings.
 
-### 🌐 Web & Network Helpers (5 Tools)
+### 🌐 Web & Network Helpers (6 Tools)
 
 - **URL Parser & Query Parameter Builder**: Break down URL components and edit query parameters in real time.
 - **HTTP Status Code & Header Lookup**: Search RFC status codes (1xx-5xx) and essential HTTP headers.
 - **User-Agent & Client Hints Parser**: Deconstruct browser, engine, OS, device architecture, and bots.
 - **Meta Tags & Open Graph (OG) Previewer**: Social card previewer for Google, Twitter/X, Facebook, LinkedIn, Discord.
+- **Open Graph & SEO Meta Tag Studio**: SEO metadata generator with optimal length alerts and social previews.
 - **DNS over HTTPS (DoH) Inspector**: Query A, AAAA, CNAME, MX, TXT, and NS records via Cloudflare & Google DoH.
 
 ### 🔄 Encoders & Decoders (2 Tools)
@@ -152,7 +157,7 @@ Visit `http://localhost:5173` to explore Toolnest.
 ## 🧪 Testing & Verification
 
 ```bash
-# Run unit & component test suite (540+ Vitest tests)
+# Run unit & component test suite (660+ Vitest tests)
 pnpm test
 
 # Run tests in watch mode

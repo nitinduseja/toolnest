@@ -160,3 +160,15 @@ export async function getEnvironments(): Promise<Environment[]> {
     req.onerror = () => reject(req.error);
   });
 }
+
+export async function clearAllRestApiData(): Promise<void> {
+  const db = await openDatabase();
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction([STORE_HISTORY, STORE_COLLECTIONS, STORE_ENVIRONMENTS], 'readwrite');
+    tx.objectStore(STORE_HISTORY).clear();
+    tx.objectStore(STORE_COLLECTIONS).clear();
+    tx.objectStore(STORE_ENVIRONMENTS).clear();
+    tx.oncomplete = () => resolve();
+    tx.onerror = () => reject(tx.error);
+  });
+}

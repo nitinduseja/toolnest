@@ -5,6 +5,28 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.9.0] - 2026-11-26
+
+### Added
+
+- **60 Tools Milestone (Batch 3 Studio Tools)**:
+  - **CSS Keyframes & Animation Builder (`css-animation-builder`)**: Visual keyframe timeline, easing controls, live preview stage, and pure CSS / Tailwind export.
+  - **JSON / YAML Structural Diff & Patch (`json-yaml-diff`)**: Semantic structural comparison across JSON and YAML with RFC 6902 JSON Patch export.
+  - **Open Graph & SEO Meta Tag Studio (`meta-tag-preview`)**: Complete HTML meta tag generation with Google SERP, Twitter/X, LinkedIn, and Discord live card previews.
+  - **Webhook Payload Generator & Signer (`webhook-tester`)**: Simulated webhook templates (GitHub, Stripe, Shopify, Slack) with Web Crypto HMAC-SHA256 signing and cURL generator.
+- **Multi-Tool Workspaces & Interactive Split Resizing**:
+  - Curated dual-pane workspace presets, custom saved session persistence (`localStorage`), and `?split=` URL loading.
+  - Draggable and keyboard-accessible split-pane separator (`25%`–`75%`) with quick `30/70`, `50/50`, and `70/30` presets and ratio persistence.
+- **Drag-to-Reorder Favorites & Home Dashboard Pinned Bar**:
+  - Drag-and-drop and arrow-button reordering for pinned favorite utilities on both the Home dashboard and `/favorites` with real-time same-tab state synchronization.
+- **Local Privacy & Storage Inspector**:
+  - Live Settings dashboard auditing `localStorage` key byte sizes, IndexedDB record counts (Document Scanner and REST API Client), Cache Storage buckets, and one-click granular or full purge controls.
+- **Full-Offline PWA Pre-caching & Command Palette Quick Actions**:
+  - Build-generated `precache-manifest.json` warmed by `sw.js` plus an on-demand **"Cache All 60 Tools Offline"** control in Settings.
+  - Direct Command Palette quick actions (`Copy New UUIDv4`, theme toggling, workspace preset launches, and history clearing).
+  - Multi-file batch drag-and-drop & `.zip` archive download in SVG Optimizer and batch image encoding in Base64 Image Studio.
+- **Expanded E2E Coverage**: Added `advanced-workflows.spec.ts` covering split resizing, favorites reordering, Privacy Inspector purging, cross-tool handoffs, multi-file SVG batching, Command Palette actions, and Batch 3 tools.
+
 ## [2.8.0] - 2026-11-10
 
 ### Added
