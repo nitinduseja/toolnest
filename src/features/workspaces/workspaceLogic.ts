@@ -137,3 +137,20 @@ export function buildWorkspacePath(workspace: WorkspaceSession): string {
 export function isValidToolSlug(slug: string): boolean {
   return ALL_TOOLS.some((t) => t.slug === slug);
 }
+
+export function restoreCustomWorkspaces(sessions: WorkspaceSession[]): number {
+  const valid = sessions.filter(
+    (s) => s && typeof s.id === 'string' && typeof s.primaryToolSlug === 'string'
+  );
+  if (valid.length === 0) return 0;
+
+  const current = getCustomWorkspaces();
+  const seen = new Set(valid.map((s) => s.id));
+  const merged = [...valid, ...current.filter((s) => !seen.has(s.id))];
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(merged));
+  } catch {
+    // Ignore storage quota errors
+  }
+  return valid.length;
+}

@@ -84,7 +84,7 @@ export const SettingsPage: React.FC = () => {
       const summary = await restoreUniversalBackup(data);
       setImportError(null);
       setImportStatus(
-        `Restored: ${summary.restoredDocuments} scans, ${summary.restoredCollections} collections, ${summary.restoredEnvironments} envs.`
+        `Restored: ${summary.restoredDocuments} scans, ${summary.restoredCollections} collections, ${summary.restoredEnvironments} envs, ${summary.restoredWorkspaces} workspaces.`
       );
       setTimeout(() => setImportStatus(null), 4500);
     } catch (err: unknown) {
