@@ -35,8 +35,42 @@ jobs:
       - name: TypeScript Check
         run: pnpm exec tsc --noEmit
 
-      - name: Unit & Component Tests
-        run: pnpm test
+      - name: Unit & Component Tests with Coverage
+        run: pnpm test:coverage
 
       - name: Production Build
         run: pnpm build
+
+  e2e:
+    runs-on: ubuntu-latest
+    needs: validate
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 12.8.1
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Install Playwright Chromium
+        run: pnpm exec playwright install --with-deps chromium
+
+      - name: Run Playwright E2E Suite
+        run: pnpm exec playwright test --project=chromium --reporter=list
+
+      - name: Upload Playwright Report on Failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 7

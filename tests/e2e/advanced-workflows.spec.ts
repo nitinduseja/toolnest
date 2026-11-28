@@ -135,4 +135,53 @@ test.describe('Advanced Toolnest Workflows', () => {
       await expect(page.locator('h1', { hasText: r.heading })).toBeVisible();
     }
   });
+
+  test('exports and restores universal backup including workspaces and split ratio', async ({
+    page,
+  }) => {
+    await page.goto('/settings');
+
+    const downloadPromise = page.waitForEvent('download');
+    await page.locator('button', { hasText: 'Export Backup' }).click();
+    const download = await downloadPromise;
+    expect(download.suggestedFilename()).toContain('toolnest-universal-backup-');
+
+    const backupPayload = {
+      app: 'Toolnest',
+      version: '2.9.0',
+      exportedAt: new Date().toISOString(),
+      settings: {
+        theme: 'light',
+        favorites: ['json-formatter', 'uuid-generator'],
+        splitRatio: 70,
+        secondaryToolSlug: 'regex-tester',
+      },
+      workspaces: [
+        {
+          id: 'ws_e2e_backup_1',
+          name: 'E2E Restored Workspace',
+          description: 'Restored via backup test',
+          primaryToolSlug: 'json-formatter',
+          secondaryToolSlug: 'regex-tester',
+          isSplit: true,
+          createdAt: 1700000000000,
+        },
+      ],
+    };
+
+    await page.locator('input[type="file"][accept=".json"]').setInputFiles({
+      name: 'backup.json',
+      mimeType: 'application/json',
+      buffer: Buffer.from(JSON.stringify(backupPayload)),
+    });
+
+    await expect(page.locator('text=1 workspaces.')).toBeVisible();
+
+    const storedRatio = await page.evaluate(() => localStorage.getItem('toolnest_split_ratio'));
+    const storedWorkspaces = await page.evaluate(() =>
+      localStorage.getItem('toolnest_custom_workspaces')
+    );
+    expect(storedRatio).toBe('70');
+    expect(storedWorkspaces).toContain('ws_e2e_backup_1');
+  });
 });
